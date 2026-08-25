@@ -62,6 +62,12 @@ h1,h2{font-family:"Cormorant Garamond",Georgia,serif;margin:0;font-weight:600;li
   color:#fff;font:600 15.5px Manrope,system-ui,sans-serif;cursor:pointer}
 .sheet .more{display:block;text-align:center;margin-top:11px;font-size:13px;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){.sheet{animation:none}}
+.stepper{display:flex;align-items:center;justify-content:center;gap:18px;margin:4px 0 18px}
+.stepper button{width:52px;height:52px;border-radius:50%;border:1px solid var(--line);
+  background:var(--bg);color:var(--ink);font-size:26px;line-height:1;cursor:pointer}
+.stepper button:active{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.stepper div{min-width:64px;text-align:center;font-size:34px;font-weight:600;
+  font-variant-numeric:tabular-nums}
 .pngov{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.72);display:flex;align-items:center;
   justify-content:center;padding:16px;overflow:auto}
 .pngov .inner{max-width:420px;width:100%}
@@ -259,6 +265,45 @@ const CONSENT_TXT={
            "To'yni barcha ma'lumotlari bilan o'chirish — botdagi <b>/delete</b> buyrug'i."],
        ok:"Tushunarli, boshlaymiz", more:"Shartlar va ma'lumotlarni qayta ishlash" },
 };
+/* ── Диалоги ─────────────────────────────────────────────────────────────────
+   Внутри Telegram браузерные alert/confirm/prompt выглядят чужеродно, а на части
+   Android-клиентов не показываются вовсе — человек жмёт «Удалить» и не понимает,
+   почему ничего не произошло. Поэтому везде нативные попапы Telegram, а там, где
+   нужно число, — свой степпер: текстового ввода в Telegram-попапах нет. */
+function say(msg){
+  if(tg?.showAlert) tg.showAlert(String(msg)); else alert(msg);
+}
+function ask(msg){
+  return new Promise(res=>{
+    if(tg?.showConfirm) tg.showConfirm(String(msg), ok=>res(!!ok));
+    else res(confirm(msg));
+  });
+}
+function askCount(title, sub, value, max){
+  return new Promise(res=>{
+    const t=L();
+    let n = Math.max(0, Math.min(max, value|0));
+    const ov=document.createElement("div"); ov.className="sheet-ov";
+    ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">
+      <h2>${esc(title)}</h2><div class="sub">${esc(sub)}</div>
+      <div class="stepper">
+        <button type="button" id="mn" aria-label="−">−</button>
+        <div id="nv" aria-live="polite">${n}</div>
+        <button type="button" id="pl" aria-label="+">+</button>
+      </div>
+      <button class="ok" id="sok">${t.cntSave}</button>
+      <button class="more" id="scancel" type="button" style="background:none;border:0;width:100%;cursor:pointer">${t.cntCancel}</button>
+    </div>`;
+    document.body.appendChild(ov);
+    const nv=ov.querySelector("#nv");
+    const set=(v)=>{ n=Math.max(0,Math.min(max,v)); nv.textContent=n; haptic("light"); };
+    ov.querySelector("#mn").onclick=()=>set(n-1);
+    ov.querySelector("#pl").onclick=()=>set(n+1);
+    ov.querySelector("#sok").onclick=()=>{ ov.remove(); res(n); };
+    ov.querySelector("#scancel").onclick=()=>{ ov.remove(); res(null); };
+    ov.onclick=(e)=>{ if(e.target===ov){ ov.remove(); res(null); } };
+  });
+}
 function consentGate(){
   return new Promise(res=>{
     let seen=false; try{ seen=localStorage.getItem("td_consent")==="1"; }catch(e){}
@@ -362,7 +407,7 @@ function renderNew(){
     tg?.openLink ? tg.openLink(url) : window.open(url,"_blank");
   };
   $("#save").onclick = async () => {
-    const couple = $("#couple").value.trim(); if(!couple) return alert(t.newErrNames);
+    const couple = $("#couple").value.trim(); if(!couple) return say(t.newErrNames);
     haptic("medium");
     const o=(window.toyOccasion? toyOccasion($("#occ").value) : null);
     const {event} = await call("event_save",{event:{couple,event_date:$("#date").value,event_time:$("#time").value,
@@ -373,7 +418,7 @@ function renderNew(){
 }
 async function open(id){
   const d = await call("event_get",{event_id:id});
-  if(d.error) return alert(L().errAccess);
+  if(d.error) return say(L().errAccess);
   S.ev=d.event; localStorage.setItem("td_last_event", String(id)); S.fams=d.families; S.tables=d.tables; S.gifts=d.gifts; S.inviteBase=d.invite_base; S.inviteLink=d.invite_link||`${d.invite_base}?t={token}`; S.venueHint=d.venue_hint||50;
 
   S.bulk=false; S.onlyPending=false;
@@ -756,15 +801,14 @@ function tabGuests(){
     // Тётя позвонила и сказала голосом — ответ всё равно должен попасть в счёт для зала.
     // Без этого треть родни в цифру не попадает и «счёт для зала» неполный.
     el.querySelector('[data-a="mark"]').onclick=async()=>{
-      const raw = prompt(t.gPromptMark(f.name), String(f.rsvp_count || f.invited_count));
-      if(raw===null || raw.trim()==="") return;
-      const n = Math.max(0, Math.min(f.invited_count + 4, parseInt(raw,10) || 0));
+      const n = await askCount(f.name, t.gPromptMark(f.name), f.rsvp_count || f.invited_count, f.invited_count + 4);
+      if(n === null) return;
       const status = n > 0 ? "yes" : "no";
       const r = await call("family_update",{event_id:S.ev.id,family_id:f.id,rsvp_status:status,rsvp_count:n});
       if(r.family){ Object.assign(f, r.family); haptic("medium"); render(); }
     };
     el.querySelector('[data-a="send"]').onclick=()=>shareTo(f, (f.rsvp_status==="pending"&&S.onlyPending) ? "remind" : "first");
-    el.querySelector('[data-a="del"]').onclick=async()=>{ if(!confirm(t.gConfirmDel(f.name)))return;
+    el.querySelector('[data-a="del"]').onclick=async()=>{ if(!await ask(t.gConfirmDel(f.name)))return;
       await call("family_delete",{event_id:S.ev.id,family_id:f.id}); S.fams=S.fams.filter(x=>x.id!==f.id); render(); };
   });
 }
@@ -864,7 +908,7 @@ function tabSeating(){
   <div class="card"><b>${t.sUnseated(un.length)}</b>
     <div class="note">${S.selTab?t.sHintSelected:t.sHintPick}</div>
     <div id="unseat" style="margin-top:8px"></div></div>`;
-  $("#mk").onclick=async()=>{ if(!confirm(t.sRecreateConfirm))return;
+  $("#mk").onclick=async()=>{ if(!await ask(t.sRecreateConfirm))return;
     const r=await call("tables_set",{event_id:S.ev.id,count:+$("#tcount").value,capacity:+$("#tcap").value});
     if(r.tables){S.tables=r.tables;S.fams.forEach(f=>f.table_id=null);render();} };
   $("#tgrid").innerHTML = S.tables.length ? S.tables.map(x=>{

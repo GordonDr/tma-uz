@@ -63,6 +63,8 @@ button.no.on{background:var(--muted);color:var(--bg);border-color:var(--muted)}
 .stepper{display:flex;align-items:center;justify-content:center;gap:20px}
 .stepper button{width:48px;height:48px;border-radius:50%;font-size:22px;padding:0;line-height:1}
 .stepper b{font-family:var(--display);font-size:36px;min-width:46px;font-weight:500}
+.err{margin-top:14px;padding:11px 13px;border-radius:12px;font-size:13.5px;line-height:1.45;
+  background:rgba(180,40,60,.10);color:#B4283C;border:1px solid rgba(180,40,60,.30)}
 textarea{width:100%;margin-top:16px;padding:12px;border:1px solid var(--line);border-radius:14px;background:transparent;
   color:var(--ink);font:400 14.5px var(--body);resize:vertical;min-height:58px}
 textarea:focus{outline:none;border-color:var(--accent)}
@@ -129,6 +131,7 @@ const UI = {
     ics:"📅 Kalendarga qo'shish",
     changeHint:"Rejalaringiz o'zgarsa — shu havolani qayta oching va javobni o'zgartiring.",
     fail:"Bo'lmadi — qaytadan urinib ko'ring",
+    errPick:"Avval javobni tanlang: kelamiz, hammamiz emas yoki kelolmaymiz",
     today:"bugun", dd:"kun", hh:"soat", mm:"daqiqa",
     madeIn:"To'y-Daftarda yaratilgan", makeOwn:"o'z to'yingiz uchun taklifnoma qiling",
     previewTheme:(l)=>`«${l}» mavzusi ko'rinishi`,
@@ -161,6 +164,7 @@ const UI = {
     ics:"📅 Календарга қўшиш",
     changeHint:"Режаларингиз ўзгарса — шу ҳаволани қайта очинг ва жавобни ўзгартиринг.",
     fail:"Бўлмади — қайтадан уриниб кўринг",
+    errPick:"Аввал жавобни танланг: келамиз, ҳаммамиз эмас ёки келолмаймиз",
     today:"бугун", dd:"кун", hh:"соат", mm:"дақиқа",
     madeIn:"To'y-Daftarда яратилган", makeOwn:"ўз тўйингиз учун таклифнома қилинг",
     previewTheme:(l)=>`«${l}» мавзуси кўриниши`,
@@ -194,6 +198,7 @@ const UI = {
     ics:"📅 Добавить в календарь",
     changeHint:"Если планы изменятся — откройте эту ссылку снова и поменяйте ответ.",
     fail:"Не получилось — попробуйте ещё раз",
+    errPick:"Сначала выберите ответ: придём, придём не все или не сможем",
     today:"сегодня", dd:"дн.", hh:"ч.", mm:"мин.",
     madeIn:"Создано в To'y-Daftar", makeOwn:"сделать приглашение для своего тоя",
     previewTheme:(l)=>`Предпросмотр темы «${l}»`,
@@ -384,6 +389,7 @@ function render(e, f, preview){
       <div class="stepper"><button id="m">−</button><b id="n">${state.count}</b><button id="p">+</button></div>
     </div>
     <textarea id="note" placeholder="${u.notePh}"></textarea>
+    <div class="err" id="err" role="alert" hidden></div>
     <button class="send" id="send">${preview?u.previewBtn:u.send}</button>
   </div>
   ${preview?"":`<div class="viral">
@@ -403,15 +409,35 @@ function render(e, f, preview){
 
   // Отправка одна на все три кнопки: «придём все» и «не сможем» отвечают в один тап,
   // «придём не все» сначала открывает счётчик и поле для комментария.
+  // Отметка «открыл» уходит не при загрузке, а когда страница действительно
+  // перед глазами: превьюшник ссылок и предпросмотр из кабинета сюда не попадают.
+  function markSeen(){
+    if(preview || !token || markSeen.done) return;
+    if(document.visibilityState !== "visible") return;
+    markSeen.done = true;
+    fetch(`${API}/seen`,{method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify({token})}).catch(()=>{});
+  }
+  setTimeout(markSeen, 3000);
+  document.addEventListener("visibilitychange", ()=>setTimeout(markSeen, 3000), {once:true});
+
+  function showErr(msg){
+    const box=document.getElementById("err"); if(!box) return;
+    box.textContent = msg || ""; box.hidden = !msg;
+    if(msg) box.scrollIntoView({block:"nearest",behavior:"smooth"});
+  }
   async function submit(btn){
     if(preview) return;
-    if(!state.status) return alert(u.ask);
+    // Ошибку показываем в самой карточке: alert в браузере Telegram гость
+    // закрывает не читая, а причина — «не выбран ответ» — остаётся за кадром.
+    if(!state.status) return showErr(u.errPick);
+    showErr(null);
     const label=btn.textContent;
     btn.disabled=true; btn.textContent=u.sending;
     const noteEl=document.getElementById("note");
     const res = await fetch(`${API}/rsvp`,{method:"POST",headers:{"content-type":"application/json"},
       body:JSON.stringify({token,status:state.status,count:state.count,note:noteEl?noteEl.value:""})}).then(x=>x.json()).catch(()=>null);
-    if(!res?.ok){ btn.disabled=false; btn.textContent=label; return alert(u.fail); }
+    if(!res?.ok){ btn.disabled=false; btn.textContent=label; return showErr(u.fail); }
     document.getElementById("rsvp").innerHTML =
       `<div class="done"><div class="big">${state.status==="yes"?u.doneYes:u.doneNo}</div>
       <div class="fam">${state.status==="yes"?u.markedYes(state.count):u.markedNo}</div>

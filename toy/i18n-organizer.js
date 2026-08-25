@@ -73,6 +73,8 @@ const T_ORG = {
     qStart:(n)=>`📨 Разослать приглашения (${n})`,
     qStartRemind:(n)=>`🔔 Напомнить тем, кто не ответил (${n})`,
     qProgress:(a,b)=>`Отправлено ${a} из ${b}`,
+    cntSave:"Сохранить",
+    cntCancel:"Отмена",
     qSend:"📨 Отправить этой семье",
     qSendR:"🔔 Напомнить этой семье",
     qSkip:"Пропустить",
@@ -93,7 +95,7 @@ const T_ORG = {
     gPillYes:(n)=>`придут ${n}`, gPillNo:"не смогут", gPillPending:"ждём",
     gBtnRemind:"🔔 Напомнить", gBtnAgain:"📤 Ещё раз", gBtnSend:"📤 Отправить",
     gCopied:"Ссылка скопирована",
-    gPromptMark:(name)=>`${name}: сколько человек придёт?\nЧисло — придут, 0 — не смогут, пусто — отмена.`,
+    gPromptMark:(name)=>`Сколько человек придёт. Поставьте 0, если не смогут.`,
     gConfirmDel:(name)=>`Удалить ${name}?`,
 
     /* обмен с Excel */
@@ -259,6 +261,8 @@ const T_ORG = {
     qStart:(n)=>`📨 Taklifnomalarni yuborish (${n})`,
     qStartRemind:(n)=>`🔔 Javob bermaganlarga eslatish (${n})`,
     qProgress:(a,b)=>`${b} tadan ${a} tasi yuborildi`,
+    cntSave:"Saqlash",
+    cntCancel:"Bekor qilish",
     qSend:"📨 Shu oilaga yuborish",
     qSendR:"🔔 Shu oilaga eslatish",
     qSkip:"O'tkazib yuborish",
@@ -279,7 +283,7 @@ const T_ORG = {
     gPillYes:(n)=>`${n} keladi`, gPillNo:"kelolmaydi", gPillPending:"kutilmoqda",
     gBtnRemind:"🔔 Eslatish", gBtnAgain:"📤 Yana yuborish", gBtnSend:"📤 Yuborish",
     gCopied:"Havola nusxalandi",
-    gPromptMark:(name)=>`${name}: necha kishi keladi?\nRaqam — keladi, 0 — kelolmaydi, bo'sh — bekor qilish.`,
+    gPromptMark:(name)=>`Necha kishi keladi. Kelolmasa — 0 qo'ying.`,
     gConfirmDel:(name)=>`${name} o'chirilsinmi?`,
 
     /* Excel bilan almashish */
