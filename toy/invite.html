@@ -8,85 +8,152 @@
 <meta property="og:description" content="Сизни тўй маросимига таклиф этамиз">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600;700&display=swap">
+<!-- Набор шрифтов задан в themes.js: их десять на десять оформлений, и держать
+     список в двух местах — верный способ получить подстановку системного. -->
+<script src="themes.js"></script>
+<script>document.write('<link rel="stylesheet" href="' + window.TOY_FONTS + '">');</script>
 <style>
 :root{
   --bg:#FBF7F2; --card:#FFFFFF; --ink:#2A211C; --muted:#7B6A5D; --accent:#B08D3F; --deep:#7D1F38;
   --line:#E6DBCD; --shadow:0 10px 40px rgba(90,60,25,.07); --radius:20px;
   --display:"Cormorant Garamond",Georgia,serif; --body:Manrope,system-ui,sans-serif;
-  --name-weight:500; --name-tracking:0;
+  --name-weight:500; --name-tracking:0; --name-size:1;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55;
-  transition:background .3s,color .3s}
-.wrap{max-width:520px;margin:0 auto;padding:24px 18px 64px}
-.frame{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
-  padding:30px 22px;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden}
-.orn{display:block;margin:0 auto 16px;width:112px;height:26px;color:var(--accent)}
-.pre{font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;font-weight:600}
-.names{font-family:var(--display);font-size:clamp(34px,10.5vw,54px);line-height:1.04;margin:6px 0 4px;
-  font-weight:var(--name-weight);letter-spacing:var(--name-tracking)}
-.amp{color:var(--accent);font-style:italic;display:block;font-size:.52em;margin:4px 0;font-weight:400}
-.greet{font-family:var(--display);font-size:19.5px;font-style:italic;color:var(--muted);margin:18px 0 22px;line-height:1.5}
-.when{font-size:19px;font-weight:600;margin-top:4px}
-.where{color:var(--muted);font-size:14.5px;margin-top:4px;line-height:1.5}
-.cd{display:flex;justify-content:center;gap:16px;margin:22px 0 8px}
-.cd div{min-width:54px}
-.cd b{display:block;font-family:var(--display);font-size:30px;color:var(--deep);font-weight:500}
-.cd span{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.map{display:inline-block;margin-top:16px;color:var(--deep);font-size:14.5px;text-decoration:none;
-  border-bottom:1px solid var(--line);padding-bottom:3px;font-weight:500}
-.rsvp{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-top:16px;box-shadow:var(--shadow)}
-.rsvp h2{font-family:var(--display);font-size:25px;margin:0 0 4px;text-align:center;font-weight:600}
-.fam{text-align:center;color:var(--muted);font-size:14px;margin-bottom:18px}
-.choice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-/* Шаг 56: главный ответ — один тап. «Придём все N» отвечает и отправляет сразу;
-   остальные два варианта нужны реже и стоят второй строкой. */
-.yesall{width:100%;background:var(--deep);color:#fff;border-color:var(--deep);
-  font-weight:600;font-size:16.5px;padding:17px;margin-bottom:10px}
-.yesall:disabled{opacity:.6}
-/* Шаг 57: виральная петля. Один оплаченный той — это сотни показов ссылки людям,
-   у которых свой той через год; здесь единственное место, где мы с ними говорим. */
-.viral{margin-top:16px;background:var(--card);border:1px dashed var(--line);
-  border-radius:var(--radius);padding:18px 20px;text-align:center}
-.viral b{font-family:var(--display);font-size:19px;font-weight:600}
-.viral p{margin:6px 0 13px;font-size:13.5px;color:var(--muted);line-height:1.55}
-.vbtn{display:inline-block;text-decoration:none;border:1px solid var(--accent);color:var(--accent);
-  border-radius:12px;padding:11px 18px;font:600 14px var(--body)}
+  transition:background .35s,color .35s}
+.wrap{max-width:560px;margin:0 auto;padding:0 0 60px}
+section{padding:0 24px}
 
-button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;padding:14px;
-  font:500 15px var(--body);cursor:pointer;transition:.15s}
-button.yes.on{background:var(--deep);color:#fff;border-color:var(--deep)}
-button.no.on{background:var(--muted);color:var(--bg);border-color:var(--muted)}
+/* Приглашение открывают в чате между двумя другими сообщениями. Первый экран
+   обязан быть приглашением, а не формой: имена во весь рост, дата под ними,
+   и ничего больше. Ответ — ниже, отдельным действием. */
+.cover{min-height:100svh;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;position:relative;padding:64px 30px 74px}
+.cover-in{position:relative;z-index:2;width:100%}
+.orn{display:block;margin:0 auto 18px;width:112px;height:26px;color:var(--accent)}
+.pre{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);
+  margin-bottom:22px;font-weight:600}
+.names{font-family:var(--display);margin:0;
+  font-size:calc(clamp(40px,13.5vw,72px) * var(--name-size));
+  line-height:1.06;font-weight:var(--name-weight);letter-spacing:var(--name-tracking)}
+.amp{color:var(--accent);font-style:italic;display:block;font-weight:400;
+  font-size:.42em;margin:.16em 0;letter-spacing:0}
+.cover-date{margin-top:26px;font-size:13px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;font-variant-numeric:tabular-nums}
+.cue{position:absolute;left:0;right:0;bottom:26px;z-index:2;color:var(--muted);
+  font-size:19px;line-height:1;text-decoration:none;display:block;
+  animation:cue 2.4s ease-in-out infinite}
+@keyframes cue{0%,100%{transform:translateY(0);opacity:.45}50%{transform:translateY(5px);opacity:.9}}
+
+/* Рамка обложки — то, чем одно оформление отличается от другого сильнее всего,
+   поэтому она в атрибуте темы, а не зашита в разметку. */
+.deco{position:absolute;inset:18px;z-index:1;pointer-events:none}
+[data-frame="none"] .deco{display:none}
+[data-frame="double"] .deco{border:1px solid var(--accent);opacity:.5}
+[data-frame="double"] .deco::after{content:"";position:absolute;inset:6px;
+  border:1px solid var(--accent);opacity:.55}
+[data-frame="corner"] .deco::before,[data-frame="corner"] .deco::after{
+  content:"";position:absolute;width:52px;height:52px;border:1px solid var(--accent);opacity:.6}
+[data-frame="corner"] .deco::before{top:0;left:0;border-right:0;border-bottom:0}
+[data-frame="corner"] .deco::after{bottom:0;right:0;border-left:0;border-top:0}
+[data-frame="arch"] .deco{border:1px solid var(--accent);opacity:.45;
+  border-radius:min(46vw,220px) min(46vw,220px) 3px 3px}
+[data-frame="band"] .deco{border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+[data-frame="band"] .deco::before,[data-frame="band"] .deco::after{
+  content:"";position:absolute;left:0;right:0;height:14px;
+  background-image:var(--band);background-repeat:repeat-x;opacity:.85}
+[data-frame="band"] .deco::before{top:7px}
+[data-frame="band"] .deco::after{bottom:7px}
+
+/* Три раскладки имён: «Aziz & Nilufar» и «Bobojon 60 yosh» — разные объекты,
+   и одна вёрстка на оба смотрится случайной. */
+[data-names="caps"] .names{text-transform:uppercase}
+[data-names="caps"] .amp{font-size:.34em;letter-spacing:.3em;text-transform:none}
+[data-names="rule"] .amp{width:44px;height:1px;background:var(--accent);
+  margin:.34em auto;font-size:0;color:transparent}
+
+.address{padding-top:56px;padding-bottom:12px;text-align:center}
+.address p{font-family:var(--display);font-size:clamp(19px,4.6vw,23px);line-height:1.62;
+  margin:0 auto;max-width:34ch;color:var(--ink);text-wrap:pretty}
+
+.details{padding-top:44px}
+.details dl{margin:0;border-top:1px solid var(--line)}
+.details .row{display:grid;grid-template-columns:88px 1fr;gap:14px;align-items:baseline;
+  padding:15px 2px;border-bottom:1px solid var(--line)}
+.details dt{font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);font-weight:600;margin:0}
+.details dd{margin:0;font-size:16px;line-height:1.5}
+.details dd .sub{display:block;color:var(--muted);font-size:14px;margin-top:2px}
+.map{display:inline-block;margin-top:18px;color:var(--deep);font-size:14.5px;
+  text-decoration:none;border-bottom:1px solid currentColor;padding-bottom:2px;font-weight:600}
+.cd{display:flex;justify-content:center;gap:22px;margin-top:30px}
+.cd div{text-align:center;min-width:48px}
+.cd b{display:block;font-family:var(--display);font-size:26px;color:var(--accent);
+  font-weight:500;font-variant-numeric:tabular-nums;font-feature-settings:"lnum" 1}
+.cd span{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+
+.rsvp{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:26px 22px;margin:44px 24px 0;box-shadow:var(--shadow);scroll-margin-top:20px}
+.rsvp h2{font-family:var(--display);font-size:27px;margin:0 0 4px;text-align:center;font-weight:600}
+.fam{text-align:center;color:var(--muted);font-size:14px;margin-bottom:20px}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* Главный ответ — один тап. «Придём все N» отвечает и отправляет сразу;
+   остальные два варианта нужны реже и стоят второй строкой. */
+.yesall{width:100%;background:var(--deep);color:var(--card);border-color:var(--deep);
+  font-weight:700;font-size:16.5px;padding:17px;margin-bottom:10px}
+.yesall:disabled{opacity:.6}
+button{border:1px solid var(--line);background:transparent;color:var(--ink);
+  border-radius:calc(var(--radius) * .6);padding:14px;font:500 15px var(--body);
+  cursor:pointer;transition:.15s}
+button.yes.on{background:var(--deep);color:var(--card);border-color:var(--deep)}
+button.no.on{background:var(--muted);color:var(--card);border-color:var(--muted)}
 .count{margin-top:18px;display:none}
 .count label{display:block;font-size:13px;color:var(--muted);margin-bottom:10px;text-align:center}
 .stepper{display:flex;align-items:center;justify-content:center;gap:20px}
 .stepper button{width:48px;height:48px;border-radius:50%;font-size:22px;padding:0;line-height:1}
-.stepper b{font-family:var(--display);font-size:36px;min-width:46px;font-weight:500}
+.stepper b{font-family:var(--body);font-size:34px;min-width:46px;font-weight:600;
+  font-variant-numeric:tabular-nums}
 .err{margin-top:14px;padding:11px 13px;border-radius:12px;font-size:13.5px;line-height:1.45;
   background:rgba(180,40,60,.10);color:#B4283C;border:1px solid rgba(180,40,60,.30)}
-textarea{width:100%;margin-top:16px;padding:12px;border:1px solid var(--line);border-radius:14px;background:transparent;
-  color:var(--ink);font:400 14.5px var(--body);resize:vertical;min-height:58px}
+textarea{width:100%;margin-top:16px;padding:12px;border:1px solid var(--line);
+  border-radius:calc(var(--radius) * .6);background:transparent;color:var(--ink);
+  font:400 14.5px var(--body);resize:vertical;min-height:58px}
 textarea:focus{outline:none;border-color:var(--accent)}
-.send{width:100%;margin-top:16px;background:var(--deep);color:#fff;border-color:var(--deep);font-weight:600;font-size:16px;padding:16px}
+.send{width:100%;margin-top:16px;background:var(--deep);color:var(--card);
+  border-color:var(--deep);font-weight:700;font-size:16px;padding:16px}
 .done{text-align:center;padding:24px 8px}
-.done .big{font-family:var(--display);font-size:28px;margin-bottom:8px}
-.foot{text-align:center;font-size:11.5px;color:var(--muted);margin-top:24px;line-height:1.6}
-/* Переключатель языка — плавающий, доступен с любого места страницы.
-   Гость мог получить приглашение на узбекском, а читать привычнее по-русски (или наоборот). */
-.langbar{position:fixed;top:calc(10px + env(safe-area-inset-top));right:10px;z-index:40;
-  display:flex;gap:3px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px;
-  box-shadow:0 2px 10px rgba(0,0,0,.12)}
-.langbar button{border:0;background:transparent;color:var(--muted);cursor:pointer;
-  font:600 11.5px Manrope,system-ui,sans-serif;padding:5px 10px;border-radius:16px;letter-spacing:.02em}
-.langbar button.on{background:var(--accent,var(--gold,#B08D3F));color:#fff}
-@media (max-width:400px){ .langbar button{padding:5px 8px;font-size:11px} }
+.done .big{font-family:var(--display);font-size:30px;margin-bottom:8px}
+button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* Виральная петля: один оплаченный той — сотни показов ссылки людям, у которых
+   свой той через год. Открывается только после ответа: до него это была бы
+   реклама поверх вопроса. */
+.viral{margin:16px 24px 0;background:var(--card);border:1px dashed var(--line);
+  border-radius:var(--radius);padding:20px;text-align:center}
+.viral b{font-family:var(--display);font-size:20px;font-weight:600}
+.viral p{margin:6px 0 14px;font-size:13.5px;color:var(--muted);line-height:1.55}
+.vbtn{display:inline-block;text-decoration:none;border:1px solid var(--accent);
+  color:var(--accent);border-radius:12px;padding:11px 18px;font:600 14px var(--body)}
+.foot{text-align:center;font-size:11.5px;color:var(--muted);margin:28px 24px 0;line-height:1.6}
 .foot a{color:var(--muted)}
+
+/* Переключатель языка — плавающий, доступен с любого места страницы.
+   Гость мог получить приглашение на узбекском, а читать привычнее по-русски. */
+.langbar{position:fixed;top:calc(10px + env(safe-area-inset-top));right:10px;z-index:40;
+  display:flex;gap:3px;background:var(--card);border:1px solid var(--line);
+  border-radius:20px;padding:3px;box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.langbar button{border:0;background:transparent;color:var(--muted);cursor:pointer;
+  font:600 11.5px Manrope,system-ui,sans-serif;padding:5px 10px;border-radius:16px}
+.langbar button.on{background:var(--accent);color:var(--card)}
+@media (max-width:400px){ .langbar button{padding:5px 8px;font-size:11px} }
 </style>
 </head>
 <body>
 <div class="langbar" id="langbar"></div>
-<div class="wrap" id="wrap"><div class="frame">…</div></div>
+<div class="wrap" id="wrap"><section class="cover"><div class="cover-in">…</div></section></div>
 <script src="config.js"></script>
 <script src="invite-texts.js"></script>
 <script>
@@ -112,6 +179,7 @@ const UI = {
     code:"uz", short:"UZ", locale:"uz-UZ",
     loading:"Yuklanmoqda…",
     pre:"Taklifnoma",
+    lblWhen:"Qachon", lblWhere:"Qayerda",
     greetDefault:"Sizni to'y marosimiga taklif etamiz",
     map:"📍 Xaritada ko'rsatish",
     ask:"Kela olasizmi?",
@@ -145,6 +213,7 @@ const UI = {
     code:"uz", short:"ЎЗ", locale:"uz-UZ",
     loading:"Юкланмоқда…",
     pre:"Таклифнома",
+    lblWhen:"Қачон", lblWhere:"Қаерда",
     greetDefault:"Сизни тўй маросимига таклиф этамиз",
     map:"📍 Харитада кўрсатиш",
     ask:"Кела оласизми?",
@@ -178,6 +247,7 @@ const UI = {
     code:"ru", short:"RU", locale:"ru-RU",
     loading:"Загрузка…",
     pre:"Приглашение",
+    lblWhen:"Когда", lblWhere:"Где",
     greetDefault:"Приглашаем вас на наше торжество",
     map:"📍 Показать на карте",
     ask:"Сможете прийти?",
@@ -232,44 +302,8 @@ function renderLangBar(){
 let LAST = null;   // последние данные, чтобы перерисовать при смене языка
 
 /* ---------- темы оформления ---------- */
-const ORN = {
-  rings: `<svg class="orn" viewBox="0 0 112 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M2 13h34M76 13h34" stroke="currentColor" stroke-width="1" opacity=".6"/>
-    <circle cx="50" cy="13" r="7.5" stroke="currentColor" stroke-width="1.3" fill="none"/>
-    <circle cx="62" cy="13" r="7.5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>`,
-  diamond: `<svg class="orn" viewBox="0 0 112 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M2 13h38M72 13h38" stroke="currentColor" stroke-width="1" opacity=".55"/>
-    <path d="M56 4c3.6 3.6 7.2 5.6 7.2 9s-3.6 5.4-7.2 9c-3.6-3.6-7.2-5.6-7.2-9s3.6-5.4 7.2-9z" stroke="currentColor" stroke-width="1.2" fill="none"/>
-    <circle cx="43" cy="13" r="2" fill="currentColor"/><circle cx="69" cy="13" r="2" fill="currentColor"/></svg>`,
-  ikat: `<svg class="orn" viewBox="0 0 112 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M10 13c4-7 8-7 12 0s8 7 12 0 8-7 12 0 8 7 12 0 8-7 12 0 8 7 12 0" stroke="currentColor" stroke-width="1.4" fill="none" opacity=".8"/>
-    <circle cx="56" cy="4" r="1.6" fill="currentColor"/><circle cx="56" cy="22" r="1.6" fill="currentColor"/></svg>`,
-  line: `<svg class="orn" viewBox="0 0 112 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M16 13h80" stroke="currentColor" stroke-width="1"/><circle cx="56" cy="13" r="2.5" fill="currentColor"/></svg>`,
-};
-const THEMES = {
-  zar:{ label:"Zar · золото", orn:ORN.diamond, vars:{
-    "--bg":"#FBF7F2","--card":"#FFFFFF","--ink":"#2A211C","--muted":"#7B6A5D","--accent":"#B08D3F","--deep":"#7D1F38",
-    "--line":"#E6DBCD","--shadow":"0 10px 40px rgba(90,60,25,.07)","--radius":"20px",
-    "--display":'"Cormorant Garamond",Georgia,serif',"--name-weight":"500","--name-tracking":"0"}},
-  atlas:{ label:"Atlas · национальный", orn:ORN.ikat, vars:{
-    "--bg":"#FDF6EC","--card":"#FFFDF9","--ink":"#3A2318","--muted":"#8A6A52","--accent":"#C25E2A","--deep":"#1F4E5F",
-    "--line":"#EBD9C2","--shadow":"0 10px 40px rgba(120,70,30,.09)","--radius":"14px",
-    "--display":'"Cormorant Garamond",Georgia,serif',"--name-weight":"600","--name-tracking":"-.01em"}},
-  oq:{ label:"Oq · минимал", orn:ORN.line, vars:{
-    "--bg":"#FFFFFF","--card":"#FFFFFF","--ink":"#141414","--muted":"#8A8A8A","--accent":"#141414","--deep":"#141414",
-    "--line":"#E8E8E8","--shadow":"none","--radius":"4px",
-    "--display":"Manrope,system-ui,sans-serif","--name-weight":"300","--name-tracking":".02em"}},
-  kecha:{ label:"Kecha · вечер", orn:ORN.rings, vars:{
-    "--bg":"#12141C","--card":"#1A1D28","--ink":"#F2EDE4","--muted":"#9A93A8","--accent":"#D9B45B","--deep":"#D9B45B",
-    "--line":"#2C3040","--shadow":"0 14px 46px rgba(0,0,0,.45)","--radius":"20px",
-    "--display":'"Cormorant Garamond",Georgia,serif',"--name-weight":"500","--name-tracking":"0"}},
-};
-function applyTheme(name){
-  const t = THEMES[name] || THEMES.zar;
-  Object.entries(t.vars).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
-  return t;
-}
+/* Оформления живут в themes.js — общем для приглашения, кабинета и демо. */
+const applyTheme = (name) => toyApplyTheme(name);
 // Кавычки экранируем тоже: значения подставляются и в атрибуты (href карты),
 // а без этого организатор может внедрить атрибут на страницу, которую видят его гости.
 const esc = s => String(s??"").replace(/[<>&"']/g,c=>
@@ -362,23 +396,36 @@ function render(e, f, preview){
   renderLangBar();
   const u = U();
   document.documentElement.lang = u.code;
-  const t = THEMES[e.theme] || THEMES.zar;
+  const t = toyApplyTheme(e.theme);
   state.inv=f.invited_count; state.count=f.rsvp_count||f.invited_count;
   const d = eventDate(e);
   const dateStr = d ? fmtDate(d, u) : "";
   const names=(e.couple||"").split(/&|\bи\b/);
+  const row = (label, value) => value
+    ? `<div class="row"><dt>${label}</dt><dd>${value}</dd></div>` : "";
   document.getElementById("wrap").innerHTML = `
-  <div class="frame">
-    ${t.orn}
-    <div class="pre">${u.pre}</div>
-    <div class="names">${esc(names[0].trim())}${names[1]?`<span class="amp">&amp;</span>${esc(names[1].trim())}`:""}</div>
-    <div class="greet">${esc(e.greeting||u.greetDefault)}</div>
-    ${dateStr?`<div class="when">${dateStr}${e.event_time?` · ${esc(normTime(e.event_time))}`:""}</div>`:""}
-    ${e.venue_name?`<div class="where">${esc(e.venue_name)}${e.venue_addr?`<br>${esc(e.venue_addr)}`:""}</div>`:""}
-    <div class="cd" id="cd"></div>
+  <section class="cover">
+    <div class="deco" aria-hidden="true"></div>
+    <div class="cover-in">
+      ${t.orn}
+      <div class="pre">${u.pre}</div>
+      <h1 class="names">${esc(names[0].trim())}${names[1]?`<span class="amp">&amp;</span>${esc(names[1].trim())}`:""}</h1>
+      ${dateStr?`<div class="cover-date">${dateStr}</div>`:""}
+    </div>
+    <a class="cue" href="#rsvp" aria-label="${esc(u.ask)}">&darr;</a>
+  </section>
+
+  <section class="address"><p>${esc(e.greeting||u.greetDefault)}</p></section>
+
+  <section class="details">
+    <dl>
+      ${row(u.lblWhen, dateStr ? `${dateStr}${e.event_time?`<span class="sub">${esc(normTime(e.event_time))}</span>`:""}` : "")}
+      ${row(u.lblWhere, e.venue_name ? `${esc(e.venue_name)}${e.venue_addr?`<span class="sub">${esc(e.venue_addr)}</span>`:""}` : "")}
+    </dl>
     ${e.map_url?`<a class="map" href="${esc(e.map_url)}" target="_blank" rel="noopener">${u.map}</a>`:""}
-  </div>
-  <div class="rsvp" id="rsvp">
+    <div class="cd" id="cd"></div>
+  </section>
+  <section class="rsvp" id="rsvp">
     <h2>${u.ask}</h2>
     <div class="fam">${esc(f.name)} · ${u.invited(f.invited_count)}</div>
     <button class="yesall" id="bAll">${u.yesAll(f.invited_count)}</button>
@@ -391,13 +438,13 @@ function render(e, f, preview){
     <textarea id="note" placeholder="${u.notePh}"></textarea>
     <div class="err" id="err" role="alert" hidden></div>
     <button class="send" id="send">${preview?u.previewBtn:u.send}</button>
-  </div>
+  </section>
   ${preview?"":`<div class="viral" id="viral"${f.rsvp_status==="pending"?" hidden":""}>
     <b>${u.viralTitle}</b>
     <p>${u.viralText(VIRAL_OFF.toLocaleString("ru"))}</p>
     <a class="vbtn" href="https://t.me/${BOT}?start=inv${e.id?`_${e.id}`:""}">${u.viralBtn}</a>
   </div>`}
-  <div class="foot">${preview?u.previewTheme(t.label):`${u.madeIn} · <a href="https://t.me/${BOT}?start=inv${e.id?`_${e.id}`:""}">${u.makeOwn}</a>`}
+  <div class="foot">${preview?u.previewTheme(t.label[lang]||t.label.ru):`${u.madeIn} · <a href="https://t.me/${BOT}?start=inv${e.id?`_${e.id}`:""}">${u.makeOwn}</a>`}
 
     <div style="margin-top:14px;font-size:11px;opacity:.85;text-align:left">
       <b>${u.privTitle}.</b> ${u.privText}
