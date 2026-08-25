@@ -1355,6 +1355,30 @@ function tabGifts(){
 }
 
 /* ---------- настройки ---------- */
+// Список вторых хозяев подтягиваем отдельно: он меняется реже всего остального,
+// и держать его в общей загрузке тоя незачем.
+async function coRefresh(){
+  const box = $("#coList"); if(!box) return;
+  const t = L();
+  const r = await call("co_list", { event_id: S.ev.id });
+  if(!r || !r.list) { box.innerHTML = ""; return; }
+  if(!r.list.length){ box.innerHTML = `<div class="note">${t.coNobody}</div>`; return; }
+  box.innerHTML = r.list.map(x=>`
+    <div class="fam" data-co="${x.tg_id}"><div class="r1">
+      <div><div class="nm">${esc(x.name)}</div>
+        <div class="sb">${x.side==="kelin"?t.gSideKelin:t.gSideKuyov}</div></div>
+      ${r.is_co?"":`<button class="ic" data-a="cordel" aria-label="${t.coRemove}">🗑</button>`}
+    </div></div>`).join("");
+  box.querySelectorAll("[data-co]").forEach(el=>{
+    const b = el.querySelector('[data-a="cordel"]'); if(!b) return;
+    b.onclick=async()=>{
+      if(!await ask(t.coRemoveAsk)) return;
+      await call("co_remove", { event_id:S.ev.id, tg_id:+el.dataset.co });
+      haptic("medium"); coRefresh();
+    };
+  });
+}
+
 function tabEvent(){
   const t=L(), e=S.ev;
   const cur = e.theme || "zar";
@@ -1398,8 +1422,15 @@ function tabEvent(){
     <p>${e.tier==="free"?t.eTierFreeText:t.eTierPremiumText}</p>
     ${e.tier==="free"?`<button class="b gold" id="buyP">${t.payPremium}</button>`:""}
     <button class="b gold" id="buyF" style="${e.tier==="free"?"background:transparent;color:var(--gold);border:1px solid var(--gold)":""}">${t.payFull}</button></div>`:""}
-  <div class="card"><button class="b sec" id="delev" style="color:var(--bad);border-color:var(--bad)">${t.eDeleteBtn}</button>
-    <div class="note">${t.eDeleteNote}</div></div>`;
+  <div class="card"><b>${t.coTitle}</b>
+    <div class="note" style="margin-top:4px">${t.coText}</div>
+    <div id="coList" style="margin-top:10px"></div>
+    ${e.is_co ? `<div class="note">${t.coYouAre}</div>`
+      : paid ? `<button class="b sec" id="coInvite" style="margin-top:10px">${t.coInviteBtn}</button>`
+             : `<button class="b gold" id="coBuy" style="margin-top:10px">${t.coBuyBtn}</button>`}
+  </div>
+  ${e.is_co ? "" : `<div class="card"><button class="b sec" id="delev" style="color:var(--bad);border-color:var(--bad)">${t.eDeleteBtn}</button>
+    <div class="note">${t.eDeleteNote}</div></div>`}`;
   let pickedTheme = cur;
   document.querySelectorAll("#themes .t").forEach(el=>el.onclick=()=>{
     // Закрытое оформление можно выбрать и посмотреть, но нельзя сохранить: человек
@@ -1410,6 +1441,18 @@ function tabEvent(){
     $("#themeLock").hidden = el.dataset.locked !== "1";
   });
   $("#buyTheme") && ($("#buyTheme").onclick=()=>pay("premium"));
+  $("#coBuy") && ($("#coBuy").onclick=()=>pay("premium"));
+  coRefresh();
+  $("#coInvite") && ($("#coInvite").onclick=async()=>{
+    const r = await call("co_invite", { event_id: e.id });
+    if(!r.token) return say(t.coErr);
+    const link = `https://t.me/${(window.TOY_BOT||"toy_daftar_bot")}?start=co_${r.token}`;
+    haptic("medium");
+    // Ссылка одноразовая, поэтому уходит адресно через выбор чата, а не в буфер:
+    // из буфера её вставляют в общий чат родни, и войдёт кто угодно первым.
+    const url = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(t.coShare(e.couple))}`;
+    tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url);
+  });
   $("#preview").onclick=()=>{
     const url = `${S.inviteBase}?theme=${pickedTheme}&ilang=${$("#ilang").value}`;
     tg?.openLink ? tg.openLink(url) : window.open(url,"_blank");
