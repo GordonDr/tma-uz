@@ -17,6 +17,9 @@ const T_ORG = {
     loading:"Загрузка…", locale:"ru-RU", num:"ru",
     cancel:"Отмена", save:"Сохранить", saved:"Сохранено",
     date:"Дата", time:"Время", venue:"Зал", addr:"Адрес",
+    errNet:"Нет связи с сервером",
+    errNetHint:"Проверьте интернет и попробуйте ещё раз. Введённое не потеряется.",
+    retry:"Повторить",
     errAccess:"Ошибка доступа",
     tierFree:"Бесплатный", tierPremium:"Premium", tierFull:"Полный",
 
@@ -193,6 +196,9 @@ const T_ORG = {
     loading:"Yuklanmoqda…", locale:"uz-UZ", num:"uz",
     cancel:"Bekor qilish", save:"Saqlash", saved:"Saqlandi",
     date:"Sana", time:"Vaqt", venue:"To'yxona", addr:"Manzil",
+    errNet:"Server bilan aloqa yo'q",
+    errNetHint:"Internetni tekshiring va qayta urinib ko'ring. Kiritilganlar yo'qolmaydi.",
+    retry:"Qayta urinish",
     errAccess:"Kirishda xatolik",
     tierFree:"Bepul", tierPremium:"Premium", tierFull:"To'liq",
 

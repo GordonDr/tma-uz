@@ -45,6 +45,23 @@ h1,h2{font-family:"Cormorant Garamond",Georgia,serif;margin:0;font-weight:600;li
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:12px 0}
 .stats div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 5px;text-align:center;box-shadow:var(--shadow)}
 .stats b{display:block;font-family:"Cormorant Garamond",serif;font-size:27px;line-height:1;font-weight:600}
+/* Лист согласия на первом запуске. Не модалка поверх контента, а лист снизу:
+   его читают, а не отмахиваются от него. */
+.sheet-ov{position:fixed;inset:0;z-index:90;background:rgba(42,33,28,.55);
+  display:flex;align-items:flex-end;justify-content:center}
+.sheet{background:var(--card);width:100%;max-width:560px;border-radius:20px 20px 0 0;
+  padding:22px 20px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -8px 40px rgba(0,0,0,.2);
+  animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(24px);opacity:.4}to{transform:translateY(0);opacity:1}}
+.sheet h2{font-family:"Cormorant Garamond",Georgia,serif;font-size:23px;font-weight:600;margin:0 0 4px}
+.sheet .sub{color:var(--muted);font-size:13px;margin-bottom:14px}
+.sheet ul{margin:0 0 14px;padding-left:18px;font-size:14px;line-height:1.55;color:var(--ink2)}
+.sheet li{margin-bottom:6px}
+.sheet li b{color:var(--ink)}
+.sheet .ok{width:100%;border:0;border-radius:14px;padding:15px;background:var(--deep);
+  color:#fff;font:600 15.5px Manrope,system-ui,sans-serif;cursor:pointer}
+.sheet .more{display:block;text-align:center;margin-top:11px;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.sheet{animation:none}}
 .pngov{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.72);display:flex;align-items:center;
   justify-content:center;padding:16px;overflow:auto}
 .pngov .inner{max-width:420px;width:100%}
@@ -217,8 +234,56 @@ async function call(action, body={}){
 }
 // Список всех тоёв владельца. Раньше открывался всегда events[0], и второй той —
 // beshik-to'y, той второго ребёнка, клиент организатора — был недоступен вообще.
+/* ── Первый экран согласия ──────────────────────────────────────────────────
+   Организатор вводит имена ЧУЖИХ семей, и до этого экрана он ни разу не видел
+   ни условий, ни слова о том, что мы храним. Согласие показывалось только перед
+   оплатой — то есть на бесплатном тарифе не показывалось никогда. */
+const CONSENT_TXT={
+  ru:{ h:"Прежде чем начать", sub:"Коротко и без юридического языка.",
+       li:["Приглашения и ответы гостей — <b>бесплатно</b>, сколько угодно семей.",
+           "Про гостей мы храним только <b>название семьи и число человек</b>. Телефоны и адреса не нужны и не запрашиваются.",
+           "Данные гостей удаляются <b>через 90 дней</b> после даты тоя.",
+           "Удалить той со всеми данными — команда <b>/delete</b> в боте."],
+       ok:"Понятно, начать", more:"Условия и обработка данных" },
+  uz:{ h:"Boshlashdan oldin", sub:"Qisqa va yuridik tilsiz.",
+       li:["Taklifnomalar va mehmonlar javoblari — <b>bepul</b>, istagancha oila.",
+           "Mehmonlar haqida faqat <b>oila nomi va kishilar sonini</b> saqlaymiz. Telefon va manzil kerak emas va so'ralmaydi.",
+           "Mehmonlar ma'lumotlari to'y sanasidan <b>90 kun</b> o'tgach o'chiriladi.",
+           "To'yni barcha ma'lumotlari bilan o'chirish — botdagi <b>/delete</b> buyrug'i."],
+       ok:"Tushunarli, boshlaymiz", more:"Shartlar va ma'lumotlarni qayta ishlash" },
+};
+function consentGate(){
+  return new Promise(res=>{
+    let seen=false; try{ seen=localStorage.getItem("td_consent")==="1"; }catch(e){}
+    if(seen) return res();
+    const t=CONSENT_TXT[lang]||CONSENT_TXT.ru;
+    const ov=document.createElement("div"); ov.className="sheet-ov";
+    ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">
+      <h2>${t.h}</h2><div class="sub">${t.sub}</div>
+      <ul>${t.li.map(x=>`<li>${x}</li>`).join("")}</ul>
+      <button class="ok" id="cok">${t.ok}</button>
+      <a class="more" href="oferta.html" target="_blank" rel="noopener">${t.more}</a></div>`;
+    document.body.appendChild(ov);
+    ov.querySelector("#cok").onclick=()=>{
+      try{ localStorage.setItem("td_consent","1"); }catch(e){}
+      ov.remove(); haptic("light"); res();
+    };
+  });
+}
 async function boot(){
-  const {events} = await call("my");
+  await consentGate();
+  let events;
+  // Пустой экран без объяснения читается как «мои тои пропали». Отличаем
+  // «тоёв нет» от «не дозвонились» — это два разных сообщения и два разных действия.
+  try { ({ events } = await call("my")); }
+  catch(e){
+    const t=L();
+    $("#app").innerHTML=`<div class="card"><b>${t.errNet||"Нет связи"}</b>
+      <div class="note" style="margin:6px 0 12px">${t.errNetHint||"Проверьте интернет и попробуйте ещё раз."}</div>
+      <button class="b" id="retry">${t.retry||"Повторить"}</button></div>`;
+    $("#retry").onclick=()=>boot();
+    return;
+  }
   S.all = events || [];
   if(!S.all.length) return renderNew();
   const last = Number(localStorage.getItem("td_last_event")||0);

@@ -124,6 +124,26 @@ h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-
 .foot{text-align:center;font-size:11.5px;color:var(--muted);padding:16px 0 6px;line-height:1.5}
 </style>
 </head>
+<style>
+/* Первый экран: что мы храним и на что человек соглашается. Не стена и не модалка
+   поверх контента — лист снизу, который можно прочитать и закрыть одной кнопкой.
+   Показывается один раз: до этого чек-лист собирал события, не сказав об этом ни слова. */
+.sheet-ov{position:fixed;inset:0;z-index:90;background:rgba(28,36,41,.55);
+  display:flex;align-items:flex-end;justify-content:center;padding:0}
+.sheet{background:var(--card);width:100%;max-width:560px;border-radius:20px 20px 0 0;
+  padding:22px 20px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -8px 40px rgba(0,0,0,.18);
+  animation:up .22s ease-out}
+@keyframes up{from{transform:translateY(24px);opacity:.4}to{transform:translateY(0);opacity:1}}
+.sheet h2{font-family:Rubik,system-ui,sans-serif;font-size:19px;font-weight:600;margin:0 0 4px}
+.sheet .sub{color:var(--muted);font-size:13px;margin-bottom:14px}
+.sheet ul{margin:0 0 14px;padding-left:18px;font-size:14px;line-height:1.55;color:var(--ink2)}
+.sheet li{margin-bottom:6px}
+.sheet li b{color:var(--ink)}
+.sheet .ok{width:100%;border:0;border-radius:14px;padding:15px;background:var(--amber-ink);
+  color:#fff;font:600 15.5px Manrope,system-ui,sans-serif;cursor:pointer}
+.sheet .more{display:block;text-align:center;margin-top:11px;font-size:13px;color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.sheet{animation:none}}
+</style>
 <body>
 <div class="wrap">
 
@@ -354,7 +374,42 @@ document.getElementById("buy").onclick=()=>{
   tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url);
   setTimeout(()=>tg?.close?.(), 150);
 };
-track("checklist_open",{});
+/* ── Первый экран согласия ──────────────────────────────────────────────────
+   Показывается один раз. До него мы собирали события, не сказав человеку ни слова,
+   а оферту из чек-листа вообще нельзя было открыть. Событие consent_given —
+   доказательство информированности, а не галочка ради галочки. */
+const CONSENT_TXT={
+  ru:{ h:"Прежде чем начать", sub:"Коротко и без юридического языка.",
+       li:["Чек-лист <b>бесплатный</b>. Отметки хранятся в вашем телефоне.",
+           "Мы видим <b>обезличенную статистику</b>: открыли, дошли до конца, нажали «оформить». Имя и содержание заметок в неё не попадают.",
+           "Если закажете акт — попросим ФИО, телефон и реквизиты договора. Только чтобы претензия была именной. Можно отказаться.",
+           "Стереть всё о себе — команда <b>/delete</b> в боте, в любой момент."],
+       ok:"Понятно, начать", more:"Условия и обработка данных" },
+  uz:{ h:"Boshlashdan oldin", sub:"Qisqa va yuridik tilsiz.",
+       li:["Cheklist <b>bepul</b>. Belgilar telefoningizda saqlanadi.",
+           "Biz <b>shaxssizlantirilgan statistikani</b> ko'ramiz: ochdi, oxirigacha bordi, «rasmiylashtirish» tugmasini bosdi. Ism va izohlar mazmuni bunga kirmaydi.",
+           "Dalolatnoma buyurtma qilsangiz — F.I.Sh., telefon va shartnoma rekvizitlarini so'raymiz. Faqat pretenziya ismli bo'lishi uchun. Rad etish mumkin.",
+           "O'zingiz haqingizdagi hamma narsani o'chirish — botdagi <b>/delete</b> buyrug'i, istalgan vaqtda."],
+       ok:"Tushunarli, boshlaymiz", more:"Shartlar va ma'lumotlarni qayta ishlash" },
+};
+function showConsent(){
+  if(store.get("kq_consent")) { track("checklist_open",{}); return; }
+  const t=CONSENT_TXT[lang]||CONSENT_TXT.ru;
+  const ov=document.createElement("div"); ov.className="sheet-ov";
+  ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">
+    <h2>${t.h}</h2><div class="sub">${t.sub}</div>
+    <ul>${t.li.map(x=>`<li>${x}</li>`).join("")}</ul>
+    <button class="ok" id="cok">${t.ok}</button>
+    <a class="more" href="oferta.html" target="_blank" rel="noopener">${t.more}</a></div>`;
+  document.body.appendChild(ov);
+  ov.querySelector("#cok").onclick=()=>{
+    store.set("kq_consent","1");
+    ov.remove();
+    track("consent_given",{});
+    track("checklist_open",{});
+  };
+}
+showConsent();
 renderStatic(); renderList(); update();
 </script>
 </body>
