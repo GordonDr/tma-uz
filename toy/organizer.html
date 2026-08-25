@@ -730,6 +730,22 @@ function diffCard(){
 /* Денежный блок стоит на вкладке гостей, а не за пейволлом: это не функция
    Premium, а причина им заинтересоваться. Человек должен увидеть сумму до того,
    как мы попросим денег. */
+/* Перенос списка из другого тоя. Показываем только когда он и нужен: список
+   пуст, а другой той у человека уже есть. В остальное время это лишняя кнопка. */
+function copyCard(){
+  const t = L();
+  const others = (S.all || []).filter(e => e.id !== S.ev.id);
+  if(S.fams.length || !others.length) return "";
+  return `
+  <div class="card" style="margin-top:12px">
+    <b>${t.cpTitle}</b>
+    <div class="note" style="margin:6px 0 12px">${t.cpText}</div>
+    <select id="cpFrom">${others.map(e=>`<option value="${e.id}">${esc(e.couple)}${
+      e.event_date?` · ${new Date(e.event_date).toLocaleDateString(t.locale)}`:""}</option>`).join("")}</select>
+    <button class="b sec" id="cpGo" style="margin-top:10px">${t.cpBtn}</button>
+  </div>`;
+}
+
 function moneyCard(){
   const t = L();
   if(!S.fams.length) return "";
@@ -770,6 +786,7 @@ function tabGuests(){
     </div>
     ${queueSize(S.onlyPending ? "remind" : "first") ? `<button class="b gold" id="sendAll" style="margin-top:10px">${
       S.onlyPending ? t.qStartRemind(queueSize("remind")) : t.qStart(queueSize("first"))}</button>` : ""}
+    ${copyCard()}
     ${moneyCard()}
     ${queueSize("moved")||queueSize("thanks")?`<div class="row2" style="margin-top:8px">
       ${queueSize("moved")?`<button class="b sec" id="sendMoved" style="margin:0">${t.qStartMoved(queueSize("moved"))}</button>`:""}
@@ -803,6 +820,13 @@ function tabGuests(){
 
     if(r.family){ S.fams.push(r.family); render(); }
   };
+  $("#cpGo") && ($("#cpGo").onclick=async()=>{
+    const btn = $("#cpGo"); btn.disabled = true; btn.textContent = t.cpGoing;
+    const r = await call("families_copy", { event_id:S.ev.id, from_event_id:+$("#cpFrom").value });
+    if(!r || r.error){ btn.disabled = false; btn.textContent = t.cpBtn; return say(t.cpErr); }
+    if(r.families?.length) S.fams.push(...r.families);
+    haptic("medium"); say(t.cpDone(r.created, r.skipped)); render();
+  });
   $("#seatPrice") && ($("#seatPrice").onchange=async()=>{
     const v = Math.max(0, +$("#seatPrice").value || 0);
     S.ev.seat_price_uzs = v || null;
