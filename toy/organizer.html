@@ -92,6 +92,8 @@ input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
 textarea{min-height:66px;resize:vertical}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.ic{background:none;border:0;font-size:17px;line-height:1;cursor:pointer;padding:6px;border-radius:8px}
+.ic:active{background:var(--line2)}
 button.b{width:100%;border:0;border-radius:12px;padding:13px;background:var(--deep);color:#fff;
   font:700 15px Manrope,sans-serif;cursor:pointer;margin-top:10px}
 button.b:active{transform:translateY(1px)}
@@ -580,6 +582,16 @@ function parseGuests(text){
 
 // Выгрузка в нашем формате. Разделитель «;» и BOM — Excel в русской локали
 // открывает такой файл двойным щелчком, без мастера импорта.
+function giftsCsv(){
+  const t=L();
+  const head=[t.fFamily, t.fWhat, t.fAmount, t.date];
+  const body=S.gifts.map(g=>{
+    const f=S.fams.find(x=>x.id===g.family_id);
+    return [f?f.name:"", g.gift_text||"", g.amount_uzs??"", String(g.created_at||"").slice(0,10)]
+      .map(csvCell).join(";");
+  });
+  return "﻿"+[head.map(csvCell).join(";"), ...body].join("\r\n");
+}
 function guestsCsv(){
   const t=L();
   const head=["ID",t.zThFamily,t.gSide,t.stInvited,t.zThStatus,t.stYes,t.zDocTable("").trim()||"Стол",t.fWhat];
@@ -1025,8 +1037,58 @@ function tabZal(){
       <h1>${t.zDocH1(esc(S.ev.couple))}<br><span style="font-size:11pt">${dstr} · ${esc(S.ev.venue_name||"")}</span></h1>
       <p>${t.zDocSummary(c.yes,c.pend.length,c.pendInv,est)}</p>${blocks}</body></html>`,"application/msword"); };
 }
-function dl(name,content,type){const b=new Blob([content],{type});const a=document.createElement("a");
-  a.href=URL.createObjectURL(b);a.download=name;a.click();URL.revokeObjectURL(a.href);}
+/* В Telegram WebView на телефоне программное скачивание молча не срабатывает:
+   клик по <a download> ничего не делает и ничего не сообщает. Человек жмёт
+   «Выгрузить», не получает файла и решает, что выгрузка сломана — а на дорогом
+   тарифе это прямой повод просить деньги назад.
+
+   Поэтому на телефоне сразу открываем текст: его копируют и вставляют в Excel
+   или Google Таблицы — это работает везде. На десктопе остаётся обычный файл. */
+function isMobileTg(){
+  const p = tg?.platform || "";
+  return p === "android" || p === "ios";
+}
+function dl(name,content,type){
+  // Документ для печати — HTML: показывать его исходником бессмысленно, его
+  // открывают в новом окне и печатают оттуда.
+  if(isMobileTg() && type === "application/msword") return printDoc(content);
+  if(isMobileTg()) return showCopySheet(name, content);
+  try{
+    const b=new Blob([content],{type});const a=document.createElement("a");
+    a.href=URL.createObjectURL(b);a.download=name;a.click();URL.revokeObjectURL(a.href);
+  }catch(e){ showCopySheet(name, content); }
+}
+function printDoc(html){
+  const w = window.open("", "_blank");
+  if(!w) return showCopySheet("doc", html);
+  w.document.write(html);
+  w.document.close();
+  setTimeout(()=>{ try{ w.print(); }catch(e){} }, 300);
+}
+function showCopySheet(name, content){
+  const t=L();
+  const ov=document.createElement("div"); ov.className="sheet-ov";
+  ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">
+    <h2>${esc(t.dlTitle)}</h2>
+    <div class="sub">${esc(t.dlSub)}</div>
+    <textarea id="dlt" readonly style="height:170px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px"></textarea>
+    <button class="ok" id="dlcopy" style="margin-top:12px">${esc(t.dlCopy)}</button>
+    <button class="more" id="dlclose" type="button" style="background:none;border:0;width:100%;cursor:pointer">${esc(t.cntCancel)}</button>
+  </div>`;
+  document.body.appendChild(ov);
+  // Через .value, а не в разметку: содержимое — данные людей, и </textarea> внутри
+  // имени семьи закрыл бы поле, а остальное ушло бы в документ как разметка.
+  ov.querySelector("#dlt").value = content.replace(/^﻿/, "");
+  ov.querySelector("#dlcopy").onclick=async()=>{
+    const box=ov.querySelector("#dlt");
+    box.select(); box.setSelectionRange(0, 999999);
+    try{ await navigator.clipboard.writeText(box.value); }catch(e){ try{ document.execCommand("copy"); }catch(e2){} }
+    haptic("medium");
+    ov.querySelector("#dlcopy").textContent = L().dlCopied;
+  };
+  ov.querySelector("#dlclose").onclick=()=>ov.remove();
+  ov.onclick=(e)=>{ if(e.target===ov) ov.remove(); };
+}
 
 /* ---------- шаг 54: счёт для зала картинкой ----------
    Администратору тойхоны нужно переслать число в WhatsApp. CSV и .doc туда не
@@ -1179,17 +1241,54 @@ function tabGifts(){
     <div class="row2"><div><label>${t.fWhat}</label><input id="gt" placeholder="${t.fWhatPh}"></div>
       <div><label>${t.fAmount}</label><input id="ga" type="number" placeholder="${t.fAmountPh}"></div></div>
     <button class="b" id="gadd">${t.fAdd}</button></div>
+  ${S.gifts.length?`<button class="b sec" id="gexport">${t.fExport}</button>`:""}
   ${S.gifts.length?`<div class="big"><div><b>${S.gifts.length}</b><span>${t.fCount}</span></div>
     <div><b style="font-size:26px">${totalSum.toLocaleString(t.num)}</b><span>${t.fMoney}</span></div></div>`:""}
   <div id="glist"></div>`;
+  $("#gexport") && ($("#gexport").onclick=()=>{
+    haptic("light");
+    dl(`sovgalar-${(S.ev.couple||"toy").replace(/\s+/g,"_")}.csv`, giftsCsv(), "text/csv");
+  });
   $("#gadd").onclick=async()=>{ haptic("medium");
     const r=await call("gift_save",{event_id:S.ev.id,family_id:+$("#gf").value,gift_text:$("#gt").value,amount_uzs:+$("#ga").value||null});
     if(r.gift){S.gifts.unshift(r.gift);render();} };
   $("#glist").innerHTML = S.gifts.length ? S.gifts.map(g=>{const f=S.fams.find(x=>x.id===g.family_id);
-    return `<div class="fam"><div class="r1"><div><div class="nm">${esc(f?.name||"—")}</div>
+    const ed = S.giftEdit === g.id;
+    if(ed) return `<div class="fam" data-g="${g.id}">
+      <label>${t.fFamily}</label>
+      <select class="egf">${S.fams.map(x=>`<option value="${x.id}"${x.id===g.family_id?" selected":""}>${esc(x.name)}</option>`).join("")}</select>
+      <div class="row2"><div><label>${t.fWhat}</label><input class="egt" value="${esc(g.gift_text||"")}"></div>
+        <div><label>${t.fAmount}</label><input class="ega" type="number" value="${g.amount_uzs??""}"></div></div>
+      <div class="row2" style="margin-top:8px">
+        <button class="b" data-a="gsave" style="margin:0">${t.fSave}</button>
+        <button class="b sec" data-a="gcancel" style="margin:0">${t.cntCancel}</button></div>
+      <button class="b sec" data-a="gdel" style="margin-top:8px;color:var(--warn)">${t.fDelete}</button>
+    </div>`;
+    return `<div class="fam" data-g="${g.id}"><div class="r1"><div><div class="nm">${esc(f?.name||"—")}</div>
       <div class="sb">${esc(g.gift_text||"")}</div></div>
-      <b class="serif" style="font-size:18px">${g.amount_uzs?(+g.amount_uzs).toLocaleString(t.num):""}</b></div></div>`;}).join("")
+      <div style="display:flex;align-items:center;gap:10px">
+        <b class="serif" style="font-size:18px">${g.amount_uzs?(+g.amount_uzs).toLocaleString(t.num):""}</b>
+        <button class="ic" data-a="gedit" aria-label="${t.fEdit}">✏️</button></div></div></div>`;}).join("")
     : `<div class="empty">${t.fEmpty}</div>`;
+
+  $("#glist").querySelectorAll("[data-g]").forEach(el=>{
+    const id = +el.dataset.g, g = S.gifts.find(x=>x.id===id); if(!g) return;
+    const b = (a)=>el.querySelector(`[data-a="${a}"]`);
+    b("gedit") && (b("gedit").onclick=()=>{S.giftEdit=id;haptic("light");render();});
+    b("gcancel") && (b("gcancel").onclick=()=>{S.giftEdit=null;render();});
+    b("gsave") && (b("gsave").onclick=async()=>{
+      const r = await call("gift_update",{event_id:S.ev.id,gift_id:id,
+        family_id:+el.querySelector(".egf").value,
+        gift_text:el.querySelector(".egt").value,
+        amount_uzs:+el.querySelector(".ega").value||null});
+      if(r.gift){ Object.assign(g,r.gift); S.giftEdit=null; haptic("medium"); render(); }
+    });
+    b("gdel") && (b("gdel").onclick=async()=>{
+      if(!await ask(t.fConfirmDel)) return;
+      const r = await call("gift_delete",{event_id:S.ev.id,gift_id:id});
+      if(r.ok){ S.gifts=S.gifts.filter(x=>x.id!==id); S.giftEdit=null; haptic("medium"); render(); }
+    });
+  });
 }
 
 /* ---------- настройки ---------- */
