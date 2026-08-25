@@ -51,7 +51,7 @@ const T_ORG = {
     newOccasion:"Что за событие", newLang:"Язык приглашения",
     newPreviewBtn:"👁 Посмотреть, как увидит гость",
     newPreviewNote:"Так выглядит приглашение. Можно посмотреть до того, как что-то заполнять.",
-    newPrice:"Бесплатно до 50 гостей · Premium 49 000 сум за той · Полный 149 000 сум. Разово, не подписка.",
+    newPrice:"Приглашения и ответы — бесплатно, семей сколько угодно · Premium 49 000 сум за той: счёт для зала и рассадка · Полный 149 000 сум. Разово, не подписка.",
 
     /* гости */
     gAddTitle:"Добавить семью", gName:"Название", gNamePh:"Семья Каримовых",
@@ -181,7 +181,7 @@ const T_ORG = {
     eLangLabel:"Язык приглашения", eOccasionLabel:"Повод",
     eSave:"Сохранить", eSaved:"Сохранено",
     eTierTitle:(t)=>`Тариф: ${t}`,
-    eTierFreeText:"Premium — безлимит гостей и рассадка. Полный — ещё и книга подарков.",
+    eTierFreeText:"Premium — счёт для зала и рассадка по столам. Полный — ещё и книга подарков.",
     eTierPremiumText:"Полный добавляет книгу подарков — личный список, кто что подарил.",
     eDeleteBtn:"🗑 Удалить той со всеми данными",
     eDeleteNote:"Удалятся семьи, ответы гостей, рассадка и подарки. Ссылки перестанут открываться. Отменить нельзя.",
@@ -226,7 +226,7 @@ const T_ORG = {
     newOccasion:"Qanday tadbir", newLang:"Taklifnoma tili",
     newPreviewBtn:"👁 Mehmon qanday ko'rishini ko'rish",
     newPreviewNote:"Taklifnoma shunday ko'rinadi. Hech narsa to'ldirmasdan oldin ko'rsangiz bo'ladi.",
-    newPrice:"50 mehmongacha bepul · Premium bir to'y uchun 49 000 so'm · To'liq 149 000 so'm. Bir martalik, obuna emas.",
+    newPrice:"Taklifnomalar va javoblar — bepul, istagancha oila · Premium bitta to'y uchun 49 000 so'm: to'yxona uchun hisob va stollar · To'liq 149 000 so'm. Bir martalik, obuna emas.",
 
     gAddTitle:"Oila qo'shish", gName:"Nomi", gNamePh:"Karimovlar oilasi",
     gCount:"Necha kishi", gSide:"Qaysi tomondan", gSideKuyov:"kuyov tomondan", gSideKelin:"kelin tomondan",
@@ -350,7 +350,7 @@ const T_ORG = {
     eLangLabel:"Taklifnoma tili", eOccasionLabel:"Tadbir turi",
     eSave:"Saqlash", eSaved:"Saqlandi",
     eTierTitle:(t)=>`Tarif: ${t}`,
-    eTierFreeText:"Premium — mehmonlar soni cheklanmaydi va stollarga joylashtirish ochiladi. To'liq — bunga sovg'alar daftari ham qo'shiladi.",
+    eTierFreeText:"Premium — to'yxona uchun hisob va stollarga joylashtirish. To'liq — bunga sovg'alar daftari ham qo'shiladi.",
     eTierPremiumText:"To'liq tarif sovg'alar daftarini qo'shadi.",
     eDeleteBtn:"🗑 To'yni barcha ma'lumotlari bilan o'chirish",
     eDeleteNote:"Oilalar, mehmon javoblari, stol taqsimoti va sovg'alar o'chadi. Havolalar ochilmay qoladi. Ortga qaytarib bo'lmaydi.",
