@@ -1243,25 +1243,148 @@ async function zalPng(){
   x.fillText("To'y-Daftar", W/2, H-54);
 
 
-  const url=cv.toDataURL("image/png");
-  const file=`${t.zPngFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.png`;
-  const ov=document.createElement("div");
-  ov.className="pngov";
-  ov.innerHTML=`<div class="inner">
+  showPngOverlay(cv, `${t.zPngFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.png`, t.zPngHint);
+}
+
+/* Показ готовой картинки. В Telegram WebView программное скачивание срабатывает
+   не всегда, а долгое нажатие на картинку работает везде — поэтому картинку
+   сначала показываем, и только потом предлагаем сохранить. */
+function showPngOverlay(cv, file, hint){
+  const t = L();
+  const url = cv.toDataURL("image/png");
+  const ov = document.createElement("div");
+  ov.className = "pngov";
+  ov.innerHTML = `<div class="inner">
     <img src="${url}" alt="">
-    <div class="hint">${t.zPngHint}</div>
+    <div class="hint">${hint}</div>
     <button class="b" id="pngSave">${t.zPngSave}</button>
     <button class="b sec" id="pngClose">${t.zPngClose}</button>
   </div>`;
   document.body.appendChild(ov);
-  ov.querySelector("#pngClose").onclick=()=>ov.remove();
-  ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
-  ov.querySelector("#pngSave").onclick=()=>{
-    const a=document.createElement("a"); a.href=url; a.download=file; a.click();
+  ov.querySelector("#pngClose").onclick = () => ov.remove();
+  ov.onclick = e => { if(e.target === ov) ov.remove(); };
+  ov.querySelector("#pngSave").onclick = () => {
+    const a = document.createElement("a"); a.href = url; a.download = file; a.click();
   };
 }
 
 
+
+/* ── Печатное приглашение ────────────────────────────────────────────────────
+   Пожилая родня без телеграма из продукта просто выпадала: ссылку ей отправить
+   некуда. Одна картинка решает оба случая — её пересылают в WhatsApp и её же
+   печатают на принтере или в фотосалоне.
+
+   Рисуем палитрой и рамкой ТОЙ ЖЕ темы, что и веб-приглашение. Иначе бумажное
+   и цифровое читались бы как два разных тоя. */
+function themeVars(){
+  const t = toyTheme(S.ev.theme || "zar");
+  const v = t.vars;
+  return { t,
+    bg: v["--bg"], card: v["--card"], ink: v["--ink"], muted: v["--muted"],
+    accent: v["--accent"], accentInk: v["--accent-ink"] || v["--accent"], deep: v["--deep"],
+    line: v["--line"], frame: t.frame };
+}
+function printFrame(x, W, H, c){
+  x.strokeStyle = c.accent;
+  if(c.frame === "double"){
+    x.lineWidth = 3; x.strokeRect(46, 46, W-92, H-92);
+    x.lineWidth = 1; x.strokeRect(62, 62, W-124, H-124);
+  } else if(c.frame === "corner"){
+    x.lineWidth = 3; const L = 130, m = 52;
+    x.beginPath();
+    x.moveTo(m, m+L); x.lineTo(m, m); x.lineTo(m+L, m);
+    x.moveTo(W-m-L, H-m); x.lineTo(W-m, H-m); x.lineTo(W-m, H-m-L);
+    x.stroke();
+  } else if(c.frame === "arch"){
+    // Стрельчатая арка: два верхних угла скруглены сильно, нижние почти прямые.
+    const m = 50, r = Math.min((W-2*m)/2, 320);
+    x.lineWidth = 3; x.beginPath();
+    x.moveTo(m, H-m); x.lineTo(m, m+r);
+    x.quadraticCurveTo(m, m, m+r, m);
+    x.lineTo(W-m-r, m);
+    x.quadraticCurveTo(W-m, m, W-m, m+r);
+    x.lineTo(W-m, H-m); x.closePath(); x.stroke();
+  } else if(c.frame === "band"){
+    x.lineWidth = 2;
+    [64, H-64].forEach(y => {
+      x.beginPath(); x.moveTo(50, y); x.lineTo(W-50, y); x.stroke();
+      // Розетки палака вдоль полосы — тот же мотив, что в теме suzani.
+      for(let px = 96; px < W-80; px += 78){
+        x.beginPath(); x.arc(px, y, 9, 0, 6.284); x.stroke();
+        x.beginPath(); x.arc(px, y, 3.2, 0, 6.284); x.fill();
+      }
+    });
+  }
+}
+async function invitePng(){
+  const t = L(), c = themeVars();
+  // Язык картинки — язык ПРИГЛАШЕНИЯ, а не кабинета: её увидит гость.
+  const il = S.ev.lang || "uz_latin";
+  const U = { uz_latin:{pre:"TAKLIFNOMA", when:"QACHON", where:"QAYERDA", ans:"Javobingizni shu havola orqali bildiring"},
+              uz_cyrillic:{pre:"ТАКЛИФНОМА", when:"ҚАЧОН", where:"ҚАЕРДА", ans:"Жавобингизни шу ҳавола орқали билдиринг"},
+              ru:{pre:"ПРИГЛАШЕНИЕ", when:"КОГДА", where:"ГДЕ", ans:"Ответить можно по этой ссылке"} }[il];
+  try { await document.fonts.ready; } catch(e) {}
+
+  // A5 при 150 dpi: столько же пикселей, сколько нужно для печати, и не больше —
+  // 300 dpi даёт 8 мегапикселей, которые Telegram всё равно пережмёт.
+  const W = 874, H = 1240;
+  const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+  const x = cv.getContext("2d");
+  const DISP = c.t.vars["--display"].replace(/^"|"$/g, "");
+  const SANS = "Manrope, system-ui, sans-serif";
+
+  x.fillStyle = c.bg; x.fillRect(0, 0, W, H);
+  printFrame(x, W, H, c);
+
+  x.textAlign = "center";
+  x.fillStyle = c.accentInk; x.font = `600 20px ${SANS}`;
+  x.save(); x.letterSpacing = "7px"; x.fillText(U.pre, W/2, 178); x.restore();
+
+  // Имена — единственное, ради чего приглашение берут в руки.
+  const names = (S.ev.couple || "").split(/&|\bи\b|\bva\b/).map(s => s.trim()).filter(Boolean);
+  x.fillStyle = c.ink;
+  let y = 300;
+  names.forEach((n, i) => {
+    if(i){
+      x.fillStyle = c.accentInk; x.font = `italic 42px ${DISP}`;
+      x.fillText("&", W/2, y - 6); y += 62;
+      x.fillStyle = c.ink;
+    }
+    fitFont(x, n, W - 200, DISP, 92, 40);
+    x.fillText(n, W/2, y); y += 96;
+  });
+
+  // Обращение
+  y += 14;
+  x.fillStyle = c.ink; x.font = `400 25px ${DISP}`;
+  wrapText(x, S.ev.greeting || "", W - 230).slice(0, 6).forEach(l => { x.fillText(l, W/2, y); y += 38; });
+
+  // Детали — теми же подписями, что на веб-приглашении
+  const dstr = S.ev.event_date
+    ? new Date(S.ev.event_date).toLocaleDateString(il === "ru" ? "ru-RU" : "uz-UZ",
+        { day:"numeric", month:"long", year:"numeric" }) : "";
+  y = Math.max(y + 46, H - 430);
+  const line = (label, val, sub) => {
+    if(!val) return;
+    x.fillStyle = c.muted; x.font = `600 14px ${SANS}`;
+    x.save(); x.letterSpacing = "3px"; x.fillText(label, W/2, y); x.restore(); y += 34;
+    // Цифры всегда сансом: у Cormorant и Prata старостильные знаки, и «21»
+    // на бумаге читается как «2I» — ровно там, где ошибиться нельзя.
+    x.fillStyle = c.ink; x.font = `500 27px ${/\d/.test(val) ? SANS : DISP}`;
+    x.fillText(val, W/2, y); y += sub ? 32 : 46;
+    if(sub){ x.fillStyle = c.muted; x.font = `400 20px ${SANS}`; x.fillText(sub, W/2, y); y += 44; }
+  };
+  line(U.when, [dstr, S.ev.event_time].filter(Boolean).join(" · "));
+  line(U.where, S.ev.venue_name || "", S.ev.venue_addr || "");
+
+  x.fillStyle = c.muted; x.font = `400 17px ${SANS}`;
+  x.fillText(U.ans, W/2, H - 108);
+  x.fillStyle = c.accentInk; x.font = `600 18px ${SANS}`;
+  x.fillText(S.inviteBase.replace(/^https?:\/\//, ""), W/2, H - 78);
+
+  showPngOverlay(cv, `taklifnoma-${(S.ev.couple||"toy").replace(/\s+/g,"_")}.png`, t.pInvHint);
+}
 /* ---------- подготовка к тою ---------- */
 function tabPrep(){
   const store={get(k){try{return localStorage.getItem(k)==="1"}catch(e){return false}},
@@ -1425,6 +1548,9 @@ function tabEvent(){
     </div>
     ${paid?"":`<div class="note">${t.eThemeLocked}</div>`}
     <button class="b sec" id="preview">${t.ePreviewBtn}</button>
+    ${paid ? `<button class="b sec" id="printInv">${t.pInvBtn}</button>
+              <div class="note">${t.pInvNote}</div>`
+           : `<div class="note" style="margin-top:10px">${t.pInvLocked}</div>`}
     <div id="themeLock" hidden style="margin-top:10px">
       <div class="note" style="margin-bottom:8px">${t.eThemeBuy}</div>
       <button class="b gold" id="buyTheme">${t.payPremium}</button></div></div>
@@ -1468,6 +1594,7 @@ function tabEvent(){
   });
   $("#buyTheme") && ($("#buyTheme").onclick=()=>pay("premium"));
   $("#coBuy") && ($("#coBuy").onclick=()=>pay("premium"));
+  $("#printInv") && ($("#printInv").onclick=()=>{ haptic("medium"); invitePng(); });
   coRefresh();
   $("#coInvite") && ($("#coInvite").onclick=async()=>{
     const r = await call("co_invite", { event_id: e.id });
