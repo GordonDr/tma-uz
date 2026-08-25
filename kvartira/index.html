@@ -245,10 +245,22 @@ function track(event, meta){ if(!tg?.initData) return;
   fetch(CONFIG.FUNCTIONS_URL+"/track",{method:"POST",headers:{"content-type":"application/json"},
     body:JSON.stringify({initData:tg.initData,event,meta})}).catch(()=>{}); }
 
+/* Названия инструментов — короткий словарь, а не поле в каждом пункте: разных
+   значений всего четырнадцать, и держать перевод в 58 местах значило бы
+   гарантированно их рассинхронизировать. */
+const TOOL_UZ = {
+  "фонарик":"fonar", "камера":"kamera", "салфетка":"salfetka", "рулетка":"ruletka",
+  "лист бумаги":"bir varaq qog'oz", "уровень":"nivelir", "уровень/шарик":"nivelir yoki sharcha",
+  "лампочка":"lampochka", "зарядка":"quvvatlagich", "зажигалка":"zajigalka",
+  "бутылка воды":"bir shisha suv", "договор":"shartnoma",
+  "папка документов":"hujjatlar papkasi", "набор":"to'plam",
+};
+const toolName = (v) => (lang === "uz" && TOOL_UZ[v]) ? TOOL_UZ[v] : v;
+
 // «сумка»: собираем уникальные инструменты из данных
 function bagList(){
   const set=new Set();
-  CHECKLIST.forEach(s=>s.items.forEach(i=>{ if(i.tool && i.tool!=="набор" && i.tool!=="папка документов") set.add(i.tool); }));
+  CHECKLIST.forEach(s=>s.items.forEach(i=>{ if(i.tool && i.tool!=="набор" && i.tool!=="папка документов") set.add(toolName(i.tool)); }));
   return [...set];
 }
 function renderStatic(){
@@ -288,9 +300,9 @@ function renderList(){
             <div class="meta">
               <button class="flag${bad.has(it.id)?" on":""}">${bad.has(it.id)?"⚠ "+t.flagOn:"⚠ "+t.flag}</button>
               ${it.how?`<button class="hint">💡 ${t.how}</button>`:""}
-              ${it.tool?`<span class="chip">🧰 ${it.tool}</span>`:""}
+              ${it.tool?`<span class="chip">🧰 ${toolName(it.tool)}</span>`:""}
             </div>
-            ${it.how?`<div class="how">${it.how}</div>`:""}
+            ${it.how?`<div class="how">${lang==="uz"&&it.how_uz?it.how_uz:it.how}</div>`:""}
           </div>
         </div>`).join("")}</div>`;
     el.querySelector(".head").onclick=()=>{ openSec = el.classList.contains("open")?-1:si; haptic("light"); renderList(); };
