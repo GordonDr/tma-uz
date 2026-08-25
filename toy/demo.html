@@ -125,6 +125,8 @@ footer a{color:var(--muted)}
 
       <label for="theme">Оформление</label>
       <div class="chips" id="theme"></div>
+      <p class="hint" style="margin:10px 0 0">Четыре оформления бесплатны. Шесть с замком входят в Premium —
+        49 000 сум за той, разово. Посмотреть можно любое, прямо сейчас.</p>
     </div>
 
     <div class="panel">
@@ -169,6 +171,7 @@ footer a{color:var(--muted)}
 
 <script src="config.js"></script>
 <script src="invite-texts.js"></script>
+<script src="themes.js"></script>
 <script>
 const $ = s => document.querySelector(s);
 const BOT = window.TOY_BOT || "toy_daftar_bot";
@@ -178,14 +181,10 @@ const D_LANGS = [
   { id:"uz_cyrillic", label:"Кирилл" },
   { id:"ru",          label:"Русский" },
 ];
-// Подписи и кружки берём такие же, как в самом приглашении: демо не должно
-// показывать оформление, которого потом не окажется в продукте.
-const D_THEMES = [
-  { id:"zar",   label:"Zar · золото",       c:["#B08D3F","#FBF7F2","#7D1F38"] },
-  { id:"atlas", label:"Atlas · национальный", c:["#C25E2A","#FDF6EC","#1F4E5F"] },
-  { id:"oq",    label:"Oq · минимал",       c:["#141414","#FFFFFF","#8A8A8A"] },
-  { id:"kecha", label:"Kecha · вечер",      c:["#D9B45B","#12141C","#9A93A8"] },
-];
+// Список — из themes.js, общего с приглашением и кабинетом. Пока он лежал здесь
+// копией, демо показывало четыре оформления из десяти.
+const D_THEMES = toyThemeList().map(x => ({
+  id:x.id, label:x.label.ru + (x.tier === "premium" ? " 🔒" : ""), c:x.c, tier:x.tier }));
 
 const D = { occ: D_OCC[0]?.id || "nikoh_toy", lang:"uz_latin", theme:"zar", touchedTheme:false };
 

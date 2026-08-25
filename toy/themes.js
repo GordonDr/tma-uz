@@ -92,8 +92,8 @@ const TOY_THEMES = {
     sub:{ uz_latin:"klassik, iliq", uz_cyrillic:"классик, илиқ", ru:"классика, тёплое" },
     c:["#FBF7F2","#B08D3F","#7D1F38"],
     vars:{
-      "--bg":"#FBF7F2","--card":"#FFFFFF","--ink":"#2A211C","--muted":"#7B6A5D",
-      "--accent":"#B08D3F","--deep":"#7D1F38","--line":"#E6DBCD",
+      "--bg":"#FBF7F2","--card":"#FFFFFF","--ink":"#2A211C","--muted":"#6F5F52",
+      "--accent":"#B08D3F","--accent-ink":"#856521","--deep":"#7D1F38","--line":"#E6DBCD",
       "--shadow":"0 10px 40px rgba(90,60,25,.07)","--radius":"20px",
       "--display":'"Cormorant Garamond",Georgia,serif',"--body":"Manrope,system-ui,sans-serif",
       "--name-weight":"500","--name-tracking":"0","--name-size":"1"}},
@@ -104,8 +104,8 @@ const TOY_THEMES = {
     sub:{ uz_latin:"milliy, iliq", uz_cyrillic:"миллий, илиқ", ru:"национальное, тёплое" },
     c:["#FDF6EC","#C25E2A","#1F4E5F"],
     vars:{
-      "--bg":"#FDF6EC","--card":"#FFFDF9","--ink":"#3A2318","--muted":"#8A6A52",
-      "--accent":"#C25E2A","--deep":"#1F4E5F","--line":"#EBD9C2",
+      "--bg":"#FDF6EC","--card":"#FFFDF9","--ink":"#3A2318","--muted":"#7A5C46",
+      "--accent":"#C25E2A","--accent-ink":"#A4481B","--deep":"#1F4E5F","--line":"#EBD9C2",
       "--shadow":"0 10px 40px rgba(120,70,30,.09)","--radius":"14px",
       "--display":'"Cormorant Garamond",Georgia,serif',"--body":"Manrope,system-ui,sans-serif",
       "--name-weight":"600","--name-tracking":"-.01em","--name-size":"1"}},
@@ -116,8 +116,8 @@ const TOY_THEMES = {
     sub:{ uz_latin:"minimal, yorug'", uz_cyrillic:"минимал, ёруғ", ru:"минимал, светлое" },
     c:["#FFFFFF","#141414","#8A8A8A"],
     vars:{
-      "--bg":"#FFFFFF","--card":"#FFFFFF","--ink":"#141414","--muted":"#8A8A8A",
-      "--accent":"#141414","--deep":"#141414","--line":"#E8E8E8",
+      "--bg":"#FFFFFF","--card":"#FFFFFF","--ink":"#141414","--muted":"#6E6E6E",
+      "--accent":"#141414","--accent-ink":"#141414","--deep":"#141414","--line":"#E8E8E8",
       "--shadow":"none","--radius":"4px",
       "--display":'"Tenor Sans",system-ui,sans-serif',"--body":'"Golos Text",system-ui,sans-serif',
       "--name-weight":"400","--name-tracking":".14em","--name-size":".72"}},
@@ -129,7 +129,7 @@ const TOY_THEMES = {
     c:["#12141C","#D9B45B","#F2EDE4"],
     vars:{
       "--bg":"#12141C","--card":"#1A1D28","--ink":"#F2EDE4","--muted":"#9A93A8",
-      "--accent":"#D9B45B","--deep":"#D9B45B","--line":"#2C3040",
+      "--accent":"#D9B45B","--accent-ink":"#D9B45B","--deep":"#D9B45B","--line":"#2C3040",
       "--shadow":"0 14px 46px rgba(0,0,0,.45)","--radius":"20px",
       "--display":'"Cormorant Garamond",Georgia,serif',"--body":"Manrope,system-ui,sans-serif",
       "--name-weight":"500","--name-tracking":"0","--name-size":"1"}},
@@ -142,7 +142,7 @@ const TOY_THEMES = {
     c:["#5E1220","#E8C77A","#F6E9D8"],
     vars:{
       "--bg":"#5E1220","--card":"#6B1626","--ink":"#F6E9D8","--muted":"#D2A08C",
-      "--accent":"#E8C77A","--deep":"#E8C77A","--line":"#7E2233",
+      "--accent":"#E8C77A","--accent-ink":"#E8C77A","--deep":"#E8C77A","--line":"#7E2233",
       "--shadow":"0 16px 50px rgba(0,0,0,.32)","--radius":"6px",
       "--display":"Forum,Georgia,serif","--body":'"Golos Text",system-ui,sans-serif',
       "--name-weight":"400","--name-tracking":".1em","--name-size":".8"}},
@@ -154,7 +154,7 @@ const TOY_THEMES = {
     c:["#0F3129","#D4B872","#EFE7D6"],
     vars:{
       "--bg":"#0F3129","--card":"#143A31","--ink":"#EFE7D6","--muted":"#9CB5A8",
-      "--accent":"#D4B872","--deep":"#D4B872","--line":"#1F4C41",
+      "--accent":"#D4B872","--accent-ink":"#D4B872","--deep":"#D4B872","--line":"#1F4C41",
       "--shadow":"0 16px 50px rgba(0,0,0,.35)","--radius":"3px",
       "--display":'"Playfair Display",Georgia,serif',"--body":"Manrope,system-ui,sans-serif",
       "--name-weight":"500","--name-tracking":".01em","--name-size":"1"}},
@@ -165,8 +165,8 @@ const TOY_THEMES = {
     sub:{ uz_latin:"salqin, vazmin", uz_cyrillic:"салқин, вазмин", ru:"прохладное, сдержанное" },
     c:["#F2F3F5","#7C8AA0","#2B3240"],
     vars:{
-      "--bg":"#F2F3F5","--card":"#FFFFFF","--ink":"#2B3240","--muted":"#7C8AA0",
-      "--accent":"#7C8AA0","--deep":"#2B3240","--line":"#DEE2E8",
+      "--bg":"#F2F3F5","--card":"#FFFFFF","--ink":"#2B3240","--muted":"#5D6A7E",
+      "--accent":"#7C8AA0","--accent-ink":"#5D6A7E","--deep":"#2B3240","--line":"#DEE2E8",
       "--shadow":"0 12px 44px rgba(43,50,64,.10)","--radius":"2px",
       "--display":"Prata,Georgia,serif","--body":'"Golos Text",system-ui,sans-serif',
       "--name-weight":"400","--name-tracking":".02em","--name-size":".94"}},
@@ -177,8 +177,8 @@ const TOY_THEMES = {
     sub:{ uz_latin:"iliq pushti, yumshoq", uz_cyrillic:"илиқ пушти, юмшоқ", ru:"закатное, мягкое" },
     c:["#FBEDE4","#C0674F","#6B3A46"],
     vars:{
-      "--bg":"#FBEDE4","--card":"#FFF7F1","--ink":"#4A2A2E","--muted":"#9C6F65",
-      "--accent":"#C0674F","--deep":"#6B3A46","--line":"#F0D8CB",
+      "--bg":"#FBEDE4","--card":"#FFF7F1","--ink":"#4A2A2E","--muted":"#7D5349",
+      "--accent":"#C0674F","--accent-ink":"#A44A32","--deep":"#6B3A46","--line":"#F0D8CB",
       "--shadow":"0 12px 44px rgba(150,80,60,.10)","--radius":"22px",
       "--display":"Spectral,Georgia,serif","--body":"Manrope,system-ui,sans-serif",
       "--name-weight":"400","--name-tracking":"0","--name-size":"1"}},
@@ -189,8 +189,8 @@ const TOY_THEMES = {
     sub:{ uz_latin:"naqshli, an'anaviy", uz_cyrillic:"нақшли, анъанавий", ru:"с узором, традиционное" },
     c:["#FAF3E4","#A8232B","#1D4E6B"],
     vars:{
-      "--bg":"#FAF3E4","--card":"#FFFCF4","--ink":"#2C1E18","--muted":"#8A6A55",
-      "--accent":"#A8232B","--deep":"#1D4E6B","--line":"#E9D9BC",
+      "--bg":"#FAF3E4","--card":"#FFFCF4","--ink":"#2C1E18","--muted":"#7A5B47",
+      "--accent":"#A8232B","--accent-ink":"#8E1C24","--deep":"#1D4E6B","--line":"#E9D9BC",
       "--shadow":"0 12px 44px rgba(120,70,30,.10)","--radius":"8px",
       "--display":"Forum,Georgia,serif","--body":"Manrope,system-ui,sans-serif",
       "--name-weight":"400","--name-tracking":".03em","--name-size":".92"}},
@@ -202,7 +202,7 @@ const TOY_THEMES = {
     c:["#111111","#E8FF5A","#F5F5F0"],
     vars:{
       "--bg":"#111111","--card":"#171717","--ink":"#F5F5F0","--muted":"#8E8E85",
-      "--accent":"#E8FF5A","--deep":"#E8FF5A","--line":"#2A2A26",
+      "--accent":"#E8FF5A","--accent-ink":"#E8FF5A","--deep":"#E8FF5A","--line":"#2A2A26",
       "--shadow":"none","--radius":"0px",
       "--display":"Unbounded,system-ui,sans-serif","--body":'"Golos Text",system-ui,sans-serif',
       "--name-weight":"300","--name-tracking":"-.02em","--name-size":".66"}},
