@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>To'y-Daftar — соберите приглашение</title>
+<meta name="description" content="Соберите приглашение на той за минуту: повод, имена, дата, зал. Гости отвечают по ссылке, вы видите точное число человек.">
+<meta property="og:title" content="Соберите приглашение на той">
+<meta property="og:description" content="Повод, имена, дата — и приглашение готово. Гости отвечают по ссылке, вы видите точное число.">
+<meta property="og:image" content="og/toy-og.png">
+<meta name="theme-color" content="#F6F1E8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Полная светлая палитра — в голом :root. Тёмную задаём только переопределением
+   токенов, иначе при системной теме страница берёт фон хоста и текст пропадает. */
+:root{
+  --bg:#F6F1E8; --panel:#FFFFFF; --ink:#2A211C; --ink2:#5A4B41; --muted:#8B7A6C;
+  --line:#E4D9C9; --line2:#F0E8DC; --gold:#B08D3F; --gold-bg:#FBF3E2; --deep:#7D1F38;
+  --shadow:0 18px 50px rgba(90,60,25,.10);
+  --display:"Cormorant Garamond",Georgia,serif;
+  --body:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#151109; --panel:#1F1912; --ink:#F1E8DB; --ink2:#CDBCA8; --muted:#9A8875;
+    --line:#33291D; --line2:#282015; --gold:#D5B366; --gold-bg:#2A2213; --deep:#D98AA0;
+    --shadow:0 18px 50px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151109; --panel:#1F1912; --ink:#F1E8DB; --ink2:#CDBCA8; --muted:#9A8875;
+  --line:#33291D; --line2:#282015; --gold:#D5B366; --gold-bg:#2A2213; --deep:#D98AA0;
+  --shadow:0 18px 50px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);
+  font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:26px 18px 60px}
+
+header{text-align:center;margin-bottom:26px}
+.orn{color:var(--gold);font-size:19px;letter-spacing:.5em;padding-left:.5em}
+h1{font-family:var(--display);font-size:clamp(30px,6vw,46px);font-weight:600;
+  margin:6px 0 8px;line-height:1.1;text-wrap:balance}
+h1 em{font-style:italic;color:var(--gold)}
+.lede{color:var(--ink2);max-width:46ch;margin:0 auto;text-wrap:balance}
+
+.cols{display:grid;gap:22px}
+@media(min-width:900px){
+  .cols{grid-template-columns:minmax(0,1fr) 372px;align-items:start;gap:34px}
+  .stage{position:sticky;top:26px}
+}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:20px;box-shadow:var(--shadow)}
+.panel + .panel{margin-top:16px}
+.panel h2{font-family:var(--display);font-size:22px;font-weight:600;margin:0 0 3px}
+.panel .hint{color:var(--muted);font-size:13px;margin:0 0 16px}
+
+label{display:block;font-size:11px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);margin:14px 0 5px}
+input{width:100%;padding:11px 13px;border:1px solid var(--line);border-radius:12px;
+  background:var(--bg);color:var(--ink);font:inherit;font-size:15px}
+input:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-bg)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--ink2);
+  padding:8px 13px;border-radius:999px;font:inherit;font-size:13.5px;cursor:pointer;
+  transition:border-color .12s,background .12s,color .12s}
+.chip:hover{border-color:var(--gold)}
+.chip[aria-pressed="true"]{border-color:var(--deep);background:var(--deep);color:#fff;font-weight:600}
+.chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.sw{display:inline-flex;gap:3px;margin-right:8px;vertical-align:-2px}
+.sw i{width:11px;height:11px;border-radius:50%;display:block;border:1px solid rgba(0,0,0,.14)}
+
+/* Рамка телефона: приглашение — это то, что человек откроет на телефоне,
+   и показывать его надо в том же виде, а не растянутым на экран. */
+.stage .cap{text-align:center;font-size:12.5px;color:var(--muted);margin-bottom:10px}
+.phone{width:100%;max-width:372px;margin:0 auto;aspect-ratio:9/17.5;
+  border:1px solid var(--line);border-radius:30px;overflow:hidden;
+  background:var(--panel);box-shadow:var(--shadow)}
+.phone iframe{width:100%;height:100%;border:0;display:block}
+
+.cta{display:block;text-align:center;margin-top:16px;padding:15px;border-radius:14px;
+  background:var(--deep);color:#fff;font-weight:700;text-decoration:none;font-size:15.5px}
+.cta:active{opacity:.9}
+.cta-note{text-align:center;color:var(--muted);font-size:12.5px;margin-top:9px}
+
+.facts{margin-top:26px}
+.facts ul{list-style:none;padding:0;margin:0;display:grid;gap:12px}
+@media(min-width:640px){.facts ul{grid-template-columns:1fr 1fr}}
+.facts li{border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:var(--panel)}
+.facts b{display:block;font-family:var(--display);font-size:19px;font-weight:600;margin-bottom:2px}
+.facts span{color:var(--ink2);font-size:13.5px}
+
+footer{margin-top:34px;text-align:center;color:var(--muted);font-size:12.5px}
+footer a{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="orn">✦ ✦ ✦</div>
+  <h1>Соберите <em>приглашение</em> прямо здесь</h1>
+  <p class="lede">Меняйте повод, имена и дату — приглашение справа перерисовывается сразу.
+    Ровно это увидят ваши гости, когда откроют ссылку.</p>
+</header>
+
+<div class="cols">
+  <div>
+    <div class="panel">
+      <h2>Повод</h2>
+      <p class="hint">От повода зависят оформление и текст — они разные для свадьбы, бешик-тоя и юбилея.</p>
+      <div class="chips" id="occ"></div>
+
+      <label for="lang">Язык приглашения</label>
+      <div class="chips" id="lang"></div>
+
+      <label for="theme">Оформление</label>
+      <div class="chips" id="theme"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Ваш той</h2>
+      <p class="hint">Ничего не сохраняется и никуда не уходит — это просто предпросмотр.</p>
+      <label for="couple">Имена</label>
+      <input id="couple" value="Aziz &amp; Nilufar" autocomplete="off">
+      <div class="two">
+        <div><label for="date">Дата</label><input id="date" type="date" value="2026-10-18"></div>
+        <div><label for="time">Время</label><input id="time" value="18:00" autocomplete="off"></div>
+      </div>
+      <label for="venue">Тойхона</label>
+      <input id="venue" value="To'yxona «Zarafshon»" autocomplete="off">
+      <label for="addr">Адрес</label>
+      <input id="addr" value="Toshkent, Chilonzor" autocomplete="off">
+    </div>
+
+    <div class="facts">
+      <ul>
+        <li><b>Считает по семьям</b><span>Гость отвечает за всю семью: «придём вчетвером», «придут трое из четырёх».</span></li>
+        <li><b>Число для тойхоны</b><span>Сколько человек и сколько столов — одной картинкой, её пересылают администратору.</span></li>
+        <li><b>Приглашения бесплатны</b><span>Семей сколько угодно. Платят только за счёт для зала и рассадку — 49 000 сум за той.</span></li>
+        <li><b>Три алфавита</b><span>Lotin, кирилл и русский — каждой семье на том, на котором ей привычнее читать.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="cap">Так это увидит гость</div>
+    <div class="phone"><iframe id="pv" title="Предпросмотр приглашения" loading="lazy"></iframe></div>
+    <a class="cta" id="cta" href="#">Собрать свой той в Telegram</a>
+    <div class="cta-note">Открывается в Telegram. Регистрация не нужна.</div>
+  </div>
+</div>
+
+<footer>
+  To'y-Daftar · Тошкент ·
+  <a href="oferta.html" target="_blank" rel="noopener">Условия и обработка данных</a>
+</footer>
+
+</div>
+
+<script src="config.js"></script>
+<script src="invite-texts.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+const BOT = window.TOY_BOT || "toy_daftar_bot";
+const OCC = window.TOY_OCCASIONS || [];
+const LANGS = [
+  { id:"uz_latin",    label:"Lotin" },
+  { id:"uz_cyrillic", label:"Кирилл" },
+  { id:"ru",          label:"Русский" },
+];
+// Подписи и кружки берём такие же, как в самом приглашении: демо не должно
+// показывать оформление, которого потом не окажется в продукте.
+const THEMES = [
+  { id:"zar",   label:"Zar · золото",       c:["#B08D3F","#FBF7F2","#7D1F38"] },
+  { id:"atlas", label:"Atlas · национальный", c:["#C25E2A","#FDF6EC","#1F4E5F"] },
+  { id:"oq",    label:"Oq · минимал",       c:["#141414","#FFFFFF","#8A8A8A"] },
+  { id:"kecha", label:"Kecha · вечер",      c:["#D9B45B","#12141C","#9A93A8"] },
+];
+
+const S = { occ: OCC[0]?.id || "nikoh_toy", lang:"uz_latin", theme:"zar", touchedTheme:false };
+
+function chips(host, items, cur, onPick, swatch){
+  host.innerHTML = items.map(x =>
+    `<button type="button" class="chip" data-id="${x.id}" aria-pressed="${x.id===cur}">${
+      swatch ? `<span class="sw">${x.c.map(c=>`<i style="background:${c}"></i>`).join("")}</span>` : ""
+    }${x.label}</button>`).join("");
+  host.querySelectorAll(".chip").forEach(b => b.onclick = () => onPick(b.dataset.id));
+}
+
+function occLabel(o){
+  return o.label[S.lang] || o.label.uz_latin;
+}
+
+function paint(){
+  chips($("#occ"), OCC.map(o => ({ id:o.id, label:occLabel(o) })), S.occ, id => {
+    S.occ = id;
+    // Пока человек сам не выбрал оформление, ведём его за поводом: у бешик-тоя
+    // и юбилея разный тон, и золото свадьбы на юбилее смотрится чужим.
+    if(!S.touchedTheme){ const o = OCC.find(x => x.id === id); if(o) S.theme = o.theme; }
+    paint(); preview();
+  });
+  chips($("#lang"), LANGS, S.lang, id => { S.lang = id; paint(); preview(); });
+  chips($("#theme"), THEMES, S.theme, id => { S.theme = id; S.touchedTheme = true; paint(); preview(); }, true);
+}
+
+function preview(){
+  const o = window.toyOccasion ? toyOccasion(S.occ) : null;
+  const q = new URLSearchParams({ theme:S.theme, ilang:S.lang });
+  const put = (k, v) => { const s = String(v || "").trim(); if(s) q.set(k, s.slice(0, 120)); };
+  put("couple", $("#couple").value);
+  put("date",   $("#date").value);
+  put("time",   $("#time").value);
+  put("venue",  $("#venue").value);
+  put("addr",   $("#addr").value);
+  if(o) put("greet", o.greeting[S.lang]);
+  const url = `invite.html?${q}`;
+  // Через location.replace, а не src: иначе каждое нажатие клавиши добавляет
+  // запись в историю, и «назад» уводит человека по своим же правкам.
+  const fr = $("#pv");
+  fr.contentWindow ? fr.contentWindow.location.replace(url) : (fr.src = url);
+  $("#cta").href = `https://t.me/${BOT}?start=demo_${S.occ}`;
+}
+
+let timer = null;
+["couple","date","time","venue","addr"].forEach(id => {
+  $("#" + id).addEventListener("input", () => {
+    clearTimeout(timer); timer = setTimeout(preview, 260);
+  });
+});
+
+paint(); preview();
+</script>
+</body>
+</html>
