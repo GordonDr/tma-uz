@@ -7,11 +7,13 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap">
+<script src="themes.js"></script>
+<!-- Набор шрифтов — из themes.js: печатное приглашение рисуется шрифтом выбранного
+     оформления, а их десять. Без общего набора canvas подставлял системный. -->
+<script>document.write('<link rel="stylesheet" href="' + window.TOY_FONTS + '">');</script>
 <script src="config.js"></script>
 <script src="i18n-organizer.js"></script>
 <script src="invite-texts.js"></script>
-<script src="themes.js"></script>
 <style>
 :root{
   --bg:#FBF7F2; --card:#FFFFFF; --ink:#2A211C; --ink2:#5C4C42; --muted:#8B7A6C;
@@ -1324,15 +1326,25 @@ async function invitePng(){
   const U = { uz_latin:{pre:"TAKLIFNOMA", when:"QACHON", where:"QAYERDA", ans:"Javobingizni shu havola orqali bildiring"},
               uz_cyrillic:{pre:"ТАКЛИФНОМА", when:"ҚАЧОН", where:"ҚАЕРДА", ans:"Жавобингизни шу ҳавола орқали билдиринг"},
               ru:{pre:"ПРИГЛАШЕНИЕ", when:"КОГДА", where:"ГДЕ", ans:"Ответить можно по этой ссылке"} }[il];
-  try { await document.fonts.ready; } catch(e) {}
+  // Кавычки внутри имени НЕ трогаем: значение вида "Cormorant Garamond",Georgia,serif
+  // и так валидное сокращение font. Раньше я срезал крайние кавычки — оставалась
+  // непарная в середине, canvas молча отбрасывал всё назначение шрифта, и половина
+  // оформлений печаталась именами в 10 пикселей.
+  const DISP = c.t.vars["--display"];
+  const SANS = "Manrope, system-ui, sans-serif";
+  // Шрифт темы на этой странице нигде не применён, значит браузер его и не грузил.
+  // document.fonts.ready сам по себе не поможет: он ждёт начатые загрузки, а не
+  // те, которых никто не просил. Просим явно — иначе canvas рисует подстановкой.
+  try {
+    await Promise.all([document.fonts.load(`600 92px ${DISP}`), document.fonts.load(`400 25px ${DISP}`)]);
+    await document.fonts.ready;
+  } catch(e) {}
 
   // A5 при 150 dpi: столько же пикселей, сколько нужно для печати, и не больше —
   // 300 dpi даёт 8 мегапикселей, которые Telegram всё равно пережмёт.
   const W = 874, H = 1240;
   const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
   const x = cv.getContext("2d");
-  const DISP = c.t.vars["--display"].replace(/^"|"$/g, "");
-  const SANS = "Manrope, system-ui, sans-serif";
 
   x.fillStyle = c.bg; x.fillRect(0, 0, W, H);
   printFrame(x, W, H, c);
