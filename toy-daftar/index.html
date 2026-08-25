@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Электронные приглашения на той и подсчёт гостей — Ташкент | To'y-Daftar</title>
+<meta name="description" content="Приглашения на той по ссылке: гости отвечают за всю семью сразу, вы видите точное число человек для тойханы. Десять оформлений, рассадка по столам. Приглашения бесплатно.">
+<link rel="canonical" href="https://gordondr.github.io/tma-uz/toy-daftar/">
+<link rel="alternate" hreflang="ru" href="https://gordondr.github.io/tma-uz/toy-daftar/">
+<link rel="alternate" hreflang="uz" href="https://gordondr.github.io/tma-uz/toy-daftar/uz.html">
+<link rel="alternate" hreflang="x-default" href="https://gordondr.github.io/tma-uz/toy-daftar/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Приглашения на той и точное число гостей для тойханы">
+<meta property="og:description" content="Гости отвечают за всю семью одним касанием. Вы видите, за сколько мест выставит счёт тойхона.">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/toy-daftar/">
+<meta name="theme-color" content="#FBF7F2">
+<link rel="icon" href="../brand/logo-toy.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+/* Визуальный язык взят у самого продукта: гранат и золото приглашения, шрифт
+   Forum — тот же, что в оформлениях «Anor» и «Suzani». Сайт продаёт внешний вид
+   приглашений, поэтому выглядеть он обязан как они, а не как обычный лендинг. */
+:root{
+  --bg:#FBF7F2; --card:#FFFFFF; --ink:#2A211C; --ink2:#4E4038; --muted:#6F5F52;
+  --line:#E6DBCD; --line2:#F2EAE0;
+  --gold:#B08D3F; --gold-ink:#856521; --gold-bg:#FBF3E2;
+  --deep:#7D1F38; --deep-ink:#7D1F38; --deep-bg:#FAEDF0;
+  --display:Forum,Georgia,serif; --body:Manrope,system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#17130F; --card:#211A15; --ink:#F0E7DC; --ink2:#CBBBA9; --muted:#9C8875;
+    --line:#33291F; --line2:#282018;
+    --gold:#D5B366; --gold-ink:#D5B366; --gold-bg:#2A2213;
+    --deep:#D98AA0; --deep-ink:#D98AA0; --deep-bg:#2E1B20;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#17130F; --card:#211A15; --ink:#F0E7DC; --ink2:#CBBBA9; --muted:#9C8875;
+  --line:#33291F; --line2:#282018;
+  --gold:#D5B366; --gold-ink:#D5B366; --gold-bg:#2A2213;
+  --deep:#D98AA0; --deep-ink:#D98AA0; --deep-bg:#2E1B20;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+.col{max-width:640px}
+.mid{max-width:640px;margin:0 auto;text-align:center}
+h1,h2,h3{font-family:var(--display);font-weight:400;line-height:1.16;text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,6.6vw,60px)}
+h2{font-size:clamp(26px,4vw,38px);margin-bottom:14px}
+h3{font-size:20px;margin-bottom:6px}
+p{margin:0 0 16px}
+a{color:var(--gold-ink)}
+section{padding:60px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0}
+
+header{padding:24px 0 0;display:flex;align-items:center;gap:11px}
+header img{width:36px;height:36px;border-radius:9px;display:block}
+header b{font:600 16px var(--body)}
+header .sp{flex:1}
+header a{font-size:14px;text-decoration:none}
+
+.hero{text-align:center;padding-top:52px}
+.orn{display:block;margin:0 auto 20px;width:120px;height:28px;color:var(--gold)}
+.eyebrow{font:600 11px var(--body);letter-spacing:.28em;text-transform:uppercase;color:var(--gold-ink);margin-bottom:18px}
+.lead{font-size:19px;line-height:1.55;color:var(--ink2);max-width:33em;margin:18px auto 26px}
+.cta{display:inline-block;background:var(--deep);color:#fff;text-decoration:none;
+  font:700 16px var(--body);padding:16px 30px;border-radius:14px}
+.cta.sec{background:transparent;color:var(--ink);border:1px solid var(--line);margin-left:8px}
+.after{color:var(--muted);font-size:13.5px;margin-top:14px}
+
+/* Галерея оформлений — живые страницы приглашений в рамках телефонов.
+   Скриншоты врут: они устаревают в тот день, когда меняется вёрстка. */
+.gal{display:flex;gap:16px;overflow-x:auto;padding:6px 22px 18px;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+.gal figure{margin:0;flex:0 0 auto;scroll-snap-align:center;width:236px}
+.phone{width:236px;aspect-ratio:9/17;border:1px solid var(--line);border-radius:24px;
+  overflow:hidden;background:var(--card);box-shadow:0 12px 40px rgba(90,60,25,.10)}
+.phone iframe{width:100%;height:100%;border:0;display:block}
+figcaption{text-align:center;font-size:13px;color:var(--muted);margin-top:9px}
+figcaption b{display:block;font-family:var(--display);font-size:16px;color:var(--ink);font-weight:400}
+.lock{color:var(--gold-ink);font-size:11.5px;letter-spacing:.06em}
+
+/* Счёт — свёрстан как счёт: колонка сумм справа, табличные цифры, итог по линейке */
+.bill{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin-top:24px}
+.brow{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid var(--line2)}
+.brow span{color:var(--ink2)}
+.brow b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.brow.warn span,.brow.warn b{color:var(--deep-ink)}
+.brow.total{border-bottom:0;border-top:1px solid var(--line);margin-top:4px;padding-top:15px;font-weight:600}
+.brow.total b{font-family:var(--display);font-size:23px;font-weight:400}
+
+.grid3{display:grid;gap:18px;margin-top:26px}
+@media(min-width:820px){.grid3{grid-template-columns:repeat(3,1fr)}}
+.tier{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column}
+.tier.on{border-color:var(--deep);box-shadow:0 0 0 1px var(--deep)}
+.tier .p{font-family:var(--display);font-size:30px;font-variant-numeric:tabular-nums;margin:2px 0 4px}
+.tier .p small{font:400 13px var(--body);color:var(--muted);display:block}
+.tier ul{list-style:none;padding:0;margin:16px 0 0;flex:1}
+.tier li{padding:7px 0 7px 24px;position:relative;font-size:14.6px;color:var(--ink2);border-bottom:1px solid var(--line2)}
+.tier li:last-child{border-bottom:0}
+.tier li::before{content:"·";position:absolute;left:8px;color:var(--gold);font-weight:700}
+
+.steps{counter-reset:s;list-style:none;padding:0;margin:24px 0 0}
+.steps li{counter-increment:s;position:relative;padding-left:52px;margin-bottom:20px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:0;width:34px;height:34px;
+  border:1px solid var(--gold);color:var(--gold-ink);border-radius:50%;display:grid;place-items:center;
+  font:600 15px var(--body);font-variant-numeric:tabular-nums}
+.steps b{display:block;font-family:var(--display);font-size:19px;font-weight:400;margin-bottom:2px}
+
+.note{background:var(--gold-bg);border-left:3px solid var(--gold);padding:16px 19px;
+  border-radius:0 10px 10px 0;font-size:15px;margin:22px 0}
+
+details{border-bottom:1px solid var(--line2);padding:16px 0}
+details summary{cursor:pointer;font-weight:600;font-size:16.5px;list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"+";color:var(--gold-ink);font-weight:700;margin-right:10px}
+details[open] summary::before{content:"–"}
+details p{margin:10px 0 0;color:var(--ink2)}
+
+footer{border-top:1px solid var(--line);padding:30px 0 46px;color:var(--muted);font-size:13.5px}
+footer a{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <img src="../brand/logo-toy.svg" alt="">
+  <b>To'y-Daftar</b>
+  <span class="sp"></span>
+  <a href="uz.html" hreflang="uz">O‘zbekcha</a>
+</header>
+</div>
+
+<div class="wrap">
+<section class="hero">
+  <svg class="orn" viewBox="0 0 112 26" fill="none" aria-hidden="true">
+    <path d="M2 13h38M72 13h38" stroke="currentColor" stroke-width="1" opacity=".55"/>
+    <path d="M56 4c3.6 3.6 7.2 5.6 7.2 9s-3.6 5.4-7.2 9c-3.6-3.6-7.2-5.6-7.2-9s3.6-5.4 7.2-9z" stroke="currentColor" stroke-width="1.2"/>
+    <circle cx="43" cy="13" r="2" fill="currentColor"/><circle cx="69" cy="13" r="2" fill="currentColor"/>
+  </svg>
+  <div class="eyebrow">Ташкент · той и семейные торжества</div>
+  <h1>Приглашения по ссылке<br>и точное число для тойханы</h1>
+  <p class="lead">Гость открывает приглашение и отвечает <strong>за всю семью сразу</strong>:
+    «придём вчетвером» или «придут двое из четырёх». Вы видите, за сколько мест
+    тойхона выставит счёт — ещё до того, как его выставят.</p>
+  <a class="cta" href="https://t.me/toy_daftar_bot?start=site">Собрать приглашение</a>
+  <a class="cta sec" href="../toy/demo.html">Посмотреть, как выглядит</a>
+  <p class="after">Приглашения и ответы бесплатны, семей сколько угодно.</p>
+</section>
+</div>
+
+<section style="padding-bottom:34px">
+  <div class="wrap"><div class="mid">
+    <h2>Десять оформлений</h2>
+    <p style="color:var(--ink2)">Это не картинки — настоящие страницы приглашения,
+      те самые, что откроет гость. Листайте вбок.</p>
+  </div></div>
+  <div class="gal">
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Zar" src="../toy/invite.html?theme=zar&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zar</b>классика, тёплое</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Atlas" src="../toy/invite.html?theme=atlas&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Atlas</b>национальное</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Oq" src="../toy/invite.html?theme=oq&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Oq</b>минимал</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Kecha" src="../toy/invite.html?theme=kecha&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Kecha</b>вечернее</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Anor" src="../toy/invite.html?theme=anor&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Anor</b><span class="lock">гранат · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Zumrad" src="../toy/invite.html?theme=zumrad&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zumrad</b><span class="lock">изумруд · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Marmar" src="../toy/invite.html?theme=marmar&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Marmar</b><span class="lock">мрамор · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Shafaq" src="../toy/invite.html?theme=shafaq&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Shafaq</b><span class="lock">закат · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Suzani" src="../toy/invite.html?theme=suzani&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Suzani</b><span class="lock">сюзане · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Zamon" src="../toy/invite.html?theme=zamon&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zamon</b><span class="lock">современное · Premium</span></figcaption></figure>
+  </div>
+  <div class="wrap"><div class="mid">
+    <a class="cta sec" style="margin:0" href="../toy/demo.html">Собрать своё со своими именами</a>
+  </div></div>
+</section>
+
+<div class="wrap">
+<section id="dengi">
+  <div class="col">
+    <h2>Тойхона берёт за приглашённых, а не за пришедших</h2>
+    <p>Пока семья не сказала «не сможем», места за ней держат — и выставят в счёт.
+      Поэтому каждая молчащая семья это не «неопределённость», а конкретная сумма.</p>
+  </div>
+  <div class="bill" style="max-width:640px">
+    <div class="brow"><span>Подтвердили — 53 места</span><b>6 360 000</b></div>
+    <div class="brow warn"><span>Молчат 8 семей — 19 мест держат за ними</span><b>2 280 000</b></div>
+    <div class="brow total"><span>Тойхона выставит за 72 места</span><b>8 640 000 сум</b></div>
+    <p style="margin:16px 0 0;color:var(--muted);font-size:14px">При цене места 120 000 сум.
+      Каждая семья, которая ответит «не сможем», снимает со счёта около 285 000 сум.</p>
+  </div>
+  <div class="col">
+    <div class="note">Этот расчёт бесплатный. Он и есть причина разослать напоминания
+      сегодня, а не за неделю до тоя, когда менять число уже поздно.</div>
+  </div>
+</section>
+
+<section id="kak">
+  <div class="col">
+    <h2>Как это работает</h2>
+    <ol class="steps">
+      <li><b>Вносите семьи</b>Не по одному человеку, а семьями: «Каримовлар оиласи, 4 человека».
+        Готовый список вставляется из Excel или из переписки целиком.</li>
+      <li><b>Рассылаете ссылки</b>Приложение проводит по списку подряд — по каждой семье
+        остаётся выбрать чат. Видно, сколько отправлено и сколько осталось.
+        Для родни без телеграма — приглашение картинкой с QR, его печатают.</li>
+      <li><b>Ответы приходят сами</b>Гость нажимает «Придём вчетвером» — одно касание.
+        Кто открыл и не ответил, видно отдельно, и напомнить им можно одной кнопкой.</li>
+      <li><b>Отдаёте число тойхоне</b>Счёт собирается из ответов одной картинкой,
+        её пересылают администратору. Плюс рассадка по столам и список для печати.</li>
+    </ol>
+  </div>
+</section>
+
+<section id="oba">
+  <div class="col">
+    <h2>Той ведут две стороны</h2>
+    <p>Келин томон и куёв томон — у каждой свой круг семей. Раньше одна сторона
+      диктовала имена другой по телефону, а список всё равно оказывался в двух
+      тетрадях, которые не сходились.</p>
+    <p>В приложении у тоя может быть <strong>два хозяина</strong>. Приглашаете вторую
+      сторону одной ссылкой — списки становятся общими, и то, что вносит один,
+      второй видит сразу. Тариф и удаление тоя остаются за тем, кто его создал.</p>
+  </div>
+</section>
+
+<section id="ceny">
+  <div class="mid">
+    <h2>Сколько стоит</h2>
+    <p style="color:var(--ink2)">Разово за той, не подписка. Приглашения и ответы
+      бесплатны на любом тарифе.</p>
+  </div>
+  <div class="grid3">
+    <div class="tier">
+      <h3>Бесплатно</h3>
+      <div class="p">0 <small>навсегда</small></div>
+      <ul>
+        <li>Приглашения и ответы, семей сколько угодно</li>
+        <li>Четыре оформления</li>
+        <li>Три языка приглашения: лотин, кирилл, русский</li>
+        <li>Расчёт, за сколько мест выставит счёт тойхона</li>
+        <li>Кто открыл и не ответил</li>
+        <li>Напоминания за 30, 14, 10, 7 дней и накануне</li>
+      </ul>
+    </div>
+    <div class="tier on">
+      <h3>Premium</h3>
+      <div class="p">49 000 <small>сум за той</small></div>
+      <ul>
+        <li>Ещё шесть оформлений</li>
+        <li>Второй хозяин тоя: обе стороны ведут общий список</li>
+        <li>Счёт для тойханы картинкой — пересылается в WhatsApp</li>
+        <li>Рассадка по столам и список для печати</li>
+        <li>Приглашение картинкой с QR — для родни без телеграма</li>
+        <li>Выгрузка гостей в Excel</li>
+      </ul>
+    </div>
+    <div class="tier">
+      <h3>Полный</h3>
+      <div class="p">149 000 <small>сум за той</small></div>
+      <ul>
+        <li>Всё из Premium</li>
+        <li>Книга подарков: кто что подарил и на какую сумму</li>
+        <li>Пожелания гостей — их пишут сразу после ответа</li>
+        <li>Выгрузка книги и пожеланий файлом</li>
+        <li>Перед удалением данных книгу присылаем вам — останется у вас</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="col">
+    <h2>Частые вопросы</h2>
+
+    <details><summary>Сколько гостей вообще можно приглашать?</summary>
+      <p>В Узбекистане число участников свадебного торжества ограничено законом об
+        упорядочении обрядов. Точный действующий предел и порядок уведомления
+        махалли уточняйте на момент вашего тоя: правила менялись. Приложение лимит
+        не навязывает — оно считает то число, которое получилось у вас.</p></details>
+
+    <details><summary>А если у гостя нет Telegram?</summary>
+      <p>Для таких семей есть приглашение картинкой формата A5 с QR-кодом: его
+        пересылают в WhatsApp или печатают. Гость наводит камеру и отвечает —
+        и попадает в тот же счёт, что все остальные.</p></details>
+
+    <details><summary>На каком языке приходит приглашение?</summary>
+      <p>На том, который вы выбрали для тоя: узбекская латиница, узбекская кириллица
+        или русский. Гость может переключить язык у себя — если ему привычнее другой.</p></details>
+
+    <details><summary>Что будет с данными гостей после тоя?</summary>
+      <p>Через 90 дней после даты события имена, ответы и записи о подарках удаляются
+        автоматически. За неделю до удаления мы присылаем вам книгу подарков и список
+        гостей файлом — то, что нужно дольше, останется у вас, а не у нас.</p></details>
+
+    <details><summary>Подходит ли это не для свадьбы?</summary>
+      <p>Да. Фотиха, бешик той, суннат той, нахор ош и юбилей — у каждого свой текст
+        приглашения и своё оформление. Список семей можно перенести из другого тоя,
+        чтобы не набивать его заново для каждого обряда.</p></details>
+  </div>
+</section>
+
+<section>
+  <div class="mid">
+    <h2>Начните со списка семей</h2>
+    <p style="color:var(--ink2)">Открывается в Telegram, без регистрации и без установки.</p>
+    <a class="cta" href="https://t.me/toy_daftar_bot?start=site">Собрать приглашение</a>
+  </div>
+</section>
+
+<footer>
+  <div>ИП, Ташкент, Республика Узбекистан ·
+    <a href="../toy/oferta.html">Публичная оферта и обработка данных</a> ·
+    <a href="https://t.me/toy_daftar_bot">Поддержка в боте</a></div>
+</footer>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://gordondr.github.io/tma-uz/toy-daftar/#website",
+      "url":"https://gordondr.github.io/tma-uz/toy-daftar/",
+      "name":"To'y-Daftar",
+      "inLanguage":["ru","uz"]
+    },
+    {
+      "@type":"SoftwareApplication",
+      "name":"To'y-Daftar — приглашения на той и подсчёт гостей",
+      "applicationCategory":"LifestyleApplication",
+      "operatingSystem":"Telegram",
+      "url":"https://t.me/toy_daftar_bot",
+      "description":"Электронные приглашения на той: гости отвечают за всю семью, приложение считает число человек для тойханы и раскладывает по столам.",
+      "areaServed":{"@type":"Country","name":"Uzbekistan"},
+      "offers":[
+        {"@type":"Offer","name":"Приглашения и ответы","price":"0","priceCurrency":"UZS"},
+        {"@type":"Offer","name":"Premium","price":"49000","priceCurrency":"UZS"},
+        {"@type":"Offer","name":"Полный","price":"149000","priceCurrency":"UZS"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"А если у гостя нет Telegram?",
+         "acceptedAnswer":{"@type":"Answer","text":"Для таких семей есть приглашение картинкой формата A5 с QR-кодом: его пересылают в WhatsApp или печатают. Гость наводит камеру и отвечает."}},
+        {"@type":"Question","name":"На каком языке приходит приглашение?",
+         "acceptedAnswer":{"@type":"Answer","text":"На выбранном для тоя: узбекская латиница, узбекская кириллица или русский. Гость может переключить язык у себя."}},
+        {"@type":"Question","name":"Что будет с данными гостей после тоя?",
+         "acceptedAnswer":{"@type":"Answer","text":"Через 90 дней после даты события данные удаляются автоматически. За неделю до удаления книга подарков и список гостей высылаются организатору файлом."}},
+        {"@type":"Question","name":"Подходит ли это не для свадьбы?",
+         "acceptedAnswer":{"@type":"Answer","text":"Да: фотиха, бешик той, суннат той, нахор ош и юбилей — у каждого свой текст приглашения и оформление."}}
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

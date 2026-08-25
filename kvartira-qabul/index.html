@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Приёмка квартиры в новостройке — Ташкент | Kvartira Qabul</title>
-<meta name="description" content="Бесплатный чек-лист приёмки квартиры: 58 пунктов по 10 зонам с допусками из ШНҚ и КМК. Что проверять, чем мерить, что писать в акт. Акт осмотра и претензия застройщику — 99 000 сум.">
+<meta name="description" content="Чек-лист приёмки квартиры от застройщика: 58 пунктов по 10 зонам с допусками из ШНҚ и КМК в миллиметрах. Что проверять, что взять с собой, что писать в акт осмотра. Бесплатно. Акт и претензия застройщику — 99 000 сум.">
+<meta name="keywords" content="приёмка квартиры, приемка квартиры от застройщика, чек-лист приемки квартиры, акт осмотра квартиры, претензия застройщику, что проверять при приемке квартиры, Ташкент, kvartira qabul qilish, topshirish-qabul qilish dalolatnomasi">
 <link rel="canonical" href="https://gordondr.github.io/tma-uz/kvartira-qabul/">
 <link rel="alternate" hreflang="ru" href="https://gordondr.github.io/tma-uz/kvartira-qabul/">
 <link rel="alternate" hreflang="uz" href="https://gordondr.github.io/tma-uz/kvartira-qabul/uz.html">
@@ -28,6 +29,10 @@
   --paper:#F5F6F4; --card:#FFFFFF; --ink:#181C1A; --ink2:#3C443F; --muted:#5C635E;
   --rule:#DCE0DB; --rule2:#EDF0EC;
   --ochre:#B9670F; --ochre-bg:#FBF1E4; --blue:#2B4A6F; --bad:#A32A1E;
+  /* Отдельный оттенок для заливки под белым текстом: фирменная охра на кнопке
+     даёт 4.19 — для жирного шестнадцатого нужно 4.5. Обводки и линейки
+     остаются на --ochre, там требований по контрасту нет. */
+  --ochre-solid:#AC5F0D;
   --display:Spectral,Georgia,serif; --body:"Golos Text",system-ui,-apple-system,sans-serif;
 }
 @media (prefers-color-scheme:dark){
@@ -35,13 +40,20 @@
     --paper:#141715; --card:#1B1F1C; --ink:#EDF0EA; --ink2:#C3CAC1; --muted:#8E968D;
     --rule:#2C332D; --rule2:#222824;
     --ochre:#E5A244; --ochre-bg:#2A2113; --blue:#8FB4DC; --bad:#E2857A;
+    /* На тёмном фоне кнопка светлая, а текст на ней — тёмный. */
+    --ochre-solid:#E5A244;
   }
 }
 :root[data-theme="dark"]{
   --paper:#141715; --card:#1B1F1C; --ink:#EDF0EA; --ink2:#C3CAC1; --muted:#8E968D;
   --rule:#2C332D; --rule2:#222824;
   --ochre:#E5A244; --ochre-bg:#2A2113; --blue:#8FB4DC; --bad:#E2857A;
+  --ochre-solid:#E5A244;
 }
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]) .cta{color:#191308}
+}
+:root[data-theme="dark"] .cta{color:#191308}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
   font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
@@ -68,7 +80,7 @@ header{padding:26px 0 0}
 
 .hero{padding-top:44px}
 .hero p.lead{font-size:19px;line-height:1.55;color:var(--ink2);max-width:34em}
-.cta{display:inline-block;background:var(--ochre);color:#fff;text-decoration:none;
+.cta{display:inline-block;background:var(--ochre-solid);color:#fff;text-decoration:none;
   font:700 16px var(--body);padding:15px 26px;border-radius:12px;margin-top:8px}
 .cta:hover{filter:brightness(1.06)}
 .cta.sec{background:transparent;color:var(--ink);border:1px solid var(--rule);margin-left:8px}
@@ -269,6 +281,36 @@ footer a{color:var(--muted)}
   </div>
 </section>
 
+<section id="dokumenty">
+  <div class="col">
+    <h2>Три разных документа, которые путают</h2>
+    <p>Это самая частая ошибка на приёмке: человек думает, что подписывает один
+      документ, а подписывает другой.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Документ</th><th>Что делает</th><th>Когда подписывают</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Акт осмотра</strong></td>
+            <td>Фиксирует, что именно найдено: где, сколько, с отклонением на сколько миллиметров и по какой норме</td>
+            <td class="src">В день осмотра, до передачи ключей</td></tr>
+        <tr><td><strong>Претензия</strong></td>
+            <td>Требование устранить, со сроком и ссылкой на закон. Запускает отсчёт срока</td>
+            <td class="src">После осмотра, вручается застройщику под подпись</td></tr>
+        <tr><td><strong>Акт приёма-передачи</strong></td>
+            <td>Подтверждает, что квартиру вы приняли. Подписанный без замечаний — отменить нельзя</td>
+            <td class="src">Только когда замечания сняты или внесены в него</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+    <div class="note"><strong>Осторожно с советами из поиска.</strong> Большая часть
+      статей про приёмку в русском поиске написана для России и ссылается на ФЗ-214
+      о долевом участии. <strong>В Узбекистане этот закон не действует</strong>, и
+      сроки, порядок и основания там другие. Проверяйте, про какую страну текст.</div>
+  </div>
+</section>
+
 <section id="akt">
   <div class="col">
     <h2>Акт осмотра и претензия</h2>
@@ -292,6 +334,9 @@ footer a{color:var(--muted)}
       <p style="margin-top:14px">В цену входит акт осмотра, претензия застройщику
         и ссылки на нормы по каждому пункту. Оплата — после того, как документы
         готовы и вы их увидели.</p>
+      <p style="color:var(--muted);font-size:14px">Для сравнения: приёмщик с выездом
+        в Ташкенте берёт от 300 000 до 1 500 000 сум. Он приезжает и смотрит сам —
+        мы даём чек-лист, чтобы посмотрели вы, и оформляем найденное в документы.</p>
       <div class="note" style="margin-bottom:0">
         Мы не проводим экспертизу и не гарантируем исход спора. Мы готовим
         документы — подаёте вы сами.
@@ -336,6 +381,13 @@ footer a{color:var(--muted)}
     <details><summary>Работает ли это без интернета?</summary>
       <p>Да. Отметки сохраняются на устройстве и отправляются, когда связь появится.
         В новостройках лифт и подвал обычно без сети — именно поэтому так и сделано.</p></details>
+
+    <details><summary>Сколько стоит приёмка квартиры в Ташкенте?</summary>
+      <p>Приёмщик с выездом берёт от 300 000 до 1 500 000 сум — цена зависит от
+        площади и от того, входит ли инструментальный контроль. Технадзор на
+        объекте стоит дороже, около миллиона. Наш чек-лист бесплатный, а акт
+        осмотра и претензия — 99 000 сум: мы не приезжаем, мы даём вам список,
+        по которому смотрите вы сами, и оформляем найденное в документы.</p></details>
 
     <details><summary>Это юридическая услуга?</summary>
       <p>Нет. Мы готовим документы по вашим отметкам и фотографиям, а не оказываем
@@ -396,7 +448,11 @@ footer a{color:var(--muted)}
         {"@type":"Question","name":"Нужен ли специалист или хватит чек-листа?",
          "acceptedAnswer":{"@type":"Answer","text":"Чек-лист закрывает то, что видно и меряется правилом, рулеткой и фонарём. Скрытые работы требуют инструментального контроля и чек-листом не заменяются."}},
         {"@type":"Question","name":"В какой срок застройщик обязан устранить недостатки?",
-         "acceptedAnswer":{"@type":"Answer","text":"Не более двадцати дней со дня обращения — статья 19 Закона Республики Узбекистан «О защите прав потребителей»."}}
+         "acceptedAnswer":{"@type":"Answer","text":"Не более двадцати дней со дня обращения — статья 19 Закона Республики Узбекистан «О защите прав потребителей»."}},
+        {"@type":"Question","name":"Сколько стоит приёмка квартиры в Ташкенте?",
+         "acceptedAnswer":{"@type":"Answer","text":"Приёмщик с выездом берёт от 300 000 до 1 500 000 сум. Чек-лист Kvartira Qabul бесплатный, акт осмотра и претензия — 99 000 сум."}},
+        {"@type":"Question","name":"Чем акт осмотра отличается от претензии и акта приёма-передачи?",
+         "acceptedAnswer":{"@type":"Answer","text":"Акт осмотра фиксирует найденные недостатки с отклонениями и нормами. Претензия — требование устранить со сроком, она запускает отсчёт. Акт приёма-передачи подтверждает, что квартиру вы приняли: подписанный без замечаний отменить нельзя."}}
       ]
     }
   ]
