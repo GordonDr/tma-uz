@@ -169,22 +169,22 @@ footer a{color:var(--muted)}
 <script>
 const $ = s => document.querySelector(s);
 const BOT = window.TOY_BOT || "toy_daftar_bot";
-const OCC = window.TOY_OCCASIONS || [];
-const LANGS = [
+const D_OCC = window.TOY_OCCASIONS || [];
+const D_LANGS = [
   { id:"uz_latin",    label:"Lotin" },
   { id:"uz_cyrillic", label:"Кирилл" },
   { id:"ru",          label:"Русский" },
 ];
 // Подписи и кружки берём такие же, как в самом приглашении: демо не должно
 // показывать оформление, которого потом не окажется в продукте.
-const THEMES = [
+const D_THEMES = [
   { id:"zar",   label:"Zar · золото",       c:["#B08D3F","#FBF7F2","#7D1F38"] },
   { id:"atlas", label:"Atlas · национальный", c:["#C25E2A","#FDF6EC","#1F4E5F"] },
   { id:"oq",    label:"Oq · минимал",       c:["#141414","#FFFFFF","#8A8A8A"] },
   { id:"kecha", label:"Kecha · вечер",      c:["#D9B45B","#12141C","#9A93A8"] },
 ];
 
-const S = { occ: OCC[0]?.id || "nikoh_toy", lang:"uz_latin", theme:"zar", touchedTheme:false };
+const D = { occ: D_OCC[0]?.id || "nikoh_toy", lang:"uz_latin", theme:"zar", touchedTheme:false };
 
 function chips(host, items, cur, onPick, swatch){
   host.innerHTML = items.map(x =>
@@ -195,37 +195,37 @@ function chips(host, items, cur, onPick, swatch){
 }
 
 function occLabel(o){
-  return o.label[S.lang] || o.label.uz_latin;
+  return o.label[D.lang] || o.label.uz_latin;
 }
 
 function paint(){
-  chips($("#occ"), OCC.map(o => ({ id:o.id, label:occLabel(o) })), S.occ, id => {
-    S.occ = id;
+  chips($("#occ"), D_OCC.map(o => ({ id:o.id, label:occLabel(o) })), D.occ, id => {
+    D.occ = id;
     // Пока человек сам не выбрал оформление, ведём его за поводом: у бешик-тоя
     // и юбилея разный тон, и золото свадьбы на юбилее смотрится чужим.
-    if(!S.touchedTheme){ const o = OCC.find(x => x.id === id); if(o) S.theme = o.theme; }
+    if(!D.touchedTheme){ const o = D_OCC.find(x => x.id === id); if(o) D.theme = o.theme; }
     paint(); preview();
   });
-  chips($("#lang"), LANGS, S.lang, id => { S.lang = id; paint(); preview(); });
-  chips($("#theme"), THEMES, S.theme, id => { S.theme = id; S.touchedTheme = true; paint(); preview(); }, true);
+  chips($("#lang"), D_LANGS, D.lang, id => { D.lang = id; paint(); preview(); });
+  chips($("#theme"), D_THEMES, D.theme, id => { D.theme = id; D.touchedTheme = true; paint(); preview(); }, true);
 }
 
 function preview(){
-  const o = window.toyOccasion ? toyOccasion(S.occ) : null;
-  const q = new URLSearchParams({ theme:S.theme, ilang:S.lang });
+  const o = window.toyOccasion ? toyOccasion(D.occ) : null;
+  const q = new URLSearchParams({ theme:D.theme, ilang:D.lang });
   const put = (k, v) => { const s = String(v || "").trim(); if(s) q.set(k, s.slice(0, 120)); };
   put("couple", $("#couple").value);
   put("date",   $("#date").value);
   put("time",   $("#time").value);
   put("venue",  $("#venue").value);
   put("addr",   $("#addr").value);
-  if(o) put("greet", o.greeting[S.lang]);
+  if(o) put("greet", o.greeting[D.lang]);
   const url = `invite.html?${q}`;
   // Через location.replace, а не src: иначе каждое нажатие клавиши добавляет
   // запись в историю, и «назад» уводит человека по своим же правкам.
   const fr = $("#pv");
   fr.contentWindow ? fr.contentWindow.location.replace(url) : (fr.src = url);
-  $("#cta").href = `https://t.me/${BOT}?start=demo_${S.occ}`;
+  $("#cta").href = `https://t.me/${BOT}?start=demo_${D.occ}`;
 }
 
 let timer = null;
