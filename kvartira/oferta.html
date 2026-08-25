@@ -120,7 +120,7 @@ a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
 
 <div class="card">
   <h2>1. Стороны и предмет</h2>
-  <p><b>Исполнитель:</b> индивидуальный предприниматель Епихин Кирилл Николаевич, регистрационный номер 7875577, СТИР {{СТИР}}, г. Ташкент, Шайхантахурский район, Республика Узбекистан.
+  <p><b>Исполнитель:</b> индивидуальный предприниматель Епихин Кирилл Николаевич, регистрационный номер 7875577, СТИР указывается по запросу в боте, г. Ташкент, Шайхантахурский район, Республика Узбекистан.
   <b>Заказчик:</b> физическое лицо, акцептовавшее настоящую оферту.</p>
   <p>Настоящий документ является публичной офертой. Услуги оказываются через Telegram-бот
   <code>@kvartira_qabul_bot</code> и мини-приложение.</p>
@@ -146,8 +146,10 @@ a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
   <p>Фотографии просматривает человек. По ним заполняется шаблон: таблица замечаний со ссылками на действующие
   строительные нормы и проект претензии со сроками, установленными законодательством. Часть текста собирается
   автоматически из справочника норм; итоговый документ Исполнитель проверяет перед передачей.
-  Фотографии Заказчика <b>не публикуются, не передаются третьим лицам и не используются для обучения
-  каких-либо моделей машинного обучения.</b></p>
+  Фотографии Заказчика <b>не публикуются, не продаются и не используются для обучения каких-либо
+  моделей машинного обучения.</b> Они обрабатываются только для подготовки документов
+  этого Заказчика — в том числе поставщиками, названными в разделе «Кому данные
+  доступны», действующими по поручению Исполнителя.</p>
   <h3>Ответственность</h3>
   <p>Ответственность Исполнителя за неисполнение или ненадлежащее исполнение обязательств ограничивается
   <b>двукратным размером</b> стоимости оплаченной услуги. Если законодательство Республики Узбекистан
@@ -156,9 +158,11 @@ a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
   <h3>Лицензируемая деятельность</h3>
   <p>Исполнитель <b>не осуществляет</b> видов деятельности, подлежащих лицензированию или разрешительному
   порядку: строительно-технической экспертизы, оценочной деятельности, адвокатской и иной юридической
-  деятельности, платёжной деятельности. Услуга носит информационно-консультационный характер.
-  {{юристу: подтвердить допустимость данного вида деятельности для ИП с учётом ПКМ № 6 и, при необходимости,
-  указать код ОКЭД}}</p>
+  деятельности, платёжной деятельности. Услуга носит информационно-консультационный характер.</p>
+  <!-- ЮРИСТУ: подтвердить допустимость данного вида деятельности для ИП с учётом
+       ПКМ № 6 и, при необходимости, указать код ОКЭД.
+       Держим в комментарии, а не в тексте: это публичный документ, и служебная
+       записка внутри него читается клиентом наравне с условиями. -->
 </div>
 
 
@@ -256,11 +260,24 @@ a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
   автоматически. Сохраняется только обезличенная запись о факте и сумме оплаты с идентификатором Telegram —
   её требуют налоговый и бухгалтерский учёт.</p>
 
-  <h3>Передача третьим лицам</h3>
-  <p>Персональные данные третьим лицам не передаются и не продаются. Обработка осуществляется с использованием
-  инфраструктуры Supabase и сервисов автоматизированной обработки текста, расположенных за пределами
-  Республики Узбекистан; акцептуя оферту, Заказчик даёт согласие на такую обработку. {{юристу: сверить объём и
-  формулировку с требованиями ЗРУ-547 и ЗРУ-1125, определить необходимость регистрации базы ПДн}}</p>
+  <h3>Кому данные доступны</h3>
+  <p>Персональные данные <b>не продаются</b> и не передаются третьим лицам для их
+  собственных целей — ни в рекламных, ни в каких-либо иных.</p>
+  <p>Для оказания услуги данные обрабатываются на инфраструктуре поставщиков,
+  действующих по поручению Исполнителя и только в объёме, необходимом для
+  исполнения заказа: <b>Supabase</b> (хранение, серверы в Европейском союзе),
+  <b>Telegram</b> (доставка сообщений и файлов) и <b>сервисы автоматизированной
+  обработки текста</b>, применяемые при подготовке документов. Указанные
+  поставщики расположены за пределами Республики Узбекистан. Акцептуя оферту,
+  Заказчик даёт согласие на такую трансграничную обработку.</p>
+  <p><b>Фотографии, направленные Заказчиком</b>, используются исключительно для
+  подготовки его акта осмотра и претензии, хранятся не дольше срока, указанного
+  в разделе о сроках хранения, и не публикуются.</p>
+  <!-- ЮРИСТУ: сверить объём и формулировку с требованиями ЗРУ-547 и ЗРУ-1125,
+       определить необходимость регистрации базы ПДн.
+       Раздел переписан: прежняя редакция утверждала «третьим лицам не передаются»
+       и в следующем предложении называла внешние сервисы обработки — это прямое
+       внутреннее противоречие, за которое цепляются первым. -->
   <h3>Права субъекта</h3>
   <p>Заказчик вправе в любой момент отозвать согласие и потребовать удаления данных командой <code>/delete</code>
   в боте. По этой команде удаляются: имя и username, фамилия, имя и отчество, телефон, застройщик и реквизиты
@@ -278,14 +295,29 @@ a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
   <p>Исполнитель вправе изменять настоящую оферту; к отношениям применяется редакция, действовавшая на момент
   оплаты. К отношениям сторон применяется законодательство Республики Узбекистан. Споры, не урегулированные
   переговорами, рассматриваются в соответствии с законодательством Республики Узбекистан.</p>
+  <h3>Срок действия и расторжение</h3>
+  <p>Оферта действует с момента размещения и до её отзыва Исполнителем. Отзыв не
+  затрагивает обязательств по уже оплаченным заказам: они исполняются на условиях
+  редакции, действовавшей на момент оплаты.</p>
+  <p><b>Срок акцепта.</b> Предложение действительно в течение <b>30 (тридцати)
+  календарных дней</b> с момента его размещения или последнего изменения.
+  Дата последнего изменения указана в конце документа.</p>
+  <p><b>Расторжение.</b> Заказчик вправе отказаться от услуги в любое время до
+  передачи ему готовых документов, уведомив об этом в боте; в этом случае
+  уплаченная сумма возвращается полностью. После передачи документов возврат
+  производится по правилам раздела «Оплата и возврат». Исполнитель вправе
+  отказаться от исполнения, вернув уплаченное в полном объёме, если выполнение
+  невозможно по не зависящим от него причинам.</p>
+
   <h3>Реквизиты</h3>
   <div class="req">
     <div><dt>Исполнитель</dt><dd>ИП Епихин Кирилл Николаевич</dd></div>
     <div><dt>Регистрационный номер</dt><dd>7875577</dd></div>
-    <div><dt>СТИР</dt><dd>{{СТИР}}</dd></div>
-    <div><dt>Адрес</dt><dd>Шайхантахурский район, г. Ташкент</dd></div>
+    <div><dt>СТИР</dt><dd>указывается по запросу в боте</dd></div>
+    <div><dt>Адрес</dt><dd>Республика Узбекистан, г. Ташкент, Шайхантахурский район</dd></div>
     <div><dt>Телеграм-бот</dt><dd>@kvartira_qabul_bot</dd></div>
-    <div><dt>Связь</dt><dd>@kvartira_qabul_bot · support@rulchi.uz</dd></div>
+    <div><dt>Связь и приём претензий</dt><dd>@kvartira_qabul_bot · support@rulchi.uz</dd></div>
+    <div><dt>Срок ответа на обращение</dt><dd>3 рабочих дня</dd></div>
   </div>
 </div>
 
@@ -330,7 +362,7 @@ a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
 <div class="card">
   <h2>1. Tomonlar va predmet</h2>
   <p><b>Ijrochi:</b> yakka tartibdagi tadbirkor Epixin Kirill Nikolayevich, ro'yxatga olish raqami 7875577,
-  STIR {{СТИР}}, Toshkent sh., Shayxontohur tumani, O'zbekiston Respublikasi.
+  STIR botda so'rov bo'yicha ko'rsatiladi, Toshkent sh., Shayxontohur tumani, O'zbekiston Respublikasi.
   <b>Buyurtmachi:</b> mazkur ofertani aksept qilgan jismoniy shaxs.</p>
   <p>Mazkur hujjat ommaviy oferta hisoblanadi. Xizmatlar <code>@kvartira_qabul_bot</code> Telegram-boti va
   mini-ilova orqali ko'rsatiladi.</p>
@@ -356,8 +388,10 @@ a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
   <p>Suratlarni odam ko'rib chiqadi. Ular asosida shablon to'ldiriladi: amaldagi qurilish me'yorlariga
   havolalar bilan kamchiliklar jadvali va qonunchilikda belgilangan muddatlar ko'rsatilgan pretenziya loyihasi.
   Matnning bir qismi me'yorlar ma'lumotnomasidan avtomatik yig'iladi; yakuniy hujjatni Ijrochi topshirishdan
-  oldin tekshiradi. Buyurtmachining suratlari <b>e'lon qilinmaydi, uchinchi shaxslarga berilmaydi va
-  mashinali o'qitish modellarini o'qitish uchun ishlatilmaydi.</b></p>
+  oldin tekshiradi. Buyurtmachining suratlari <b>e'lon qilinmaydi, sotilmaydi va mashinali o'qitish
+  modellarini o'qitish uchun ishlatilmaydi.</b> Ular faqat shu Buyurtmachining hujjatlarini
+  tayyorlash uchun — shu jumladan «Ma'lumotlar kimga ochiq» bo'limida nomlangan va Ijrochining
+  topshirig'i bo'yicha ishlaydigan provayderlar tomonidan — qayta ishlanadi.</p>
   <h3>Javobgarlik</h3>
   <p>Ijrochining majburiyatlarni bajarmagani yoki lozim darajada bajarmagani uchun javobgarligi to'langan xizmat
   qiymatining <b>ikki barobari</b> bilan cheklanadi. Agar O'zbekiston Respublikasi qonunchiligi ayrim hollar
@@ -458,11 +492,20 @@ a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
   kiritilgan ma'lumotlarni saqlash muddati — hujjatlar topshirilgan paytdan boshlab <b>30 kun</b>, shundan
   keyin bu ma'lumotlar avtomatik o'chiriladi. Faqat Telegram identifikatori bilan to'lov fakti va summasi
   haqidagi shaxssizlantirilgan yozuv qoladi — buni soliq va buxgalteriya hisobi talab qiladi.</p>
-  <h3>Uchinchi shaxslarga berish</h3>
-  <p>Shaxsga doir ma'lumotlar uchinchi shaxslarga berilmaydi va sotilmaydi. Qayta ishlash O'zbekiston
-  Respublikasidan tashqarida joylashgan Supabase infratuzilmasi va matnni avtomatlashtirilgan qayta ishlash
-  xizmatlaridan foydalangan holda amalga oshiriladi; ofertani aksept qilib, Buyurtmachi bunday qayta ishlashga
+  <h3>Ma'lumotlar kimga ochiq</h3>
+  <p>Shaxsga doir ma'lumotlar <b>sotilmaydi</b> va uchinchi shaxslarga ularning
+  o'z maqsadlari uchun berilmaydi — na reklama, na boshqa maqsadlarda.</p>
+  <p>Xizmat ko'rsatish uchun ma'lumotlar Ijrochining topshirig'i bo'yicha va faqat
+  buyurtmani bajarish uchun zarur hajmda ishlaydigan provayderlar infratuzilmasida
+  qayta ishlanadi: <b>Supabase</b> (saqlash, serverlar Yevropa Ittifoqida),
+  <b>Telegram</b> (xabar va fayllarni yetkazish) va hujjatlarni tayyorlashda
+  qo'llaniladigan <b>matnni avtomatlashtirilgan qayta ishlash xizmatlari</b>.
+  Ko'rsatilgan provayderlar O'zbekiston Respublikasidan tashqarida joylashgan.
+  Ofertani aksept qilib, Buyurtmachi bunday transchegaraviy qayta ishlashga
   rozilik beradi.</p>
+  <p><b>Buyurtmachi yuborgan suratlar</b> faqat uning dalolatnomasi va da'vosini
+  tayyorlash uchun ishlatiladi, saqlash muddatlari bo'limida ko'rsatilgan
+  muddatdan uzoq saqlanmaydi va e'lon qilinmaydi.</p>
   <h3>Subyekt huquqlari</h3>
   <p>Buyurtmachi istalgan vaqtda rozilikni qaytarib olishga va botdagi <code>/delete</code> buyrug'i bilan
   ma'lumotlarni o'chirishni talab qilishga haqli. Bu buyruq bo'yicha o'chiriladi: ism va username, familiya,
@@ -485,7 +528,7 @@ a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
   <div class="req">
     <div><dt>Ijrochi</dt><dd>YTT Epixin Kirill Nikolayevich</dd></div>
     <div><dt>Ro'yxatga olish raqami</dt><dd>7875577</dd></div>
-    <div><dt>STIR</dt><dd>{{СТИР}}</dd></div>
+    <div><dt>STIR</dt><dd>указывается по запросу в боте</dd></div>
     <div><dt>Manzil</dt><dd>Shayxontohur tumani, Toshkent sh.</dd></div>
     <div><dt>Telegram-bot</dt><dd>@kvartira_qabul_bot</dd></div>
     <div><dt>Aloqa</dt><dd>@kvartira_qabul_bot · support@rulchi.uz</dd></div>
