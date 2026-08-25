@@ -181,7 +181,7 @@ const T_ORG = {
 
     /* подарки */
     fLockTitle:"Книга подарков",
-    fLockText:"Кто что подарил и на какую сумму — чтобы через год знать, что дарить в ответ. Раньше это была тетрадь, которая теряется.",
+    fLockText:"Кто что подарил и на какую сумму — чтобы через год знать, что дарить в ответ. Раньше это была тетрадь, которая теряется. Через 90 дней после тоя мы удаляем данные гостей, но перед удалением присылаем вам книгу подарков файлом — она останется у вас.",
     fAddTitle:"Записать подарок", fFamily:"Семья", fWhat:"Что подарили",
     fWhatPh:"сервиз / ковёр / конверт", fAmount:"Сумма, сум", fAmountPh:"1 000 000",
     fAdd:"＋ Записать", fCount:"записей", fMoney:"сум деньгами",
@@ -366,7 +366,7 @@ const T_ORG = {
     pProgress:(d,t)=>`${t} tadan ${d} tasi bajarildi. Belgilar shu telefonda saqlanadi.`,
 
     fLockTitle:"Sovg'alar daftari",
-    fLockText:"Kim nima va qancha sovg'a qilgani — bir yildan keyin javobiga nima berishni bilish uchun. Ilgari bu yo'qolib ketadigan daftar edi.",
+    fLockText:"Kim nima va qancha sovg'a qilgani — bir yildan keyin javobiga nima berishni bilish uchun. Ilgari bu yo'qolib ketadigan daftar edi. To'ydan 90 kun o'tgach mehmonlar ma'lumotlarini o'chiramiz, lekin o'chirishdan oldin sovg'alar daftarini fayl qilib yuboramiz — u sizda qoladi.",
     fAddTitle:"Sovg'ani yozib qo'yish", fFamily:"Oila", fWhat:"Nima sovg'a qilishdi",
     fWhatPh:"servis / gilam / konvert", fAmount:"Summa, so'm", fAmountPh:"1 000 000",
     fAdd:"＋ Yozib qo'yish", fCount:"yozuv", fMoney:"so'm pul bilan",
