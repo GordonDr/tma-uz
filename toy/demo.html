@@ -47,9 +47,12 @@ h1 em{font-style:italic;color:var(--gold)}
 .lede{color:var(--ink2);max-width:46ch;margin:0 auto;text-wrap:balance}
 
 .cols{display:grid;gap:22px}
+/* На узком экране приглашение идёт первым: смысл страницы — сразу показать, что
+   получится, а не заставить прокрутить две панели настроек до этого. */
+.stage{order:-1}
 @media(min-width:900px){
   .cols{grid-template-columns:minmax(0,1fr) 372px;align-items:start;gap:34px}
-  .stage{position:sticky;top:26px}
+  .stage{order:0;position:sticky;top:26px}
 }
 
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;
@@ -106,7 +109,7 @@ footer a{color:var(--muted)}
 <header>
   <div class="orn">✦ ✦ ✦</div>
   <h1>Соберите <em>приглашение</em> прямо здесь</h1>
-  <p class="lede">Меняйте повод, имена и дату — приглашение справа перерисовывается сразу.
+  <p class="lede">Меняйте повод, имена и дату — приглашение перерисовывается сразу.
     Ровно это увидят ваши гости, когда откроют ссылку.</p>
 </header>
 
