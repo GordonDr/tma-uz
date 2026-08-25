@@ -275,7 +275,13 @@ async function boot(){
   let events;
   // Пустой экран без объяснения читается как «мои тои пропали». Отличаем
   // «тоёв нет» от «не дозвонились» — это два разных сообщения и два разных действия.
-  try { ({ events } = await call("my")); }
+  // Сервер отвечает {error} со статусом 403, не бросая исключение, поэтому одного
+  // try/catch мало: без этой проверки экран оставался с многоточием навсегда.
+  try {
+    const r = await call("my");
+    if (!r || r.error) throw new Error(r?.error || "no_response");
+    events = r.events;
+  }
   catch(e){
     const t=L();
     $("#app").innerHTML=`<div class="card"><b>${t.errNet||"Нет связи"}</b>
