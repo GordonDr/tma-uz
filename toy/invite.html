@@ -129,6 +129,10 @@ textarea:focus{outline:none;border-color:var(--accent)}
   border-color:var(--deep);font-weight:700;font-size:16px;padding:16px}
 .done{text-align:center;padding:24px 8px}
 .done .big{font-family:var(--display);font-size:30px;margin-bottom:8px}
+.wish{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);text-align:left}
+.wish b{display:block;font-family:var(--display);font-size:20px;font-weight:600;
+  margin-bottom:8px;text-align:center}
+.wish textarea{margin-top:0;min-height:76px}
 button:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
 /* Виральная петля: один оплаченный той — сотни показов ссылки людям, у которых
@@ -194,7 +198,10 @@ const UI = {
     viralBtn:"Chegirma bilan ochish",
 
     howMany:"Necha kishi keladi?",
-    notePh:"Yaxshi tilaklaringiz (ixtiyoriy)",
+    wishTitle:"Yosh oilaga tilak yozib qoldiring",
+    wishPh:"Bir-ikki og'iz so'z — kelin-kuyov to'ydan keyin hammasini birga o'qiydi",
+    wishBtn:"Tilakni yuborish",
+    wishDone:"Tilagingiz yetib bordi. Rahmat 🤍",
     send:"Javobni yuborish", sending:"Yuborilmoqda…",
     previewBtn:"Mehmon shunday ko'radi",
     doneYes:"Rahmat! Kutamiz 💐", doneNo:"Xabar berganingiz uchun rahmat",
@@ -228,7 +235,10 @@ const UI = {
     viralBtn:"Чегирма билан очиш",
 
     howMany:"Неча киши келади?",
-    notePh:"Яхши тилакларингиз (ихтиёрий)",
+    wishTitle:"Ёш оилага тилак ёзиб қолдиринг",
+    wishPh:"Бир-икки оғиз сўз — келин-куёв тўйдан кейин ҳаммасини бирга ўқийди",
+    wishBtn:"Тилакни юбориш",
+    wishDone:"Тилагингиз етиб борди. Раҳмат 🤍",
     send:"Жавобни юбориш", sending:"Юборилмоқда…",
     previewBtn:"Меҳмон шундай кўради",
     doneYes:"Раҳмат! Кутамиз 💐", doneNo:"Хабар берганингиз учун раҳмат",
@@ -263,7 +273,10 @@ const UI = {
     viralBtn:"Открыть со скидкой",
 
     howMany:"Сколько человек придёт?",
-    notePh:"Пожелание (необязательно)",
+    wishTitle:"Оставьте пожелание молодым",
+    wishPh:"Пара строк — после тоя молодые прочитают все пожелания вместе",
+    wishBtn:"Отправить пожелание",
+    wishDone:"Пожелание передали. Спасибо 🤍",
     send:"Отправить ответ", sending:"Отправляем…",
     previewBtn:"Так это увидит гость",
     doneYes:"Спасибо! Будем ждать 💐", doneNo:"Спасибо, что сообщили",
@@ -438,7 +451,6 @@ function render(e, f, preview){
       <label>${u.howMany}</label>
       <div class="stepper"><button id="m">−</button><b id="n">${state.count}</b><button id="p">+</button></div>
     </div>
-    <textarea id="note" placeholder="${u.notePh}"></textarea>
     <div class="err" id="err" role="alert" hidden></div>
     <button class="send" id="send">${preview?u.previewBtn:u.send}</button>
   </section>
@@ -484,15 +496,33 @@ function render(e, f, preview){
     showErr(null);
     const label=btn.textContent;
     btn.disabled=true; btn.textContent=u.sending;
-    const noteEl=document.getElementById("note");
+    const noteEl=null;   // пожелание собираем после ответа, отдельной ручкой /wish
     const res = await fetch(`${API}/rsvp`,{method:"POST",headers:{"content-type":"application/json"},
       body:JSON.stringify({token,status:state.status,count:state.count,note:noteEl?noteEl.value:""})}).then(x=>x.json()).catch(()=>null);
     if(!res?.ok){ btn.disabled=false; btn.textContent=label; return showErr(u.fail); }
     document.getElementById("rsvp").innerHTML =
+      // Пожелание просим ПОСЛЕ ответа, а не до. Раньше поле стояло рядом с
+      // «Сможете прийти?» и отвлекало от главного действия; теперь оно приходит
+      // в единственную секунду, когда человек уже сказал «придём» и расположен.
       `<div class="done"><div class="big">${state.status==="yes"?u.doneYes:u.doneNo}</div>
       <div class="fam">${state.status==="yes"?u.markedYes(state.count):u.markedNo}</div>
       ${state.status==="yes"&&d?`<button class="send" id="ics" style="margin-top:14px">${u.ics}</button>`:""}
+      <div class="wish" id="wishBox">
+        <b>${u.wishTitle}</b>
+        <textarea id="wish" placeholder="${u.wishPh}" maxlength="600"></textarea>
+        <button class="send" id="wishGo">${u.wishBtn}</button>
+      </div>
       <div class="fam" style="margin-top:12px">${u.changeHint}</div></div>`;
+    const wb = document.getElementById("wishGo");
+    if(wb) wb.onclick = async () => {
+      const text = document.getElementById("wish").value.trim();
+      if(!text) return;
+      wb.disabled = true; wb.textContent = u.sending;
+      const ok = await fetch(`${API}/wish`, { method:"POST", headers:{"content-type":"application/json"},
+        body: JSON.stringify({ token, text }) }).then(x=>x.json()).catch(()=>null);
+      document.getElementById("wishBox").innerHTML =
+        `<div class="fam">${ok?.ok ? u.wishDone : u.fail}</div>`;
+    };
     const ics=document.getElementById("ics"); if(ics) ics.onclick=()=>addToCalendar(e,d);
     // Оффер показываем только после ответа. До ответа он стоял вплотную к
     // «Сможете прийти?» и первым, что видел гость, была реклама — а расположен

@@ -426,7 +426,7 @@ function renderNew(){
 async function open(id){
   const d = await call("event_get",{event_id:id});
   if(d.error) return say(L().errAccess);
-  S.ev=d.event; localStorage.setItem("td_last_event", String(id)); S.fams=d.families; S.tables=d.tables; S.gifts=d.gifts; S.inviteBase=d.invite_base; S.inviteLink=d.invite_link||`${d.invite_base}?t={token}`; S.venueHint=d.venue_hint||50;
+  S.ev=d.event; localStorage.setItem("td_last_event", String(id)); S.fams=d.families; S.tables=d.tables; S.gifts=d.gifts; S.wishes=d.wishes||0; S.inviteBase=d.invite_base; S.inviteLink=d.invite_link||`${d.invite_base}?t={token}`; S.venueHint=d.venue_hint||50;
 
   S.bulk=false; S.onlyPending=false;
   // Список тоёв держим свежим: после создания нового он должен появиться в переключателе.
@@ -1289,11 +1289,29 @@ function tabPrep(){
 }
 
 /* ---------- подарки ---------- */
+/* Пожелания гостей. Это то, ради чего «Полный» покупают молодые, а не
+   организатор: подарки — учёт, пожелания — то, что перечитывают через год.
+   Собираются на приглашении после ответа и лежат в rsvp_note. */
+function wishCard(){
+  const t = L();
+  const list = S.fams.filter(f => (f.rsvp_note || "").trim());
+  if(!list.length) return `<div class="card"><b>${t.wTitle}</b>
+    <div class="note" style="margin-top:6px">${t.wEmpty}</div></div>`;
+  return `<div class="card"><b>${t.wTitle} · ${list.length}</b>
+    <div style="margin-top:10px">${list.map(f=>`
+      <div class="wish">
+        <div class="wtxt">${esc(f.rsvp_note)}</div>
+        <div class="wwho">${esc(f.name)}</div>
+      </div>`).join("")}</div>
+    <button class="b sec" id="wexport" style="margin-top:12px">${t.wExport}</button></div>`;
+}
+
 function tabGifts(){
   const t=L();
   if(S.ev.tier!=="full"){
     $("#tab").innerHTML=`<div class="lock"><b>${t.fLockTitle}</b>
       <p>${t.fLockText}</p>
+      <p>${S.wishes?t.wLockHave(S.wishes):t.wLockNone}</p>
       <button class="b gold" id="buyF">${t.payFull}</button></div>`;
     $("#buyF").onclick=()=>pay("full"); return;
   }
@@ -1305,9 +1323,17 @@ function tabGifts(){
       <div><label>${t.fAmount}</label><input id="ga" type="number" placeholder="${t.fAmountPh}"></div></div>
     <button class="b" id="gadd">${t.fAdd}</button></div>
   ${S.gifts.length?`<button class="b sec" id="gexport">${t.fExport}</button>`:""}
+  ${wishCard()}
   ${S.gifts.length?`<div class="big"><div><b>${S.gifts.length}</b><span>${t.fCount}</span></div>
     <div><b style="font-size:26px">${totalSum.toLocaleString(t.num)}</b><span>${t.fMoney}</span></div></div>`:""}
   <div id="glist"></div>`;
+  $("#wexport") && ($("#wexport").onclick=()=>{
+    haptic("light");
+    const rows = S.fams.filter(f=>(f.rsvp_note||"").trim())
+      .map(f=>[f.name, f.rsvp_note].map(csvCell).join(";"));
+    dl(`tilaklar-${(S.ev.couple||"toy").replace(/\s+/g,"_")}.csv`,
+      "\uFEFF" + [[t.zThFamily,t.wTitle].map(csvCell).join(";"), ...rows].join("\r\n"), "text/csv");
+  });
   $("#gexport") && ($("#gexport").onclick=()=>{
     haptic("light");
     dl(`sovgalar-${(S.ev.couple||"toy").replace(/\s+/g,"_")}.csv`, giftsCsv(), "text/csv");
