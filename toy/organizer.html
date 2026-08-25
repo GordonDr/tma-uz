@@ -14,6 +14,7 @@
 <script src="config.js"></script>
 <script src="i18n-organizer.js"></script>
 <script src="invite-texts.js"></script>
+<script src="qr.js"></script>
 <style>
 :root{
   --bg:#FBF7F2; --card:#FFFFFF; --ink:#2A211C; --ink2:#5C4C42; --muted:#8B7A6C;
@@ -878,7 +879,9 @@ function tabGuests(){
       ${f.rsvp_note?`<div class="wish">${esc(f.rsvp_note)}</div>`:""}
       <div class="acts">
         <button class="pri" data-a="send">${f.rsvp_status==="pending"&&S.onlyPending?t.gBtnRemind:f.sent_at?t.gBtnAgain:t.gBtnSend}</button>
-        <button data-a="mark">✍️</button><button data-a="copy">🔗</button><button data-a="del">🗑</button>
+        <button data-a="mark">✍️</button><button data-a="copy">🔗</button>${
+          S.ev.tier==="free"?"":`<button data-a="print" title="${t.pInvBtn}">🖼</button>`
+        }<button data-a="del">🗑</button>
       </div></div>`;
   }).join("");
   list.querySelectorAll(".fam").forEach(el=>{
@@ -895,6 +898,9 @@ function tabGuests(){
       if(r.family){ Object.assign(f, r.family); haptic("medium"); render(); }
     };
     el.querySelector('[data-a="send"]').onclick=()=>shareTo(f, (f.rsvp_status==="pending"&&S.onlyPending) ? "remind" : "first");
+    // Печатное приглашение делается для КОНКРЕТНОЙ семьи: QR ведёт на её ответ,
+    // иначе тойхона получит число без этих гостей.
+    el.querySelector('[data-a="print"]')?.addEventListener("click", ()=>{ haptic("medium"); invitePng(f); });
     el.querySelector('[data-a="del"]').onclick=async()=>{ if(!await ask(t.gConfirmDel(f.name)))return;
       await call("family_delete",{event_id:S.ev.id,family_id:f.id}); S.fams=S.fams.filter(x=>x.id!==f.id); render(); };
   });
@@ -1319,8 +1325,11 @@ function printFrame(x, W, H, c){
     });
   }
 }
-async function invitePng(){
+async function invitePng(fam){
   const t = L(), c = themeVars();
+  // Приглашение печатают либо конкретной семье (тогда QR ведёт на её ответ),
+  // либо образцом — чтобы посмотреть, как получится.
+  const link = fam ? S.inviteLink.replace("{token}", fam.token) : "";
   // Язык картинки — язык ПРИГЛАШЕНИЯ, а не кабинета: её увидит гость.
   const il = S.ev.lang || "uz_latin";
   const U = { uz_latin:{pre:"TAKLIFNOMA", when:"QACHON", where:"QAYERDA", ans:"Javobingizni shu havola orqali bildiring"},
@@ -1390,10 +1399,22 @@ async function invitePng(){
   line(U.when, [dstr, S.ev.event_time].filter(Boolean).join(" · "));
   line(U.where, S.ev.venue_name || "", S.ev.venue_addr || "");
 
+  // QR обязателен: печатное приглашение существует ради родни без телеграма,
+  // а ссылку .../invite.html?t=k3n8x… руками не набирают. Без кода такой гость
+  // ответить не может — и счёт для тойханы снова неполный.
+  //
+  // Токен подставляем позже, для каждой семьи свой; здесь рисуем по шаблону,
+  // чтобы кегль и отступы считались один раз.
+  const qrBox = 150, qrY = H - 232;
+  if (window.qrDraw && link) {
+    try {
+      // Светлая подложка под кодом всегда белая, даже на тёмном оформлении:
+      // инверсный QR читают не все камеры, а рисковать тут нечем.
+      qrDraw(x, link, W/2 - qrBox/2, qrY, qrBox, "#000000", "#FFFFFF", 3);
+    } catch(e) { /* ссылка длиннее версии 10 — тогда просто без кода */ }
+  }
   x.fillStyle = c.muted; x.font = `400 17px ${SANS}`;
-  x.fillText(U.ans, W/2, H - 108);
-  x.fillStyle = c.accentInk; x.font = `600 18px ${SANS}`;
-  x.fillText(S.inviteBase.replace(/^https?:\/\//, ""), W/2, H - 78);
+  x.fillText(U.ans, W/2, H - 58);
 
   showPngOverlay(cv, `taklifnoma-${(S.ev.couple||"toy").replace(/\s+/g,"_")}.png`, t.pInvHint);
 }
@@ -1606,7 +1627,8 @@ function tabEvent(){
   });
   $("#buyTheme") && ($("#buyTheme").onclick=()=>pay("premium"));
   $("#coBuy") && ($("#coBuy").onclick=()=>pay("premium"));
-  $("#printInv") && ($("#printInv").onclick=()=>{ haptic("medium"); invitePng(); });
+  // На вкладке «Той» — образец: показать, как выйдет, до того как печатать кому-то.
+  $("#printInv") && ($("#printInv").onclick=()=>{ haptic("medium"); invitePng(S.fams[0]); });
   coRefresh();
   $("#coInvite") && ($("#coInvite").onclick=async()=>{
     const r = await call("co_invite", { event_id: e.id });
