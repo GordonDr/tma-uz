@@ -195,12 +195,16 @@ const LANG_KEY="td_org_lang";
 let lang = (()=>{ try{ const v=localStorage.getItem(LANG_KEY); if(v==="ru"||v==="uz") return v; }catch(e){}
   return (tg?.initDataUnsafe?.user?.language_code === "uz") ? "uz" : "ru"; })();
 const L = () => (window.T_ORG ? T_ORG[lang] : {});
+// Подпись под ссылкой на условия живёт в разметке, а не в render(): переводим отдельно.
+const footLang = () => { const a=document.getElementById("footOferta");
+  if(a && L().footOferta) a.textContent = L().footOferta; };
+footLang();
 function renderLangSeg(){
   const seg=document.getElementById("langseg");
   seg.innerHTML = [["ru","Ру"],["uz","O'z"]].map(([k,t])=>
     `<button data-l="${k}" class="${k===lang?"on":""}">${t}</button>`).join("");
   seg.querySelectorAll("button").forEach(b=>b.onclick=()=>{
-    lang=b.dataset.l; try{ localStorage.setItem(LANG_KEY,lang); }catch(e){}
+    lang=b.dataset.l; try{ localStorage.setItem(LANG_KEY,lang); }catch(e){} footLang();
     document.documentElement.lang = lang==="uz" ? "uz" : "ru";
     haptic("light"); renderLangSeg(); S.ev ? render() : renderNew();
   });

@@ -392,7 +392,7 @@ function render(e, f, preview){
     <div class="err" id="err" role="alert" hidden></div>
     <button class="send" id="send">${preview?u.previewBtn:u.send}</button>
   </div>
-  ${preview?"":`<div class="viral">
+  ${preview?"":`<div class="viral" id="viral"${f.rsvp_status==="pending"?" hidden":""}>
     <b>${u.viralTitle}</b>
     <p>${u.viralText(VIRAL_OFF.toLocaleString("ru"))}</p>
     <a class="vbtn" href="https://t.me/${BOT}?start=inv${e.id?`_${e.id}`:""}">${u.viralBtn}</a>
@@ -444,6 +444,11 @@ function render(e, f, preview){
       ${state.status==="yes"&&d?`<button class="send" id="ics" style="margin-top:14px">${u.ics}</button>`:""}
       <div class="fam" style="margin-top:12px">${u.changeHint}</div></div>`;
     const ics=document.getElementById("ics"); if(ics) ics.onclick=()=>addToCalendar(e,d);
+    // Оффер показываем только после ответа. До ответа он стоял вплотную к
+    // «Сможете прийти?» и первым, что видел гость, была реклама — а расположен
+    // он ровно в ту секунду, когда только что написал «придём».
+    const vr=document.getElementById("viral");
+    if(vr){ vr.hidden=false; setTimeout(()=>vr.scrollIntoView({block:"nearest",behavior:"smooth"}), 400); }
   }
 
   bAll.onclick=()=>{ state.status="yes"; state.count=state.inv; submit(bAll); };

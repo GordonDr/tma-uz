@@ -45,7 +45,8 @@ const T_ORG = {
     newMap:"Ссылка на карту (необязательно)", newMapPh:"https://yandex.uz/maps/…",
     newGreet:"Текст приглашения",
     newSubmit:"Создать той",
-    newNote:"Приглашения и ответы — бесплатно, без лимита на число семей. Оплата — только когда понадобится счёт для зала и рассадка.",
+    newNote:"Дальше вы вносите семьи и рассылаете ссылки. Дату, зал и текст можно менять когда угодно — у тех, кому уже отправили, приглашение обновится само.",
+    footOferta:"Условия и обработка данных",
 
     newErrNames:"Введите имена",
     newOccasion:"Что за событие", newLang:"Язык приглашения",
@@ -234,7 +235,8 @@ const T_ORG = {
     newMap:"Xarita havolasi (majburiy emas)", newMapPh:"https://yandex.uz/maps/…",
     newGreet:"Taklifnoma matni",
     newSubmit:"To'y yaratish",
-    newNote:"Taklifnomalar va javoblar — bepul, oilalar soniga cheklov yo'q. To'lov faqat to'yxona uchun hisob va stollarga joylashtirish kerak bo'lganda.",
+    newNote:"Keyin oilalarni kiritasiz va havolalarni yuborasiz. Sana, to'yxona va matnni istagan paytda o'zgartirsangiz bo'ladi — allaqachon yuborilganlarda taklifnoma o'zi yangilanadi.",
+    footOferta:"Shartlar va ma'lumotlarni qayta ishlash",
 
     newErrNames:"Ismlarni kiriting",
     newOccasion:"Qanday tadbir", newLang:"Taklifnoma tili",
