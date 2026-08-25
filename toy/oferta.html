@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>To'y-Daftar — условия и данные</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#FBF7F2; --card:#FFFFFF; --ink:#2A211C; --ink2:#5C4C42; --muted:#8B7A6C;
+  --line:#EADFD2; --line2:#F5EEE5; --gold:#B08D3F; --gold-bg:#FBF3E2; --deep:#7D1F38; --deep-bg:#FAEDF0;
+  --bad:#B3403A; --bad-bg:#FAE9E8;
+  --shadow:0 1px 2px rgba(90,60,30,.05), 0 10px 28px rgba(90,60,30,.07);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#17130F; --card:#211A15; --ink:#F0E7DC; --ink2:#C7B6A5; --muted:#9C8875;
+  --line:#33291F; --line2:#282018; --gold:#D5B366; --gold-bg:#2A2213; --deep:#D98AA0; --deep-bg:#2E1B20;
+  --bad:#E6847E; --bad-bg:#3A1F1D;
+  --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 28px rgba(0,0,0,.3);
+}}
+:root[data-theme="dark"]{
+  --bg:#17130F; --card:#211A15; --ink:#F0E7DC; --ink2:#C7B6A5; --muted:#9C8875;
+  --line:#33291F; --line2:#282018; --gold:#D5B366; --gold-bg:#2A2213; --deep:#D98AA0; --deep-bg:#2E1B20;
+  --bad:#E6847E; --bad-bg:#3A1F1D;
+  --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 28px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:Manrope,system-ui,-apple-system,Roboto,sans-serif;
+  font-size:15.5px;line-height:1.6;padding:0 0 44px}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+h1,h2{font-family:"Cormorant Garamond",Georgia,serif;margin:0;font-weight:600;line-height:1.2}
+.langbar{position:fixed;top:calc(10px + env(safe-area-inset-top));right:10px;z-index:40;
+  display:flex;gap:3px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px;
+  box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.langbar button{border:0;background:transparent;color:var(--muted);cursor:pointer;
+  font:600 11.5px Manrope,system-ui,sans-serif;padding:5px 10px;border-radius:16px}
+.langbar button.on{background:var(--deep);color:#fff}
+.top{padding:28px 0 6px}
+.top h1{font-size:28px}
+.top .sub{color:var(--muted);font-size:13.5px;margin-top:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:17px 20px;margin:12px 0;box-shadow:var(--shadow)}
+.card h2{font-size:19px;margin-bottom:9px}
+.card p{margin:0 0 10px}
+.card p:last-child{margin-bottom:0}
+ul,ol{margin:0 0 10px;padding-left:20px}
+li{margin-bottom:7px}
+li:last-child{margin-bottom:0}
+.tldr{background:var(--gold-bg);border:1px solid var(--gold);border-radius:16px;padding:16px 20px;margin:12px 0}
+.tldr h2{color:var(--gold);font-size:18px;margin-bottom:9px}
+.tldr li{font-size:14.5px;color:var(--ink2)}
+.no{background:var(--bad-bg);border:1px solid var(--bad);border-radius:16px;padding:16px 20px;margin:12px 0}
+.no h2{color:var(--bad);font-size:18px;margin-bottom:9px}
+.no li{font-size:14.5px}
+.todo{background:var(--line2);border-left:3px solid var(--muted);border-radius:0 9px 9px 0;padding:11px 14px;
+  margin:12px 0;font-size:13px;color:var(--ink2)}
+.req div{display:grid;grid-template-columns:150px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--line2);font-size:14px}
+.req div:last-child{border-bottom:0}
+.req span:first-child{color:var(--muted);font-size:13px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;background:var(--line2);padding:2px 5px;border-radius:5px}
+.foot{text-align:center;font-size:12.5px;color:var(--muted);padding:24px 0 6px;line-height:1.6}
+.hide{display:none}
+@media (max-width:520px){ .req div{grid-template-columns:1fr;gap:2px} }
+</style>
+</head>
+<body>
+<div class="langbar" id="langbar"></div>
+<div class="wrap">
+
+<!-- ─────────────── РУССКИЙ ─────────────── -->
+<div id="ru">
+<div class="top">
+  <h1>Условия и обработка данных</h1>
+  <div class="sub">Сервис To'y-Daftar — приглашения, подсчёт гостей и рассадка для тоя · редакция от 27 августа 2026 г.</div>
+</div>
+
+<div class="tldr">
+  <h2>Коротко</h2>
+  <ul>
+    <li>До 50 приглашённых — <b>бесплатно</b>, без ограничения по времени.</li>
+    <li>Premium — 49 000 сум, «Полный» — 149 000 сум. <b>Разово, за одно событие.</b> Подписки нет, повторно не спишется.</li>
+    <li>Приглашения гостям рассылаете <b>вы сами</b>, со своего аккаунта. Сервис ничего не отправляет вашим гостям. Вам самим бот пишет в Telegram: ответы гостей, статус оплаты и подтверждение тарифа.</li>
+    <li>Телефоны и адреса гостей мы <b>не спрашиваем и не храним</b>. Только название семьи и сколько человек.</li>
+    <li>Список гостей видите только вы. Гость видит своё имя, дату и сколько человек пригласили именно его семье.</li>
+    <li>Данные гостей удаляются автоматически через 90 дней после даты события.</li>
+    <li>Удалить событие со всеми данными — команда <code>/delete</code> в боте, в любой момент.</li>
+  </ul>
+</div>
+
+<div class="no">
+  <h2>Чего мы НЕ делаем</h2>
+  <ul>
+    <li><b>Не собираем деньги и подарки.</b> Книга подарков — это ваш личный список «кто что подарил», как тетрадь. Никаких переводов, сборов и онлайн-подарков через сервис не происходит и не будет.</li>
+    <li><b>Не рассылаем гостям ничего от своего имени.</b> Ссылку отправляете вы.</li>
+    <li><b>Мы сами не передаём данные</b> залам, тамадам и фотографам. Выгрузку для площадки формируете и отправляете вы; после отправки вы отвечаете за дальнейшее использование списка и за уведомление гостей о передаче.</li>
+    <li><b>Не бронируем зал, не заказываем еду и не отвечаем за подрядчиков.</b> Мы считаем гостей, остальное — ваши договорённости.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>1. Стороны и предмет</h2>
+  <p><b>Исполнитель:</b> индивидуальный предприниматель Епихин Кирилл Николаевич, регистрационный номер 7875577, СТИР {{СТИР}}, г. Ташкент, Шайхантахурский район, Республика Узбекистан.
+  <b>Заказчик:</b> физическое лицо — организатор события, принявшее настоящую оферту.</p>
+  <p>Услуга оказывается через Telegram-бот <code>{{@bot_username}}</code> и мини-приложение: создание страницы
+  приглашения, ведение списка приглашённых семей, сбор их ответов, распределение по столам, формирование
+  сводки для площадки и учёт подарков.</p>
+  <h2 style="font-size:15px;margin-top:16px">Тарифы</h2>
+  <ul>
+    <li><b>Бесплатный</b> — до 50 приглашённых гостей. Оплаты не требует, обязательств не создаёт.</li>
+    <li><b>Premium — 49 000 сум за событие</b>: без ограничения числа семей в списке и распределение гостей по столам.</li>
+    <li><b>Полный — 149 000 сум за событие</b>: всё вышеперечисленное и книга подарков.</li>
+  </ul>
+  <p>Оплата <b>единовременная, за одно событие</b>. Подписка, автоматические списания и периодические
+  платежи не применяются. Тариф действует до наступления даты события и в течение срока хранения данных.</p>
+</div>
+
+<div class="card">
+  <h2>2. Оплата и возврат</h2>
+  <p>Оплата производится через платёжного провайдера (Click, Payme); фискальный чек формирует провайдер.
+  Исполнитель не принимает и не хранит денежные средства третьих лиц и не осуществляет платёжную деятельность.</p>
+  <p><b>Возврат.</b> Услуга включается сразу после оплаты и сразу становится доступной, поэтому:</p>
+  <ul>
+    <li>если после оплаты <b>не было отправлено ни одного приглашения</b> — возврат полной стоимости по запросу
+      в боте в течение 24 часов с момента оплаты;</li>
+    <li>если функция не работает по вине Исполнителя — недостаток устраняется в срок не более
+      <b>двадцати дней</b> со дня обращения (ст. 19 Закона Республики Узбекистан «О защите прав потребителей»),
+      а при неустранении производится возврат стоимости;</li>
+    <li>отказ гостей прийти, изменение даты события или отмена торжества <b>не являются</b> недостатком услуги.</li>
+  </ul>
+  <p>Требование направляется в бот. Возврат производится тем же способом, которым была произведена оплата.</p>
+</div>
+
+<div class="card">
+  <h2>3. Персональные данные</h2>
+  <h2 style="font-size:15px">Данные организатора</h2>
+  <p>Обрабатываем: идентификатор и имя в Telegram, сведения о событии (имена, дата, время, площадка, адрес,
+  текст приглашения). Цель — оказание услуги, основание — акцепт настоящей оферты.</p>
+
+  <h2 style="font-size:15px;margin-top:16px">Данные гостей — читайте внимательно</h2>
+  <p>Список приглашённых вводите <b>вы</b>. Мы намеренно устроили сервис так, чтобы этих данных было
+  как можно меньше: хранится <b>название семьи</b> («Каримовлар», «Аваз ака»), <b>число приглашённых</b>,
+  ответ гостя и его пожелание, если он его написал.</p>
+  <p><b>Мы не запрашиваем и не храним</b> телефоны, адреса, фамилии-имена-отчества отдельных гостей,
+  их фотографии и любые документы.</p>
+  <p>Вводя названия семей, вы подтверждаете, что делаете это в личных целях в связи с собственным
+  семейным торжеством. Просим не вписывать в поле названия семьи телефоны, адреса и иные лишние сведения —
+  они там не нужны и обрабатываться не должны.</p>
+  <p>Гость, открывая приглашение, видит только своё название семьи и число приглашённых. Чужие семьи,
+  их ответы и весь список ему <b>не видны</b>.</p>
+
+  <h2 style="font-size:15px;margin-top:16px">Сроки и удаление</h2>
+  <ul>
+    <li>Данные гостей и записи о подарках удаляются <b>автоматически через 90 дней</b> после даты события.</li>
+    <li>Удалить событие со всеми данными раньше — команда <code>/delete</code> в боте. После удаления
+      ссылки-приглашения перестают открываться, восстановить данные невозможно.</li>
+  </ul>
+  <p>Данные третьим лицам не передаются и не продаются. Обработка ведётся с использованием инфраструктуры
+  Supabase, серверы которой расположены за пределами Республики Узбекистан; акцептуя оферту, Заказчик даёт
+  согласие на такую обработку. Биометрические и генетические данные не обрабатываются.</p>
+</div>
+
+<div class="card">
+  <h2>4. Подарки — это учёт, а не касса</h2>
+  <p>Функция «Книга подарков» на тарифе «Полный» — <b>личный список Заказчика</b>: кто что подарил и на какую
+  сумму, чтобы через год знать, что дарить в ответ. Это записная книжка, а не платёжный инструмент.</p>
+  <p>Исполнитель <b>не принимает, не переводит, не хранит и не аккумулирует</b> денежные средства гостей,
+  не выступает платёжным агентом и не осуществляет деятельность, требующую лицензии Центрального банка
+  Республики Узбекистан. Записи в книге подарков видит только Заказчик.</p>
+</div>
+
+<div class="card">
+  <h2>5. Ответственность</h2>
+  <p>Сервис ведёт учёт по данным, которые вводят Заказчик и гости. Исполнитель не гарантирует, что все
+  приглашённые ответят или что пришедшее число совпадёт с подтверждённым: явка зависит от гостей.</p>
+  <p>Оценка числа гостей для площадки носит <b>справочный характер</b>. Решения о заказе еды, аренде и
+  расчётах с площадкой Заказчик принимает самостоятельно. Ответственность Исполнителя за неисполнение
+  или ненадлежащее исполнение договора ограничивается двукратным размером цены оплаченного тарифа
+  (статья 706 Гражданского кодекса Республики Узбекистан).</p>
+  <p>Исполнитель не несёт ответственности за недоступность Telegram, перебои у платёжного провайдера
+  и иные обстоятельства вне его контроля, но в таких случаях продлевает срок услуги либо возвращает оплату.</p>
+</div>
+
+<div class="card">
+  <h2>6. Реквизиты</h2>
+  <div class="req">
+    <div><span>Исполнитель</span><span>ИП Епихин Кирилл Николаевич</span></div>
+    <div><span>Регистрационный номер</span><span>7875577</span></div>
+    <div><span>СТИР</span><span>{{СТИР}}</span></div>
+    <div><span>Адрес</span><span>Шайхантахурский район, г. Ташкент</span></div>
+    <div><span>Телеграм-бот</span><span>{{@bot_username}}</span></div>
+    <div><span>Связь</span><span>{{@владелец}} · support@rulchi.uz</span></div>
+    <div><span>Порядок приёма жалоб</span><span>Написать в бот {{@bot_username}} командой /help или на support@rulchi.uz. Ответ — в течение 3 рабочих дней.</span></div>
+    <div><span>Лицензии</span><span>Деятельность по настоящему договору лицензированию не подлежит; документы разрешительного характера не требуются.</span></div>
+    <div><span>Порядок расторжения</span><span>Заказчик расторгает договор командой /delete в боте: событие и все данные удаляются. Возврат — по разделу 2.</span></div>
+
+  </div>
+  <p style="margin-top:12px">К отношениям применяется законодательство Республики Узбекистан.</p>
+</div>
+</div>
+
+<!-- ─────────────── O'ZBEKCHA ─────────────── -->
+<div id="uz" class="hide">
+<div class="top">
+  <h1>Shartlar va ma'lumotlarni qayta ishlash</h1>
+  <div class="sub">To'y-Daftar xizmati — taklifnomalar, mehmonlar hisobi va stollarga joylashtirish · 2026-yil 27-avgust tahriri</div>
+</div>
+
+<div class="tldr">
+  <h2>Qisqacha</h2>
+  <ul>
+    <li>50 ta taklif qilingan mehmongacha — <b>bepul</b>, muddat cheklovisiz.</li>
+    <li>Premium — 49 000 so'm, «To'liq» — 149 000 so'm. <b>Bir marta, bitta tadbir uchun.</b> Obuna yo'q, qayta yechilmaydi.</li>
+    <li>Taklifnomalarni mehmonlarga <b>o'zingiz</b>, o'z akkauntingizdan yuborasiz. Xizmat mehmonlaringizga hech narsa yubormaydi. Bot faqat sizga yozadi: mehmonlar javobi, to'lov holati va tarif tasdig'i.</li>
+    <li>Mehmonlarning telefon raqami va manzilini <b>so'ramaymiz va saqlamaymiz</b>. Faqat oila nomi va necha kishiligi.</li>
+    <li>Mehmonlar ro'yxatini faqat siz ko'rasiz. Mehmon o'z oilasi nomini, sanani va necha kishi taklif qilinganini ko'radi.</li>
+    <li>Mehmonlar ma'lumotlari tadbir sanasidan 90 kun o'tgach avtomatik o'chiriladi.</li>
+    <li>Tadbirni barcha ma'lumotlari bilan o'chirish — botdagi <code>/delete</code> buyrug'i, istalgan vaqtda.</li>
+  </ul>
+</div>
+
+<div class="no">
+  <h2>Biz NIMA qilmaymiz</h2>
+  <ul>
+    <li><b>Pul va sovg'a yig'maymiz.</b> Sovg'alar daftari — bu sizning shaxsiy ro'yxatingiz, daftardek. Xizmat orqali hech qanday o'tkazma, yig'im va onlayn sovg'a yo'q va bo'lmaydi.</li>
+    <li><b>Mehmonlarga o'z nomimizdan hech narsa yubormaymiz.</b> Havolani siz yuborasiz.</li>
+    <li><b>Biz o'zimiz ma'lumotlarni uzatmaymiz</b> — na to'yxonaga, na boshlovchiga, na fotografga. To'yxona uchun eksportni siz tayyorlab yuborasiz; yuborilgandan keyin ro'yxatdan foydalanish va mehmonlarni xabardor qilish uchun javobgarlik sizda.</li>
+    <li><b>To'yxona band qilmaymiz, ovqat buyurtma qilmaymiz va ijrochilar uchun javob bermaymiz.</b> Biz mehmonlarni sanaymiz, qolgani sizning kelishuvingiz.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>1. Tomonlar va predmet</h2>
+  <p><b>Ijrochi:</b> yakka tartibdagi tadbirkor Epixin Kirill Nikolayevich, ro'yxatdan o'tish raqami 7875577, STIR {{СТИР}}, Toshkent shahri, Shayxontohur tumani, O'zbekiston Respublikasi.
+  <b>Buyurtmachi:</b> jismoniy shaxs — ushbu ofertani qabul qilgan tadbir tashkilotchisi.</p>
+  <p>Xizmat Telegram-bot <code>{{@bot_username}}</code> va mini-ilova orqali ko'rsatiladi: taklifnoma sahifasini
+  yaratish, taklif qilingan oilalar ro'yxatini yuritish, ularning javoblarini yig'ish, stollarga joylashtirish,
+  to'yxona uchun ma'lumot tayyorlash va sovg'alar hisobi.</p>
+  <h2 style="font-size:15px;margin-top:16px">Tariflar</h2>
+  <ul>
+    <li><b>Bepul</b> — 50 ta taklif qilingan mehmongacha.</li>
+    <li><b>Premium — bitta tadbir uchun 49 000 so'm</b>: ro'yxatdagi oilalar soni cheklanmaydi va mehmonlarni stollarga joylashtirish.</li>
+    <li><b>To'liq — bitta tadbir uchun 149 000 so'm</b>: yuqoridagilarning hammasi va sovg'alar daftari.</li>
+  </ul>
+  <p>To'lov <b>bir martalik, bitta tadbir uchun</b>. Obuna va avtomatik yechib olish qo'llanilmaydi.</p>
+</div>
+
+<div class="card">
+  <h2>2. To'lov va qaytarish</h2>
+  <p>To'lov to'lov provayderi (Click, Payme) orqali amalga oshiriladi; fiskal chekni provayder shakllantiradi.
+  Ijrochi uchinchi shaxslarning pul mablag'larini qabul qilmaydi va saqlamaydi, to'lov faoliyatini amalga oshirmaydi.</p>
+  <p><b>Qaytarish.</b> Xizmat to'lovdan so'ng darhol ochiladi, shuning uchun:</p>
+  <ul>
+    <li>agar to'lovdan keyin <b>birorta ham taklifnoma yuborilmagan bo'lsa</b> — to'lovdan 24 soat ichida botdagi
+      so'rov bo'yicha to'liq qaytariladi;</li>
+    <li>agar funksiya Ijrochi aybi bilan ishlamasa — kamchilik murojaat kunidan <b>yigirma kundan</b> kechiktirmay
+      bartaraf etiladi («Iste'molchilar huquqlarini himoya qilish to'g'risida»gi Qonunning 19-moddasi),
+      bartaraf etilmasa — to'lov qaytariladi;</li>
+    <li>mehmonlarning kelmasligi, tadbir sanasining o'zgarishi yoki bekor qilinishi xizmat kamchiligi <b>hisoblanmaydi</b>.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>3. Shaxsiy ma'lumotlar</h2>
+  <h2 style="font-size:15px">Tashkilotchi ma'lumotlari</h2>
+  <p>Qayta ishlaymiz: Telegramdagi identifikator va ism, tadbir ma'lumotlari (ismlar, sana, vaqt, to'yxona,
+  manzil, taklifnoma matni). Maqsad — xizmat ko'rsatish, asos — ushbu ofertani qabul qilish.</p>
+
+  <h2 style="font-size:15px;margin-top:16px">Mehmonlar ma'lumotlari — diqqat bilan o'qing</h2>
+  <p>Taklif qilinganlar ro'yxatini <b>siz</b> kiritasiz. Xizmatni ataylab shunday qildikki, bu ma'lumotlar
+  imkon qadar kam bo'lsin: <b>oila nomi</b> («Karimovlar», «Avaz aka»), <b>taklif qilinganlar soni</b>,
+  mehmonning javobi va u yozgan tilak saqlanadi.</p>
+  <p><b>So'ramaymiz va saqlamaymiz:</b> telefon raqamlari, manzillar, alohida mehmonlarning to'liq ismi,
+  suratlari va hech qanday hujjat.</p>
+  <p>Oila nomlarini kiritish orqali siz buni o'z oilaviy tantanangiz munosabati bilan shaxsiy maqsadda
+  qilayotganingizni tasdiqlaysiz. Oila nomi maydoniga telefon, manzil va boshqa ortiqcha ma'lumot
+  yozmaslikni so'raymiz.</p>
+  <p>Mehmon taklifnomani ochganda faqat o'z oilasi nomini va taklif qilinganlar sonini ko'radi.
+  Boshqa oilalar, ularning javoblari va butun ro'yxat unga <b>ko'rinmaydi</b>.</p>
+
+  <h2 style="font-size:15px;margin-top:16px">Muddatlar va o'chirish</h2>
+  <ul>
+    <li>Mehmonlar ma'lumotlari va sovg'alar yozuvlari tadbir sanasidan <b>90 kun o'tgach avtomatik</b> o'chiriladi.</li>
+    <li>Tadbirni barcha ma'lumotlari bilan oldinroq o'chirish — botdagi <code>/delete</code> buyrug'i.
+      O'chirilgandan keyin taklifnoma havolalari ochilmaydi, ma'lumotlarni tiklab bo'lmaydi.</li>
+  </ul>
+  <p>Ma'lumotlar uchinchi shaxslarga uzatilmaydi va sotilmaydi. Qayta ishlash O'zbekiston Respublikasidan
+  tashqarida joylashgan Supabase infratuzilmasidan foydalangan holda amalga oshiriladi; ofertani qabul
+  qilish orqali Buyurtmachi bunga rozilik bildiradi.</p>
+</div>
+
+<div class="card">
+  <h2>4. Sovg'alar — bu hisob, kassa emas</h2>
+  <p>«To'liq» tarifidagi «Sovg'alar daftari» — Buyurtmachining <b>shaxsiy ro'yxati</b>: kim nima va qancha
+  sovg'a qilgani, bir yildan keyin javobiga nima berishni bilish uchun. Bu daftar, to'lov vositasi emas.</p>
+  <p>Ijrochi mehmonlarning pul mablag'larini <b>qabul qilmaydi, o'tkazmaydi, saqlamaydi va to'plamaydi</b>,
+  to'lov agenti sifatida ish ko'rmaydi va O'zbekiston Respublikasi Markaziy banki litsenziyasini talab
+  qiladigan faoliyatni amalga oshirmaydi. Sovg'alar daftaridagi yozuvlarni faqat Buyurtmachi ko'radi.</p>
+</div>
+
+<div class="card">
+  <h2>5. Javobgarlik</h2>
+  <p>Xizmat Buyurtmachi va mehmonlar kiritgan ma'lumotlar bo'yicha hisob yuritadi. Ijrochi barcha taklif
+  qilinganlar javob berishini yoki kelganlar soni tasdiqlangan son bilan mos tushishini kafolatlamaydi.</p>
+  <p>To'yxona uchun mehmonlar sonining bahosi <b>ma'lumot uchun</b>. Ovqat buyurtma qilish, ijara va
+  to'yxona bilan hisob-kitob bo'yicha qarorlarni Buyurtmachi mustaqil qabul qiladi. Ijrochining shartnomani
+  bajarmagani yoki lozim darajada bajarmagani uchun javobgarligi to'langan tarif narxining ikki barobari
+  bilan cheklanadi (O'zbekiston Respublikasi Fuqarolik kodeksining 706-moddasi).</p>
+</div>
+
+<div class="card">
+  <h2>6. Rekvizitlar</h2>
+  <div class="req">
+    <div><span>Ijrochi</span><span>YTT Epixin Kirill Nikolayevich</span></div>
+    <div><span>STIR</span><span>{{СТИР}}</span></div>
+    <div><span>Manzil</span><span>Shayxontohur tumani, Toshkent</span></div>
+    <div><span>Telegram-bot</span><span>{{@bot_username}}</span></div>
+    <div><span>Aloqa</span><span>{{@владелец}} · support@rulchi.uz</span></div>
+    <div><span>Shikoyatlarni qabul qilish tartibi</span><span>Botga {{@bot_username}} /help buyrug'i bilan yoki support@rulchi.uz manziliga yozing. Javob — 3 ish kuni ichida.</span></div>
+    <div><span>Litsenziyalar</span><span>Ushbu shartnoma bo'yicha faoliyat litsenziyalanmaydi; ruxsat beruvchi hujjatlar talab qilinmaydi.</span></div>
+    <div><span>Bekor qilish tartibi</span><span>Buyurtmachi shartnomani botdagi /delete buyrug'i bilan bekor qiladi: tadbir va barcha ma'lumotlar o'chiriladi. Qaytarish — 2-bo'limga muvofiq.</span></div>
+  </div>
+  <p style="margin-top:12px">Munosabatlarga O'zbekiston Respublikasi qonunchiligi qo'llaniladi.</p>
+</div>
+</div>
+
+<div class="foot">
+  To'y-Daftar · <span id="footNote">приглашения и подсчёт гостей</span>
+</div>
+
+</div>
+
+<script>
+const LK="td_oferta_lang";
+let lang=(()=>{ try{ const v=localStorage.getItem(LK); if(v==="ru"||v==="uz") return v; }catch(e){}
+  return (navigator.language||"").startsWith("uz") ? "uz" : "ru"; })();
+function apply(){
+  document.getElementById("ru").classList.toggle("hide", lang!=="ru");
+  document.getElementById("uz").classList.toggle("hide", lang!=="uz");
+  document.documentElement.lang = lang;
+  document.title = lang==="uz" ? "To'y-Daftar — shartlar va ma'lumotlar" : "To'y-Daftar — условия и данные";
+  document.getElementById("footNote").textContent =
+    lang==="uz" ? "taklifnomalar va mehmonlar hisobi" : "приглашения и подсчёт гостей";
+  const bar=document.getElementById("langbar");
+  bar.innerHTML=[["ru","Ру"],["uz","O'z"]].map(([k,t])=>
+    `<button data-l="${k}" class="${k===lang?"on":""}">${t}</button>`).join("");
+  bar.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    lang=b.dataset.l; try{localStorage.setItem(LK,lang);}catch(e){} apply(); window.scrollTo({top:0});
+  });
+}
+apply();
+</script>
+</body>
+</html>

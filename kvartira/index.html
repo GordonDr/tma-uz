@@ -1,0 +1,361 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>Kvartira Qabul — приёмка квартиры</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<script src="config.js"></script>
+<script src="checklist-data.js"></script>
+<style>
+:root{
+  --paper:#FBFBF9; --card:#FFFFFF; --ink:#1C2429; --ink2:#4A555D; --muted:#7C878F;
+  --line:#E4E8EB; --line2:#F1F4F6; --grid:#EDF1F4;
+  --amber:#D98324; --amber-ink:#8A4E08; --amber-bg:#FCF2E4;
+  --ok:#2E7D4F; --ok-bg:#E6F2EA; --bad:#B3403A; --bad-bg:#FBEBEA;
+  --shadow:0 1px 2px rgba(28,36,41,.05), 0 8px 24px rgba(28,36,41,.06);
+}
+:root[data-theme="dark"]{
+  --paper:#14181B; --card:#1B2126; --ink:#E9EEF1; --ink2:#B3BEC5; 
+  --muted:#87949C; --line:#2A3238; --line2:#222A30; --grid:#1F272C;
+  --amber:#EFA85C; --amber-ink:#EFA85C; --amber-bg:#2A1F12;
+  --ok:#6CC493; --ok-bg:#17301F; --bad:#E6847E; --bad-bg:#3A1F1D;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);color:var(--ink);
+  font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15.5px;line-height:1.5;
+  padding:0 0 108px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;background-position:-1px -1px;
+}
+h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-spacing:-.01em}
+.wrap{max-width:560px;margin:0 auto;padding:0 14px}
+
+/* ---------- hero ---------- */
+.hero{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);
+  padding:16px;margin:12px 0 10px;display:grid;grid-template-columns:1fr 84px;gap:12px;align-items:center}
+.hero h1{font-size:21px;font-weight:600}
+.hero .sub{color:var(--muted);font-size:13px;margin-top:4px}
+.ring{position:relative;width:84px;height:84px}
+.ring svg{transform:rotate(-90deg)}
+.ring .val{position:absolute;inset:0;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:500}
+.lang{display:inline-flex;background:var(--line2);border-radius:9px;padding:2px;margin-top:10px}
+.lang button{border:0;background:transparent;color:var(--muted);font:600 12px Manrope,sans-serif;
+  padding:5px 12px;border-radius:7px;cursor:pointer;letter-spacing:.02em}
+.lang button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+
+/* ---------- bag ---------- */
+.bag{background:var(--amber-bg);border:1px solid var(--amber);border-radius:16px;padding:13px 15px;margin:10px 0}
+.bag h3{font-size:14px;font-weight:600;color:var(--amber-ink);display:flex;align-items:center;gap:7px;margin-bottom:8px}
+.bag .items{display:flex;flex-wrap:wrap;gap:6px}
+.bag .it{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12.5px;font-weight:500}
+
+/* ---------- warn ---------- */
+.warn{display:flex;gap:10px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--bad);
+  border-radius:12px;padding:12px 14px;margin:10px 0;font-size:13.5px;line-height:1.45;color:var(--ink2)}
+.warn b{color:var(--ink)}
+
+/* ---------- sections ---------- */
+.sec{background:var(--card);border:1px solid var(--line);border-radius:16px;margin:9px 0;overflow:hidden;box-shadow:var(--shadow)}
+.sec > .head{display:grid;grid-template-columns:34px 1fr auto;gap:11px;align-items:center;padding:14px 15px;cursor:pointer;user-select:none}
+.sec .ic{width:34px;height:34px;border-radius:10px;background:var(--line2);display:grid;place-items:center;font-size:17px}
+.sec.done .ic{background:var(--ok-bg)}
+.sec .ttl{font-family:Rubik,sans-serif;font-weight:500;font-size:15.5px}
+.sec .cnt{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--muted);margin-top:2px}
+.sec .chev{color:var(--muted);font-size:13px;transition:transform .2s}
+.sec.open .chev{transform:rotate(180deg)}
+.sec .body{display:none;border-top:1px solid var(--line2)}
+.sec.open .body{display:block}
+.bar{height:3px;background:var(--line2)}
+.bar i{display:block;height:100%;background:var(--ok);width:0;transition:width .3s}
+
+/* ---------- items ---------- */
+.item{display:grid;grid-template-columns:26px 1fr;gap:11px;padding:13px 15px;border-bottom:1px solid var(--line2);align-items:start}
+.item:last-child{border-bottom:0}
+.box{width:24px;height:24px;border:2px solid var(--line);border-radius:7px;display:grid;place-items:center;
+  cursor:pointer;transition:.15s;margin-top:1px;background:var(--card)}
+.box svg{opacity:0;transform:scale(.6);transition:.15s}
+.item.on .box{background:var(--ok);border-color:var(--ok)}
+.item.on .box svg{opacity:1;transform:scale(1)}
+.txt{font-size:14.5px;line-height:1.45;cursor:pointer}
+.item.on .txt{color:var(--muted)}
+.how{margin-top:7px;font-size:13px;color:var(--ink2);background:var(--line2);border-radius:9px;padding:8px 10px;display:none}
+.item.exp .how{display:block}
+/* отметка «здесь дефект» — мост от бесплатного чек-листа к платному акту */
+.flag{border:1px solid var(--line);background:transparent;color:var(--muted);font:600 11px Rubik,sans-serif;
+  padding:3px 9px;border-radius:20px;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+.flag.on{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+.item.bad{background:var(--bad-bg)}
+.item.bad .txt{color:var(--ink)}
+.found{position:sticky;top:0;z-index:5;margin:0 0 9px;background:var(--bad);color:#fff;border-radius:14px;
+  padding:13px 15px;box-shadow:var(--shadow);display:none}
+.found.show{display:block}
+.found b{display:block;font-size:15px;font-weight:600;margin-bottom:3px}
+.found p{margin:0;font-size:12.5px;opacity:.9;line-height:1.4}
+.found .list{margin:9px 0 0;font-size:12px;opacity:.92;line-height:1.5}
+.found .list div{padding:2px 0 2px 13px;position:relative}
+.found .list div:before{content:"·";position:absolute;left:3px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;align-items:center}
+.chip{font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:7px;background:var(--amber-bg);color:var(--amber-ink)}
+.hint{font-size:11.5px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--line);
+  border-radius:7px;padding:3px 8px;cursor:pointer;font-family:inherit}
+
+/* ---------- done state ---------- */
+.done{background:var(--ok-bg);border:1px solid var(--ok);border-radius:16px;padding:16px;margin:10px 0;text-align:center;display:none}
+.done.show{display:block}
+.done h3{font-size:17px;color:var(--ok);margin-bottom:5px}
+.done p{margin:0;font-size:13.5px;color:var(--ink2)}
+
+/* ---------- cta ---------- */
+.cta{position:fixed;left:0;right:0;bottom:0;padding:11px 14px calc(11px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--paper) 72%,transparent);z-index:20}
+.cta .inner{max-width:560px;margin:0 auto}
+.buy{width:100%;border:0;border-radius:14px;padding:15px;background:var(--amber);color:#fff;
+  font:700 15.5px Rubik,sans-serif;letter-spacing:.01em;cursor:pointer;box-shadow:0 6px 18px rgba(217,131,36,.32);
+  display:flex;align-items:center;justify-content:center;gap:8px}
+.buy:active{transform:translateY(1px)}
+.cta .note{text-align:center;font-size:11px;color:var(--muted);margin-top:7px;line-height:1.35}
+.foot{text-align:center;font-size:11.5px;color:var(--muted);padding:16px 0 6px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <div>
+      <h1 id="t-title">Приёмка квартиры</h1>
+      <div class="sub" id="t-sub">Пройдите по пунктам во время осмотра</div>
+      <div class="lang"><button id="lru">RU</button><button id="luz">UZ</button></div>
+    </div>
+    <div class="ring">
+      <svg width="84" height="84" viewBox="0 0 84 84">
+        <circle cx="42" cy="42" r="35" fill="none" stroke="var(--line2)" stroke-width="7"/>
+        <circle id="arc" cx="42" cy="42" r="35" fill="none" stroke="var(--ok)" stroke-width="7"
+          stroke-linecap="round" stroke-dasharray="220" stroke-dashoffset="220" style="transition:stroke-dashoffset .4s"/>
+      </svg>
+      <div class="val"><span id="pct">0</span><span style="font-size:11px;color:var(--muted)">%</span></div>
+    </div>
+  </div>
+
+  <div class="bag">
+    <h3>🧰 <span id="t-bag">Возьмите с собой</span></h3>
+    <div class="items" id="bagItems"></div>
+  </div>
+
+  <div class="warn">
+    <span style="font-size:17px;line-height:1">⚠️</span>
+    <div id="t-warn"><b>Не подписывайте акт приёма-передачи, пока замечания не вписаны в документ.</b> Каждый дефект — стикер на месте и два фото: общий план и крупно.</div>
+  </div>
+
+  <div class="found" id="found"></div>
+  <div id="list"></div>
+
+  <div class="done" id="doneBox">
+    <h3 id="t-doneT">🎉 Осмотр завершён</h3>
+    <p id="t-doneP">Нашли дефекты? Оформим акт осмотра и претензию застройщику — вам останется только подать.</p>
+  </div>
+
+  <div class="foot" id="t-foot">Kvartira Qabul · документы для самостоятельной подачи<br>Не является экспертизой. Исход спора не гарантируется.</div>
+</div>
+
+<div class="cta"><div class="inner">
+  <button class="buy" id="buy"><span>📄</span><span id="t-buy">Акт + претензия — 99 000 сум</span></button>
+  <div class="note"><span id="t-note">Фото дефектов → готовые документы за 24 часа</span><br>
+    <a href="sample.html" id="t-sample" style="color:var(--muted);text-decoration:underline;text-underline-offset:2px">Посмотреть образец акта</a></div>
+</div></div>
+
+<script>
+const tg = window.Telegram?.WebApp; tg?.ready(); tg?.expand();
+if (tg?.colorScheme === "dark") document.documentElement.dataset.theme = "dark";
+else if (!tg && window.matchMedia?.("(prefers-color-scheme: dark)").matches) document.documentElement.dataset.theme = "dark";
+tg?.onEvent?.("themeChanged", () => { document.documentElement.dataset.theme = tg.colorScheme === "dark" ? "dark" : ""; });
+const haptic = t => { try { tg?.HapticFeedback?.impactOccurred?.(t || "light"); } catch(e){} };
+
+const store={mem:{},get(k){try{return localStorage.getItem(k)}catch(e){return this.mem[k]??null}},
+  set(k,v){try{localStorage.setItem(k,v)}catch(e){this.mem[k]=v}},del(k){try{localStorage.removeItem(k)}catch(e){delete this.mem[k]}}};
+const LS="kq_done_v1", LSB="kq_bad_v1";
+let lang = store.get("kq_lang") || (tg?.initDataUnsafe?.user?.language_code === "uz" ? "uz" : "ru");
+let done = new Set(JSON.parse(store.get(LS) || "[]"));
+// Пункты, где человек нашёл дефект. Это мост от бесплатного чек-листа к платному акту:
+// список уходит в бот вместе с заказом, и владельцу не приходится вытаскивать его перепиской.
+let bad = new Set(JSON.parse(store.get(LSB) || "[]"));
+let openSec = null;
+
+const TXT={
+ ru:{title:"Приёмка квартиры",sub:"Пройдите по пунктам во время осмотра",bag:"Возьмите с собой",
+   warn:"<b>Не подписывайте акт приёма-передачи, пока замечания не вписаны в документ.</b> Каждый дефект — стикер на месте и два фото: общий план и крупно.",
+   buy:`Акт + претензия — ${CONFIG.PRICE_LABEL}`,note:"Фото дефектов → готовые документы за 24 часа",
+   doneT:"🎉 Осмотр завершён",doneP:"Нашли дефекты? Оформим акт осмотра и претензию застройщику — вам останется только подать.",
+   foot:"Kvartira Qabul · документы для самостоятельной подачи<br>Не является экспертизой. Исход спора не гарантируется.",
+   sampleLink:"Посмотреть образец акта",
+   how:"как проверить",flag:"здесь дефект",flagOn:"дефект отмечен",
+   foundT:n=>`Отмечено замечаний: ${n}`,
+   foundP:"Эти пункты попадут в акт осмотра — переносить их вручную не придётся. Сфотографируйте каждое: общий план и крупно.",
+   buyBad:n=>`Оформить ${n} ${plural(n,"замечание","замечания","замечаний")} в акт`,
+   noteBad:"Акт осмотра + претензия застройщику · 24 часа"},
+ uz:{title:"Kvartirani qabul qilish",sub:"Ko'rik davomida bandlarni belgilang",bag:"O'zingiz bilan oling",
+   warn:"<b>Kamchiliklar hujjatga yozilmaguncha qabul dalolatnomasini imzolamang.</b> Har bir nuqson — joyiga stiker va ikkita surat: umumiy va yaqin plan.",
+   buy:`Dalolatnoma + pretenziya — ${CONFIG.PRICE_LABEL}`,note:"Nuqson suratlari → 24 soatda tayyor hujjatlar",
+   doneT:"🎉 Ko'rik yakunlandi",doneP:"Nuqson topdingizmi? Dalolatnoma va pretenziyani tayyorlaymiz — sizga faqat topshirish qoladi.",
+   foot:"Kvartira Qabul · o'zingiz topshirishingiz uchun hujjatlar<br>Ekspertiza emas. Nizo natijasi kafolatlanmaydi.",
+   sampleLink:"Dalolatnoma namunasini ko.rish",
+   how:"qanday tekshirish",flag:"bu yerda nuqson",flagOn:"nuqson belgilandi",
+   foundT:n=>`Belgilangan kamchiliklar: ${n}`,
+   foundP:"Bu bandlar ko'rik dalolatnomasiga kiradi — qo'lda ko'chirish shart emas. Har birini suratga oling: umumiy va yaqin plan.",
+   buyBad:n=>`${n} ta kamchilikni dalolatnomaga kiritish`,
+   noteBad:"Ko'rik dalolatnomasi + pretenziya · 24 soat"}
+};
+// Русские окончания для счётчика: «1 замечание / 2 замечания / 5 замечаний».
+function plural(n,one,few,many){
+  const m10=n%10, m100=n%100;
+  if(m10===1 && m100!==11) return one;
+  if(m10>=2 && m10<=4 && (m100<12 || m100>14)) return few;
+  return many;
+}
+const total = CHECKLIST.reduce((a,s)=>a+s.items.length,0);
+const CHECK_SVG = `<svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L4.8 8.3L11.5 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+function track(event, meta){ if(!tg?.initData) return;
+  fetch(CONFIG.FUNCTIONS_URL+"/track",{method:"POST",headers:{"content-type":"application/json"},
+    body:JSON.stringify({initData:tg.initData,event,meta})}).catch(()=>{}); }
+
+// «сумка»: собираем уникальные инструменты из данных
+function bagList(){
+  const set=new Set();
+  CHECKLIST.forEach(s=>s.items.forEach(i=>{ if(i.tool && i.tool!=="набор" && i.tool!=="папка документов") set.add(i.tool); }));
+  return [...set];
+}
+function renderStatic(){
+  const t=TXT[lang];
+  document.getElementById("t-title").textContent=t.title;
+  document.getElementById("t-sub").textContent=t.sub;
+  document.getElementById("t-bag").textContent=t.bag;
+  document.getElementById("t-warn").innerHTML=t.warn;
+  document.getElementById("t-buy").textContent=t.buy;
+  document.getElementById("t-note").textContent=t.note;
+  document.getElementById("t-doneT").textContent=t.doneT;
+  document.getElementById("t-doneP").textContent=t.doneP;
+  document.getElementById("t-foot").innerHTML=t.foot;
+  document.getElementById("t-sample").textContent=t.sampleLink;
+  document.getElementById("lru").classList.toggle("on",lang==="ru");
+  document.getElementById("luz").classList.toggle("on",lang==="uz");
+  document.getElementById("bagItems").innerHTML=bagList().map(x=>`<span class="it">${x}</span>`).join("");
+}
+function renderList(){
+  const t=TXT[lang], box=document.getElementById("list"); box.innerHTML="";
+  CHECKLIST.forEach((sec,si)=>{
+    const d=sec.items.filter(i=>done.has(i.id)).length, all=sec.items.length;
+    const el=document.createElement("div");
+    el.className="sec"+(d===all?" done":"")+(openSec===si||(openSec===null&&si===0)?" open":"");
+    el.innerHTML=`
+      <div class="head">
+        <div class="ic">${sec.icon}</div>
+        <div><div class="ttl">${lang==="ru"?sec.ru:sec.uz}</div><div class="cnt">${d}/${all}</div></div>
+        <div class="chev">▼</div>
+      </div>
+      <div class="bar"><i style="width:${100*d/all}%"></i></div>
+      <div class="body">${sec.items.map(it=>`
+        <div class="item${done.has(it.id)?" on":""}${bad.has(it.id)?" bad":""}" data-id="${it.id}">
+          <div class="box">${CHECK_SVG}</div>
+          <div>
+            <div class="txt">${lang==="ru"?it.ru:it.uz}</div>
+            <div class="meta">
+              <button class="flag${bad.has(it.id)?" on":""}">${bad.has(it.id)?"⚠ "+t.flagOn:"⚠ "+t.flag}</button>
+              ${it.how?`<button class="hint">💡 ${t.how}</button>`:""}
+              ${it.tool?`<span class="chip">🧰 ${it.tool}</span>`:""}
+            </div>
+            ${it.how?`<div class="how">${it.how}</div>`:""}
+          </div>
+        </div>`).join("")}</div>`;
+    el.querySelector(".head").onclick=()=>{ openSec = el.classList.contains("open")?-1:si; haptic("light"); renderList(); };
+    el.querySelectorAll(".item").forEach(row=>{
+      const id=row.dataset.id;
+      const toggle=()=>{ done.has(id)?done.delete(id):done.add(id);
+        store.set(LS,JSON.stringify([...done])); haptic("medium"); openSec=si; renderList(); update(); };
+      row.querySelector(".box").onclick=toggle;
+      row.querySelector(".txt").onclick=toggle;
+      const hint=row.querySelector(".hint");
+      if(hint) hint.onclick=e=>{ e.stopPropagation(); row.classList.toggle("exp"); };
+      // Отметить дефект = сразу отметить пункт пройденным: человек его проверил, просто результат плохой.
+      row.querySelector(".flag").onclick=e=>{ e.stopPropagation();
+        if(bad.has(id)){ bad.delete(id); } else { bad.add(id); done.add(id); }
+        store.set(LSB,JSON.stringify([...bad])); store.set(LS,JSON.stringify([...done]));
+        haptic("medium"); openSec=si; renderList(); update(); syncDefects();
+      };
+    });
+    box.appendChild(el);
+  });
+}
+// Промежуточные вехи прогресса. Без них между checklist_open и checklist_done — чёрный ящик:
+// не видно, на каком проценте люди закрывают приложение. Каждая веха шлётся один раз.
+const MILESTONES=[10,25,50,75,90];
+function trackProgress(d){
+  const pct=Math.round(100*d/total);
+  const hit=MILESTONES.filter(m=>pct>=m).pop();
+  if(!hit) return;
+  if(Number(store.get("kq_ms")||0) >= hit) return;
+  store.set("kq_ms",String(hit));
+  const secs=CHECKLIST.map(s=>({ k:s.key||s.id||s.title?.ru||"", n:s.items.filter(i=>done.has(i.id)).length, of:s.items.length }));
+  track("checklist_progress",{pct:hit,done:d,total,sections:secs,done_items:[...done]});
+}
+// Список отмеченных дефектов человеческим текстом — он же уходит в бот вместе с заказом.
+function badList(){
+  const out=[];
+  CHECKLIST.forEach(sec=>sec.items.forEach(it=>{ if(bad.has(it.id))
+    out.push({id:it.id, sec:(lang==="ru"?sec.ru:sec.uz), t:(lang==="ru"?it.ru:it.uz)}); }));
+  return out;
+}
+let syncTimer=null;
+function syncDefects(){   // дебаунс: человек отмечает подряд несколько пунктов
+  clearTimeout(syncTimer);
+  syncTimer=setTimeout(()=>track("defect_marked",{n:bad.size, defects:badList(), done_items:[...done]}), 1200);
+}
+function renderFound(){
+  const box=document.getElementById("found"), t=TXT[lang], n=bad.size;
+  box.classList.toggle("show", n>0);
+  if(!n) return;
+  const list=badList();
+  box.innerHTML=`<b>⚠ ${t.foundT(n)}</b><p>${t.foundP}</p>
+    <div class="list">${list.slice(0,6).map(x=>`<div>${x.t}</div>`).join("")}
+    ${list.length>6?`<div>… и ещё ${list.length-6}</div>`:""}</div>`;
+}
+function update(){
+  const d=done.size, pct=Math.round(100*d/total);
+  document.getElementById("pct").textContent=pct;
+  document.getElementById("arc").style.strokeDashoffset = 220 - 220*d/total;
+  const doneBox=document.getElementById("doneBox");
+  doneBox.classList.toggle("show", d===total);
+  renderFound();
+  // Пока дефектов нет — продаём документ вообще. Как только отмечен хотя бы один,
+  // кнопка говорит про его замечания, а не про абстрактный акт.
+  const t=TXT[lang], n=bad.size;
+  document.getElementById("t-buy").textContent = n ? t.buyBad(n) : t.buy;
+  document.getElementById("t-note").textContent = n ? t.noteBad : t.note;
+  trackProgress(d);
+  if(d===total && !store.get("kq_done_sent")){
+    store.set("kq_done_sent","1"); track("checklist_done",{done_items:[...done]});
+    haptic("heavy"); tg?.HapticFeedback?.notificationOccurred?.("success");
+  }
+}
+document.getElementById("lru").onclick=()=>{lang="ru";store.set("kq_lang",lang);renderStatic();renderList();};
+document.getElementById("luz").onclick=()=>{lang="uz";store.set("kq_lang",lang);renderStatic();renderList();};
+document.getElementById("buy").onclick=()=>{
+  haptic("medium");
+  // Отправляем список синхронно перед уходом в бот, чтобы владелец увидел его в карточке заказа.
+  if(bad.size) track("defect_marked",{n:bad.size, defects:badList(), done_items:[...done]});
+  track("act_view",{n_defects:bad.size});
+  const url=`https://t.me/${CONFIG.BOT_USERNAME}?start=buy_from_tma`;
+  tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url);
+  setTimeout(()=>tg?.close?.(), 150);
+};
+track("checklist_open",{});
+renderStatic(); renderList(); update();
+</script>
+</body>
+</html>

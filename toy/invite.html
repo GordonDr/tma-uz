@@ -1,0 +1,459 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Taklifnoma</title>
+<meta property="og:title" content="Taklifnoma · Приглашение">
+<meta property="og:description" content="Сизни тўй маросимига таклиф этамиз">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@300;400;500;600;700&display=swap">
+<style>
+:root{
+  --bg:#FBF7F2; --card:#FFFFFF; --ink:#2A211C; --muted:#7B6A5D; --accent:#B08D3F; --deep:#7D1F38;
+  --line:#E6DBCD; --shadow:0 10px 40px rgba(90,60,25,.07); --radius:20px;
+  --display:"Cormorant Garamond",Georgia,serif; --body:Manrope,system-ui,sans-serif;
+  --name-weight:500; --name-tracking:0;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.55;
+  transition:background .3s,color .3s}
+.wrap{max-width:520px;margin:0 auto;padding:24px 18px 64px}
+.frame{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  padding:30px 22px;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden}
+.orn{display:block;margin:0 auto 16px;width:112px;height:26px;color:var(--accent)}
+.pre{font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:16px;font-weight:600}
+.names{font-family:var(--display);font-size:clamp(34px,10.5vw,54px);line-height:1.04;margin:6px 0 4px;
+  font-weight:var(--name-weight);letter-spacing:var(--name-tracking)}
+.amp{color:var(--accent);font-style:italic;display:block;font-size:.52em;margin:4px 0;font-weight:400}
+.greet{font-family:var(--display);font-size:19.5px;font-style:italic;color:var(--muted);margin:18px 0 22px;line-height:1.5}
+.when{font-size:19px;font-weight:600;margin-top:4px}
+.where{color:var(--muted);font-size:14.5px;margin-top:4px;line-height:1.5}
+.cd{display:flex;justify-content:center;gap:16px;margin:22px 0 8px}
+.cd div{min-width:54px}
+.cd b{display:block;font-family:var(--display);font-size:30px;color:var(--deep);font-weight:500}
+.cd span{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.map{display:inline-block;margin-top:16px;color:var(--deep);font-size:14.5px;text-decoration:none;
+  border-bottom:1px solid var(--line);padding-bottom:3px;font-weight:500}
+.rsvp{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;margin-top:16px;box-shadow:var(--shadow)}
+.rsvp h2{font-family:var(--display);font-size:25px;margin:0 0 4px;text-align:center;font-weight:600}
+.fam{text-align:center;color:var(--muted);font-size:14px;margin-bottom:18px}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+/* Шаг 56: главный ответ — один тап. «Придём все N» отвечает и отправляет сразу;
+   остальные два варианта нужны реже и стоят второй строкой. */
+.yesall{width:100%;background:var(--deep);color:#fff;border-color:var(--deep);
+  font-weight:600;font-size:16.5px;padding:17px;margin-bottom:10px}
+.yesall:disabled{opacity:.6}
+/* Шаг 57: виральная петля. Один оплаченный той — это сотни показов ссылки людям,
+   у которых свой той через год; здесь единственное место, где мы с ними говорим. */
+.viral{margin-top:16px;background:var(--card);border:1px dashed var(--line);
+  border-radius:var(--radius);padding:18px 20px;text-align:center}
+.viral b{font-family:var(--display);font-size:19px;font-weight:600}
+.viral p{margin:6px 0 13px;font-size:13.5px;color:var(--muted);line-height:1.55}
+.vbtn{display:inline-block;text-decoration:none;border:1px solid var(--accent);color:var(--accent);
+  border-radius:12px;padding:11px 18px;font:600 14px var(--body)}
+
+button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:14px;padding:14px;
+  font:500 15px var(--body);cursor:pointer;transition:.15s}
+button.yes.on{background:var(--deep);color:#fff;border-color:var(--deep)}
+button.no.on{background:var(--muted);color:var(--bg);border-color:var(--muted)}
+.count{margin-top:18px;display:none}
+.count label{display:block;font-size:13px;color:var(--muted);margin-bottom:10px;text-align:center}
+.stepper{display:flex;align-items:center;justify-content:center;gap:20px}
+.stepper button{width:48px;height:48px;border-radius:50%;font-size:22px;padding:0;line-height:1}
+.stepper b{font-family:var(--display);font-size:36px;min-width:46px;font-weight:500}
+textarea{width:100%;margin-top:16px;padding:12px;border:1px solid var(--line);border-radius:14px;background:transparent;
+  color:var(--ink);font:400 14.5px var(--body);resize:vertical;min-height:58px}
+textarea:focus{outline:none;border-color:var(--accent)}
+.send{width:100%;margin-top:16px;background:var(--deep);color:#fff;border-color:var(--deep);font-weight:600;font-size:16px;padding:16px}
+.done{text-align:center;padding:24px 8px}
+.done .big{font-family:var(--display);font-size:28px;margin-bottom:8px}
+.foot{text-align:center;font-size:11.5px;color:var(--muted);margin-top:24px;line-height:1.6}
+/* Переключатель языка — плавающий, доступен с любого места страницы.
+   Гость мог получить приглашение на узбекском, а читать привычнее по-русски (или наоборот). */
+.langbar{position:fixed;top:calc(10px + env(safe-area-inset-top));right:10px;z-index:40;
+  display:flex;gap:3px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px;
+  box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.langbar button{border:0;background:transparent;color:var(--muted);cursor:pointer;
+  font:600 11.5px Manrope,system-ui,sans-serif;padding:5px 10px;border-radius:16px;letter-spacing:.02em}
+.langbar button.on{background:var(--accent,var(--gold,#B08D3F));color:#fff}
+@media (max-width:400px){ .langbar button{padding:5px 8px;font-size:11px} }
+.foot a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="langbar" id="langbar"></div>
+<div class="wrap" id="wrap"><div class="frame">…</div></div>
+<script src="config.js"></script>
+<script src="invite-texts.js"></script>
+<script>
+const API = (window.TOY_API || "https://<project>.functions.supabase.co/toy");
+// Подвал приглашения видят 300–500 гостей на каждый той — это самый массовый и полностью
+// бесплатный вход в продукт. Ссылка обязана нести код, иначе канал не считается вообще.
+const BOT = (window.TOY_BOT || "toy_daftar_bot");
+// Держим в одном месте с ботом: цифра в подвале приглашения и скидка, которую бот
+// применяет по ?start=inv_<id>, должны совпадать (INVITE_DISCOUNT_UZS в секретах функции).
+const VIRAL_OFF = Number(window.TOY_INVITE_DISCOUNT || 10000);
+
+
+/* ─── Язык страницы ─────────────────────────────────────────────────────────
+   Три варианта: узбекская латиница, узбекская кириллица, русский.
+   По умолчанию — тот, что выбрал организатор для этого тоя (event.lang).
+   Гость может переключить сам: приглашение читают и бабушка на кириллице,
+   и двоюродный брат из Москвы. Выбор запоминается для этого приглашения. */
+const UI = {
+  uz_latin:{
+    privTitle:"Ma'lumotlaringiz",
+    privText:"Bu ro'yxatni Sizni taklif qilgan oila yuritadi. Xizmatda saqlanadi: oilangiz nomi, taklif qilinganlar soni, javobingiz va yozsangiz — tilagingiz, hamda havola ochilgani belgisi. Telefon, familiya va manzilni so'ramaymiz va saqlamaymiz. Ma'lumotlar tantanadan 90 kun o'tgach o'chiriladi. Qayta ishlash haqida bilish, aniqlashtirish yoki o'chirishni talab qilish huquqingiz bor — tashkilotchiga yoki xizmat egasiga yozing.",
+    privLink:"Shartlar va ma'lumotlarni qayta ishlash",
+    code:"uz", short:"UZ", locale:"uz-UZ",
+    loading:"Yuklanmoqda…",
+    pre:"Taklifnoma",
+    greetDefault:"Sizni to'y marosimiga taklif etamiz",
+    map:"📍 Xaritada ko'rsatish",
+    ask:"Kela olasizmi?",
+    invited:(n)=>`taklif qilingan: ${n}`,
+    yes:"Kelamiz 🎉", no:"Kelolmaymiz",
+    yesAll:(n)=>n===1?"Kelaman 🎉":`Hammamiz kelamiz — ${n} kishi 🎉`, yesSome:"Hammamiz emas",
+    viralTitle:"O'z to'yingiz bormi?",
+    viralText:(s)=>`Mehmonlarni shu yerda yig'ing: taklifnoma, javoblar va to'yxona uchun hisob. Shu havola bo'yicha — ${s} so'm chegirma.`,
+    viralBtn:"Chegirma bilan ochish",
+
+    howMany:"Necha kishi keladi?",
+    notePh:"Yaxshi tilaklaringiz (ixtiyoriy)",
+    send:"Javobni yuborish", sending:"Yuborilmoqda…",
+    previewBtn:"Mehmon shunday ko'radi",
+    doneYes:"Rahmat! Kutamiz 💐", doneNo:"Xabar berganingiz uchun rahmat",
+    markedYes:(n)=>`Belgiladik: ${n} kishi`, markedNo:"Boshqa safar ko'rishishni umid qilamiz",
+    ics:"📅 Kalendarga qo'shish",
+    changeHint:"Rejalaringiz o'zgarsa — shu havolani qayta oching va javobni o'zgartiring.",
+    fail:"Bo'lmadi — qaytadan urinib ko'ring",
+    today:"bugun", dd:"kun", hh:"soat", mm:"daqiqa",
+    madeIn:"To'y-Daftarda yaratilgan", makeOwn:"o'z to'yingiz uchun taklifnoma qiling",
+    previewTheme:(l)=>`«${l}» mavzusi ko'rinishi`,
+    icsTitle:"To'y", icsAlarm:"Ertaga to'y",
+    icsDesc:"Taklifnoma: javobni o'zgartirish uchun xabardagi havolani oching",
+  },
+  uz_cyrillic:{
+    privTitle:"Маълумотларингиз",
+    privText:"Бу рўйхатни Сизни таклиф қилган оила юритади. Хизматда сақланади: оилангиз номи, таклиф қилинганлар сони, жавобингиз ва ёзсангиз — тилагингиз, ҳамда ҳавола очилгани белгиси. Телефон, фамилия ва манзилни сўрамаймиз ва сақламаймиз. Маълумотлар тантанадан 90 кун ўтгач ўчирилади. Қайта ишлаш ҳақида билиш, аниқлаштириш ёки ўчиришни талаб қилиш ҳуқуқингиз бор — ташкилотчига ёки хизмат эгасига ёзинг.",
+    privLink:"Шартлар ва маълумотларни қайта ишлаш",
+    code:"uz", short:"ЎЗ", locale:"uz-UZ",
+    loading:"Юкланмоқда…",
+    pre:"Таклифнома",
+    greetDefault:"Сизни тўй маросимига таклиф этамиз",
+    map:"📍 Харитада кўрсатиш",
+    ask:"Кела оласизми?",
+    invited:(n)=>`таклиф қилинган: ${n}`,
+    yes:"Келамиз 🎉", no:"Келолмаймиз",
+    yesAll:(n)=>n===1?"Келаман 🎉":`Ҳаммамиз келамиз — ${n} киши 🎉`, yesSome:"Ҳаммамиз эмас",
+    viralTitle:"Ўз тўйингиз борми?",
+    viralText:(s)=>`Меҳмонларни шу ерда йиғинг: таклифнома, жавоблар ва тўйхона учун ҳисоб. Шу ҳавола бўйича — ${s} сўм чегирма.`,
+    viralBtn:"Чегирма билан очиш",
+
+    howMany:"Неча киши келади?",
+    notePh:"Яхши тилакларингиз (ихтиёрий)",
+    send:"Жавобни юбориш", sending:"Юборилмоқда…",
+    previewBtn:"Меҳмон шундай кўради",
+    doneYes:"Раҳмат! Кутамиз 💐", doneNo:"Хабар берганингиз учун раҳмат",
+    markedYes:(n)=>`Белгиладик: ${n} киши`, markedNo:"Бошқа сафар кўришишни умид қиламиз",
+    ics:"📅 Календарга қўшиш",
+    changeHint:"Режаларингиз ўзгарса — шу ҳаволани қайта очинг ва жавобни ўзгартиринг.",
+    fail:"Бўлмади — қайтадан уриниб кўринг",
+    today:"бугун", dd:"кун", hh:"соат", mm:"дақиқа",
+    madeIn:"To'y-Daftarда яратилган", makeOwn:"ўз тўйингиз учун таклифнома қилинг",
+    previewTheme:(l)=>`«${l}» мавзуси кўриниши`,
+    icsTitle:"Тўй", icsAlarm:"Эртага тўй",
+    icsDesc:"Таклифнома: жавобни ўзгартириш учун хабардаги ҳаволани очинг",
+  },
+  ru:{
+    privTitle:"Ваши данные",
+    privText:"Этот список ведёт семья, которая вас пригласила. В сервисе хранятся: название вашей семьи, число приглашённых, ваш ответ и пожелание, если вы его напишете, и отметка о том, что ссылку открыли. Телефон, фамилию и адрес мы не спрашиваем и не храним. Данные удаляются через 90 дней после торжества. Вы вправе узнать об обработке, потребовать уточнения или удаления — напишите организатору или владельцу сервиса.",
+    privLink:"Условия и обработка данных",
+    code:"ru", short:"RU", locale:"ru-RU",
+    loading:"Загрузка…",
+    pre:"Приглашение",
+    greetDefault:"Приглашаем вас на наше торжество",
+    map:"📍 Показать на карте",
+    ask:"Сможете прийти?",
+    invited:(n)=>`приглашено: ${n}`,
+    yes:"Придём 🎉", no:"Не сможем",
+    yesAll:(n)=>n===1?"Приду 🎉":`Придём все — ${n} ${plu(n,"человек","человека","человек")} 🎉`, yesSome:"Придём не все",
+
+    viralTitle:"У вас свой той?",
+    viralText:(s)=>`Соберите гостей здесь же: приглашение, ответы и счёт для зала. По этой ссылке — скидка ${s} сум.`,
+    viralBtn:"Открыть со скидкой",
+
+    howMany:"Сколько человек придёт?",
+    notePh:"Пожелание (необязательно)",
+    send:"Отправить ответ", sending:"Отправляем…",
+    previewBtn:"Так это увидит гость",
+    doneYes:"Спасибо! Будем ждать 💐", doneNo:"Спасибо, что сообщили",
+    markedYes:(n)=>`Мы отметили: ${n} чел.`, markedNo:"Будем рады видеть вас в другой раз",
+    ics:"📅 Добавить в календарь",
+    changeHint:"Если планы изменятся — откройте эту ссылку снова и поменяйте ответ.",
+    fail:"Не получилось — попробуйте ещё раз",
+    today:"сегодня", dd:"дн.", hh:"ч.", mm:"мин.",
+    madeIn:"Создано в To'y-Daftar", makeOwn:"сделать приглашение для своего тоя",
+    previewTheme:(l)=>`Предпросмотр темы «${l}»`,
+    icsTitle:"Той", icsAlarm:"Завтра той",
+    icsDesc:"Приглашение: чтобы изменить ответ, откройте ссылку из сообщения",
+  },
+};
+const LANG_ORDER = ["uz_latin","uz_cyrillic","ru"];
+const LANG_BTN = { uz_latin:"O'z", uz_cyrillic:"Ўз", ru:"Ру" };
+// Параметры адреса объявлены здесь, а не ниже: LK на них ссылается, и обращение
+// к const до инициализации роняло весь скрипт — гость видел пустую карточку.
+// Данные могут прийти двумя путями: вложенными в страницу сервером (шаг 55, ссылка
+// вида /inv/<token> — она же даёт превью в чате) или фетчем по ?t=<token> со старой
+// статической страницы. Второй путь оставлен ради ссылок, разосланных раньше.
+const PRE = (window.__INVITE && window.__INVITE.token) ? window.__INVITE : null;
+const token = PRE ? PRE.token : (new URLSearchParams(location.search).get("t") || "");
+const previewTheme = new URLSearchParams(location.search).get("theme");
+const previewLang = new URLSearchParams(location.search).get("ilang");
+const LK = "td_ilang_" + (token || "preview");
+let lang = (()=>{ try{ const v=localStorage.getItem(LK); if(UI[v]) return v; }catch(e){} return null; })();
+const U = () => UI[lang] || UI.uz_latin;
+
+function renderLangBar(){
+  const bar=document.getElementById("langbar");
+  bar.innerHTML = LANG_ORDER.map(l=>`<button data-l="${l}" class="${l===lang?"on":""}">${LANG_BTN[l]}</button>`).join("");
+  bar.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    lang=b.dataset.l; try{ localStorage.setItem(LK,lang); }catch(e){}
+    renderLangBar(); if(LAST) render(LAST.e, LAST.f, LAST.preview);
+  });
+}
+let LAST = null;   // последние данные, чтобы перерисовать при смене языка
+
+/* ---------- темы оформления ---------- */
+const ORN = {
+  rings: `<svg class="orn" viewBox="0 0 112 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M2 13h34M76 13h34" stroke="currentColor" stroke-width="1" opacity=".6"/>
+    <circle cx="50" cy="13" r="7.5" stroke="currentColor" stroke-width="1.3" fill="none"/>
+    <circle cx="62" cy="13" r="7.5" stroke="currentColor" stroke-width="1.3" fill="none"/></svg>`,
+  diamond: `<svg class="orn" viewBox="0 0 112 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M2 13h38M72 13h38" stroke="currentColor" stroke-width="1" opacity=".55"/>
+    <path d="M56 4c3.6 3.6 7.2 5.6 7.2 9s-3.6 5.4-7.2 9c-3.6-3.6-7.2-5.6-7.2-9s3.6-5.4 7.2-9z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+    <circle cx="43" cy="13" r="2" fill="currentColor"/><circle cx="69" cy="13" r="2" fill="currentColor"/></svg>`,
+  ikat: `<svg class="orn" viewBox="0 0 112 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M10 13c4-7 8-7 12 0s8 7 12 0 8-7 12 0 8 7 12 0 8-7 12 0 8 7 12 0" stroke="currentColor" stroke-width="1.4" fill="none" opacity=".8"/>
+    <circle cx="56" cy="4" r="1.6" fill="currentColor"/><circle cx="56" cy="22" r="1.6" fill="currentColor"/></svg>`,
+  line: `<svg class="orn" viewBox="0 0 112 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <path d="M16 13h80" stroke="currentColor" stroke-width="1"/><circle cx="56" cy="13" r="2.5" fill="currentColor"/></svg>`,
+};
+const THEMES = {
+  zar:{ label:"Zar · золото", orn:ORN.diamond, vars:{
+    "--bg":"#FBF7F2","--card":"#FFFFFF","--ink":"#2A211C","--muted":"#7B6A5D","--accent":"#B08D3F","--deep":"#7D1F38",
+    "--line":"#E6DBCD","--shadow":"0 10px 40px rgba(90,60,25,.07)","--radius":"20px",
+    "--display":'"Cormorant Garamond",Georgia,serif',"--name-weight":"500","--name-tracking":"0"}},
+  atlas:{ label:"Atlas · национальный", orn:ORN.ikat, vars:{
+    "--bg":"#FDF6EC","--card":"#FFFDF9","--ink":"#3A2318","--muted":"#8A6A52","--accent":"#C25E2A","--deep":"#1F4E5F",
+    "--line":"#EBD9C2","--shadow":"0 10px 40px rgba(120,70,30,.09)","--radius":"14px",
+    "--display":'"Cormorant Garamond",Georgia,serif',"--name-weight":"600","--name-tracking":"-.01em"}},
+  oq:{ label:"Oq · минимал", orn:ORN.line, vars:{
+    "--bg":"#FFFFFF","--card":"#FFFFFF","--ink":"#141414","--muted":"#8A8A8A","--accent":"#141414","--deep":"#141414",
+    "--line":"#E8E8E8","--shadow":"none","--radius":"4px",
+    "--display":"Manrope,system-ui,sans-serif","--name-weight":"300","--name-tracking":".02em"}},
+  kecha:{ label:"Kecha · вечер", orn:ORN.rings, vars:{
+    "--bg":"#12141C","--card":"#1A1D28","--ink":"#F2EDE4","--muted":"#9A93A8","--accent":"#D9B45B","--deep":"#D9B45B",
+    "--line":"#2C3040","--shadow":"0 14px 46px rgba(0,0,0,.45)","--radius":"20px",
+    "--display":'"Cormorant Garamond",Georgia,serif',"--name-weight":"500","--name-tracking":"0"}},
+};
+function applyTheme(name){
+  const t = THEMES[name] || THEMES.zar;
+  Object.entries(t.vars).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
+  return t;
+}
+// Кавычки экранируем тоже: значения подставляются и в атрибуты (href карты),
+// а без этого организатор может внедрить атрибут на страницу, которую видят его гости.
+const esc = s => String(s??"").replace(/[<>&"']/g,c=>
+  ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
+// Русские числительные: «4 человека», но «5 человек». Строка стоит на самой заметной
+// кнопке приглашения — кривое согласование там читается как небрежность.
+const plu=(n,one,few,many)=>{
+  const m10=n%10, m100=n%100;
+  if(m10===1 && m100!==11) return one;
+  if(m10>=2 && m10<=4 && (m100<12 || m100>14)) return few;
+  return many;
+};
+// Дату собираем сами: браузерная локаль uz-UZ выдаёт «2026 M11 7» — на приглашении
+// это выглядит как ошибка. Русскую отдаём Intl, там всё в порядке.
+const MONTHS = {
+  uz_latin:  ["yanvar","fevral","mart","aprel","may","iyun","iyul","avgust","sentabr","oktabr","noyabr","dekabr"],
+  uz_cyrillic:["январ","феврал","март","апрел","май","июн","июл","август","сентябр","октябр","ноябр","декабр"],
+};
+function fmtDate(d, u){
+  const opt = { timeZone:"Asia/Tashkent" };
+  const day = Number(new Intl.DateTimeFormat("en-GB", { ...opt, day:"numeric" }).format(d));
+  const mon = Number(new Intl.DateTimeFormat("en-GB", { ...opt, month:"numeric" }).format(d)) - 1;
+  const yr  = new Intl.DateTimeFormat("en-GB", { ...opt, year:"numeric" }).format(d);
+  const list = MONTHS[u.code === "ru" ? "ru" : (u.short === "ЎЗ" ? "uz_cyrillic" : "uz_latin")];
+  if (!list) return d.toLocaleDateString(u.locale, { day:"numeric", month:"long", year:"numeric", ...opt });
+  return `${day} ${list[mon]} ${yr}`;
+}
+let state = { status:null, count:0, inv:2 };
+
+
+// Запускается в самом конце файла: в режиме предпросмотра render() вызывается синхронно,
+// и при вызове отсюда он читал TASHKENT_OFFSET, объявленный ниже, — приглашение падало.
+async function boot(){
+  if(PRE){
+    applyTheme(PRE.event && PRE.event.theme);
+    return render(PRE.event, PRE.family);
+  }
+  if(!token){
+
+    if(previewTheme){ // режим предпросмотра темы и языка из кабинета
+      applyTheme(previewTheme);
+      const il = UI[previewLang] ? previewLang : "uz_latin";
+      if(!lang) lang = il;
+      // Поля из кабинета: человек смотрит на своё приглашение, а не на образец
+      // с чужими именами. Чего он ещё не ввёл — подставляем демонстрационное.
+      const q = new URLSearchParams(location.search);
+      const pick = (k, dflt) => (q.get(k) || "").trim().slice(0, 120) || dflt;
+      const greet = pick("greet",
+        (window.toyOccasion ? toyOccasion("nikoh_toy").greeting[il] : "") || UI[il].greetDefault);
+      return render({
+        couple: pick("couple", "Aziz & Nilufar"),
+        event_date: pick("date", "2026-10-18"),
+        event_time: pick("time", "18:00"),
+        venue_name: pick("venue", "To'yxona «Zarafshon»"),
+        venue_addr: pick("addr", "Toshkent, Chilonzor"),
+        map_url: "", greeting: greet, theme: previewTheme, lang: il },
+        {name:"Karimovlar oilasi",invited_count:4,rsvp_status:"pending",rsvp_count:0}, true);
+    }
+    return fail("—");
+  }
+  const r = await fetch(`${API}/i/${token}`).then(x=>x.json()).catch(()=>null);
+  if(!r || r.error) return fail("Приглашение не найдено");
+  applyTheme(r.event?.theme);
+  render(r.event, r.family);
+}
+function fail(msg){
+ document.getElementById("wrap").innerHTML = `<div class="frame"><div class="greet">${msg}</div></div>`; }
+
+// Время тоя — по Ташкенту (UTC+5), а не по часам телефона гостя: половина родни смотрит
+// приглашение из РФ и Кореи, и без явной зоны отсчёт врал бы на часы.
+// Плюс организатор может ввести «6» или «18:0» — padStart тут давал "00006" и Invalid Date.
+const TASHKENT_OFFSET = "+05:00";
+function normTime(v){
+  const s = String(v || "").trim();
+  const m = s.match(/^(\d{1,2})\D*(\d{1,2})?/);
+  if(!m) return "18:00";
+  const h = Math.min(23, parseInt(m[1],10) || 0);
+  const mi = Math.min(59, parseInt(m[2] || "0",10) || 0);
+  return String(h).padStart(2,"0") + ":" + String(mi).padStart(2,"0");
+}
+function eventDate(e){
+  if(!e.event_date) return null;
+  const d = new Date(`${e.event_date}T${normTime(e.event_time)}:00${TASHKENT_OFFSET}`);
+  return isNaN(d.getTime()) ? null : d;
+}
+function render(e, f, preview){
+  LAST = {e, f, preview};
+  // Язык по умолчанию — тот, что выбрал организатор для этого тоя. Гостевой выбор его перебивает.
+  if(!lang) lang = UI[e.lang] ? e.lang : "uz_latin";
+  renderLangBar();
+  const u = U();
+  document.documentElement.lang = u.code;
+  const t = THEMES[e.theme] || THEMES.zar;
+  state.inv=f.invited_count; state.count=f.rsvp_count||f.invited_count;
+  const d = eventDate(e);
+  const dateStr = d ? fmtDate(d, u) : "";
+  const names=(e.couple||"").split(/&|\bи\b/);
+  document.getElementById("wrap").innerHTML = `
+  <div class="frame">
+    ${t.orn}
+    <div class="pre">${u.pre}</div>
+    <div class="names">${esc(names[0].trim())}${names[1]?`<span class="amp">&amp;</span>${esc(names[1].trim())}`:""}</div>
+    <div class="greet">${esc(e.greeting||u.greetDefault)}</div>
+    ${dateStr?`<div class="when">${dateStr}${e.event_time?` · ${esc(normTime(e.event_time))}`:""}</div>`:""}
+    ${e.venue_name?`<div class="where">${esc(e.venue_name)}${e.venue_addr?`<br>${esc(e.venue_addr)}`:""}</div>`:""}
+    <div class="cd" id="cd"></div>
+    ${e.map_url?`<a class="map" href="${esc(e.map_url)}" target="_blank" rel="noopener">${u.map}</a>`:""}
+  </div>
+  <div class="rsvp" id="rsvp">
+    <h2>${u.ask}</h2>
+    <div class="fam">${esc(f.name)} · ${u.invited(f.invited_count)}</div>
+    <button class="yesall" id="bAll">${u.yesAll(f.invited_count)}</button>
+    <div class="choice"><button class="yes" id="bYes">${u.yesSome}</button><button class="no" id="bNo">${u.no}</button></div>
+
+    <div class="count" id="cnt">
+      <label>${u.howMany}</label>
+      <div class="stepper"><button id="m">−</button><b id="n">${state.count}</b><button id="p">+</button></div>
+    </div>
+    <textarea id="note" placeholder="${u.notePh}"></textarea>
+    <button class="send" id="send">${preview?u.previewBtn:u.send}</button>
+  </div>
+  ${preview?"":`<div class="viral">
+    <b>${u.viralTitle}</b>
+    <p>${u.viralText(VIRAL_OFF.toLocaleString("ru"))}</p>
+    <a class="vbtn" href="https://t.me/${BOT}?start=inv${e.id?`_${e.id}`:""}">${u.viralBtn}</a>
+  </div>`}
+  <div class="foot">${preview?u.previewTheme(t.label):`${u.madeIn} · <a href="https://t.me/${BOT}?start=inv${e.id?`_${e.id}`:""}">${u.makeOwn}</a>`}
+
+    <div style="margin-top:14px;font-size:11px;opacity:.85;text-align:left">
+      <b>${u.privTitle}.</b> ${u.privText}
+      <a href="oferta.html" target="_blank" rel="noopener">${u.privLink}</a></div></div>`;
+  if(d) tick(d);
+  const bAll=document.getElementById("bAll");
+  const bY=document.getElementById("bYes"), bN=document.getElementById("bNo"), cnt=document.getElementById("cnt");
+  const sendBtn=document.getElementById("send");
+
+  // Отправка одна на все три кнопки: «придём все» и «не сможем» отвечают в один тап,
+  // «придём не все» сначала открывает счётчик и поле для комментария.
+  async function submit(btn){
+    if(preview) return;
+    if(!state.status) return alert(u.ask);
+    const label=btn.textContent;
+    btn.disabled=true; btn.textContent=u.sending;
+    const noteEl=document.getElementById("note");
+    const res = await fetch(`${API}/rsvp`,{method:"POST",headers:{"content-type":"application/json"},
+      body:JSON.stringify({token,status:state.status,count:state.count,note:noteEl?noteEl.value:""})}).then(x=>x.json()).catch(()=>null);
+    if(!res?.ok){ btn.disabled=false; btn.textContent=label; return alert(u.fail); }
+    document.getElementById("rsvp").innerHTML =
+      `<div class="done"><div class="big">${state.status==="yes"?u.doneYes:u.doneNo}</div>
+      <div class="fam">${state.status==="yes"?u.markedYes(state.count):u.markedNo}</div>
+      ${state.status==="yes"&&d?`<button class="send" id="ics" style="margin-top:14px">${u.ics}</button>`:""}
+      <div class="fam" style="margin-top:12px">${u.changeHint}</div></div>`;
+    const ics=document.getElementById("ics"); if(ics) ics.onclick=()=>addToCalendar(e,d);
+  }
+
+  bAll.onclick=()=>{ state.status="yes"; state.count=state.inv; submit(bAll); };
+  bY.onclick=()=>{state.status="yes";bY.classList.add("on");bN.classList.remove("on");cnt.style.display="block";};
+  bN.onclick=()=>{ state.status="no";bN.classList.add("on");bY.classList.remove("on");cnt.style.display="none"; submit(bN); };
+  document.getElementById("m").onclick=()=>{state.count=Math.max(1,state.count-1);document.getElementById("n").textContent=state.count;};
+  document.getElementById("p").onclick=()=>{state.count=Math.min(state.inv+4,state.count+1);document.getElementById("n").textContent=state.count;};
+  // Уже отвечавшему открываем счётчик: он вернулся по ссылке, чтобы поправить число.
+  if(f.rsvp_status==="yes"){ state.status="yes"; bY.classList.add("on"); cnt.style.display="block"; }
+  sendBtn.onclick=()=>submit(sendBtn);
+}
+
+function addToCalendar(e,d){
+  const pad=n=>String(n).padStart(2,"0");
+  const fmt=x=>`${x.getUTCFullYear()}${pad(x.getUTCMonth()+1)}${pad(x.getUTCDate())}T${pad(x.getUTCHours())}${pad(x.getUTCMinutes())}00Z`;
+  const end=new Date(d.getTime()+5*3600*1000);
+  const ics=["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//toy-daftar//UZ//RU","BEGIN:VEVENT",
+    `UID:${Date.now()}@toy-daftar`,`DTSTAMP:${fmt(new Date())}`,`DTSTART:${fmt(d)}`,`DTEND:${fmt(end)}`,
+    `SUMMARY:${U().icsTitle} — ${(e.couple||"").replace(/[,;]/g," ")}`,
+    `LOCATION:${[(e.venue_name||""),(e.venue_addr||"")].filter(Boolean).join(" ").replace(/[,;]/g," ")}`,
+    "DESCRIPTION:"+U().icsDesc,
+    "BEGIN:VALARM","TRIGGER:-P1D","ACTION:DISPLAY","DESCRIPTION:"+U().icsAlarm,"END:VALARM",
+    "END:VEVENT","END:VCALENDAR"].join("\r\n");
+  const blob=new Blob([ics],{type:"text/calendar;charset=utf-8"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="toy.ics"; a.click(); URL.revokeObjectURL(a.href);
+}
+function tick(d){
+  const el=document.getElementById("cd");
+  const upd=()=>{ const ms=d-new Date(); if(ms<=0){el.innerHTML=`<div><b>🎉</b><span>${U().today}</span></div>`;return;}
+    const dd=Math.floor(ms/864e5), hh=Math.floor(ms/36e5)%24, mm=Math.floor(ms/6e4)%60;
+    el.innerHTML=`<div><b>${dd}</b><span>${U().dd}</span></div><div><b>${hh}</b><span>${U().hh}</span></div><div><b>${mm}</b><span>${U().mm}</span></div>`; };
+  upd(); setInterval(upd,60000);
+}
+
+boot();
+</script>
+
+</body>
+</html>

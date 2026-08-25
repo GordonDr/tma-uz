@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kvartira Qabul — оферта и обработка данных</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root{
+  --paper:#FBFBF9; --card:#FFFFFF; --ink:#1C2429; --ink2:#4A555D; --muted:#7C878F;
+  --line:#E4E8EB; --line2:#F1F4F6; --grid:#EDF1F4;
+  --amber:#D98324; --amber-ink:#8A4E08; --amber-bg:#FCF2E4;
+  --bad:#B3403A; --bad-bg:#FBEBEA;
+  --shadow:0 1px 2px rgba(28,36,41,.05), 0 8px 24px rgba(28,36,41,.06);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#14181B; --card:#1B2126; --ink:#E9EEF1; --ink2:#B3BEC5; --muted:#87949C;
+  --line:#2A3238; --line2:#222A30; --grid:#1F272C;
+  --amber:#EFA85C; --amber-ink:#EFA85C; --amber-bg:#2A1F12;
+  --bad:#E6847E; --bad-bg:#3A1F1D;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}}
+:root[data-theme="dark"]{
+  --paper:#14181B; --card:#1B2126; --ink:#E9EEF1; --ink2:#B3BEC5; --muted:#87949C;
+  --line:#2A3238; --line2:#222A30; --grid:#1F272C;
+  --amber:#EFA85C; --amber-ink:#EFA85C; --amber-bg:#2A1F12;
+  --bad:#E6847E; --bad-bg:#3A1F1D;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);
+  font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15.5px;line-height:1.6;
+  padding:0 0 40px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;background-position:-1px -1px}
+.wrap{max-width:680px;margin:0 auto;padding:0 16px}
+.hide{display:none}
+.langbar{position:fixed;top:calc(10px + env(safe-area-inset-top));right:10px;z-index:40;
+  display:flex;gap:3px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px;
+  box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.langbar button{border:0;background:transparent;color:var(--muted);cursor:pointer;
+  font:600 11.5px Manrope,system-ui,sans-serif;padding:5px 10px;border-radius:16px}
+.langbar button.on{background:var(--amber-ink);color:#fff}
+
+h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.25;letter-spacing:-.01em}
+.top{padding:26px 0 6px}
+.top h1{font-size:25px;font-weight:600}
+.top .sub{color:var(--muted);font-size:13.5px;margin-top:7px}
+.upd{font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--muted);margin-top:5px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px 20px;margin:12px 0;box-shadow:var(--shadow)}
+.card h2{font-size:17px;font-weight:600;margin-bottom:10px}
+.card h3{font-size:14.5px;font-weight:600;margin:16px 0 6px;color:var(--ink2)}
+.card p{margin:0 0 10px}
+.card p:last-child{margin-bottom:0}
+ol,ul{margin:0 0 10px;padding-left:20px}
+li{margin-bottom:7px}
+li:last-child{margin-bottom:0}
+.tldr{background:var(--amber-bg);border:1px solid var(--amber);border-radius:16px;padding:16px 20px;margin:12px 0}
+.tldr h2{color:var(--amber-ink);font-size:16px;margin-bottom:9px}
+.tldr ul{margin:0;padding-left:18px}
+.tldr li{color:var(--ink2);font-size:14.5px}
+.no{background:var(--bad-bg);border:1px solid var(--bad);border-radius:16px;padding:16px 20px;margin:12px 0}
+.no h2{color:var(--bad);font-size:16px;margin-bottom:9px}
+.no ul{margin:0;padding-left:18px}
+.no li{font-size:14.5px}
+.req{display:grid;grid-template-columns:1fr;gap:0;font-size:14px}
+.req div{display:grid;grid-template-columns:150px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid var(--line2)}
+.req div:last-child{border-bottom:0}
+.req dt{color:var(--muted);font-size:13px}
+.req dd{margin:0;font-weight:500}
+.todo{background:var(--line2);border-left:3px solid var(--muted);border-radius:0 9px 9px 0;padding:11px 14px;
+  margin:12px 0;font-size:13px;color:var(--ink2)}
+.todo b{color:var(--ink)}
+code{font-family:"IBM Plex Mono",monospace;font-size:13px;background:var(--line2);padding:2px 5px;border-radius:5px}
+a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
+.foot{text-align:center;font-size:12.5px;color:var(--muted);padding:24px 0 6px;line-height:1.6}
+@media (max-width:520px){ .req div{grid-template-columns:1fr;gap:2px} .req dt{font-size:12px} }
+</style>
+</head>
+<body>
+<div class="langbar" id="langbar"></div>
+<div class="wrap">
+
+<section id="ru">
+<div class="top">
+
+  <h1>Условия оказания услуг и обработка данных</h1>
+  <div class="sub">Сервис «Kvartira Qabul» — чек-лист приёмки квартиры и подготовка документов</div>
+  <div class="upd">Редакция от 27 августа 2026 г. · г. Ташкент</div>
+</div>
+
+<div class="tldr">
+  <h2>Коротко, человеческим языком</h2>
+  <ul>
+    <li>Чек-лист приёмки — <b>бесплатный</b>. Пользуйтесь и ничего не платите.</li>
+    <li>За 99 000 сум мы по вашим фотографиям готовим <b>два документа</b>: акт осмотра с перечнем замечаний и претензию застройщику. Подаёте вы сами.</li>
+    <li>Срок — <b>24 часа</b> с момента, когда вы прислали фото и написали «готово».</li>
+    <li>Платёж <b>разовый</b>. Подписки нет, ничего не спишется повторно.</li>
+    <li>Если документ вам не подошёл — скажите, и мы <b>вернём деньги</b> полностью, без объяснений. Срок возврата — до 10 дней, обычно в тот же день.</li>
+    <li>После оплаты спросим ФИО, телефон и реквизиты договора — <b>только чтобы претензия была именной</b>. Не хотите — команда <code>/skip</code>, документы будут без них.</li>
+    <li>Ваши фото хранит Telegram, мы держим только ссылки на них и удаляем через 30 дней. Для обучения моделей их не используем.</li>
+
+    <li>Стереть все данные — команда <code>/delete</code> в боте, в любой момент.</li>
+  </ul>
+</div>
+
+<div class="no">
+  <h2>Чего мы НЕ делаем — читайте до оплаты</h2>
+  <ul>
+    <li>Мы <b>не проводим экспертизу</b>. Строительно-техническая экспертиза — деятельность аккредитованных организаций, у нас её нет и мы её не имитируем.</li>
+    <li>Мы <b>не оказываем юридические услуги</b> и не представляем ваши интересы нигде: ни у застройщика, ни в суде, ни в госорганах.</li>
+    <li>Мы <b>не гарантируем</b>, что застройщик устранит недостатки, вернёт деньги или вообще ответит.</li>
+    <li>Мы <b>не выезжаем на объект</b> и не проводим инструментальных измерений.</li>
+    <li>Мы <b>не оцениваем ущерб в деньгах</b> и не указываем сумму в документах.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>1. Стороны и предмет</h2>
+  <p><b>Исполнитель:</b> индивидуальный предприниматель Епихин Кирилл Николаевич, регистрационный номер 7875577, СТИР {{СТИР}}, г. Ташкент, Шайхантахурский район, Республика Узбекистан.
+  <b>Заказчик:</b> физическое лицо, акцептовавшее настоящую оферту.</p>
+  <p>Настоящий документ является публичной офертой. Услуги оказываются через Telegram-бот
+  <code>@kvartira_qabul_bot</code> и мини-приложение.</p>
+  <h3>Что входит в услуги</h3>
+  <ol>
+    <li><b>Бесплатно.</b> Доступ к чек-листу самостоятельного осмотра квартиры на русском и узбекском языках. Оплаты не требует, обязательств не создаёт.</li>
+    <li><b>Платно — 99 000 (девяносто девять тысяч) сум.</b> Услуга «Акт осмотра и претензия»: составление по представленным Заказчиком фотоматериалам и описанию перечня зафиксированных видимых недостатков в форме акта осмотра, а также проекта претензии застройщику для самостоятельной подачи Заказчиком.</li>
+  </ol>
+  <p>Результат передаётся в электронной форме (файл PDF) в том же чате Telegram.</p>
+</div>
+
+<div class="card">
+  <h2>2. Характер услуг и ограничение ответственности</h2>
+  <p>Услуги носят <b>информационно-консультационный характер</b>. Документы, подготовленные Исполнителем, являются
+  вспомогательными материалами и не имеют силы заключения эксперта.</p>
+  <p>Услуги <b>не являются</b>: строительно-технической экспертизой; оценкой стоимости устранения недостатков;
+  юридической помощью или представительством; гарантией устранения недостатков застройщиком; гарантией
+  какого-либо исхода спора.</p>
+  <p>Исполнитель фиксирует в документах <b>только то, что различимо на представленных фотографиях</b>, и не
+  устанавливает причины возникновения недостатков и не даёт оценку скрытым работам. Решение о подаче документов
+  и о дальнейших действиях принимает Заказчик самостоятельно.</p>
+  <h3>Как готовится документ</h3>
+  <p>Фотографии просматривает человек. По ним заполняется шаблон: таблица замечаний со ссылками на действующие
+  строительные нормы и проект претензии со сроками, установленными законодательством. Часть текста собирается
+  автоматически из справочника норм; итоговый документ Исполнитель проверяет перед передачей.
+  Фотографии Заказчика <b>не публикуются, не передаются третьим лицам и не используются для обучения
+  каких-либо моделей машинного обучения.</b></p>
+  <h3>Ответственность</h3>
+  <p>Ответственность Исполнителя за неисполнение или ненадлежащее исполнение обязательств ограничивается
+  <b>двукратным размером</b> стоимости оплаченной услуги. Если законодательство Республики Узбекистан
+  устанавливает для отдельных случаев большую ответственность, применяется законодательство: условия оферты,
+  ухудшающие положение потребителя по сравнению с законом, недействительны и не применяются.</p>
+  <h3>Лицензируемая деятельность</h3>
+  <p>Исполнитель <b>не осуществляет</b> видов деятельности, подлежащих лицензированию или разрешительному
+  порядку: строительно-технической экспертизы, оценочной деятельности, адвокатской и иной юридической
+  деятельности, платёжной деятельности. Услуга носит информационно-консультационный характер.
+  {{юристу: подтвердить допустимость данного вида деятельности для ИП с учётом ПКМ № 6 и, при необходимости,
+  указать код ОКЭД}}</p>
+</div>
+
+
+<div class="card">
+  <h2>3. Порядок оказания услуг и сроки</h2>
+  <ol>
+    <li>Заказчик оплачивает услугу в боте. Оплата является акцептом оферты.</li>
+    <li>Исполнитель запрашивает сведения для шапки документов: фамилию, имя, отчество, телефон, застройщика, номер и дату договора. Их предоставление добровольно; при отказе (команда <code>/skip</code>) документы готовятся с указанием «приобретатель».</li>
+    <li>Заказчик направляет в бот фотографии недостатков, наименование объекта и номер квартиры для шапки акта, а также описание претензий своими словами.</li>
+
+    <li>Заказчик подтверждает завершение отправки материалов сообщением «готово».</li>
+    <li>Исполнитель передаёт документы в течение <b>24 (двадцати четырёх) часов</b> с момента получения подтверждения по п. 3.</li>
+  </ol>
+  <p>Если Исполнитель не укладывается в срок, он уведомляет Заказчика до истечения срока и называет новый.
+  Заказчик вправе в этом случае отказаться от услуги с полным возвратом оплаты.</p>
+  <p>Фотоматериалы низкого качества, на которых недостаток не читается однозначно, в акт не включаются —
+  об этом Заказчик уведомляется при передаче документов.</p>
+</div>
+
+<div class="card">
+  <h2>4. Оплата</h2>
+  <p>Стоимость услуги — 99 000 сум, единовременно, за один объект (одну квартиру). Оплата производится через
+  платёжного провайдера (Click, Payme). Фискальный чек формируется платёжным провайдером и направляется
+  Заказчику способом, предусмотренным провайдером.</p>
+  <p>Подписка, автоматические списания и периодические платежи <b>не применяются</b>.</p>
+  <p>Исполнитель не принимает и не хранит денежные средства третьих лиц и не осуществляет платёжную
+  деятельность. Расчёты проходят через лицензированного платёжного провайдера.</p>
+</div>
+
+<div class="card">
+  <h2>5. Отказ от услуги, возврат и претензии к качеству</h2>
+  <h3>Отказ Заказчика</h3>
+  <p>Заказчик вправе отказаться от услуги <b>в любой момент до передачи документов</b>. Если работа ещё не начата —
+  возвращается полная стоимость. Если работа начата, но не завершена, Заказчику по его выбору возвращается
+  полная стоимость либо передаётся подготовленная часть документов.</p>
+  <h3>Гарантия возврата</h3>
+  <p>Исполнитель предоставляет <b>добровольную гарантию</b>: если Заказчик после получения документов сообщает,
+  что результат ему не подошёл, стоимость услуги возвращается полностью — без объяснения причин и без
+  предварительного устранения недостатков. Это условие улучшает положение Заказчика по сравнению с
+  законодательством и не отменяет его прав, установленных законом.</p>
+  <h3>Права по закону</h3>
+  <p>Независимо от гарантии выше Заказчик вправе требовать безвозмездного устранения недостатков документов
+  (ошибки в реквизитах, неточные или неполные формулировки, пропущенные замечания по представленным фото).
+  Срок устранения — <b>не более 20 (двадцати) дней</b> со дня предъявления требования (ст. 19 Закона Республики
+  Узбекистан «О защите прав потребителей»). За нарушение этого срока Заказчик вправе требовать неустойку в
+  размере <b>1 % цены услуги за каждый день просрочки</b>.</p>
+  <h3>Сроки и порядок</h3>
+  <ol>
+    <li>Требование направляется в Telegram-бот <code>@kvartira_qabul_bot</code> — сообщением или кнопкой
+    «Что-то не так с документом» — либо на адрес <code>support@rulchi.uz</code>.</li>
+    <li>Исполнитель отвечает по существу в течение <b>3 (трёх) рабочих дней</b>.</li>
+    <li>Возврат производится в течение <b>10 (десяти) дней</b> со дня получения требования, тем же способом,
+    которым была произведена оплата.</li>
+  </ol>
+  <h3>Что возвратом не является</h3>
+  <p>Отказ застройщика удовлетворить претензию Заказчика <b>не является</b> недостатком услуги Исполнителя,
+  поскольку исход взаимодействия с застройщиком Исполнителем не гарантируется (п. 2). При этом на такой случай
+  распространяется добровольная гарантия возврата, описанная выше.</p>
+  <h3>Расторжение по инициативе Исполнителя</h3>
+  <p>Исполнитель вправе отказаться от оказания услуги, если представленные материалы не позволяют подготовить
+  документ (фотографии нечитаемы, объект не является жилым помещением, запрашивается подготовка документов
+  для третьего лица без его ведома). В этом случае стоимость возвращается полностью в срок, указанный выше.</p>
+</div>
+
+
+<div class="card">
+  <h2>6. Персональные данные</h2>
+  <h3>Что обрабатываем до оплаты</h3>
+  <ul>
+    <li>Идентификатор Telegram, имя пользователя и имя из профиля Telegram;</li>
+    <li>отметки чек-листа и отмеченные Заказчиком недостатки;</li>
+    <li>канал, по ссылке которого Заказчик пришёл в бот.</li>
+  </ul>
+  <h3>Что обрабатываем после оплаты</h3>
+  <ul>
+    <li>наименование жилого комплекса и номер квартиры — для шапки акта;</li>
+    <li>фамилию, имя и отчество Заказчика, номер телефона, наименование застройщика, номер и дату договора —
+    <b>только для того, чтобы претензия была именной</b>; без них документ обезличен и застройщик вправе его не рассматривать;</li>
+    <li>описание претензий, изложенное Заказчиком;</li>
+    <li>ссылки (идентификаторы) на фотографии, отправленные Заказчиком в чат.</li>
+  </ul>
+  <p>Все перечисленные сведения Заказчик сообщает <b>добровольно</b>. Сообщать их необязательно: по команде
+  <code>/skip</code> документы готовятся без реквизитов договора, с указанием «приобретатель» вместо имени.</p>
+  <p><b>Сами файлы фотографий Исполнитель не хранит.</b> Файлы остаются в инфраструктуре Telegram; Исполнитель
+  сохраняет только их идентификаторы, позволяющие обратиться к файлу в рамках диалога.</p>
+  <h3>Чего не запрашиваем</h3>
+  <p>Исполнитель <b>не запрашивает</b> паспортные данные, копии договоров, банковские реквизиты, биометрические
+  и генетические данные, сведения о состоянии здоровья и иные особые категории персональных данных.
+  Достаточно тех сведений, которые Заказчик вводит сам в анкете после оплаты.</p>
+
+  <h3>Цель, основание и срок</h3>
+  <p>Цель обработки — оказание оплаченной услуги. Основание — согласие субъекта, выраженное акцептом настоящей
+  оферты, и исполнение договора. Срок хранения фотоматериалов, описаний, наименования объекта и сведений,
+  введённых в анкете, — <b>30 дней</b> с момента передачи документов, после чего эти данные удаляются
+  автоматически. Сохраняется только обезличенная запись о факте и сумме оплаты с идентификатором Telegram —
+  её требуют налоговый и бухгалтерский учёт.</p>
+
+  <h3>Передача третьим лицам</h3>
+  <p>Персональные данные третьим лицам не передаются и не продаются. Обработка осуществляется с использованием
+  инфраструктуры Supabase и сервисов автоматизированной обработки текста, расположенных за пределами
+  Республики Узбекистан; акцептуя оферту, Заказчик даёт согласие на такую обработку. {{юристу: сверить объём и
+  формулировку с требованиями ЗРУ-547 и ЗРУ-1125, определить необходимость регистрации базы ПДн}}</p>
+  <h3>Права субъекта</h3>
+  <p>Заказчик вправе в любой момент отозвать согласие и потребовать удаления данных командой <code>/delete</code>
+  в боте. По этой команде удаляются: имя и username, фамилия, имя и отчество, телефон, застройщик и реквизиты
+  договора, описания, наименование объекта, ссылки на фотографии, прогресс чек-листа и содержание аналитических
+  событий. Обезличенная запись о факте оплаты сохраняется — этого требует налоговый и бухгалтерский учёт.</p>
+  <p>Копии фотографий остаются в переписке Telegram у обеих сторон: свою сторону Заказчик удаляет сам,
+  сторону Исполнителя Исполнитель удаляет в течение 24 часов после получения команды.</p>
+  <p>Заказчик также вправе получить сведения об обработке своих данных, потребовать их уточнения или блокирования
+  и обжаловать действия Исполнителя в уполномоченный государственный орган в области персональных данных.</p>
+
+</div>
+
+<div class="card">
+  <h2>7. Прочее</h2>
+  <p>Исполнитель вправе изменять настоящую оферту; к отношениям применяется редакция, действовавшая на момент
+  оплаты. К отношениям сторон применяется законодательство Республики Узбекистан. Споры, не урегулированные
+  переговорами, рассматриваются в соответствии с законодательством Республики Узбекистан.</p>
+  <h3>Реквизиты</h3>
+  <div class="req">
+    <div><dt>Исполнитель</dt><dd>ИП Епихин Кирилл Николаевич</dd></div>
+    <div><dt>Регистрационный номер</dt><dd>7875577</dd></div>
+    <div><dt>СТИР</dt><dd>{{СТИР}}</dd></div>
+    <div><dt>Адрес</dt><dd>Шайхантахурский район, г. Ташкент</dd></div>
+    <div><dt>Телеграм-бот</dt><dd>@kvartira_qabul_bot</dd></div>
+    <div><dt>Связь</dt><dd>{{@владелец}} · support@rulchi.uz</dd></div>
+  </div>
+</div>
+
+<div class="foot">
+  Kvartira Qabul · документы для самостоятельной подачи<br>
+  Не является экспертизой. Исход спора не гарантируется.
+</div>
+</section>
+
+<section id="uz" class="hide">
+<div class="top">
+  <h1>Xizmat ko'rsatish shartlari va ma'lumotlarni qayta ishlash</h1>
+  <div class="sub">«Kvartira Qabul» xizmati — kvartirani qabul qilish cheklisti va hujjat tayyorlash</div>
+  <div class="upd">2026-yil 25-avgust tahriri · Toshkent sh.</div>
+</div>
+
+<div class="tldr">
+  <h2>Qisqacha, oddiy til bilan</h2>
+  <ul>
+    <li>Qabul qilish cheklisti — <b>bepul</b>. Foydalaning va hech narsa to'lamang.</li>
+    <li>99 000 so'mga suratlaringiz asosida <b>ikkita hujjat</b> tayyorlaymiz: kamchiliklar ro'yxati bilan ko'rik dalolatnomasi va quruvchiga pretenziya. Topshirishni o'zingiz amalga oshirasiz.</li>
+    <li>Muddat — suratlarni yuborib «tayyor» deb yozganingizdan keyin <b>24 soat</b>.</li>
+    <li>To'lov <b>bir martalik</b>. Obuna yo'q, qayta yechilmaydi.</li>
+    <li>Hujjat to'g'ri kelmasa — ayting, <b>pulni to'liq qaytaramiz</b>, tushuntirishsiz. Qaytarish muddati — 10 kungacha, odatda o'sha kuni.</li>
+    <li>To'lovdan keyin F.I.Sh., telefon va shartnoma rekvizitlarini so'raymiz — <b>faqat pretenziya ismingiz bilan bo'lishi uchun</b>. Xohlamasangiz — <code>/skip</code> buyrug'i, hujjatlar ularsiz tayyorlanadi.</li>
+    <li>Suratlaringizni Telegram saqlaydi, bizda faqat havolalar bor va ular 30 kundan keyin o'chiriladi. Modellarni o'qitish uchun ishlatilmaydi.</li>
+    <li>Barcha ma'lumotlarni o'chirish — botdagi <code>/delete</code> buyrug'i, istalgan vaqtda.</li>
+  </ul>
+</div>
+
+<div class="no">
+  <h2>Biz nima QILMAYMIZ — to'lovdan oldin o'qing</h2>
+  <ul>
+    <li>Biz <b>ekspertiza o'tkazmaymiz</b>. Qurilish-texnik ekspertizasi akkreditatsiyalangan tashkilotlar faoliyati; bizda u yo'q va biz uni taqlid qilmaymiz.</li>
+    <li>Biz <b>yuridik xizmat ko'rsatmaymiz</b> va manfaatlaringizni hech qayerda ifoda etmaymiz: na quruvchida, na sudda, na davlat organlarida.</li>
+    <li>Biz quruvchi kamchiliklarni bartaraf etishini, pulni qaytarishini yoki umuman javob berishini <b>kafolatlamaymiz</b>.</li>
+    <li>Biz <b>obyektga chiqmaymiz</b> va asbobiy o'lchovlar o'tkazmaymiz.</li>
+    <li>Biz <b>zararni pulda baholamaymiz</b> va hujjatlarda summa ko'rsatmaymiz.</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>1. Tomonlar va predmet</h2>
+  <p><b>Ijrochi:</b> yakka tartibdagi tadbirkor Epixin Kirill Nikolayevich, ro'yxatga olish raqami 7875577,
+  STIR {{СТИР}}, Toshkent sh., Shayxontohur tumani, O'zbekiston Respublikasi.
+  <b>Buyurtmachi:</b> mazkur ofertani aksept qilgan jismoniy shaxs.</p>
+  <p>Mazkur hujjat ommaviy oferta hisoblanadi. Xizmatlar <code>@kvartira_qabul_bot</code> Telegram-boti va
+  mini-ilova orqali ko'rsatiladi.</p>
+  <h3>Xizmatlarga nima kiradi</h3>
+  <ol>
+    <li><b>Bepul.</b> Kvartirani mustaqil ko'rikdan o'tkazish cheklistiga rus va o'zbek tillarida kirish. To'lov talab qilmaydi, majburiyat yuzaga keltirmaydi.</li>
+    <li><b>Pullik — 99 000 (to'qson to'qqiz ming) so'm.</b> «Ko'rik dalolatnomasi va pretenziya» xizmati: Buyurtmachi taqdim etgan surat materiallari va tavsifi asosida qayd etilgan ko'zga ko'rinadigan kamchiliklar ro'yxatini dalolatnoma shaklida tuzish, shuningdek Buyurtmachi mustaqil topshirishi uchun quruvchiga pretenziya loyihasini tayyorlash.</li>
+  </ol>
+  <p>Natija elektron shaklda (PDF fayl) o'sha Telegram chatiga yuboriladi.</p>
+</div>
+
+<div class="card">
+  <h2>2. Xizmatlar tabiati va javobgarlik chegarasi</h2>
+  <p>Xizmatlar <b>axborot-maslahat xarakteriga</b> ega. Ijrochi tayyorlagan hujjatlar yordamchi materiallar
+  bo'lib, ekspert xulosasi kuchiga ega emas.</p>
+  <p>Xizmatlar quyidagilar <b>emas</b>: qurilish-texnik ekspertizasi; kamchiliklarni bartaraf etish qiymatini
+  baholash; yuridik yordam yoki vakillik; quruvchi tomonidan kamchiliklarni bartaraf etish kafolati; nizoning
+  qandaydir natijasi kafolati.</p>
+  <p>Ijrochi hujjatlarda <b>faqat taqdim etilgan suratlarda ko'rinadigan narsalarni</b> qayd etadi, kamchiliklar
+  sabablarini aniqlamaydi va yashirin ishlarga baho bermaydi. Hujjatlarni topshirish va keyingi harakatlar
+  to'g'risidagi qarorni Buyurtmachi mustaqil qabul qiladi.</p>
+  <h3>Hujjat qanday tayyorlanadi</h3>
+  <p>Suratlarni odam ko'rib chiqadi. Ular asosida shablon to'ldiriladi: amaldagi qurilish me'yorlariga
+  havolalar bilan kamchiliklar jadvali va qonunchilikda belgilangan muddatlar ko'rsatilgan pretenziya loyihasi.
+  Matnning bir qismi me'yorlar ma'lumotnomasidan avtomatik yig'iladi; yakuniy hujjatni Ijrochi topshirishdan
+  oldin tekshiradi. Buyurtmachining suratlari <b>e'lon qilinmaydi, uchinchi shaxslarga berilmaydi va
+  mashinali o'qitish modellarini o'qitish uchun ishlatilmaydi.</b></p>
+  <h3>Javobgarlik</h3>
+  <p>Ijrochining majburiyatlarni bajarmagani yoki lozim darajada bajarmagani uchun javobgarligi to'langan xizmat
+  qiymatining <b>ikki barobari</b> bilan cheklanadi. Agar O'zbekiston Respublikasi qonunchiligi ayrim hollar
+  uchun kattaroq javobgarlik belgilasa, qonunchilik qo'llaniladi: ofertaning iste'molchi holatini qonunga
+  nisbatan yomonlashtiradigan shartlari haqiqiy emas va qo'llanilmaydi.</p>
+  <h3>Litsenziyalanadigan faoliyat</h3>
+  <p>Ijrochi litsenziyalash yoki ruxsat berish tartibiga kiradigan faoliyat turlarini <b>amalga oshirmaydi</b>:
+  qurilish-texnik ekspertizasi, baholash faoliyati, advokatlik va boshqa yuridik faoliyat, to'lov faoliyati.
+  Xizmat axborot-maslahat xarakteriga ega.</p>
+</div>
+
+<div class="card">
+  <h2>3. Xizmat ko'rsatish tartibi va muddatlar</h2>
+  <ol>
+    <li>Buyurtmachi botda xizmat haqini to'laydi. To'lov ofertani aksept qilish hisoblanadi.</li>
+    <li>Ijrochi hujjatlar sarlavhasi uchun ma'lumot so'raydi: familiya, ism, otasining ismi, telefon, quruvchi, shartnoma raqami va sanasi. Ularni taqdim etish ixtiyoriy; rad etilganda (<code>/skip</code> buyrug'i) hujjatlar «xaridor» deb tayyorlanadi.</li>
+    <li>Buyurtmachi botga kamchiliklar suratlarini, obyekt nomini va kvartira raqamini, shuningdek o'z so'zlari bilan tavsifni yuboradi.</li>
+    <li>Buyurtmachi materiallar yuborilganini «tayyor» xabari bilan tasdiqlaydi.</li>
+    <li>Ijrochi 4-bandga muvofiq tasdiq olingan paytdan boshlab <b>24 (yigirma to'rt) soat</b> ichida hujjatlarni topshiradi.</li>
+  </ol>
+  <p>Agar Ijrochi muddatga ulgurmasa, muddat tugagunga qadar Buyurtmachini xabardor qiladi va yangi muddatni
+  aytadi. Bunday holda Buyurtmachi to'lovni to'liq qaytarish bilan xizmatdan voz kechishga haqli.</p>
+  <p>Kamchilik aniq o'qilmaydigan sifatsiz surat materiallari dalolatnomaga kiritilmaydi — bu haqda Buyurtmachi
+  hujjatlar topshirilishida xabardor qilinadi.</p>
+</div>
+
+<div class="card">
+  <h2>4. To'lov</h2>
+  <p>Xizmat qiymati — 99 000 so'm, bir martalik, bitta obyekt (bitta kvartira) uchun. To'lov to'lov provayderi
+  (Click, Payme) orqali amalga oshiriladi. Fiskal chek to'lov provayderi tomonidan shakllantiriladi va
+  Buyurtmachiga provayder nazarda tutgan usulda yuboriladi.</p>
+  <p>Obuna, avtomatik yechib olishlar va davriy to'lovlar <b>qo'llanilmaydi</b>.</p>
+  <p>Ijrochi uchinchi shaxslarning pul mablag'larini qabul qilmaydi va saqlamaydi hamda to'lov faoliyatini
+  amalga oshirmaydi. Hisob-kitoblar litsenziyalangan to'lov provayderi orqali o'tadi.</p>
+</div>
+
+<div class="card">
+  <h2>5. Xizmatdan voz kechish, pulni qaytarish va sifatga pretenziyalar</h2>
+  <h3>Buyurtmachining voz kechishi</h3>
+  <p>Buyurtmachi <b>hujjatlar topshirilgunga qadar istalgan vaqtda</b> xizmatdan voz kechishga haqli. Agar ish
+  hali boshlanmagan bo'lsa — to'liq qiymat qaytariladi. Agar ish boshlangan, lekin tugallanmagan bo'lsa,
+  Buyurtmachining tanloviga ko'ra to'liq qiymat qaytariladi yoki tayyorlangan qism topshiriladi.</p>
+  <h3>Qaytarish kafolati</h3>
+  <p>Ijrochi <b>ixtiyoriy kafolat</b> beradi: agar Buyurtmachi hujjatlarni olgandan keyin natija unga to'g'ri
+  kelmaganini bildirsa, xizmat qiymati to'liq qaytariladi — sabablarini tushuntirmasdan va kamchiliklarni
+  oldindan bartaraf etmasdan. Bu shart Buyurtmachi holatini qonunchilikka nisbatan yaxshilaydi va uning
+  qonunda belgilangan huquqlarini bekor qilmaydi.</p>
+  <h3>Qonun bo'yicha huquqlar</h3>
+  <p>Yuqoridagi kafolatdan qat'i nazar Buyurtmachi hujjatlar kamchiliklarini (rekvizitlardagi xatolar, noaniq
+  yoki to'liq bo'lmagan iboralar, taqdim etilgan suratlar bo'yicha o'tkazib yuborilgan kamchiliklar) bepul
+  bartaraf etishni talab qilishga haqli. Bartaraf etish muddati — talab qo'yilgan kundan boshlab
+  <b>20 (yigirma) kundan ko'p emas</b> («Iste'molchilar huquqlarini himoya qilish to'g'risida»gi O'zbekiston
+  Respublikasi qonunining 19-moddasi). Ushbu muddat buzilgani uchun Buyurtmachi har kechikkan kun uchun xizmat
+  narxining <b>1 foizi</b> miqdorida penya talab qilishga haqli.</p>
+  <h3>Muddatlar va tartib</h3>
+  <ol>
+    <li>Talab <code>@kvartira_qabul_bot</code> Telegram-botiga — xabar yoki «Hujjatda nimadir noto'g'ri» tugmasi orqali — yoxud <code>support@rulchi.uz</code> manziliga yuboriladi.</li>
+    <li>Ijrochi <b>3 (uch) ish kuni</b> ichida mazmunan javob beradi.</li>
+    <li>Pul talab olingan kundan boshlab <b>10 (o'n) kun</b> ichida, to'lov qanday usulda amalga oshirilgan bo'lsa, o'sha usulda qaytariladi.</li>
+  </ol>
+  <h3>Nima qaytarish asosi emas</h3>
+  <p>Quruvchining Buyurtmachi pretenziyasini qanoatlantirishdan bosh tortishi Ijrochi xizmatining kamchiligi
+  <b>hisoblanmaydi</b>, chunki quruvchi bilan munosabat natijasi Ijrochi tomonidan kafolatlanmaydi (2-band).
+  Shu bilan birga bunday holatga yuqorida tavsiflangan ixtiyoriy qaytarish kafolati tatbiq etiladi.</p>
+  <h3>Ijrochi tashabbusi bilan bekor qilish</h3>
+  <p>Agar taqdim etilgan materiallar hujjat tayyorlashga imkon bermasa (suratlar o'qilmaydi, obyekt turar-joy
+  emas, uchinchi shaxs uchun uning xabarisiz hujjat tayyorlash so'ralmoqda), Ijrochi xizmat ko'rsatishdan voz
+  kechishga haqli. Bunday holda qiymat yuqorida ko'rsatilgan muddatda to'liq qaytariladi.</p>
+</div>
+
+<div class="card">
+  <h2>6. Shaxsga doir ma'lumotlar</h2>
+  <h3>To'lovgacha nimani qayta ishlaymiz</h3>
+  <ul>
+    <li>Telegram identifikatori, foydalanuvchi nomi va Telegram profilidagi ism;</li>
+    <li>cheklist belgilari va Buyurtmachi qayd etgan kamchiliklar;</li>
+    <li>Buyurtmachi botga qaysi havola orqali kelgani.</li>
+  </ul>
+  <h3>To'lovdan keyin nimani qayta ishlaymiz</h3>
+  <ul>
+    <li>turar-joy majmuasi nomi va kvartira raqami — dalolatnoma sarlavhasi uchun;</li>
+    <li>Buyurtmachining familiyasi, ismi va otasining ismi, telefon raqami, quruvchi nomi, shartnoma raqami va sanasi — <b>faqat pretenziya ismli bo'lishi uchun</b>; ularsiz hujjat shaxssiz bo'ladi va quruvchi uni ko'rib chiqmasligi mumkin;</li>
+    <li>Buyurtmachi bayon etgan pretenziyalar tavsifi;</li>
+    <li>Buyurtmachi chatga yuborgan suratlarga havolalar (identifikatorlar).</li>
+  </ul>
+  <p>Sanab o'tilgan barcha ma'lumotlarni Buyurtmachi <b>ixtiyoriy</b> ravishda beradi. Ularni berish shart emas:
+  <code>/skip</code> buyrug'i bilan hujjatlar shartnoma rekvizitlarisiz, ism o'rniga «xaridor» ko'rsatilgan
+  holda tayyorlanadi.</p>
+  <p><b>Surat fayllarining o'zini Ijrochi saqlamaydi.</b> Fayllar Telegram infratuzilmasida qoladi; Ijrochi
+  faqat muloqot doirasida faylga murojaat qilish imkonini beruvchi identifikatorlarni saqlaydi.</p>
+  <h3>Nimani so'ramaymiz</h3>
+  <p>Ijrochi pasport ma'lumotlarini, shartnoma nusxalarini, bank rekvizitlarini, biometrik va genetik
+  ma'lumotlarni, sog'liq holati to'g'risidagi ma'lumotlarni va shaxsga doir ma'lumotlarning boshqa maxsus
+  toifalarini <b>so'ramaydi</b>. To'lovdan keyingi anketada Buyurtmachi o'zi kiritadigan ma'lumotlar yetarli.</p>
+  <h3>Maqsad, asos va muddat</h3>
+  <p>Qayta ishlash maqsadi — to'langan xizmatni ko'rsatish. Asos — mazkur ofertani aksept qilish orqali
+  bildirilgan subyekt roziligi va shartnomani bajarish. Surat materiallari, tavsiflar, obyekt nomi va anketada
+  kiritilgan ma'lumotlarni saqlash muddati — hujjatlar topshirilgan paytdan boshlab <b>30 kun</b>, shundan
+  keyin bu ma'lumotlar avtomatik o'chiriladi. Faqat Telegram identifikatori bilan to'lov fakti va summasi
+  haqidagi shaxssizlantirilgan yozuv qoladi — buni soliq va buxgalteriya hisobi talab qiladi.</p>
+  <h3>Uchinchi shaxslarga berish</h3>
+  <p>Shaxsga doir ma'lumotlar uchinchi shaxslarga berilmaydi va sotilmaydi. Qayta ishlash O'zbekiston
+  Respublikasidan tashqarida joylashgan Supabase infratuzilmasi va matnni avtomatlashtirilgan qayta ishlash
+  xizmatlaridan foydalangan holda amalga oshiriladi; ofertani aksept qilib, Buyurtmachi bunday qayta ishlashga
+  rozilik beradi.</p>
+  <h3>Subyekt huquqlari</h3>
+  <p>Buyurtmachi istalgan vaqtda rozilikni qaytarib olishga va botdagi <code>/delete</code> buyrug'i bilan
+  ma'lumotlarni o'chirishni talab qilishga haqli. Bu buyruq bo'yicha o'chiriladi: ism va username, familiya,
+  ism va otasining ismi, telefon, quruvchi va shartnoma rekvizitlari, tavsiflar, obyekt nomi, suratlarga
+  havolalar, cheklist belgilari va tahliliy yozuvlar mazmuni. To'lov fakti haqidagi shaxssizlantirilgan yozuv
+  saqlanadi — buni soliq va buxgalteriya hisobi talab qiladi.</p>
+  <p>Suratlar nusxalari ikkala tomonning Telegramdagi yozishmasida qoladi: o'z tomonini Buyurtmachi o'zi
+  o'chiradi, Ijrochi tomonini Ijrochi buyruq olingandan keyin 24 soat ichida o'chiradi.</p>
+  <p>Buyurtmachi shuningdek o'z ma'lumotlarini qayta ishlash to'g'risida ma'lumot olishga, ularni aniqlashtirish
+  yoki bloklashni talab qilishga va Ijrochi harakatlari ustidan shaxsga doir ma'lumotlar sohasidagi vakolatli
+  davlat organiga shikoyat qilishga haqli.</p>
+</div>
+
+<div class="card">
+  <h2>7. Boshqa shartlar</h2>
+  <p>Ijrochi mazkur ofertani o'zgartirishga haqli; munosabatlarga to'lov paytida amalda bo'lgan tahrir
+  qo'llaniladi. Tomonlar munosabatlariga O'zbekiston Respublikasi qonunchiligi qo'llaniladi. Muzokaralar yo'li
+  bilan hal etilmagan nizolar O'zbekiston Respublikasi qonunchiligiga muvofiq ko'rib chiqiladi.</p>
+  <h3>Rekvizitlar</h3>
+  <div class="req">
+    <div><dt>Ijrochi</dt><dd>YTT Epixin Kirill Nikolayevich</dd></div>
+    <div><dt>Ro'yxatga olish raqami</dt><dd>7875577</dd></div>
+    <div><dt>STIR</dt><dd>{{СТИР}}</dd></div>
+    <div><dt>Manzil</dt><dd>Shayxontohur tumani, Toshkent sh.</dd></div>
+    <div><dt>Telegram-bot</dt><dd>@kvartira_qabul_bot</dd></div>
+    <div><dt>Aloqa</dt><dd>{{@владелец}} · support@rulchi.uz</dd></div>
+  </div>
+</div>
+
+<div class="foot">
+  Kvartira Qabul · mustaqil topshirish uchun hujjatlar<br>
+  Ekspertiza emas. Nizo natijasi kafolatlanmaydi.
+</div>
+</section>
+
+</div>
+
+<script>
+// Оферту человек может открыть до бота, поэтому язык берём из его же выбора,
+// затем из ?lang= (бот подставляет туда язык клиента), затем из языка устройства.
+const LK = "kq_oferta_lang";
+let lang = (() => {
+  try { const v = localStorage.getItem(LK); if (v === "ru" || v === "uz") return v; } catch (e) {}
+  const p = new URLSearchParams(location.search).get("lang");
+  if (p === "ru" || p === "uz") return p;
+  return (navigator.language || "").startsWith("uz") ? "uz" : "ru";
+})();
+function apply() {
+  document.getElementById("ru").classList.toggle("hide", lang !== "ru");
+  document.getElementById("uz").classList.toggle("hide", lang !== "uz");
+  document.documentElement.lang = lang;
+  document.title = lang === "uz"
+    ? "Kvartira Qabul — oferta va ma'lumotlarni qayta ishlash"
+    : "Kvartira Qabul — оферта и обработка данных";
+  const bar = document.getElementById("langbar");
+  bar.innerHTML = [["ru", "Ру"], ["uz", "O'z"]]
+    .map(([k, t]) => `<button data-l="${k}" class="${k === lang ? "on" : ""}">${t}</button>`).join("");
+  bar.querySelectorAll("button").forEach((b) => b.onclick = () => {
+    lang = b.dataset.l;
+    try { localStorage.setItem(LK, lang); } catch (e) {}
+    apply();
+    window.scrollTo({ top: 0 });
+  });
+}
+apply();
+</script>
+</body>
+</html>
+

@@ -1,0 +1,419 @@
+/* ============================================================================
+ * i18n-organizer.js — строки кабинета организатора (organizer.html)
+ *
+ * ru — русский, uz — узбекская латиница (основной алфавит интерфейса в Ташкенте).
+ *
+ * [ЧЕРНОВИК, НА ВЫЧИТКУ НОСИТЕЛЮ] — по правилу _docs/07-CONTENT.md весь узбекский
+ * в продуктах считается машинным черновиком. Перед посевом отдать носителю
+ * (2–3 часа): тон подсказок, падежи в строках с подстановками, терминология тоя.
+ *
+ * Строки с подстановками — ФУНКЦИИ, а не шаблоны в кавычках: так подстановка
+ * работает сама и не требует eval на стороне вызова.
+ * ==========================================================================*/
+
+const T_ORG = {
+  ru: {
+    /* общее */
+    loading:"Загрузка…", locale:"ru-RU", num:"ru",
+    cancel:"Отмена", save:"Сохранить", saved:"Сохранено",
+    date:"Дата", time:"Время", venue:"Зал", addr:"Адрес",
+    errAccess:"Ошибка доступа",
+    tierFree:"Бесплатный", tierPremium:"Premium", tierFull:"Полный",
+
+    /* вкладки */
+    tabGuests:"👨‍👩‍👧 Гости", tabSeating:"🪑 Рассадка", tabZal:"📊 Для зала",
+    tabPrep:"✅ Подготовка", tabGifts:"🎁 Подарки", tabEvent:"⚙️ Той",
+    tabSwitch:(n)=>`🔀 Тои (${n})`, tabSwitchNew:"＋ Ещё той",
+
+    /* шапка */
+    noDate:"дата не указана", noVenue:"зал не указан",
+    daysLeft:(n)=>` · через ${n} дн.`,
+    stInvited:"приглашено", stYes:"придут", stNo:"откажутся", stPending:"молчат",
+
+    /* переключатель тоёв */
+    swTitle:"Ваши тои",
+    swNote:"Свадьба, beshik-to'y, sunnat-to'y, юбилей — каждое событие со своим списком гостей и своей рассадкой.",
+    swNew:"＋ Новый той",
+
+    /* новый той */
+    newTitle:"Новый той", newSub:"Заполните один раз — приглашения соберутся сами",
+    newCouple:"Кого приглашаем", newCouplePh:"Азиз & Нилуфар",
+    newTimePh:"18:00", newVenuePh:"To'yxona «Zarafshon»", newAddrPh:"Ташкент, Чиланзар, ул. …",
+    newMap:"Ссылка на карту (необязательно)", newMapPh:"https://yandex.uz/maps/…",
+    newGreet:"Текст приглашения",
+    newSubmit:"Создать той",
+    newNote:"Приглашения и ответы — бесплатно, без лимита на число семей. Оплата — только когда понадобится счёт для зала и рассадка.",
+
+    newErrNames:"Введите имена",
+    newOccasion:"Что за событие", newLang:"Язык приглашения",
+    newPreviewBtn:"👁 Посмотреть, как увидит гость",
+    newPreviewNote:"Так выглядит приглашение. Можно посмотреть до того, как что-то заполнять.",
+    newPrice:"Бесплатно до 50 гостей · Premium 49 000 сум за той · Полный 149 000 сум. Разово, не подписка.",
+
+    /* гости */
+    gAddTitle:"Добавить семью", gName:"Название", gNamePh:"Семья Каримовых",
+    gCount:"Сколько человек", gSide:"Со стороны", gSideKuyov:"жениха", gSideKelin:"невесты",
+    gAdd:"＋ Добавить", gBulkToggle:"📋 Вставить список сразу",
+    gFreeNote:"Приглашать можно сколько угодно семей — это бесплатно. Платный тариф нужен, когда ответы собраны и пора отдавать счёт залу.",
+
+    gBulkTitle:"Список одним текстом",
+    gBulkNote:"Одна семья — одна строка. Число в конце — сколько человек. Если числа нет, поставим 2. Можно вставить прямо из заметок или переписки.",
+    gBulkPh:"Каримовлар — 6\nАваз ака — 4\nСемья Усмановых 5\nДилшод амаки",
+    gBulkSide:"Эти семьи со стороны", gBulkGo:"Добавить всех", gBulkCancel:"Отмена",
+    gBulkProgress:(i,n)=>`Добавляю ${i} из ${n}…`,
+    gBulkNone:"Не разобрал ни одной строки. Одна семья — одна строка.",
+    gBulkStopped:(ok,lim)=>`Добавлено ${ok}. Дальше — лимит бесплатного тарифа (${lim} гостей).`,
+    gBulkDone:(ok)=>`Готово: ${ok} семей.`,
+    gLockTitle:"Ответы пошли",
+    gLockText:(n)=>`Уже ${n} ${n%10===1&&n%100!==11?"семья ответила":"семей ответили"}. Premium собирает из этих ответов счёт для зала — одной картинкой, которую пересылают администратору тойхоны, — и открывает рассадку по столам. 49 000 сум за той, не подписка.`,
+    gLockBtn:"Открыть Premium",
+
+    gNoticeTitle:(f,p)=>`🔔 ${f} семей не ответили (${p} чел.)`,
+    gNoticeText:"Залу нужен точный счёт за неделю. Отправьте напоминание — по одному тапу на семью.",
+    gShowAll:"← Показать всех", gShowPending:"Показать только молчунов",
+    gEmptyAnswered:"Все ответили 👌",
+    gEmptyNone:"Пока никого нет.<br>Добавьте первую семью — получите готовую ссылку-приглашение.",
+    gPeople:(n)=>`${n} чел.`, gFromKelin:"от невесты", gFromKuyov:"от жениха",
+    gTable:(n)=>` · стол ${n}`, gSent:"отправлено", gOpened:"открыли, молчат",
+    gPillYes:(n)=>`придут ${n}`, gPillNo:"не смогут", gPillPending:"ждём",
+    gBtnRemind:"🔔 Напомнить", gBtnAgain:"📤 Ещё раз", gBtnSend:"📤 Отправить",
+    gCopied:"Ссылка скопирована",
+    gPromptMark:(name)=>`${name}: сколько человек придёт?\nЧисло — придут, 0 — не смогут, пусто — отмена.`,
+    gConfirmDel:(name)=>`Удалить ${name}?`,
+
+    /* обмен с Excel */
+    impExport:"📊 Выгрузить в Excel",
+    impOr:"…или вставьте список сюда — можно скопировать прямо из Excel или из переписки",
+    impCheck:"Проверить, что получилось",
+    impCheckTitle:"Проверьте перед применением",
+    impSummary:(n,u,s)=>`Новых: ${n} · изменится: ${u} · без изменений: ${s}`,
+    impTotal:(n)=>`Всего гостей после применения: ${n}`,
+
+    impNew:"новая", impUpd:"изменится", impSame:"без изменений",
+    impApply:(n)=>`Применить (${n})`,
+    impApplying:"Применяем…",
+    impDone:(c,u)=>`Готово. Добавлено: ${c}, обновлено: ${u}.`,
+    impMissing:(n)=>`В файле нет ${n} семей из вашего списка`,
+    impMissingNote:"Они останутся как есть — загрузка ничего не удаляет. Удалить семью можно только вручную, по кнопке 🗑.",
+
+    /* рассадка */
+    sLockTitle:"Рассадка по столам",
+    sLockText:"Столы, распределение семей и подсчёт свободных мест — на тарифе Premium. Больше не нужны бумажки и переписывание списка от руки.",
+    zProgTitle:"Ответы гостей",
+    zProgText:(a,n)=>`Ответили <b>${a}</b> ${a===1?"семья":"семей"} из ${n}. Кто именно — на вкладке «Гости», там же напоминания.`,
+    zLockTitle:"Счёт для зала",
+    zLockText:"Тойхона просит одно число — сколько человек придёт. Premium собирает его из ответов: картинка, которую пересылают администратору в WhatsApp, файл для Excel, документ по столам. Плюс рассадка. 49 000 сум за той, не подписка.",
+    zPngBtn:"📸 Картинка для тойхоны",
+    zPngNote:"Одно изображение со всеми числами — его пересылают администратору. CSV и документ ниже, если нужен список.",
+    zPngEyebrow:"Счёт для зала",
+    zPngMain:"человек ждём",
+    zPngMainNote:"Подтвердившие плюс 60% от тех, кто ещё не ответил.",
+    zPngPending:"ждём ответа",
+    zPngNo:"не придут",
+    zPngKuyov:"Со стороны жениха",
+    zPngKelin:"Со стороны невесты",
+    zPngFamilies:"Ответили семей",
+    zPngTables:"Столы",
+    zPngFooter:(d)=>`Составлено ${d} · числа меняются по мере ответов`,
+    zPngFile:"schet-dlya-zala-",
+    zPngHint:"Нажмите на картинку и удерживайте — «Сохранить» или «Поделиться». Так её проще всего переслать в WhatsApp.",
+    zPngSave:"Скачать файл",
+    zPngClose:"Закрыть",
+
+    sTablesTitle:"Столы в зале", sCount:"Сколько столов", sCap:"Мест за столом",
+    sRecreate:"Пересоздать столы", sRecreateNote:"Пересоздание сбрасывает текущую рассадку.",
+    sRecreateConfirm:"Пересоздать столы? Текущая рассадка сбросится.",
+    sUnseated:(n)=>`Не рассажены (${n})`,
+    sHintSelected:"Стол выбран — нажимайте семьи, они сядут за него.",
+    sHintPick:"Сначала выберите стол выше.",
+    sEmptyTables:"Создайте столы выше",
+    sRowYes:(n)=>`придут ${n}`, sRowInvited:(n)=>`приглашено ${n}`,
+    sBtnSeat:"→ за стол", sBtnPick:"выберите стол",
+    sEmptyAll:"Все рассажены 👌", sAlertPick:"Сначала выберите стол",
+
+    /* для зала */
+    zEstNote:"осторожная оценка для заказа: подтвердившие + 60% от молчащих",
+    zYes:"подтвердили", zPending:(n)=>`ещё молчат (${n} семей)`,
+    zKuyovLong:"со стороны жениха", zKelinLong:"со стороны невесты",
+    zGiveTitle:"Отдать залу",
+    zCopyBtn:"📋 Скопировать текст", zCsvBtn:"📄 Список гостей (CSV для Excel)",
+    zDocBtn:"🖨 Рассадка по столам (для печати)",
+    zNote:"Пришлите администратору за 7–10 дней до тоя — так считают плов и посадку.",
+    zKelin:"невеста", zKuyov:"жених",
+    zStYes:"придут", zStNo:"отказ", zStPending:"нет ответа",
+    zCopyConfirmed:(n)=>`Подтвердили: ${n} чел.`,
+    zCopyPending:(f,p)=>`Не ответили: ${f} семей (${p} чел.)`,
+    zCopyDeclined:(n)=>`Отказались: ${n} семей`,
+    zCopyEst:(n)=>`Оценка для заказа: ~${n} чел.`,
+    zCopySides:(k,l)=>`Со стороны жениха: ${k} · невесты: ${l}`,
+    zCopied:"Скопировано — отправьте администратору зала",
+    zCsvHead:"Семья;Сторона;Приглашено;Статус;Придут;Стол",
+    zCsvFile:"gosti_", zDocFile:"stoly_",
+    zDocTable:(n)=>`Стол ${n}`, zDocNoTable:"Без стола",
+    zDocBlock:(t,n)=>`${t} — ${n} чел.`,
+    zThFamily:"Семья", zThPeople:"Чел.", zThStatus:"Статус",
+    zDocStYes:"подтвердили", zDocStPending:"нет ответа",
+    zDocH1:(c)=>`${c} — рассадка гостей`,
+    zDocSummary:(y,f,p,e)=>`Подтвердили: <b>${y} чел.</b> · не ответили: ${f} семей (${p} чел.) · оценка для заказа: ~${e}`,
+
+    /* подготовка */
+    pTitle:"Подготовка к тою",
+    pDaysLeft:(n)=>`До тоя ${n} дней. `,
+    pProgress:(d,t)=>`Выполнено ${d} из ${t}. Отметки сохраняются на этом телефоне.`,
+
+    /* подарки */
+    fLockTitle:"Книга подарков",
+    fLockText:"Кто что подарил и на какую сумму — чтобы через год знать, что дарить в ответ. Раньше это была тетрадь, которая теряется.",
+    fAddTitle:"Записать подарок", fFamily:"Семья", fWhat:"Что подарили",
+    fWhatPh:"сервиз / ковёр / конверт", fAmount:"Сумма, сум", fAmountPh:"1 000 000",
+    fAdd:"＋ Записать", fCount:"записей", fMoney:"сум деньгами",
+    fEmpty:"Записи появятся здесь. Обычно заполняют на следующий день после тоя.",
+
+    /* настройки тоя */
+    eThemeTitle:"Оформление приглашения",
+    eThemeNote:"Так его увидят гости. Тему можно менять в любой момент — ссылки не ломаются.",
+    ePreviewBtn:"👁 Посмотреть, как выглядит",
+    eDataTitle:"Данные тоя", eNames:"Имена", eMap:"Карта",
+    ePresetLabel:"Готовый текст (подставится ниже)", ePresetNone:"— выбрать шаблон —",
+    eLangLabel:"Язык приглашения", eOccasionLabel:"Повод",
+    eSave:"Сохранить", eSaved:"Сохранено",
+    eTierTitle:(t)=>`Тариф: ${t}`,
+    eTierFreeText:"Premium — безлимит гостей и рассадка. Полный — ещё и книга подарков.",
+    eTierPremiumText:"Полный добавляет книгу подарков — личный список, кто что подарил.",
+    eDeleteBtn:"🗑 Удалить той со всеми данными",
+    eDeleteNote:"Удалятся семьи, ответы гостей, рассадка и подарки. Ссылки перестанут открываться. Отменить нельзя.",
+
+    /* оплата */
+    payPremium:"Premium — 49 000 сум", payFull:"Полный — 149 000 сум",
+    payOpenPremium:"Открыть Premium",
+  },
+
+  uz: {
+    /* umumiy */
+    loading:"Yuklanmoqda…", locale:"uz-UZ", num:"uz",
+    cancel:"Bekor qilish", save:"Saqlash", saved:"Saqlandi",
+    date:"Sana", time:"Vaqt", venue:"To'yxona", addr:"Manzil",
+    errAccess:"Kirishda xatolik",
+    tierFree:"Bepul", tierPremium:"Premium", tierFull:"To'liq",
+
+    tabGuests:"👨‍👩‍👧 Mehmonlar", tabSeating:"🪑 Joylashtirish", tabZal:"📊 To'yxona uchun",
+    tabPrep:"✅ Tayyorgarlik", tabGifts:"🎁 Sovg'alar", tabEvent:"⚙️ To'y",
+    tabSwitch:(n)=>`🔀 To'ylar (${n})`, tabSwitchNew:"＋ Yana to'y",
+
+    noDate:"sana ko'rsatilmagan", noVenue:"to'yxona ko'rsatilmagan",
+    daysLeft:(n)=>` · ${n} kun qoldi`,
+    stInvited:"taklif qilingan", stYes:"keladi", stNo:"kelolmaydi", stPending:"javob yo'q",
+
+    swTitle:"Sizning to'ylaringiz",
+    swNote:"Nikoh to'yi, beshik to'y, sunnat to'y, yubiley — har bir tadbirning o'z mehmonlar ro'yxati va o'z stol taqsimoti bo'ladi.",
+    swNew:"＋ Yangi to'y",
+
+    newTitle:"Yangi to'y", newSub:"Bir marta to'ldiring — taklifnomalar o'zi tayyor bo'ladi",
+    newCouple:"Kimning to'yi", newCouplePh:"Aziz & Nilufar",
+    newTimePh:"18:00", newVenuePh:"To'yxona «Zarafshon»", newAddrPh:"Toshkent, Chilonzor, … ko'chasi",
+    newMap:"Xarita havolasi (majburiy emas)", newMapPh:"https://yandex.uz/maps/…",
+    newGreet:"Taklifnoma matni",
+    newSubmit:"To'y yaratish",
+    newNote:"Taklifnomalar va javoblar — bepul, oilalar soniga cheklov yo'q. To'lov faqat to'yxona uchun hisob va stollarga joylashtirish kerak bo'lganda.",
+
+    newErrNames:"Ismlarni kiriting",
+    newOccasion:"Qanday tadbir", newLang:"Taklifnoma tili",
+    newPreviewBtn:"👁 Mehmon qanday ko'rishini ko'rish",
+    newPreviewNote:"Taklifnoma shunday ko'rinadi. Hech narsa to'ldirmasdan oldin ko'rsangiz bo'ladi.",
+    newPrice:"50 mehmongacha bepul · Premium bir to'y uchun 49 000 so'm · To'liq 149 000 so'm. Bir martalik, obuna emas.",
+
+    gAddTitle:"Oila qo'shish", gName:"Nomi", gNamePh:"Karimovlar oilasi",
+    gCount:"Necha kishi", gSide:"Qaysi tomondan", gSideKuyov:"kuyov tomondan", gSideKelin:"kelin tomondan",
+    gAdd:"＋ Qo'shish", gBulkToggle:"📋 Ro'yxatni birdan joylash",
+    gFreeNote:"Istagancha oila taklif qilish mumkin — bu bepul. Pullik tarif javoblar yig'ilib, to'yxonaga hisobni berish vaqti kelganda kerak bo'ladi.",
+
+    gBulkTitle:"Ro'yxat bitta matn bo'lib",
+    gBulkNote:"Har bir oila — alohida qator. Qator oxiridagi raqam — necha kishi. Raqam bo'lmasa, 2 deb olamiz. Eslatmalardan yoki yozishmadan nusxa ko'chirsangiz ham bo'ladi.",
+    gBulkPh:"Karimovlar — 6\nAvaz aka — 4\nUsmonovlar oilasi 5\nDilshod amaki",
+    gBulkSide:"Bu oilalar qaysi tomondan", gBulkGo:"Hammasini qo'shish", gBulkCancel:"Bekor qilish",
+    gBulkProgress:(i,n)=>`${n} tadan ${i}-si qo'shilmoqda…`,
+    gBulkNone:"Birorta ham qator tushunilmadi. Har bir oila alohida qatorda bo'lsin.",
+    gBulkStopped:(ok,lim)=>`${ok} ta qo'shildi. Keyingisi bepul tarif chegarasiga tiraldi (${lim} mehmon).`,
+    gBulkDone:(ok)=>`Tayyor: ${ok} ta oila.`,
+    gLockTitle:"Javoblar kela boshladi",
+    gLockText:(n)=>`Allaqachon ${n} ta oila javob berdi. Premium shu javoblardan to'yxona uchun hisobni yig'adi — ma'murga yuboriladigan bitta rasm — va stollarga joylashtirishni ochadi. Bitta to'y uchun 49 000 so'm, obuna emas.`,
+    gLockBtn:"Premium'ni ochish",
+
+    gNoticeTitle:(f,p)=>`🔔 ${f} ta oila javob bermadi (${p} kishi)`,
+    gNoticeText:"To'yxonaga aniq son bir hafta oldin kerak. Eslatma yuboring — har bir oilaga bitta bosish.",
+    gShowAll:"← Hammasini ko'rsatish", gShowPending:"Faqat javob bermaganlar",
+    gEmptyAnswered:"Hamma javob berdi 👌",
+    gEmptyNone:"Hozircha hech kim yo'q.<br>Birinchi oilani qo'shing — tayyor taklifnoma havolasini olasiz.",
+    gPeople:(n)=>`${n} kishi`, gFromKelin:"kelin tomondan", gFromKuyov:"kuyov tomondan",
+    gTable:(n)=>` · ${n}-stol`, gSent:"yuborilgan", gOpened:"ochgan, javob yo'q",
+    gPillYes:(n)=>`${n} keladi`, gPillNo:"kelolmaydi", gPillPending:"kutilmoqda",
+    gBtnRemind:"🔔 Eslatish", gBtnAgain:"📤 Yana yuborish", gBtnSend:"📤 Yuborish",
+    gCopied:"Havola nusxalandi",
+    gPromptMark:(name)=>`${name}: necha kishi keladi?\nRaqam — keladi, 0 — kelolmaydi, bo'sh — bekor qilish.`,
+    gConfirmDel:(name)=>`${name} o'chirilsinmi?`,
+
+    /* Excel bilan almashish */
+    impExport:"📊 Excelga chiqarish",
+    impOr:"…yoki ro'yxatni shu yerga joylang — Exceldan yoki yozishmadan to'g'ridan-to'g'ri nusxa ko'chirsangiz bo'ladi",
+    impCheck:"Nima chiqqanini tekshirish",
+    impCheckTitle:"Qo'llashdan oldin tekshiring",
+    impSummary:(n,u,s)=>`Yangi: ${n} ta · o'zgaradi: ${u} ta · o'zgarishsiz: ${s} ta`,
+    impTotal:(n)=>`Qo'llagandan keyin jami mehmon: ${n}`,
+
+    impNew:"yangi", impUpd:"o'zgaradi", impSame:"o'zgarishsiz",
+    impApply:(n)=>`Qo'llash (${n})`,
+    impApplying:"Qo'llanmoqda…",
+    impDone:(c,u)=>`Tayyor. Qo'shildi: ${c} ta, yangilandi: ${u} ta.`,
+    impMissing:(n)=>`Faylda ro'yxatingizdagi ${n} ta oila yo'q`,
+    impMissingNote:"Ular o'z holicha qoladi — yuklash hech narsani o'chirmaydi. Oilani faqat qo'lda, 🗑 tugmasi bilan o'chirish mumkin.",
+
+    sLockTitle:"Stollarga joylashtirish",
+    sLockText:"Stollar, oilalarni taqsimlash va bo'sh joylarni sanash — Premium tarifida. Endi qog'ozlar va ro'yxatni qo'lda ko'chirish shart emas.",
+    zProgTitle:"Mehmonlar javoblari",
+    zProgText:(a,n)=>`${n} tadan <b>${a}</b> ta oila javob berdi. Kimlar ekani — «Mehmonlar» bo'limida, eslatmalar ham o'sha yerda.`,
+    zLockTitle:"To'yxona uchun hisob",
+    zLockText:"To'yxona bitta raqamni so'raydi — necha kishi keladi. Premium uni javoblardan yig'adi: ma'murga WhatsApp orqali yuboriladigan rasm, Excel uchun fayl, stollar bo'yicha hujjat. Ustiga stollarga joylashtirish. Bitta to'y uchun 49 000 so'm, obuna emas.",
+    zPngBtn:"📸 To'yxona uchun rasm",
+    zPngNote:"Barcha raqamlar bitta rasmda — uni ma'murga yuborishadi. Ro'yxat kerak bo'lsa, quyida CSV va hujjat bor.",
+    zPngEyebrow:"To'yxona uchun hisob",
+    zPngMain:"kishi kutilmoqda",
+    zPngMainNote:"Tasdiqlaganlar va hali javob bermaganlarning 60 foizi.",
+    zPngPending:"javob kutilmoqda",
+    zPngNo:"kelmaydi",
+    zPngKuyov:"Kuyov tomondan",
+    zPngKelin:"Kelin tomondan",
+    zPngFamilies:"Javob bergan oilalar",
+    zPngTables:"Stollar",
+    zPngFooter:(d)=>`${d} da tuzilgan · javoblar kelgani sari raqamlar o'zgaradi`,
+    zPngFile:"toyxona-hisobi-",
+    zPngHint:"Rasmni bosib ushlab turing — «Saqlash» yoki «Ulashish». WhatsApp'ga yuborishning eng oson yo'li shu.",
+    zPngSave:"Faylni yuklab olish",
+    zPngClose:"Yopish",
+
+    sTablesTitle:"To'yxonadagi stollar", sCount:"Necha stol", sCap:"Bir stolda necha joy",
+    sRecreate:"Stollarni qayta yaratish", sRecreateNote:"Qayta yaratilsa, hozirgi joylashuv bekor bo'ladi.",
+    sRecreateConfirm:"Stollar qayta yaratilsinmi? Hozirgi joylashuv bekor bo'ladi.",
+    sUnseated:(n)=>`Joylashtirilmagan (${n})`,
+    sHintSelected:"Stol tanlandi — oilalarni bosing, o'sha stolga o'tiradi.",
+    sHintPick:"Avval yuqoridan stolni tanlang.",
+    sEmptyTables:"Yuqorida stollarni yarating",
+    sRowYes:(n)=>`${n} kishi keladi`, sRowInvited:(n)=>`${n} kishi taklif qilingan`,
+    sBtnSeat:"→ stolga", sBtnPick:"stolni tanlang",
+    sEmptyAll:"Hamma joylashtirildi 👌", sAlertPick:"Avval stolni tanlang",
+
+    zEstNote:"buyurtma uchun ehtiyotkor hisob: tasdiqlaganlar + javob bermaganlarning 60 foizi",
+    zYes:"tasdiqladi", zPending:(n)=>`hali javob yo'q (${n} ta oila)`,
+    zKuyovLong:"kuyov tomondan", zKelinLong:"kelin tomondan",
+    zGiveTitle:"To'yxonaga berish",
+    zCopyBtn:"📋 Matnni nusxalash", zCsvBtn:"📄 Mehmonlar ro'yxati (Excel uchun CSV)",
+    zDocBtn:"🖨 Stol taqsimoti (chop etish uchun)",
+    zNote:"To'ydan 7–10 kun oldin ma'murga yuboring — palov va joylarni shunga qarab hisoblashadi.",
+    zKelin:"kelin", zKuyov:"kuyov",
+    zStYes:"keladi", zStNo:"kelolmaydi", zStPending:"javob yo'q",
+    zCopyConfirmed:(n)=>`Tasdiqladi: ${n} kishi`,
+    zCopyPending:(f,p)=>`Javob bermadi: ${f} ta oila (${p} kishi)`,
+    zCopyDeclined:(n)=>`Kelolmaydi: ${n} ta oila`,
+    zCopyEst:(n)=>`Buyurtma uchun hisob: ~${n} kishi`,
+    zCopySides:(k,l)=>`Kuyov tomondan: ${k} · kelin tomondan: ${l}`,
+    zCopied:"Nusxalandi — to'yxona ma'muriga yuboring",
+    zCsvHead:"Oila;Tomon;Taklif qilingan;Holat;Keladi;Stol",
+    zCsvFile:"mehmonlar_", zDocFile:"stollar_",
+    zDocTable:(n)=>`${n}-stol`, zDocNoTable:"Stolsiz",
+    zDocBlock:(t,n)=>`${t} — ${n} kishi`,
+    zThFamily:"Oila", zThPeople:"Kishi", zThStatus:"Holat",
+    zDocStYes:"tasdiqladi", zDocStPending:"javob yo'q",
+    zDocH1:(c)=>`${c} — mehmonlarning o'tirish tartibi`,
+    zDocSummary:(y,f,p,e)=>`Tasdiqladi: <b>${y} kishi</b> · javob bermadi: ${f} ta oila (${p} kishi) · buyurtma uchun hisob: ~${e}`,
+
+    pTitle:"To'yga tayyorgarlik",
+    pDaysLeft:(n)=>`To'yga ${n} kun qoldi. `,
+    pProgress:(d,t)=>`${t} tadan ${d} tasi bajarildi. Belgilar shu telefonda saqlanadi.`,
+
+    fLockTitle:"Sovg'alar daftari",
+    fLockText:"Kim nima va qancha sovg'a qilgani — bir yildan keyin javobiga nima berishni bilish uchun. Ilgari bu yo'qolib ketadigan daftar edi.",
+    fAddTitle:"Sovg'ani yozib qo'yish", fFamily:"Oila", fWhat:"Nima sovg'a qilishdi",
+    fWhatPh:"servis / gilam / konvert", fAmount:"Summa, so'm", fAmountPh:"1 000 000",
+    fAdd:"＋ Yozib qo'yish", fCount:"yozuv", fMoney:"so'm pul bilan",
+    fEmpty:"Yozuvlar shu yerda ko'rinadi. Odatda to'ydan keyingi kuni to'ldiriladi.",
+
+    eThemeTitle:"Taklifnoma ko'rinishi",
+    eThemeNote:"Mehmonlar uni shunday ko'radi. Mavzuni istalgan payt o'zgartirsa bo'ladi — havolalar buzilmaydi.",
+    ePreviewBtn:"👁 Qanday ko'rinishini ko'rish",
+    eDataTitle:"To'y ma'lumotlari", eNames:"Ismlar", eMap:"Xarita",
+    ePresetLabel:"Tayyor matn (pastga qo'yiladi)", ePresetNone:"— shablonni tanlang —",
+    eLangLabel:"Taklifnoma tili", eOccasionLabel:"Tadbir turi",
+    eSave:"Saqlash", eSaved:"Saqlandi",
+    eTierTitle:(t)=>`Tarif: ${t}`,
+    eTierFreeText:"Premium — mehmonlar soni cheklanmaydi va stollarga joylashtirish ochiladi. To'liq — bunga sovg'alar daftari ham qo'shiladi.",
+    eTierPremiumText:"To'liq tarif sovg'alar daftarini qo'shadi.",
+    eDeleteBtn:"🗑 To'yni barcha ma'lumotlari bilan o'chirish",
+    eDeleteNote:"Oilalar, mehmon javoblari, stol taqsimoti va sovg'alar o'chadi. Havolalar ochilmay qoladi. Ortga qaytarib bo'lmaydi.",
+
+    payPremium:"Premium — 49 000 so'm", payFull:"To'liq — 149 000 so'm",
+    payOpenPremium:"Premium'ni ochish",
+  }
+};
+
+/* Чек-лист подготовки: 5 блоков по срокам. Порядок и количество пунктов совпадают. */
+const PREP_I18N = {
+  ru: [
+    {t:"За 2–3 месяца", items:[
+      "Определить дату и забронировать зал (аванс — по договору с залом, не через нас)",
+      "Прикинуть число гостей по семьям — от этого зависит всё остальное",
+      "Выбрать ведущего и музыкантов: в сезон их разбирают за месяцы",
+      "Фото/видео: посмотреть работы, обсудить тайминг дня",
+      "Собрать список семей в этом кабинете — потом просто разошлёте ссылки"]},
+    {t:"За месяц", items:[
+      "Разослать приглашения всем семьям (кнопка «Отправить» у каждой)",
+      "Согласовать меню и напитки с залом",
+      "Наряды: примерки и подгонка",
+      "Транспорт для молодожёнов и старших родственников",
+      "Составить тайминг дня и отдать ведущему"]},
+    {t:"За неделю", items:[
+      "Напомнить тем, кто не ответил (вкладка «Гости» → «Только молчуны»)",
+      "Отдать залу точный счёт (вкладка «Для зала» → скопировать текст или CSV)",
+      "Разложить гостей по столам, распечатать список",
+      "Подтвердить время у всех подрядчиков",
+      "Подготовить конверты и подарки для помощников"]},
+    {t:"За день", items:[
+      "Проверить зал: посадка, техника, свет",
+      "Зарядить телефоны и повербанк",
+      "Назначить ответственного за встречу гостей",
+      "Отдать распечатку рассадки администратору зала"]},
+    {t:"После тоя", items:[
+      "Записать подарки в книгу подарков — пригодится через год",
+      "Поблагодарить гостей сообщением",
+      "Забрать фото и видео у подрядчиков"]}
+  ],
+  uz: [
+    {t:"2–3 oy oldin", items:[
+      "Sanani belgilash va to'yxonani band qilish (oldindan to'lov — to'yxona bilan shartnoma bo'yicha, biz orqali emas)",
+      "Oilalar bo'yicha mehmonlar sonini chamalash — qolgan hamma narsa shunga bog'liq",
+      "Boshlovchi va sozandalarni tanlash: mavsumda ular bir necha oy oldin band bo'lib ketadi",
+      "Foto va video: ishlarini ko'rish, kun tartibini kelishish",
+      "Oilalar ro'yxatini shu kabinetda yig'ish — keyin havolalarni yuborsangiz bo'ldi"]},
+    {t:"Bir oy oldin", items:[
+      "Barcha oilalarga taklifnoma yuborish (har birida «Yuborish» tugmasi bor)",
+      "To'yxona bilan menyu va ichimliklarni kelishish",
+      "Kiyimlar: o'lchov olish va bichib-tikish",
+      "Kelin-kuyov va katta yoshli qarindoshlar uchun transport",
+      "Kun tartibini tuzib, boshlovchiga berish"]},
+    {t:"Bir hafta oldin", items:[
+      "Javob bermaganlarga eslatish («Mehmonlar» → «Faqat javob bermaganlar»)",
+      "To'yxonaga aniq sonni berish («To'yxona uchun» → matnni yoki CSV'ni nusxalash)",
+      "Mehmonlarni stollarga joylashtirish, ro'yxatni chop etish",
+      "Barcha ijrochilar bilan vaqtni tasdiqlash",
+      "Yordamchilar uchun konvert va sovg'alar tayyorlash"]},
+    {t:"Bir kun oldin", items:[
+      "To'yxonani tekshirish: joylashuv, texnika, yorug'lik",
+      "Telefonlar va powerbank'ni quvvatlash",
+      "Mehmonlarni kutib olishga mas'ul odam belgilash",
+      "Chop etilgan o'tirish tartibini to'yxona ma'muriga berish"]},
+    {t:"To'ydan keyin", items:[
+      "Sovg'alarni sovg'alar daftariga yozib qo'yish — bir yildan keyin asqotadi",
+      "Mehmonlarga xabar yozib, minnatdorchilik bildirish",
+      "Foto va videolarni ijrochilardan olish"]}
+  ]
+};
+
+if (typeof window !== "undefined") { window.T_ORG = T_ORG; window.PREP_I18N = PREP_I18N; }

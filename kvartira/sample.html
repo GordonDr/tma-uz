@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Образец акта — Kvartira Qabul</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<script src="config.js"></script>
+<style>
+:root{
+  --paper:#FBFBF9; --card:#FFFFFF; --ink:#1C2429; --ink2:#4A555D; --muted:#7C878F;
+  --line:#E4E8EB; --line2:#F1F4F6; --grid:#EDF1F4;
+  --amber:#D98324; --amber-ink:#8A4E08; --amber-bg:#FCF2E4;
+  --ok:#2E7D4F; --ok-bg:#E6F2EA; --bad:#B3403A; --bad-bg:#FBEBEA;
+  --doc:#FFFFFF; --doc-ink:#16202B; --doc-line:#D8DEE4;
+  --shadow:0 1px 2px rgba(28,36,41,.05), 0 8px 24px rgba(28,36,41,.06);
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --paper:#14181B; --card:#1B2126; --ink:#E9EEF1; --ink2:#B3BEC5; --muted:#87949C;
+  --line:#2A3238; --line2:#222A30; --grid:#1F272C;
+  --amber:#EFA85C; --amber-ink:#EFA85C; --amber-bg:#2A1F12;
+  --ok:#6CC493; --ok-bg:#17301F; --bad:#E6847E; --bad-bg:#3A1F1D;
+  --doc:#F7F7F4; --doc-ink:#16202B; --doc-line:#D8DEE4;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}}
+:root[data-theme="dark"]{
+  --paper:#14181B; --card:#1B2126; --ink:#E9EEF1; --ink2:#B3BEC5; --muted:#87949C;
+  --line:#2A3238; --line2:#222A30; --grid:#1F272C;
+  --amber:#EFA85C; --amber-ink:#EFA85C; --amber-bg:#2A1F12;
+  --ok:#6CC493; --ok-bg:#17301F; --bad:#E6847E; --bad-bg:#3A1F1D;
+  --doc:#F7F7F4; --doc-ink:#16202B; --doc-line:#D8DEE4;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.25);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);
+  font-family:Manrope,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15.5px;line-height:1.55;
+  padding:0 0 110px;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:28px 28px;background-position:-1px -1px}
+.wrap{max-width:660px;margin:0 auto;padding:0 14px}
+h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.25;letter-spacing:-.01em}
+a{color:var(--amber-ink)}
+
+.top{padding:24px 0 4px}
+.top .eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--amber-ink)}
+.top h1{font-size:25px;font-weight:600;margin-top:8px}
+.top .sub{color:var(--muted);font-size:13.5px;margin-top:8px}
+
+.tabs{display:flex;gap:6px;margin:16px 0 4px}
+.tabs button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink2);
+  font:600 13px Manrope,sans-serif;padding:10px;border-radius:11px;cursor:pointer}
+.tabs button.on{background:var(--amber);color:#fff;border-color:var(--amber)}
+
+/* лист документа */
+.sheet{background:var(--doc);color:var(--doc-ink);border:1px solid var(--doc-line);border-radius:10px;
+  padding:26px 24px;margin:10px 0;box-shadow:var(--shadow);font-size:13.5px;line-height:1.6}
+.sheet .stamp{position:absolute}
+.sheet h2{font-family:Manrope,sans-serif;font-size:15px;font-weight:700;text-align:center;text-transform:uppercase;
+  letter-spacing:.04em;margin-bottom:4px;color:var(--doc-ink)}
+.sheet .place{text-align:center;font-size:12px;color:#5a6673;margin-bottom:18px}
+.sheet .rows{border-top:1px solid var(--doc-line);margin-bottom:16px}
+.sheet .rows div{display:grid;grid-template-columns:170px 1fr;gap:10px;padding:7px 0;border-bottom:1px solid var(--doc-line);font-size:12.5px}
+.sheet .rows span:first-child{color:#5a6673}
+.sheet h3{font-family:Manrope,sans-serif;font-size:13px;font-weight:700;margin:18px 0 8px;color:var(--doc-ink)}
+.sheet p{margin:0 0 10px}
+.sheet .fine{font-size:11.5px;color:#5a6673;line-height:1.5}
+.sheet ol{padding-left:18px;margin:0 0 10px}
+.sheet ol li{margin-bottom:8px}
+.sign{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:24px;font-size:12px;color:#5a6673}
+.sign i{display:block;border-bottom:1px solid #9aa5b1;height:22px;margin-bottom:4px}
+
+/* таблица замечаний */
+.tw{overflow-x:auto;margin:0 -6px 12px;padding:0 6px}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:12px}
+th,td{border:1px solid var(--doc-line);padding:8px 9px;vertical-align:top;text-align:left}
+th{background:#EEF1F4;font-weight:700;font-size:11.5px;color:#2b3742}
+td.n{font-family:"IBM Plex Mono",monospace;text-align:center;width:38px;color:#5a6673}
+td.norm{font-size:11px;color:#3d4954;line-height:1.45}
+.scrollhint{font-size:11.5px;color:var(--muted);margin:-4px 0 12px;text-align:center}
+
+/* пояснительные врезки */
+.why{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:0 13px 13px 0;
+  padding:13px 16px;margin:12px 0;font-size:13.5px;color:var(--ink2);line-height:1.5}
+.why b{color:var(--ink)}
+.callouts{display:grid;gap:9px;margin:14px 0}
+.co{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow)}
+.co h3{font-size:14.5px;font-weight:600;margin-bottom:5px;display:flex;align-items:center;gap:8px}
+.co p{margin:0;font-size:13.5px;color:var(--ink2);line-height:1.5}
+.co.good h3{color:var(--ok)}
+.co.bad h3{color:var(--bad)}
+
+.cta{position:fixed;left:0;right:0;bottom:0;padding:11px 14px calc(11px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--paper) 72%,transparent);z-index:20}
+.cta .inner{max-width:660px;margin:0 auto}
+.buy{width:100%;border:0;border-radius:14px;padding:15px;background:var(--amber);color:#fff;
+  font:700 15.5px Rubik,sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(217,131,36,.32);
+  display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none}
+.cta .note{text-align:center;font-size:11px;color:var(--muted);margin-top:7px;line-height:1.35}
+.foot{text-align:center;font-size:11.5px;color:var(--muted);padding:18px 0 6px;line-height:1.5}
+.hide{display:none}
+.langbar{position:fixed;top:calc(10px + env(safe-area-inset-top));right:10px;z-index:60;
+  display:flex;gap:3px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px;
+  box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.langbar button{border:0;background:transparent;color:var(--muted);cursor:pointer;
+  font:600 11.5px Manrope,system-ui,sans-serif;padding:5px 10px;border-radius:16px}
+.langbar button.on{background:var(--amber-ink);color:#fff}
+.langnote{background:var(--amber-bg);border:1px solid var(--amber);border-radius:12px;
+  padding:12px 15px;margin:12px 0;font-size:14px;line-height:1.55;color:var(--ink2)}
+
+@media (max-width:520px){ .sheet{padding:20px 16px} .sheet .rows div{grid-template-columns:1fr;gap:1px} }
+</style>
+</head>
+<body>
+<div class="langbar" id="langbar"></div>
+<div class="wrap">
+
+
+<div class="top">
+  <div class="eyebrow" data-uz="Namuna · maʼlumotlar oʻylab topilgan">Образец · данные вымышленные</div>
+  <h1 data-uz="99 000 soʻmga nima olasiz">Что вы получаете за 99 000 сум</h1>
+  <div class="sub" data-uz="Bitta PDF ichida ikkita hujjat. Quyida — haqiqiy format: sizning dalolatnomangizga tushadigan aynan shu iboralar va meʼyorlarga havolalar. Faqat kamchiliklar va rekvizitlar oʻzgaradi.">Два документа одним PDF. Ниже — настоящий формат, с теми же формулировками и ссылками на нормы,
+    которые попадут в ваш акт. Изменятся только замечания и реквизиты.</div>
+</div>
+
+<div class="langnote hide" id="langnote">
+  Hujjatning oʻzi rus tilida tayyorlanadi — uni har qanday quruvchining kantselyariyasida qabul qilishadi.
+  Oʻzbekcha variant kerak boʻlsa, botga yozing: birinchi buyurtmalar uchun qoʻlda tayyorlab beramiz.
+  Cheklist, bot va ushbu sahifa toʻliq ikki tilda.
+</div>
+
+
+<div class="tabs">
+  <button id="tab1" class="on" data-uz="Koʻrik dalolatnomasi">Акт осмотра</button>
+  <button id="tab2" data-uz="Pretenziya">Претензия</button>
+</div>
+
+<!-- ─────────── АКТ ─────────── -->
+<div id="doc1">
+<div class="sheet">
+  <h2>Акт осмотра жилого помещения</h2>
+  <div class="place">г. Ташкент &nbsp;·&nbsp; 14 сентября 2026 г.</div>
+
+  <div class="rows">
+    <div><span>Объект</span><span>ЖК «(наименование вашего комплекса)», корпус 3, кв. 118</span></div>
+    <div><span>Договор</span><span>№ 3-118/24 от 12.03.2024</span></div>
+    <div><span>Приобретатель</span><span>Ф. И. О. приобретателя</span></div>
+    <div><span>Дата фотофиксации</span><span>13 сентября 2026 г.</span></div>
+    <div><span>Основание</span><span>фотоматериалы, представленные собственником</span></div>
+    <div><span>Приложение</span><span>фотоматериалы, 11 файлов</span></div>
+  </div>
+
+  <p>По представленным собственником фотоматериалам зафиксированы следующие замечания к качеству  строительно-монтажных и отделочных работ:</p>
+
+  <div class="tw">
+  <table>
+    <thead><tr><th>№</th><th>Помещение</th><th>Зафиксировано</th><th>Требование нормы</th><th>Требование</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="n">1</td><td>Комната 1</td>
+        <td>Отклонение поверхности стены (смежная с санузлом) от вертикали превышает допустимое значение. Выявлено контролем двухметровой рейкой в трёх точках.</td>
+        <td class="norm">ШНҚ 3.04.01-21, табл. 10 (п. 203), улучшенная штукатурка: отклонение от вертикали — 2 мм на 1 м и не более 10 мм на всю высоту помещения</td>
+        <td>Выполнить выравнивание поверхности до значений, допускаемых нормами</td>
+      </tr>
+      <tr>
+        <td class="n">2</td><td>Комната 1</td>
+        <td>Отслоение (пустоты) штукатурного слоя площадью около 0,4 м², выявленное простукиванием</td>
+        <td class="norm">ШНҚ 3.04.01-21, п. 185: прочность основания не должна быть меньше прочности отделочного покрытия; п. 183: основание принимается по акту до начала отделочных работ</td>
+        <td>Удалить отслоившийся слой и восстановить покрытие</td>
+      </tr>
+      <tr>
+        <td class="n">3</td><td>Кухня</td>
+        <td>Просвет между контрольной двухметровой рейкой и поверхностью стяжки превышает допустимое значение</td>
+        <td class="norm">ШНҚ 3.04.01-21 «Изоляционные и отделочные покрытия», табл. 19 (п. 292): просвет между стяжкой и 2-метровой рейкой — до 2 мм под полимерные покрытия и покрытия на деревянной основе, до 4 мм под линолеум, ПВХ-плитку, паркет и ламинат</td>
+
+        <td>Выполнить выравнивание основания до допустимых значений</td>
+      </tr>
+      <tr>
+        <td class="n">4</td><td>Кухня</td>
+        <td>При проверке сцепления стяжки с основанием простукиванием зафиксировано изменение характера звучания на участке у окна</td>
+        <td class="norm">ШНҚ 3.04.01-21, табл. 29 (п. 336): при проверке сцепления покрытия с нижележащими элементами простукиванием изменения характера звучания быть не должно; контроль — по сетке не менее 50×50 см</td>
+        <td>Вскрыть и восстановить участки отслоения</td>
+      </tr>
+      <tr>
+        <td class="n">5</td><td>Комната 2</td>
+        <td>Продувание по периметру оконного блока, выявленное проверкой полосой бумаги при закрытой створке</td>
+        <td class="norm">КМК 3.03.01-98, п. 3.73: изоляция стыков между оконными блоками и четвертями проёмов выполняется нанесением нетвердеющей мастики; при проёмах без четверти дополнительно устанавливается уплотняющая прокладка</td>
+        <td>Выполнить герметизацию монтажного шва, отрегулировать притвор</td>
+      </tr>
+      <tr>
+        <td class="n">6</td><td>Санузел</td>
+        <td>Тяга в вентиляционном канале при проверке полосой бумаги не обнаружена</td>
+        <td class="norm">ШНҚ 2.08.01-24, табл. 11: расчётная вытяжка — 25 м³/ч для ванной, 50 м³/ч для совмещённого санузла</td>
+        <td>Обеспечить работоспособность вентиляционного канала</td>
+      </tr>
+      <tr>
+        <td class="n">7</td><td>Санузел</td>
+        <td>Не представлен акт освидетельствования скрытых работ по гидроизоляции пола</td>
+        <td class="norm">ШНҚ 3.01.01-22, гл. 7, пп. 26–31: на скрытые работы составляются акты освидетельствования</td>
+        <td>Представить исполнительную документацию на скрытые работы</td>
+      </tr>
+      <tr>
+        <td class="n">8</td><td>Прихожая</td>
+        <td>Дверное полотно входной двери при открытии на 45° самопроизвольно изменяет положение</td>
+        <td class="norm">требования действующих строительных норм и правил к качеству строительно-отделочных работ</td>
+        <td>Отрегулировать дверной блок</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="scrollhint">← таблица прокручивается вбок →</div>
+
+  <h3>Примечания</h3>
+  <ol>
+    <li>Замечания зафиксированы по результатам визуального осмотра и фотофиксации. Инструментальные измерения и
+      вскрытие конструкций не производились.</li>
+    <li>Настоящий акт не является заключением строительно-технической экспертизы. Причины возникновения
+      недостатков не устанавливались, стоимость их устранения не определялась.</li>
+    <li>Фотоматериалы (11 файлов) являются неотъемлемой частью настоящего акта. Нумерация фотографий
+      соответствует нумерации замечаний.</li>
+    <li>Из представленных фотоматериалов 2 файла в акт не включены: зафиксированное на них не позволяет
+      однозначно установить наличие недостатка.</li>
+  </ol>
+
+  <div class="sign">
+    <div><i></i>Приобретатель / Ф. И. О.</div>
+    <div><i></i>Представитель застройщика / подпись, дата</div>
+  </div>
+  <p class="fine" style="margin-top:16px">Акт составлен в двух экземплярах, имеющих одинаковую силу, по одному для
+  каждой из сторон. Отказ представителя застройщика от подписания акта не лишает настоящий документ
+  доказательственного значения и фиксируется отдельной отметкой.</p>
+</div>
+
+<div class="why" data-uz="<b>Nega iboralar shunchalik quruq.</b> «Devor yuzasining vertikaldan chetlanishi ruxsat etilgan qiymatdan oshadi» — «devorlar qiyshiq» oʻrniga, chunki birinchisi javob berish kerak boʻlgan murojaat kabi oʻqiladi, ikkinchisi esa eʼtiborsiz qoldirish mumkin boʻlgan hissiyot kabi. Chetlanish raqami bilan meʼyorning aniq bandiga havola «hammada shunday-ku» degan eʼtirozni maʼnosiz qiladi.">
+  <b>Почему формулировки такие сухие.</b> «Отклонение поверхности стены от вертикали превышает допустимое значение»
+
+  вместо «стены кривые» — потому что первое читается как обращение, на которое надо отвечать, а второе как эмоция,
+  которую можно проигнорировать. Ссылка на конкретный пункт нормы с цифрой допуска делает возражение
+  «да у всех так» бессмысленным.
+</div>
+</div>
+
+<!-- ─────────── ПРЕТЕНЗИЯ ─────────── -->
+<div id="doc2" class="hide">
+<div class="sheet">
+  <div class="rows" style="border-top:0">
+    <div><span>Кому</span><span>Директору ООО «{{Застройщик}}»<br>{{адрес}}</span></div>
+    <div><span>От кого</span><span>Ф. И. О. приобретателя<br>тел. {{телефон}}</span></div>
+  </div>
+
+  <h2 style="margin-top:18px">Претензия</h2>
+  <div class="place">об устранении недостатков объекта долевого строительства</div>
+
+  <p>Между мной и ООО «{{Застройщик}}» заключён договор № 3-118/24 от 12.03.2024, по условиям которого
+  застройщик обязался передать мне жилое помещение — квартиру № 118 в корпусе 3 ЖК «(наименование комплекса)».</p>
+
+  <p>13 сентября 2026 года при осмотре указанного помещения мною зафиксированы недостатки качества
+  строительно-монтажных и отделочных работ, перечень которых приведён в акте осмотра от 14.09.2026
+  (прилагается). Всего зафиксировано <b>8 (восемь)</b> замечаний, в том числе отклонения поверхностей
+  от вертикали и горизонтали сверх допускаемых нормами значений, отслоение штукатурного и стяжечного слоёв,
+  продувание монтажного шва оконного блока и отсутствие тяги в вентиляционном канале санузла.</p>
+
+  <p>В соответствии со статьёй 682 Гражданского кодекса Республики Узбекистан подрядчик несёт ответственность
+  за недостатки, обнаруженные в пределах гарантийного срока, если не докажет, что они возникли вследствие
+  нормального износа, неправильной эксплуатации или ненадлежащего ремонта.</p>
+
+  <p>Согласно статье 19 Закона Республики Узбекистан «О защите прав потребителей» недостатки выполненной
+  работы должны быть устранены исполнителем <b>в течение двадцати дней</b> со дня предъявления требования
+  потребителем, если более короткий срок не установлен договором.</p>
+
+  <h3>На основании изложенного требую:</h3>
+  <ol>
+    <li>Безвозмездно устранить перечисленные в приложенном акте недостатки в срок <b>не более двадцати дней</b>
+      с даты получения настоящей претензии.</li>
+    <li>Согласовать со мной дату и время повторного осмотра после устранения недостатков.</li>
+    <li>Направить письменный ответ на настоящую претензию по указанным выше контактным данным.</li>
+  </ol>
+
+  <p>Обращаю внимание, что до устранения указанных недостатков либо до внесения соответствующих замечаний
+  в акт приёма-передачи подписание акта приёма-передачи без оговорок мною производиться не будет.</p>
+
+  <p class="fine">Приложения: 1) Акт осмотра жилого помещения от 14.09.2026 — на 2 л.;
+  2) Фотоматериалы — 11 файлов.</p>
+
+  <div class="sign">
+    <div><i></i>Ф. И. О. приобретателя / подпись</div>
+    <div><i></i>Дата</div>
+  </div>
+</div>
+
+<div class="why" data-uz="<b>Yigirma kun — oʻylab topilgan emas.</b> Bu «Isteʼmolchilar huquqlarini himoya qilish toʻgʻrisida»gi qonunning 19-moddasidagi toʻgʻridan-toʻgʻri muddat. «Oqilona muddatda» degan ibora oylab choʻzishga imkon beradi; moddaga havola bilan aniq muddat — yoʻq.">
+  <b>Двадцать дней — не выдумка.</b> Это прямой срок из статьи 19 Закона «О защите прав потребителей».
+
+  Формулировка «в разумный срок» позволяет тянуть месяцами; конкретный срок со ссылкой на статью — нет.
+</div>
+</div>
+
+<div class="callouts">
+  <div class="co good">
+    <h3 data-uz="✓ Nima olasiz">✓ Что вы получаете</h3>
+
+    <p data-uz="Bitta PDF ichida ikkita hujjat, odatda 3–5 sahifa. Pretenziya — ikki nusxada: birini kantselyariyaga topshirasiz, ikkinchisiga kiruvchi raqam va sana qoʻyib berishadi. Topshirish boʻyicha koʻrsatma hujjat ichida.">Два документа в одном PDF, обычно 3–5 страниц. Претензия — в двух экземплярах: один сдаёте в канцелярию,
+
+    на втором вам ставят входящий номер и дату. Инструкция по подаче — внутри документа.</p>
+  </div>
+  <div class="co good">
+    <h3 data-uz="✓ Aniq bandlari bilan meʼyorlar">✓ Нормы с точными пунктами</h3>
+
+    <p data-uz="«Qurilish meʼyorlariga muvofiq» emas, balki ShNQ 3.04.01-21 10-jadval, ShNQ 2.03.13-24 9-band, KMK 3.03.01-98 3.73-band — chetlanish raqamlari bilan. Matnlar amaldagi ShNQ eʼlon qilinadigan TMSITI fondi (shnk.tmsiti.uz) boʻyicha, huquqiy meʼyorlar esa lex.uz boʻyicha solishtirilgan. Oʻzbek hujjatlarida raqamli meʼyor boʻlmagan joyda ishlar sifatiga umumiy talab yozamiz va uni raqam sifatida koʻrsatmaymiz.">Не «согласно строительным нормам», а ШНҚ 3.04.01-21 табл. 10, ШНҚ 2.03.13-24 п. 9, КМК 3.03.01-98 п. 3.73 —
+
+    с цифрами допусков. Тексты сверены по первоисточникам в фонде ТМСИТИ (shnk.tmsiti.uz), где публикуются
+    действующие ШНҚ, а нормы права — по lex.uz. Где числового норматива в узбекских документах нет, мы пишем
+    общее требование к качеству работ и не выдаём его за цифру.</p>
+
+  </div>
+  <div class="co bad">
+    <h3 data-uz="✕ Hujjatda nima boʻlmaydi">✕ Чего в документе не будет</h3>
+
+    <p data-uz="Nuqson sabablari, zararning soʻmdagi bahosi, «ekspertiza» soʻzi, quruvchiga qaratilgan ayblovlar. Va kamchilik aniq oʻqilmaydigan suratlar: bitta bahsli band butun hujjatni zaiflashtiradi, shuning uchun bunaqasini saralab tashlaymiz va bu haqda sizga aytamiz.">Причин дефектов, оценки ущерба в сумах, слова «экспертиза», обвинений в адрес застройщика. И фото, по которым
+
+    замечание не читается однозначно: один спорный пункт ослабляет весь документ, поэтому такие мы отсеиваем
+    и говорим вам об этом.</p>
+  </div>
+  <div class="co bad">
+    <h3 data-uz="✕ Nimani vaʼda qilmaymiz">✕ Чего мы не обещаем</h3>
+
+    <p data-uz="Quruvchi hammasini bartaraf etishini. Buni vaʼda qilish yolgʻon boʻlardi. Dalolatnoma boshqa narsani qiladi: kvartira holatini kalit topshirilgan sanaga qayd etadi. OʻzR FK 646-moddasiga koʻra ishni tekshirmasdan qabul qilgan shaxs ochiq kamchiliklarga havola qilish huquqini yoʻqotadi — hujjat aynan shundan himoya qiladi.">Что застройщик всё устранит. Обещать это было бы враньём. Акт делает другое: фиксирует состояние квартиры
+
+    на дату передачи ключей. По ГК РУз ст. 646 принявший работу без проверки теряет право ссылаться на явные
+    недостатки — вот от этого документ и защищает.</p>
+  </div>
+</div>
+
+<div class="foot" data-uz="Namunadagi maʼlumotlar oʻylab topilgan. Kvartira Qabul — mustaqil topshirish uchun hujjatlar.<br>Ekspertiza emas. Nizo natijasi kafolatlanmaydi.<br><a href=&quot;oferta.html&quot;>Xizmat koʻrsatish shartlari va maʼlumotlarni qayta ishlash</a>">
+  Данные в образце вымышленные. Kvartira Qabul — документы для самостоятельной подачи.<br>
+
+  Не является экспертизой. Исход спора не гарантируется.<br>
+  <a href="oferta.html">Условия оказания услуг и обработка данных</a>
+</div>
+
+</div>
+
+<div class="cta"><div class="inner">
+  <a class="buy" id="buy" href="#"><span>📄</span><span data-uz="Oʻz kvartirangiz uchun dalolatnoma buyurtma qilish">Заказать акт для своей квартиры</span></a>
+
+  <div class="note" data-uz="99 000 soʻm · suratlardan keyin 24 soatda hujjatlar · birinchi talabda pul qaytariladi">99 000 сум · документы за 24 часа после фото · возврат по первому требованию</div>
+
+</div></div>
+
+<script>
+const t1=document.getElementById("tab1"), t2=document.getElementById("tab2");
+const d1=document.getElementById("doc1"), d2=document.getElementById("doc2");
+function show(n){
+  t1.classList.toggle("on",n===1); t2.classList.toggle("on",n===2);
+  d1.classList.toggle("hide",n!==1); d2.classList.toggle("hide",n!==2);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+t1.onclick=()=>show(1); t2.onclick=()=>show(2);
+const bot=(window.CONFIG&&CONFIG.BOT_USERNAME)||"kvartira_qabul_bot";
+document.getElementById("buy").href="https://t.me/"+bot+"?start=sample";
+
+// Язык обвязки. Сам документ остаётся русским — так и написано в FAQ и в узбекской врезке;
+// переводим то, что человеку нужно понять, чтобы решиться купить.
+const LK="kq_sample_lang";
+let lang=(()=>{
+  try{ const v=localStorage.getItem(LK); if(v==="ru"||v==="uz") return v; }catch(e){}
+  const p=new URLSearchParams(location.search).get("lang");
+  if(p==="ru"||p==="uz") return p;
+  return (navigator.language||"").startsWith("uz") ? "uz" : "ru";
+})();
+const i18n=[...document.querySelectorAll("[data-uz]")];
+i18n.forEach(n=>n.dataset.ru=n.innerHTML);
+function applyLang(){
+  i18n.forEach(n=>{ n.innerHTML = lang==="uz" ? n.dataset.uz : n.dataset.ru; });
+  document.getElementById("langnote").classList.toggle("hide", lang!=="uz");
+  document.documentElement.lang=lang;
+  document.title = lang==="uz" ? "Kvartira Qabul — hujjat namunasi" : "Kvartira Qabul — образец документа";
+  document.getElementById("buy").href="https://t.me/"+bot+"?start=sample";
+  const bar=document.getElementById("langbar");
+  bar.innerHTML=[["ru","Ру"],["uz","O'z"]]
+    .map(([k,t])=>`<button data-l="${k}" class="${k===lang?"on":""}">${t}</button>`).join("");
+  bar.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    lang=b.dataset.l; try{localStorage.setItem(LK,lang);}catch(e){} applyLang();
+  });
+}
+applyLang();
+
+</script>
+</body>
+</html>

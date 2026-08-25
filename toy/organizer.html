@@ -1,0 +1,1062 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>To'y-Daftar — кабинет</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Manrope:wght@400;500;600;700&display=swap">
+<script src="config.js"></script>
+<script src="i18n-organizer.js"></script>
+<script src="invite-texts.js"></script>
+<style>
+:root{
+  --bg:#FBF7F2; --card:#FFFFFF; --ink:#2A211C; --ink2:#5C4C42; --muted:#8B7A6C;
+  --line:#EADFD2; --line2:#F5EEE5; --gold:#B08D3F; --gold-bg:#FBF3E2; --deep:#7D1F38; --deep-bg:#FAEDF0;
+  --ok:#2E7D4F; --ok-bg:#E8F3EC; --warn:#A86B00; --warn-bg:#FDF2DC; --bad:#B3403A; --bad-bg:#FAE9E8;
+  --shadow:0 1px 2px rgba(90,60,30,.05), 0 10px 28px rgba(90,60,30,.07);
+}
+:root[data-theme="dark"]{
+  --bg:#17130F; --card:#211A15; --ink:#F0E7DC; --ink2:#C7B6A5; --muted:#9C8875;
+  --line:#33291F; --line2:#282018; --gold:#D5B366; --gold-bg:#2A2213; --deep:#D98AA0; --deep-bg:#2E1B20;
+  --ok:#6CC493; --ok-bg:#17301F; --warn:#E6B254; --warn-bg:#33270E; --bad:#E6847E; --bad-bg:#3A1F1D;
+  --shadow:0 1px 2px rgba(0,0,0,.35), 0 10px 28px rgba(0,0,0,.3);
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:Manrope,system-ui,-apple-system,Roboto,sans-serif;
+  font-size:15.5px;line-height:1.5;padding:0 0 30px}
+.wrap{max-width:560px;margin:0 auto;padding:0 14px}
+h1,h2{font-family:"Cormorant Garamond",Georgia,serif;margin:0;font-weight:600;line-height:1.15}
+.serif{font-family:"Cormorant Garamond",Georgia,serif}
+
+/* header */
+.top{text-align:center;padding:20px 0 12px}
+.top .orn{display:block;margin:0 auto 10px;width:96px;height:22px}
+.top h1{font-size:clamp(28px,8vw,38px)}
+.top .amp{color:var(--gold);font-style:italic;display:block;font-size:.55em;margin:0}
+.top .meta{color:var(--muted);font-size:13px;margin-top:6px}
+.top .tier{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 10px;border-radius:20px;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold)}
+
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:12px 0}
+.stats div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:11px 5px;text-align:center;box-shadow:var(--shadow)}
+.stats b{display:block;font-family:"Cormorant Garamond",serif;font-size:27px;line-height:1;font-weight:600}
+.pngov{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.72);display:flex;align-items:center;
+  justify-content:center;padding:16px;overflow:auto}
+.pngov .inner{max-width:420px;width:100%}
+.pngov img{width:100%;border-radius:12px;display:block;box-shadow:0 10px 40px rgba(0,0,0,.4)}
+.pngov .hint{color:#fff;font-size:13.5px;line-height:1.5;text-align:center;margin:12px 0 10px;opacity:.9}
+
+.stats span{display:block;font-size:10.5px;color:var(--muted);margin-top:5px;letter-spacing:.02em}
+
+/* tabs */
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:3px 0 9px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--ink2);
+  font:600 13px Manrope,sans-serif;padding:8px 14px;border-radius:20px;cursor:pointer;white-space:nowrap}
+.tabs button.on{background:var(--deep);color:#fff;border-color:var(--deep)}
+
+/* cards & controls */
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px;margin:9px 0;box-shadow:var(--shadow)}
+.card > b{font-family:"Cormorant Garamond",serif;font-size:19px;font-weight:600;display:block;margin-bottom:8px}
+label{display:block;font-size:12px;color:var(--muted);margin:9px 0 4px;font-weight:600;letter-spacing:.02em}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:11px;
+  background:var(--bg);color:var(--ink);font:500 15px Manrope,sans-serif}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
+textarea{min-height:66px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+button.b{width:100%;border:0;border-radius:12px;padding:13px;background:var(--deep);color:#fff;
+  font:700 15px Manrope,sans-serif;cursor:pointer;margin-top:10px}
+button.b:active{transform:translateY(1px)}
+button.b.gold{background:var(--gold);color:#231a08}
+button.b.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+
+/* guest rows */
+.fam{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:7px 0;box-shadow:var(--shadow)}
+.fam .r1{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.fam .nm{font-weight:600;font-size:15px}
+.fam .sb{font-size:12px;color:var(--muted);margin-top:2px}
+.pill{font-size:11px;font-weight:700;padding:4px 9px;border-radius:20px;white-space:nowrap;letter-spacing:.02em}
+.pill.yes{background:var(--ok-bg);color:var(--ok)}
+.pill.no{background:var(--bad-bg);color:var(--bad)}
+.pill.pending{background:var(--warn-bg);color:var(--warn)}
+.acts{display:flex;gap:6px;margin-top:10px}
+.acts button{flex:1;border:1px solid var(--line);background:transparent;color:var(--ink2);
+  font:600 12.5px Manrope,sans-serif;padding:8px;border-radius:10px;cursor:pointer}
+.acts button.pri{background:var(--gold-bg);border-color:var(--gold);color:var(--gold)}
+.wish{margin-top:8px;font-size:13px;color:var(--ink2);font-style:italic;border-left:2px solid var(--gold);padding-left:9px}
+
+/* paywall / notice */
+.lock{background:var(--gold-bg);border:1px solid var(--gold);border-radius:16px;padding:15px;margin:9px 0}
+.lock b{font-family:"Cormorant Garamond",serif;font-size:19px;display:block;margin-bottom:5px}
+.lock p{margin:0;font-size:13.5px;color:var(--ink2)}
+.notice{background:var(--warn-bg);border:1px solid var(--warn);border-radius:14px;padding:13px 15px;margin:9px 0}
+.notice b{display:block;font-size:14.5px;margin-bottom:3px}
+.notice p{margin:0;font-size:13px;color:var(--ink2)}
+
+/* tables */
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(84px,1fr));gap:8px;margin:10px 0}
+.t{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:11px 6px;text-align:center;cursor:pointer;box-shadow:var(--shadow)}
+.t.sel{border-color:var(--deep);background:var(--deep-bg)}
+.t.full{border-color:var(--ok)}
+.t b{display:block;font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:600}
+.t span{font-size:11px;color:var(--muted)}
+
+/* zal */
+.big{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:10px 0}
+.big div{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow)}
+.big b{display:block;font-family:"Cormorant Garamond",serif;font-size:34px;line-height:1;font-weight:600}
+.big span{display:block;font-size:12px;color:var(--muted);margin-top:6px}
+.est{background:var(--deep);color:#fff;border-radius:16px;padding:16px;text-align:center;margin:10px 0}
+.est b{display:block;font-family:"Cormorant Garamond",serif;font-size:42px;line-height:1;font-weight:600}
+.est span{font-size:12.5px;opacity:.85;display:block;margin-top:6px}
+
+.note{font-size:11.5px;color:var(--muted);margin-top:8px;line-height:1.45}
+.empty{text-align:center;color:var(--muted);font-size:13.5px;padding:20px 10px;line-height:1.6}
+
+/* Переключатель языка и темы — плавающий, доступен с любой вкладки. */
+.topbar{position:fixed;top:calc(8px + env(safe-area-inset-top));right:10px;z-index:50;display:flex;gap:6px}
+.seg{display:flex;gap:2px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:3px;
+  box-shadow:0 2px 10px rgba(0,0,0,.12)}
+.seg button{border:0;background:transparent;color:var(--muted);cursor:pointer;
+  font:600 11.5px Manrope,system-ui,sans-serif;padding:5px 10px;border-radius:16px;letter-spacing:.02em}
+.seg button.on{background:var(--deep);color:#fff}
+.seg.one button{padding:5px 9px;font-size:13px;line-height:1}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="seg" id="langseg"></div>
+  <div class="seg one"><button id="themebtn" aria-label="theme">◐</button></div>
+</div>
+<div class="wrap" id="app"><div class="card">…</div></div>
+
+<script>
+const tg = window.Telegram?.WebApp; tg?.ready(); tg?.expand();
+const haptic = t => { try { tg?.HapticFeedback?.impactOccurred?.(t || "light"); } catch(e){} };
+
+/* ─── Тема ────────────────────────────────────────────────────────────────
+   Три состояния: авто (как в Telegram или в системе), светлая, тёмная.
+   Ручной выбор перебивает автоопределение и запоминается. */
+const THEME_KEY="td_theme";
+function sysDark(){ return tg ? tg.colorScheme==="dark" : !!window.matchMedia?.("(prefers-color-scheme: dark)").matches; }
+function applyTheme(){
+  const m = localStorage.getItem(THEME_KEY) || "auto";
+  const dark = m==="dark" || (m==="auto" && sysDark());
+  document.documentElement.dataset.theme = dark ? "dark" : "";
+  const b=document.getElementById("themebtn");
+  if(b) b.textContent = m==="auto" ? "◐" : (m==="dark" ? "☾" : "☀");
+}
+function cycleTheme(){
+  const m = localStorage.getItem(THEME_KEY) || "auto";
+  const next = m==="auto" ? "light" : (m==="light" ? "dark" : "auto");
+  localStorage.setItem(THEME_KEY,next); applyTheme(); haptic("light");
+}
+tg?.onEvent?.("themeChanged", applyTheme);
+
+/* ─── Язык кабинета ───────────────────────────────────────────────────────
+   Русский и узбекская латиница. Переключатель висит поверх всех вкладок,
+   поэтому язык меняется с любого экрана, а не только из настроек. */
+const LANG_KEY="td_org_lang";
+let lang = (()=>{ try{ const v=localStorage.getItem(LANG_KEY); if(v==="ru"||v==="uz") return v; }catch(e){}
+  return (tg?.initDataUnsafe?.user?.language_code === "uz") ? "uz" : "ru"; })();
+const L = () => (window.T_ORG ? T_ORG[lang] : {});
+function renderLangSeg(){
+  const seg=document.getElementById("langseg");
+  seg.innerHTML = [["ru","Ру"],["uz","O'z"]].map(([k,t])=>
+    `<button data-l="${k}" class="${k===lang?"on":""}">${t}</button>`).join("");
+  seg.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    lang=b.dataset.l; try{ localStorage.setItem(LANG_KEY,lang); }catch(e){}
+    document.documentElement.lang = lang==="uz" ? "uz" : "ru";
+    haptic("light"); renderLangSeg(); S.ev ? render() : renderNew();
+  });
+}
+
+const API = (window.TOY_API || "https://<project>.functions.supabase.co/toy");
+const S = { ev:null, all:[], fams:[], tables:[], gifts:[], tab:"guests", inviteBase:"", inviteLink:"", venueHint:50, selTab:null, onlyPending:false, bulk:false, diff:null };
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s??"").replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
+const ORN = `<svg class="orn" viewBox="0 0 96 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+<path d="M2 11h30M64 11h30" stroke="currentColor" stroke-width="1" opacity=".55"/>
+<path d="M48 3c3.4 3.4 6.8 5.2 6.8 8s-3.4 4.6-6.8 8c-3.4-3.4-6.8-5.2-6.8-8s3.4-4.6 6.8-8z" stroke="currentColor" stroke-width="1.2" fill="none"/>
+<circle cx="36" cy="11" r="1.9" fill="currentColor"/><circle cx="60" cy="11" r="1.9" fill="currentColor"/></svg>`;
+
+/* ---------- темы оформления ---------- */
+const THEME_SUB = {
+  ru:{zar:"золото, классика", atlas:"национальный, тёплый", oq:"минимал, светлый", kecha:"вечерний, тёмный"},
+  uz:{zar:"tilla rang, klassika", atlas:"milliy, iliq", oq:"minimal, yorug'", kecha:"kechki, to'q"},
+};
+const THEMES = [
+  {id:"zar",   label:"Zar",   c:["#FBF7F2","#B08D3F","#7D1F38"]},
+  {id:"atlas", label:"Atlas", c:["#FDF6EC","#C25E2A","#1F4E5F"]},
+  {id:"oq",    label:"Oq",    c:["#FFFFFF","#141414","#8A8A8A"]},
+  {id:"kecha", label:"Kecha", c:["#12141C","#D9B45B","#F2EDE4"]},
+];
+/* Языки самого приглашения — это НЕ язык кабинета: организатор может вести кабинет
+   по-русски, а гостям слать приглашение на узбекской кириллице. */
+const INV_LANGS = [
+  {id:"uz_latin",    label:"O'zbekcha (lotin)"},
+  {id:"uz_cyrillic", label:"Ўзбекча (кирилл)"},
+  {id:"ru",          label:"Русский"},
+];
+/* Шаблоны текста приглашения берём из invite-texts.js: 18 вариантов
+   (6 поводов x 3 алфавита) вместо прежних восьми, вычитанных наспех. */
+const presets = () => (window.toyPresets ? toyPresets(lang) : []);
+/* Чек-лист подготовки — из i18n-organizer.js, на языке кабинета. */
+const prep = () => (window.PREP_I18N ? PREP_I18N[lang] : []);
+
+async function call(action, body={}){
+  const r = await fetch(`${API}/api/${action}`,{method:"POST",headers:{"content-type":"application/json"},
+    body:JSON.stringify({...body, initData: tg?.initData || ""})});
+  return r.json();
+}
+// Список всех тоёв владельца. Раньше открывался всегда events[0], и второй той —
+// beshik-to'y, той второго ребёнка, клиент организатора — был недоступен вообще.
+async function boot(){
+  const {events} = await call("my");
+  S.all = events || [];
+  if(!S.all.length) return renderNew();
+  const last = Number(localStorage.getItem("td_last_event")||0);
+  const pick = S.all.find(e=>e.id===last) || S.all[0];
+  await open(pick.id);
+}
+function switchEvent(){
+  const t=L(), tierName={free:t.tierFree,premium:t.tierPremium,full:t.tierFull};
+  const rows = (S.all||[]).map(e=>`<button class="b sec pickev" data-id="${e.id}" style="margin-bottom:8px;text-align:left">
+      ${e.id===S.ev.id?"✓ ":""}${esc(e.couple)}${e.event_date?` · ${new Date(e.event_date).toLocaleDateString(t.locale)}`:""}
+      <span style="color:var(--muted);font-weight:500"> — ${tierName[e.tier]||e.tier}</span></button>`).join("");
+  $("#tab").innerHTML = `<div class="card"><b>${t.swTitle}</b>
+    <div class="note" style="margin:0 0 10px">${t.swNote}</div>
+    <div>${rows}</div>
+    <button class="b" id="newev" style="margin-top:6px">${t.swNew}</button></div>`;
+  $("#newev").onclick=()=>renderNew();
+  document.querySelectorAll(".pickev").forEach(b=>b.onclick=()=>{S.tab="guests";open(Number(b.dataset.id));});
+}
+function renderNew(){
+  const t=L();
+  // Повод и язык спрашиваем сразу: от повода зависит подставляемый текст и тема,
+  // а язык приглашения — это не язык кабинета, и путать их нельзя.
+  const occ = (window.TOY_OCCASIONS||[]);
+  $("#app").innerHTML = `
+  <div class="top" style="color:var(--gold)">${ORN}<h1 style="color:var(--ink)">${t.newTitle}</h1>
+    <div class="meta">${t.newSub}</div></div>
+  <div class="card">
+    <div class="note" style="margin:0 0 10px">${t.newPreviewNote}</div>
+    <button class="b sec" id="peek">${t.newPreviewBtn}</button>
+    <div class="note">${t.newPrice}</div>
+  </div>
+  <div class="card">
+    <label>${t.newCouple}</label><input id="couple" placeholder="${t.newCouplePh}">
+    <div class="row2">
+      <div><label>${t.newOccasion}</label><select id="occ">${occ.map(o=>`<option value="${o.id}">${o.label[lang==="uz"?"uz_latin":"ru"]}</option>`).join("")}</select></div>
+      <div><label>${t.newLang}</label><select id="ilang">${INV_LANGS.map(l=>`<option value="${l.id}"${l.id===(lang==="uz"?"uz_latin":"ru")?" selected":""}>${l.label}</option>`).join("")}</select></div>
+    </div>
+    <div class="row2"><div><label>${t.date}</label><input id="date" type="date"></div>
+      <div><label>${t.time}</label><input id="time" placeholder="${t.newTimePh}"></div></div>
+    <label>${t.venue}</label><input id="venue" placeholder="${t.newVenuePh}">
+    <label>${t.addr}</label><input id="addr" placeholder="${t.newAddrPh}">
+    <label>${t.newMap}</label><input id="map" placeholder="${t.newMapPh}">
+    <label>${t.newGreet}</label><textarea id="greet"></textarea>
+    <button class="b" id="save">${t.newSubmit}</button>
+    <div class="note">${t.newNote}</div>
+  </div>`;
+  // Текст приглашения подставляется сам при выборе повода и языка — руками писать не надо.
+  const fillGreet=()=>{
+    const o=(window.toyOccasion? toyOccasion($("#occ").value) : null);
+    if(o) $("#greet").value = o.greeting[$("#ilang").value] || "";
+  };
+  $("#occ").onchange=fillGreet; $("#ilang").onchange=fillGreet; fillGreet();
+  // Шаг 52: в превью уходит то, что человек уже ввёл. Смотреть на чужих «Aziz & Nilufar»
+  // после того, как вписал свои имена, — это ровно тот момент, когда закрывают вкладку.
+  $("#peek").onclick=()=>{
+    const o=(window.toyOccasion? toyOccasion($("#occ").value) : null);
+    const q=new URLSearchParams({theme:o?o.theme:"zar", ilang:$("#ilang").value});
+    const put=(k,v)=>{ const s=(v||"").trim(); if(s) q.set(k,s.slice(0,120)); };
+    put("couple",$("#couple").value); put("venue",$("#venue").value);
+    put("addr",$("#addr").value);     put("date",$("#date").value);
+    put("time",$("#time").value);     put("greet",$("#greet").value);
+    const url=`invite.html?${q}`;
+    tg?.openLink ? tg.openLink(url) : window.open(url,"_blank");
+  };
+  $("#save").onclick = async () => {
+    const couple = $("#couple").value.trim(); if(!couple) return alert(t.newErrNames);
+    haptic("medium");
+    const o=(window.toyOccasion? toyOccasion($("#occ").value) : null);
+    const {event} = await call("event_save",{event:{couple,event_date:$("#date").value,event_time:$("#time").value,
+      venue_name:$("#venue").value,venue_addr:$("#addr").value,map_url:$("#map").value,greeting:$("#greet").value,
+      occasion:$("#occ").value, lang:$("#ilang").value, theme:(o?o.theme:"zar")}});
+    if(event) open(event.id);
+  };
+}
+async function open(id){
+  const d = await call("event_get",{event_id:id});
+  if(d.error) return alert(L().errAccess);
+  S.ev=d.event; localStorage.setItem("td_last_event", String(id)); S.fams=d.families; S.tables=d.tables; S.gifts=d.gifts; S.inviteBase=d.invite_base; S.inviteLink=d.invite_link||`${d.invite_base}?t={token}`; S.venueHint=d.venue_hint||50;
+
+  S.bulk=false; S.onlyPending=false;
+  // Список тоёв держим свежим: после создания нового он должен появиться в переключателе.
+  const idx=(S.all||[]).findIndex(e=>e.id===d.event.id);
+  if(idx>=0) S.all[idx]=d.event; else S.all=[d.event, ...(S.all||[])];
+  render();
+}
+function counts(){
+  const inv=S.fams.reduce((a,f)=>a+(f.invited_count||0),0);
+  const yes=S.fams.filter(f=>f.rsvp_status==="yes").reduce((a,f)=>a+(f.rsvp_count||0),0);
+  const no=S.fams.filter(f=>f.rsvp_status==="no").length;
+  const pend=S.fams.filter(f=>f.rsvp_status==="pending");
+  return {inv,yes,no,pend,pendInv:pend.reduce((a,f)=>a+(f.invited_count||0),0)};
+}
+function daysLeft(){ if(!S.ev.event_date) return null;
+  return Math.ceil((new Date(S.ev.event_date) - new Date())/864e5); }
+function render(){
+  const t=L(), c=counts();
+  const tierName={free:t.tierFree,premium:t.tierPremium,full:t.tierFull}[S.ev.tier];
+  const dl=daysLeft(), names=(S.ev.couple||"").split(/&|\bи\b|\bva\b/);
+  $("#app").innerHTML = `
+  <div class="top" style="color:var(--gold)">${ORN}
+    <h1 style="color:var(--ink)">${esc(names[0].trim())}${names[1]?`<span class="amp">&amp;</span>${esc(names[1].trim())}`:""}</h1>
+    <div class="meta">${S.ev.event_date? new Date(S.ev.event_date).toLocaleDateString(t.locale,{day:"numeric",month:"long"}):t.noDate}${S.ev.event_time?` · ${esc(S.ev.event_time)}`:""}${dl!==null&&dl>=0?t.daysLeft(dl):""}<br>${esc(S.ev.venue_name||t.noVenue)}</div>
+    <span class="tier">${tierName}</span>
+  </div>
+  <div class="stats">
+    <div><b>${c.inv}</b><span>${t.stInvited}</span></div>
+    <div><b style="color:var(--ok)">${c.yes}</b><span>${t.stYes}</span></div>
+    <div><b style="color:var(--bad)">${c.no}</b><span>${t.stNo}</span></div>
+    <div><b style="color:var(--warn)">${c.pend.length}</b><span>${t.stPending}</span></div>
+  </div>
+  <div class="tabs">
+    <button data-t="guests" class="${S.tab==="guests"?"on":""}">${t.tabGuests}</button>
+    <button data-t="seating" class="${S.tab==="seating"?"on":""}">${t.tabSeating}</button>
+    <button data-t="zal" class="${S.tab==="zal"?"on":""}">${t.tabZal}</button>
+    <button data-t="prep" class="${S.tab==="prep"?"on":""}">${t.tabPrep}</button>
+    <button data-t="gifts" class="${S.tab==="gifts"?"on":""}">${t.tabGifts}</button>
+    <button data-t="event" class="${S.tab==="event"?"on":""}">${t.tabEvent}</button>
+    <button data-t="switch" class="${S.tab==="switch"?"on":""}">${S.all&&S.all.length>1?t.tabSwitch(S.all.length):t.tabSwitchNew}</button>
+  </div>
+  <div id="tab"></div>`;
+  document.querySelectorAll(".tabs button").forEach(b=>b.onclick=()=>{S.tab=b.dataset.t;haptic("light");render();});
+  ({guests:tabGuests,seating:tabSeating,zal:tabZal,prep:tabPrep,gifts:tabGifts,event:tabEvent,switch:switchEvent})[S.tab]();
+}
+
+/* ---------- гости ---------- */
+// Разбор вставленного списка. Набор 60 семей по одной — это точка отвала №1:
+// человек бросает кабинет на пятнадцатой строке. Здесь он вставляет всё разом.
+/* ─── Обмен списком с Excel ──────────────────────────────────────────────────
+   Круг: выгрузил → поправил в Excel → загрузил обратно → проверил → применил.
+   Формат наш: первая колонка ID, по ней при загрузке узнаём, что это та же семья,
+   а не новая. Строку без ID считаем добавлением — значит список можно дописывать
+   прямо в Excel, не выдумывая никаких идентификаторов.                          */
+
+// Разбор одной CSV/TSV-строки с учётом кавычек: в пожелании гостя бывает и «;», и перевод строки.
+function splitRow(line, sep){
+  const out=[]; let cur="", q=false;
+  for(let i=0;i<line.length;i++){
+    const ch=line[i];
+    if(q){ if(ch==='"'){ if(line[i+1]==='"'){cur+='"';i++;} else q=false; } else cur+=ch; }
+    else if(ch==='"') q=true;
+    else if(ch===sep){ out.push(cur); cur=""; }
+    else cur+=ch;
+  }
+  out.push(cur); return out.map(s=>s.trim());
+}
+function csvCell(v){
+  const s=String(v??"");
+  return /[";\n\r]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+}
+// Заголовки принимаем на обоих языках и в любом регистре — файл мог прийти от зала или от тамады.
+const COL_ALIASES = {
+  id:      ["id","№","номер"],
+  name:    ["семья","oila","название","nomi","family"],
+  side:    ["сторона","tomon"],
+  invited: ["приглашено","taklif qilingan","приглашённых","invited"],
+  status:  ["статус","holat","status"],
+  count:   ["придут","keladi","придёт","count"],
+  table:   ["стол","stol","table"],
+  note:    ["пожелание","tilak","заметка","note"],
+};
+function colIndex(header){
+  const idx={};
+  header.forEach((h,i)=>{
+    const low=String(h).toLowerCase().replace(/^﻿/,"").trim();
+    for(const key in COL_ALIASES) if(COL_ALIASES[key].some(a=>low===a||low.startsWith(a))) idx[key]=i;
+  });
+  return idx;
+}
+const YES_WORDS=["придут","да","yes","keladi","ha","+"];
+const NO_WORDS =["отказ","нет","no","kelolmaydi","yo'q","yoq","-"];
+function normStatus(v){
+  const s=String(v||"").toLowerCase().trim();
+  if(!s) return "pending";
+  if(YES_WORDS.some(w=>s.startsWith(w))) return "yes";
+  if(NO_WORDS.some(w=>s.startsWith(w)))  return "no";
+  return "pending";
+}
+function normSide(v){
+  const s=String(v||"").toLowerCase();
+  return /кел|kelin|невест/.test(s) ? "kelin" : "kuyov";
+}
+
+// Один вход для двух способов: и таблица из Excel, и быстрая вставка «Каримовлар — 6».
+function parseGuests(text){
+  const raw = String(text||"").replace(/\r\n?/g,"\n").split("\n").filter(l=>l.trim()!=="");
+  if(!raw.length) return {rows:[], mode:"empty"};
+
+  // Разделитель определяем по первой строке: из Excel копируют табами, файл сохраняют с «;».
+  const first = raw[0];
+  const sep = first.includes("\t") ? "\t" : (first.split(";").length > first.split(",").length ? ";" : ",");
+  const looksTable = first.includes("\t") || first.includes(";") || first.includes(",");
+  if(looksTable){
+    const head = splitRow(first, sep);
+    const idx = colIndex(head);
+    // Если шапки нет — считаем, что первая строка уже данные, а колонки идут в нашем порядке.
+    const hasHeader = idx.name !== undefined || idx.id !== undefined;
+    const body = hasHeader ? raw.slice(1) : raw;
+    const map = hasHeader ? idx : {id:0,name:1,side:2,invited:3,status:4,count:5,table:6,note:7};
+    const rows = body.map(line=>{
+      const c = splitRow(line, sep);
+      const get = k => map[k]!==undefined ? (c[map[k]] ?? "") : "";
+      const name = String(get("name")).trim();
+      if(!name) return null;
+      const invited = Math.max(1, Math.min(50, parseInt(get("invited"),10) || 2));
+      const status = normStatus(get("status"));
+      const cnt = parseInt(get("count"),10);
+      return {
+        id: parseInt(get("id"),10) || null,
+        name: name.slice(0,80),
+        invited_count: invited,
+        side: normSide(get("side")),
+        rsvp_status: status,
+        rsvp_count: status==="yes" ? (isNaN(cnt)?invited:Math.max(0,Math.min(60,cnt))) : 0,
+        rsvp_note: String(get("note")||"").slice(0,300) || null,
+      };
+    }).filter(Boolean);
+    return {rows, mode:"table"};
+  }
+
+  // Быстрая вставка: одна семья — одна строка, хвостовое число = сколько человек.
+  const rows = raw.map(line=>{
+    const s=line.trim();
+    const m = s.match(/^(.*?)[\s—–\-:•·]*(\d{1,3})\s*(?:чел\.?|kishi|киши|нафар)?\s*$/i);
+    let name = (m ? m[1] : s).replace(/[\s—–\-:.,;•·]+$/,"").trim();
+    const n = m ? Math.max(1, Math.min(50, parseInt(m[2],10))) : 2;
+    if(!name) name = s;
+    return { id:null, name:name.slice(0,80), invited_count:n, side:"kuyov",
+             rsvp_status:"pending", rsvp_count:0, rsvp_note:null };
+  }).filter(r=>r.name);
+  return {rows, mode:"lines"};
+}
+
+// Выгрузка в нашем формате. Разделитель «;» и BOM — Excel в русской локали
+// открывает такой файл двойным щелчком, без мастера импорта.
+function guestsCsv(){
+  const t=L();
+  const head=["ID",t.zThFamily,t.gSide,t.stInvited,t.zThStatus,t.stYes,t.zDocTable("").trim()||"Стол",t.fWhat];
+  const st={yes:t.zStYes,no:t.zStNo,pending:t.zStPending};
+  const body=S.fams.map(f=>{
+    const tb=S.tables.find(x=>x.id===f.table_id);
+    return [f.id, f.name, f.side==="kelin"?t.zKelin:t.zKuyov, f.invited_count,
+            st[f.rsvp_status]||"", f.rsvp_status==="yes"?f.rsvp_count:"",
+            tb?tb.num:"", f.rsvp_note||""].map(csvCell).join(";");
+  });
+  return "﻿"+[head.map(csvCell).join(";"), ...body].join("\r\n");
+}
+/* Сверка загруженного с тем, что уже есть. Ничего не применяем, пока человек не увидел,
+   что именно поменяется: список гостей на тое — вещь, которую страшно перезаписать вслепую. */
+function buildDiff(rows){
+  const byId = new Map(S.fams.map(f=>[f.id,f]));
+  const byName = new Map(S.fams.map(f=>[f.name.toLowerCase().trim(),f]));
+  const seen = new Set();
+  const items = rows.map((r,i)=>{
+    // Совпадение по ID надёжнее; если ID нет — пробуем по названию, чтобы повторная
+    // загрузка того же файла не наплодила дублей.
+    let cur = r.id ? byId.get(r.id) : byName.get(r.name.toLowerCase().trim());
+    if(cur && seen.has(cur.id)) cur = null;
+    if(cur) seen.add(cur.id);
+    const changes=[];
+    if(cur){
+      if(cur.name!==r.name) changes.push("name");
+      if(cur.invited_count!==r.invited_count) changes.push("invited_count");
+      if(cur.side!==r.side) changes.push("side");
+      if(cur.rsvp_status!==r.rsvp_status) changes.push("rsvp_status");
+      if((cur.rsvp_status==="yes"||r.rsvp_status==="yes") && cur.rsvp_count!==r.rsvp_count) changes.push("rsvp_count");
+      if((cur.rsvp_note||"")!==(r.rsvp_note||"")) changes.push("rsvp_note");
+    }
+    return { i, row:{...r, id: cur?cur.id:null}, cur: cur||null,
+             kind: cur ? (changes.length?"upd":"same") : "new",
+             changes, on: cur ? changes.length>0 : true };
+  });
+  const missing = S.fams.filter(f=>!seen.has(f.id));
+  return { items, missing };
+}
+function diffCard(){
+  const t=L(), d=S.diff;
+  const nNew=d.items.filter(x=>x.kind==="new").length;
+  const nUpd=d.items.filter(x=>x.kind==="upd").length;
+  const nSame=d.items.filter(x=>x.kind==="same").length;
+  const willApply=d.items.filter(x=>x.on);
+  const sideName=s=>s==="kelin"?t.gSideKelin:t.gSideKuyov;
+  const stName=s=>s==="yes"?t.zStYes:s==="no"?t.zStNo:t.zStPending;
+  const badge=k=>k==="new"
+    ? `<span class="pill yes">${t.impNew}</span>`
+    : k==="upd" ? `<span class="pill pending">${t.impUpd}</span>`
+                : `<span class="pill" style="background:var(--line2);color:var(--muted)">${t.impSame}</span>`;
+  const was=(x)=>{
+    if(x.kind!=="upd") return "";
+    const parts=x.changes.map(ch=>{
+      if(ch==="name") return `${x.cur.name} → ${x.row.name}`;
+      if(ch==="invited_count") return `${t.stInvited}: ${x.cur.invited_count} → ${x.row.invited_count}`;
+      if(ch==="side") return `${sideName(x.cur.side)} → ${sideName(x.row.side)}`;
+      if(ch==="rsvp_status") return `${stName(x.cur.rsvp_status)} → ${stName(x.row.rsvp_status)}`;
+      if(ch==="rsvp_count") return `${t.stYes}: ${x.cur.rsvp_count} → ${x.row.rsvp_count}`;
+      return t.fWhat;
+    });
+    return `<div class="wish" style="border-color:var(--warn)">${esc(parts.join(" · "))}</div>`;
+  };
+  const rows=d.items.map(x=>`
+    <div class="fam" data-i="${x.i}" style="margin:6px 0;${x.kind==="same"?"opacity:.55":""}">
+      <div class="r1">
+        <label style="display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;cursor:pointer;margin:0;
+          color:var(--ink);font-size:14px;font-weight:400;text-transform:none;letter-spacing:0;flex:1">
+          <input type="checkbox" class="dchk" data-i="${x.i}" ${x.on?"checked":""}
+            style="width:19px;height:19px;accent-color:var(--ok);margin-top:2px">
+          <span>
+            <input class="dname" data-i="${x.i}" value="${esc(x.row.name)}"
+              style="padding:6px 8px;font-size:14px;font-weight:600;margin-bottom:5px">
+            <span class="sb">${sideName(x.row.side)} · ${t.stInvited}: </span>
+            <input class="dcnt" data-i="${x.i}" type="number" min="1" max="50" value="${x.row.invited_count}"
+              style="width:62px;padding:4px 6px;font-size:13px;display:inline-block">
+          </span>
+        </label>
+        ${badge(x.kind)}
+      </div>
+      ${was(x)}
+    </div>`).join("");
+  const missBlock = d.missing.length ? `<div class="notice" style="margin-top:10px">
+      <b>${t.impMissing(d.missing.length)}</b>
+      <p>${t.impMissingNote}</p>
+      <div class="note" style="margin-top:6px">${d.missing.slice(0,8).map(f=>esc(f.name)).join(" · ")}${d.missing.length>8?" …":""}</div>
+    </div>` : "";
+  const total = willApply.reduce((a,x)=>a+x.row.invited_count,0)
+    + S.fams.filter(f=>!willApply.some(x=>x.row.id===f.id)).reduce((a,f)=>a+(f.invited_count||0),0);
+  return `<div class="card"><b>${t.impCheckTitle}</b>
+    <div class="note" style="margin:0 0 4px">${t.impSummary(nNew,nUpd,nSame)}</div>
+    <div class="note" style="margin:0 0 10px">${t.impTotal(total)}</div>
+    ${rows}
+    ${missBlock}
+    <button class="b" id="applyImp">${t.impApply(willApply.length)}</button>
+
+    <button class="b sec" id="cancelImp">${t.gBulkCancel}</button></div>`;
+}
+
+function tabGuests(){
+  const t=L(), c=counts();
+  const sideOpts
+ = `<option value="kuyov">${t.gSideKuyov}</option><option value="kelin">${t.gSideKelin}</option>`;
+  $("#tab").innerHTML = `
+  <div class="card">
+    <b>${t.gAddTitle}</b>
+    <label>${t.gName}</label><input id="fname" placeholder="${t.gNamePh}">
+    <div class="row2">
+      <div><label>${t.gCount}</label><input id="fcount" type="number" value="2" min="1"></div>
+      <div><label>${t.gSide}</label><select id="fside">${sideOpts}</select></div>
+    </div>
+    <button class="b" id="add">${t.gAdd}</button>
+    <div class="row2" style="margin-top:10px">
+      <button class="b sec" id="bulkToggle" style="margin:0">${t.gBulkToggle}</button>
+      <button class="b sec" id="exportX" style="margin:0"${S.fams.length?"":" disabled"}>${t.impExport}</button>
+    </div>
+    ${S.ev.tier==="free"?`<div class="note">${t.gFreeNote}</div>`:""}
+
+  </div>
+  ${S.bulk?`<div class="card"><b>${t.gBulkTitle}</b>
+    <div class="note" style="margin:0 0 8px">${t.gBulkNote}</div>
+    <input type="file" id="bulkFile" accept=".csv,.txt,.tsv,text/csv,text/plain" style="padding:9px">
+    <div class="note" style="margin:6px 0 8px">${t.impOr}</div>
+    <textarea id="bulkText" style="min-height:130px" placeholder="${t.gBulkPh}"></textarea>
+    <label>${t.gBulkSide}</label>
+    <select id="bulkSide">${sideOpts}</select>
+    <button class="b" id="bulkGo">${t.impCheck}</button>
+    <button class="b sec" id="bulkCancel">${t.gBulkCancel}</button></div>`:""}
+  ${S.diff?diffCard():""}
+  ${S.ev.tier==="free" && c.yes+c.no>0 ? `<div class="lock"><b>${t.gLockTitle}</b>
+    <p>${t.gLockText(c.yes+c.no)}</p>
+    <button class="b gold" id="buyP">${t.gLockBtn}</button></div>`:""}
+
+  ${c.pend.length>=3 ? `<div class="notice"><b>${t.gNoticeTitle(c.pend.length,c.pendInv)}</b>
+    <p>${t.gNoticeText}</p>
+    <button class="b sec" id="remind" style="margin-top:9px">${S.onlyPending?t.gShowAll:t.gShowPending}</button></div>`:""}
+  <div id="list"></div>`;
+  $("#add").onclick = async () => {
+    const name=$("#fname").value.trim(); if(!name) return;
+    haptic("medium");
+    const r = await call("family_add",{event_id:S.ev.id,name,invited_count:+$("#fcount").value||2,side:$("#fside").value});
+
+    if(r.family){ S.fams.push(r.family); render(); }
+  };
+  $("#buyP") && ($("#buyP").onclick=()=>pay("premium"));
+  $("#remind") && ($("#remind").onclick=()=>{S.onlyPending=!S.onlyPending;render();});
+  $("#bulkToggle").onclick=()=>{S.bulk=!S.bulk;S.diff=null;haptic("light");render();};
+  $("#bulkCancel") && ($("#bulkCancel").onclick=()=>{S.bulk=false;S.diff=null;render();});
+  $("#exportX").onclick=()=>{
+    haptic("light");
+    dl(`${t.zCsvFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.csv`, guestsCsv(), "text/csv");
+  };
+  // Файл читаем в textarea, чтобы человек увидел, что именно загрузилось,
+  // и мог поправить прямо здесь, если Excel сохранил что-то не так.
+  $("#bulkFile") && ($("#bulkFile").onchange=e2=>{
+    const f=e2.target.files?.[0]; if(!f) return;
+    const rd=new FileReader();
+    rd.onload=()=>{ $("#bulkText").value=String(rd.result||"").replace(/^﻿/,""); haptic("light"); };
+    rd.readAsText(f,"utf-8");
+  });
+  $("#bulkGo") && ($("#bulkGo").onclick=()=>{
+    const {rows,mode}=parseGuests($("#bulkText").value);
+    if(!rows.length) return tg?.showAlert?.(t.gBulkNone);
+    const side=$("#bulkSide").value;
+    // Сторону из выпадающего списка применяем только к быстрой вставке:
+    // в таблице она своя в каждой строке, и перетирать её нельзя.
+    if(mode==="lines") rows.forEach(r=>r.side=side);
+    S.diff = buildDiff(rows);
+    haptic("medium"); render();
+  });
+
+  // Экран проверки: правки применяются к загруженным строкам, а не к базе,
+  // пока человек не нажмёт «Применить».
+  if(S.diff){
+    const find=i=>S.diff.items.find(x=>x.i===+i);
+    document.querySelectorAll(".dchk").forEach(el=>el.onchange=()=>{
+      const x=find(el.dataset.i); if(x){ x.on=el.checked; render(); } });
+    document.querySelectorAll(".dname").forEach(el=>el.onchange=()=>{
+      const x=find(el.dataset.i); if(x) x.row.name=el.value.trim().slice(0,80); });
+    document.querySelectorAll(".dcnt").forEach(el=>el.onchange=()=>{
+      const x=find(el.dataset.i); if(x){ x.row.invited_count=Math.max(1,Math.min(50,+el.value||1)); render(); } });
+    $("#cancelImp").onclick=()=>{ S.diff=null; render(); };
+    $("#applyImp").onclick=async()=>{
+      const btn=$("#applyImp"); btn.disabled=true; btn.textContent=t.impApplying;
+      const rows=S.diff.items.filter(x=>x.on).map(x=>x.row);
+      let r=null;
+      try { r=await call("families_bulk",{event_id:S.ev.id,rows}); } catch(e){}
+
+      if(!r?.families){ btn.disabled=false; btn.textContent=t.impApply(rows.length);
+        return tg?.showAlert?.(t.errAccess); }
+      S.fams=r.families; S.diff=null; S.bulk=false; haptic("medium"); render();
+      tg?.showAlert?.(t.impDone(r.created,r.updated));
+    };
+  }
+
+  const shown = S.onlyPending ? S.fams.filter(f=>f.rsvp_status==="pending") : S.fams;
+  const list=$("#list");
+  if(!shown.length){ list.innerHTML=`<div class="empty">${S.onlyPending?t.gEmptyAnswered:t.gEmptyNone}</div>`; return; }
+  list.innerHTML = shown.map(f=>{
+    const tb=S.tables.find(x=>x.id===f.table_id);
+    return `<div class="fam" data-id="${f.id}">
+      <div class="r1">
+        <div><div class="nm">${esc(f.name)}</div>
+          <div class="sb">${t.gPeople(f.invited_count)} · ${f.side==="kelin"?t.gFromKelin:t.gFromKuyov}${tb?t.gTable(tb.num):""}${
+          f.sent_at?` · <span style="color:var(--ok)">${t.gSent}</span>`:""}${
+          f.opened_at&&f.rsvp_status==="pending"?` · <span style="color:var(--warn)">${t.gOpened}</span>`:""}</div></div>
+        <span class="pill ${f.rsvp_status}">${f.rsvp_status==="yes"?t.gPillYes(f.rsvp_count):f.rsvp_status==="no"?t.gPillNo:t.gPillPending}</span>
+      </div>
+      ${f.rsvp_note?`<div class="wish">${esc(f.rsvp_note)}</div>`:""}
+      <div class="acts">
+        <button class="pri" data-a="send">${f.rsvp_status==="pending"&&S.onlyPending?t.gBtnRemind:f.sent_at?t.gBtnAgain:t.gBtnSend}</button>
+        <button data-a="mark">✍️</button><button data-a="copy">🔗</button><button data-a="del">🗑</button>
+      </div></div>`;
+  }).join("");
+  list.querySelectorAll(".fam").forEach(el=>{
+    const f=S.fams.find(x=>x.id==el.dataset.id);
+    const link=S.inviteLink.replace("{token}", f.token);
+    el.querySelector('[data-a="copy"]').onclick=()=>{navigator.clipboard?.writeText(link);haptic("light");tg?.showAlert?.(t.gCopied);};
+    // Тётя позвонила и сказала голосом — ответ всё равно должен попасть в счёт для зала.
+    // Без этого треть родни в цифру не попадает и «счёт для зала» неполный.
+    el.querySelector('[data-a="mark"]').onclick=async()=>{
+      const raw = prompt(t.gPromptMark(f.name), String(f.rsvp_count || f.invited_count));
+      if(raw===null || raw.trim()==="") return;
+      const n = Math.max(0, Math.min(f.invited_count + 4, parseInt(raw,10) || 0));
+      const status = n > 0 ? "yes" : "no";
+      const r = await call("family_update",{event_id:S.ev.id,family_id:f.id,rsvp_status:status,rsvp_count:n});
+      if(r.family){ Object.assign(f, r.family); haptic("medium"); render(); }
+    };
+    el.querySelector('[data-a="send"]').onclick=()=>{
+      call("mark_sent",{event_id:S.ev.id,family_ids:[f.id]}); f.sent_at=new Date().toISOString(); haptic("medium");
+      // Сообщение уходит на языке ПРИГЛАШЕНИЯ, а не кабинета: его читает гость.
+      const il = S.ev.lang || "uz_latin";
+      const dt=`${S.ev.event_date?new Date(S.ev.event_date).toLocaleDateString(il==="ru"?"ru-RU":"uz-UZ"):""} ${S.ev.event_time||""}`;
+      const occ = (window.toyOccasion ? toyOccasion(S.ev.occasion||"nikoh_toy") : null);
+      const kind = (f.rsvp_status==="pending"&&S.onlyPending) ? "remind" : "first";
+      const tpl = occ?.share?.[kind]?.[il];
+      const text = tpl
+        ? (window.toyFill ? toyFill(tpl, {...S.ev, dateStr:dt}) : tpl)
+        : `${S.ev.greeting||""}\n\n${S.ev.couple}\n${dt}\n${S.ev.venue_name||""}`;
+      const url=`https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(text)}`;
+      tg?.openTelegramLink?tg.openTelegramLink(url):window.open(url);
+    };
+    el.querySelector('[data-a="del"]').onclick=async()=>{ if(!confirm(t.gConfirmDel(f.name)))return;
+      await call("family_delete",{event_id:S.ev.id,family_id:f.id}); S.fams=S.fams.filter(x=>x.id!==f.id); render(); };
+  });
+}
+
+/* ---------- рассадка ---------- */
+function tabSeating(){
+  const t=L();
+  if(S.ev.tier==="free"){
+    $("#tab").innerHTML=`<div class="lock"><b>${t.sLockTitle}</b>
+      <p>${t.sLockText}</p>
+      <button class="b gold" id="buyP">${t.payPremium}</button></div>`;
+    $("#buyP").onclick=()=>pay("premium"); return;
+  }
+  const seated=x=>S.fams.filter(f=>f.table_id===x.id).reduce((a,f)=>a+(f.rsvp_status==="yes"?f.rsvp_count:f.invited_count),0);
+  const un=S.fams.filter(f=>!f.table_id && f.rsvp_status!=="no");
+  $("#tab").innerHTML=`
+  <div class="card"><b>${t.sTablesTitle}</b>
+    <div class="row2"><div><label>${t.sCount}</label><input id="tcount" type="number" value="${S.tables.length||20}" min="1" max="60"></div>
+      <div><label>${t.sCap}</label><input id="tcap" type="number" value="${S.tables[0]?.capacity||10}" min="4" max="20"></div></div>
+    <button class="b sec" id="mk">${t.sRecreate}</button>
+    <div class="note">${t.sRecreateNote}</div></div>
+  <div class="tgrid" id="tgrid"></div>
+  <div class="card"><b>${t.sUnseated(un.length)}</b>
+    <div class="note">${S.selTab?t.sHintSelected:t.sHintPick}</div>
+    <div id="unseat" style="margin-top:8px"></div></div>`;
+  $("#mk").onclick=async()=>{ if(!confirm(t.sRecreateConfirm))return;
+    const r=await call("tables_set",{event_id:S.ev.id,count:+$("#tcount").value,capacity:+$("#tcap").value});
+    if(r.tables){S.tables=r.tables;S.fams.forEach(f=>f.table_id=null);render();} };
+  $("#tgrid").innerHTML = S.tables.length ? S.tables.map(x=>{
+    const s=seated(x);
+    return `<div class="t ${S.selTab===x.id?"sel":""} ${s>=x.capacity?"full":""}" data-id="${x.id}"><b>${x.num}</b><span>${s}/${x.capacity}</span></div>`;
+  }).join("") : `<div class="empty" style="grid-column:1/-1">${t.sEmptyTables}</div>`;
+  document.querySelectorAll("#tgrid .t").forEach(el=>el.onclick=()=>{
+    S.selTab = S.selTab==el.dataset.id ? null : +el.dataset.id; haptic("light"); render(); });
+  $("#unseat").innerHTML = un.length ? un.map(f=>`
+    <div class="fam" data-id="${f.id}" style="margin:6px 0">
+      <div class="r1"><div><div class="nm">${esc(f.name)}</div>
+        <div class="sb">${f.rsvp_status==="yes"?t.sRowYes(f.rsvp_count):t.sRowInvited(f.invited_count)}</div></div>
+      <button class="acts pri" style="border:1px solid var(--gold);background:var(--gold-bg);color:var(--gold);
+        border-radius:10px;padding:8px 12px;font:600 12.5px Manrope;cursor:pointer">${S.selTab?t.sBtnSeat:t.sBtnPick}</button></div></div>`).join("")
+    : `<div class="empty">${t.sEmptyAll}</div>`;
+  document.querySelectorAll("#unseat .fam").forEach(el=>el.querySelector("button").onclick=async()=>{
+    if(!S.selTab) return tg?.showAlert?.(t.sAlertPick);
+    haptic("medium");
+    await call("family_update",{event_id:S.ev.id,family_id:+el.dataset.id,table_id:S.selTab});
+    S.fams.find(f=>f.id==el.dataset.id).table_id=S.selTab; render(); });
+}
+
+/* ---------- для зала ---------- */
+function tabZal(){
+  const t=L(), c=counts();
+  // Шаг 58. Пейволл стоит здесь, а не на числе гостей: приглашать бесплатно,
+  // платить в тот день, когда тойхона просит точное число и нужен готовый счёт.
+  if(S.ev.tier==="free"){
+    const answered=S.fams.filter(f=>f.rsvp_status!=="pending").length;
+    $("#tab").innerHTML=`
+    <div class="card"><b>${t.zProgTitle}</b>
+      <div class="note" style="margin-top:4px">${t.zProgText(answered,S.fams.length)}</div></div>
+    <div class="lock"><b>${t.zLockTitle}</b>
+      <p>${t.zLockText}</p>
+      <button class="b gold" id="buyP">${t.payPremium}</button></div>`;
+    $("#buyP").onclick=()=>pay("premium");
+    return;
+  }
+  const sum=arr=>arr.filter(f=>f.rsvp_status==="yes").reduce((a,f)=>a+(f.rsvp_count||0),0);
+
+  const kuyov=S.fams.filter(f=>f.side==="kuyov"), kelin=S.fams.filter(f=>f.side==="kelin");
+  const est=c.yes+Math.round(c.pendInv*0.6);
+  const dstr=S.ev.event_date?new Date(S.ev.event_date).toLocaleDateString(t.locale):"";
+  $("#tab").innerHTML=`
+  <div class="est"><b>${est}</b><span>${t.zEstNote}</span></div>
+  <div class="big">
+    <div><b style="color:var(--ok)">${c.yes}</b><span>${t.zYes}</span></div>
+    <div><b style="color:var(--warn)">${c.pendInv}</b><span>${t.zPending(c.pend.length)}</span></div>
+    <div><b>${sum(kuyov)}</b><span>${t.zKuyovLong}</span></div>
+    <div><b>${sum(kelin)}</b><span>${t.zKelinLong}</span></div>
+  </div>
+  <div class="card"><b>${t.zGiveTitle}</b>
+    <button class="b gold" id="png">${t.zPngBtn}</button>
+    <div class="note" style="margin:0 0 10px">${t.zPngNote}</div>
+    <button class="b sec" id="copy">${t.zCopyBtn}</button>
+    <button class="b sec" id="csv">${t.zCsvBtn}</button>
+    <button class="b sec" id="docx">${t.zDocBtn}</button>
+    <div class="note">${t.zNote}</div></div>`;
+
+  const rows=()=>S.fams.map(f=>({name:f.name,side:f.side==="kelin"?t.zKelin:t.zKuyov,inv:f.invited_count,
+    st:f.rsvp_status==="yes"?t.zStYes:f.rsvp_status==="no"?t.zStNo:t.zStPending,
+    cnt:f.rsvp_status==="yes"?f.rsvp_count:"",tbl:S.tables.find(x=>x.id===f.table_id)?.num||"",note:f.rsvp_note||""}));
+  $("#png").onclick=()=>{ haptic("medium"); zalPng(); };
+  $("#copy").onclick=()=>{
+
+    const txt=`${S.ev.couple} · ${dstr}\n`+
+      `${t.zCopyConfirmed(c.yes)}\n${t.zCopyPending(c.pend.length,c.pendInv)}\n${t.zCopyDeclined(c.no)}\n`+
+      `${t.zCopyEst(est)}\n${t.zCopySides(sum(kuyov),sum(kelin))}`;
+    navigator.clipboard?.writeText(txt); haptic("light"); tg?.showAlert?.(t.zCopied); };
+  $("#csv").onclick=()=>{
+    const head=t.zCsvHead+"\n";
+    const body=rows().map(r=>[r.name,r.side,r.inv,r.st,r.cnt,r.tbl].join(";")).join("\n");
+    dl(`${t.zCsvFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.csv`,"﻿"+head+body,"text/csv"); };
+  $("#docx").onclick=()=>{
+    const byT={}; S.fams.forEach(f=>{const k=f.table_id||0;(byT[k]=byT[k]||[]).push(f);});
+    const blocks=Object.keys(byT).sort((a,b)=>a-b).map(k=>{
+      const tb=S.tables.find(x=>x.id==k), title=tb?t.zDocTable(tb.num):t.zDocNoTable;
+      const list=byT[k].filter(f=>f.rsvp_status!=="no");
+      const tot=list.reduce((a,f)=>a+(f.rsvp_status==="yes"?f.rsvp_count:f.invited_count),0);
+      return `<h3>${t.zDocBlock(title,tot)}</h3><table><tr><th>${t.zThFamily}</th><th>${t.zThPeople}</th><th>${t.zThStatus}</th></tr>${
+        list.map(f=>`<tr><td>${esc(f.name)}</td><td>${f.rsvp_status==="yes"?f.rsvp_count:f.invited_count}</td><td>${f.rsvp_status==="yes"?t.zDocStYes:t.zDocStPending}</td></tr>`).join("")}</table>`;
+    }).join("");
+    dl(`${t.zDocFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.doc`,
+      `<html><head><meta charset="utf-8"><style>body{font-family:'Times New Roman',serif;margin:1.5cm}h1{font-size:15pt;text-align:center}h3{font-size:12pt;margin:12pt 0 4pt}table{border-collapse:collapse;width:100%}td,th{border:1px solid #000;padding:4pt;font-size:11pt}</style></head><body>
+      <h1>${t.zDocH1(esc(S.ev.couple))}<br><span style="font-size:11pt">${dstr} · ${esc(S.ev.venue_name||"")}</span></h1>
+      <p>${t.zDocSummary(c.yes,c.pend.length,c.pendInv,est)}</p>${blocks}</body></html>`,"application/msword"); };
+}
+function dl(name,content,type){const b=new Blob([content],{type});const a=document.createElement("a");
+  a.href=URL.createObjectURL(b);a.download=name;a.click();URL.revokeObjectURL(a.href);}
+
+/* ---------- шаг 54: счёт для зала картинкой ----------
+   Администратору тойхоны нужно переслать число в WhatsApp. CSV и .doc туда не
+   пересылают — пересылают картинку. Рисуем на canvas и показываем оверлеем:
+   в Telegram WebView программное скачивание срабатывает не всегда, а долгое
+   нажатие на картинку работает везде. Кнопка «скачать» остаётся для десктопа. */
+function wrapText(ctx, text, maxW){
+  const words=String(text||"").split(/\s+/).filter(Boolean); const lines=[]; let line="";
+  for(const w of words){
+    const probe=line?line+" "+w:w;
+    if(ctx.measureText(probe).width>maxW && line){ lines.push(line); line=w; } else line=probe;
+  }
+  if(line) lines.push(line);
+  return lines.length?lines:[""];
+}
+function fitFont(ctx, text, maxW, family, start, min){
+  let size=start;
+  while(size>min){ ctx.font=`600 ${size}px ${family}`; if(ctx.measureText(text).width<=maxW) break; size-=2; }
+  ctx.font=`600 ${size}px ${family}`;
+  return size;
+}
+async function zalPng(){
+  const t=L(), c=counts();
+  const sum=s=>S.fams.filter(f=>f.side===s&&f.rsvp_status==="yes").reduce((a,f)=>a+(f.rsvp_count||0),0);
+  const est=c.yes+Math.round(c.pendInv*0.6);
+  try { await document.fonts.ready; } catch(e) {}
+
+  const W=1080, H=1440, cv=document.createElement("canvas");
+  cv.width=W; cv.height=H;
+  const x=cv.getContext("2d");
+  const SERIF='"Cormorant Garamond", Georgia, serif', SANS='Manrope, system-ui, sans-serif';
+  const CREAM="#FBF7F2", INK="#2A211C", MUTED="#8B7A6C", GOLD="#B08D3F", OK="#2E7D4F", WARN="#A86B00";
+
+  x.fillStyle=CREAM; x.fillRect(0,0,W,H);
+  x.strokeStyle=GOLD; x.lineWidth=3; x.strokeRect(30,30,W-60,H-60);
+  x.lineWidth=1; x.strokeRect(44,44,W-88,H-88);
+
+  x.textAlign="center"; x.fillStyle=MUTED;
+  x.font=`600 26px ${SANS}`;
+  x.fillText(t.zPngEyebrow.toUpperCase(), W/2, 132);
+
+  x.fillStyle=INK;
+  fitFont(x, S.ev.couple||"", W-200, SERIF, 80, 40);
+  x.fillText(S.ev.couple||"", W/2, 232);
+
+  const dstr=S.ev.event_date?new Date(S.ev.event_date).toLocaleDateString(t.locale,{day:"numeric",month:"long",year:"numeric"}):"";
+  x.fillStyle=MUTED; x.font=`500 30px ${SANS}`;
+  x.fillText([dstr,S.ev.event_time].filter(Boolean).join(" · "), W/2, 290);
+  let y=334;
+  if(S.ev.venue_name){
+    wrapText(x,S.ev.venue_name,W-220).slice(0,2).forEach(l=>{ x.fillText(l,W/2,y); y+=38; });
+  }
+
+  // Все цифры рисуем сансом. У Cormorant старостильные цифры: «21» читается как «2I»,
+  // а картинка существует ровно ради того, чтобы число прочли с первого взгляда.
+  x.fillStyle=GOLD; x.font=`700 190px ${SANS}`;
+  x.fillText(String(est), W/2, 600);
+  x.fillStyle=INK; x.font=`700 36px ${SANS}`;
+  x.fillText(t.zPngMain, W/2, 664);
+  x.fillStyle=MUTED; x.font=`400 26px ${SANS}`;
+  wrapText(x,t.zPngMainNote,W-280).slice(0,2).forEach((l,i)=>x.fillText(l,W/2,712+i*34));
+
+  // Три колонки: подтвердили · ждём · отказались
+  const col=[[String(c.yes),t.zYes,OK],[String(c.pendInv),t.zPngPending,WARN],[String(c.no),t.zPngNo,MUTED]];
+  col.forEach(([v,label,color],i)=>{
+    const cx=W/2+(i-1)*300;
+    x.fillStyle=color; x.font=`700 82px ${SANS}`; x.fillText(v,cx,872);
+    x.fillStyle=MUTED; x.font=`500 25px ${SANS}`; x.fillText(label,cx,918);
+  });
+
+  x.strokeStyle="#EADFD2"; x.lineWidth=1;
+  x.beginPath(); x.moveTo(120,976); x.lineTo(W-120,976); x.stroke();
+
+  const rows=[[t.zPngKuyov,String(sum("kuyov"))],[t.zPngKelin,String(sum("kelin"))],
+    [t.zPngFamilies,`${S.fams.filter(f=>f.rsvp_status!=="pending").length} / ${S.fams.length}`]];
+  if(S.tables.length) rows.push([t.zPngTables,`${S.tables.length} × ${S.tables[0].capacity}`]);
+  rows.forEach((r,i)=>{
+    const ry=1046+i*60;
+    x.font=`500 32px ${SANS}`;
+    x.textAlign="left";  x.fillStyle=MUTED; x.fillText(r[0],140,ry);
+    x.font=`600 32px ${SANS}`;
+    x.textAlign="right"; x.fillStyle=INK;   x.fillText(r[1],W-140,ry);
+    if(i<rows.length-1){ x.strokeStyle="#EDE2D4"; x.beginPath(); x.moveTo(140,ry+20); x.lineTo(W-140,ry+20); x.stroke(); }
+  });
+
+  x.textAlign="center"; x.fillStyle=MUTED; x.font=`400 24px ${SANS}`;
+  x.fillText(t.zPngFooter(new Date().toLocaleDateString(t.locale)), W/2, H-92);
+  x.fillStyle=GOLD; x.font=`600 26px ${SANS}`;
+  x.fillText("To'y-Daftar", W/2, H-54);
+
+
+  const url=cv.toDataURL("image/png");
+  const file=`${t.zPngFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.png`;
+  const ov=document.createElement("div");
+  ov.className="pngov";
+  ov.innerHTML=`<div class="inner">
+    <img src="${url}" alt="">
+    <div class="hint">${t.zPngHint}</div>
+    <button class="b" id="pngSave">${t.zPngSave}</button>
+    <button class="b sec" id="pngClose">${t.zPngClose}</button>
+  </div>`;
+  document.body.appendChild(ov);
+  ov.querySelector("#pngClose").onclick=()=>ov.remove();
+  ov.onclick=e=>{ if(e.target===ov) ov.remove(); };
+  ov.querySelector("#pngSave").onclick=()=>{
+    const a=document.createElement("a"); a.href=url; a.download=file; a.click();
+  };
+}
+
+
+/* ---------- подготовка к тою ---------- */
+function tabPrep(){
+  const store={get(k){try{return localStorage.getItem(k)==="1"}catch(e){return false}},
+    set(k,v){try{localStorage.setItem(k,v?"1":"0")}catch(e){}}};
+  const key=(i,j)=>`td_prep_${S.ev.id}_${i}_${j}`;
+  const t=L(), P=prep();
+  let done=0,total=0;
+  P.forEach((b,i)=>b.items.forEach((_,j)=>{total++;if(store.get(key(i,j)))done++;}));
+  const dl=daysLeft();
+  $("#tab").innerHTML=`
+  <div class="card"><b>${t.pTitle}</b>
+    <div class="note">${dl!==null&&dl>=0?t.pDaysLeft(dl):""}${t.pProgress(done,total)}</div>
+    <div style="height:6px;background:var(--line2);border-radius:4px;margin-top:9px;overflow:hidden">
+      <i style="display:block;height:100%;width:${total?100*done/total:0}%;background:var(--ok)"></i></div></div>
+  ${P.map((b,i)=>`<div class="card"><b>${b.t}</b>
+    ${b.items.map((it,j)=>{const on=store.get(key(i,j));
+      return `<div class="fam" style="margin:6px 0;padding:10px 12px;${on?"opacity:.55":""}">
+        <label style="display:grid;grid-template-columns:22px 1fr;gap:10px;align-items:start;cursor:pointer;margin:0;color:var(--ink);font-size:14px;font-weight:400;text-transform:none;letter-spacing:0">
+        <input type="checkbox" data-k="${i}_${j}" ${on?"checked":""} style="width:19px;height:19px;accent-color:var(--ok);margin-top:1px">
+        <span style="${on?"text-decoration:line-through":""}">${esc(it)}</span></label></div>`;}).join("")}
+    </div>`).join("")}`;
+  document.querySelectorAll('#tab input[type=checkbox]').forEach(inp=>inp.onchange=e=>{
+    const [i,j]=e.target.dataset.k.split("_"); store.set(key(i,j),e.target.checked); haptic("light"); tabPrep();
+  });
+}
+
+/* ---------- подарки ---------- */
+function tabGifts(){
+  const t=L();
+  if(S.ev.tier!=="full"){
+    $("#tab").innerHTML=`<div class="lock"><b>${t.fLockTitle}</b>
+      <p>${t.fLockText}</p>
+      <button class="b gold" id="buyF">${t.payFull}</button></div>`;
+    $("#buyF").onclick=()=>pay("full"); return;
+  }
+  const totalSum=S.gifts.reduce((a,g)=>a+(+g.amount_uzs||0),0);
+  $("#tab").innerHTML=`
+  <div class="card"><b>${t.fAddTitle}</b>
+    <label>${t.fFamily}</label><select id="gf">${S.fams.map(f=>`<option value="${f.id}">${esc(f.name)}</option>`).join("")}</select>
+    <div class="row2"><div><label>${t.fWhat}</label><input id="gt" placeholder="${t.fWhatPh}"></div>
+      <div><label>${t.fAmount}</label><input id="ga" type="number" placeholder="${t.fAmountPh}"></div></div>
+    <button class="b" id="gadd">${t.fAdd}</button></div>
+  ${S.gifts.length?`<div class="big"><div><b>${S.gifts.length}</b><span>${t.fCount}</span></div>
+    <div><b style="font-size:26px">${totalSum.toLocaleString(t.num)}</b><span>${t.fMoney}</span></div></div>`:""}
+  <div id="glist"></div>`;
+  $("#gadd").onclick=async()=>{ haptic("medium");
+    const r=await call("gift_save",{event_id:S.ev.id,family_id:+$("#gf").value,gift_text:$("#gt").value,amount_uzs:+$("#ga").value||null});
+    if(r.gift){S.gifts.unshift(r.gift);render();} };
+  $("#glist").innerHTML = S.gifts.length ? S.gifts.map(g=>{const f=S.fams.find(x=>x.id===g.family_id);
+    return `<div class="fam"><div class="r1"><div><div class="nm">${esc(f?.name||"—")}</div>
+      <div class="sb">${esc(g.gift_text||"")}</div></div>
+      <b class="serif" style="font-size:18px">${g.amount_uzs?(+g.amount_uzs).toLocaleString(t.num):""}</b></div></div>`;}).join("")
+    : `<div class="empty">${t.fEmpty}</div>`;
+}
+
+/* ---------- настройки ---------- */
+function tabEvent(){
+  const t=L(), e=S.ev;
+  const cur = e.theme || "zar", subs = THEME_SUB[lang]||THEME_SUB.ru;
+  const occ = (window.TOY_OCCASIONS||[]), P = presets();
+  $("#tab").innerHTML=`
+  <div class="card"><b>${t.eThemeTitle}</b>
+    <div class="note">${t.eThemeNote}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px" id="themes">
+      ${THEMES.map(x=>`<div class="t" data-th="${x.id}" style="text-align:left;padding:12px;${cur===x.id?"border-color:var(--deep);background:var(--deep-bg)":""}">
+        <div style="display:flex;gap:4px;margin-bottom:8px">${x.c.map(c=>`<span style="width:18px;height:18px;border-radius:50%;background:${c};border:1px solid var(--line);display:inline-block"></span>`).join("")}</div>
+        <div style="font-weight:700;font-size:14px">${x.label}</div>
+        <div style="font-size:11.5px;color:var(--muted)">${subs[x.id]}</div></div>`).join("")}
+    </div>
+    <button class="b sec" id="preview">${t.ePreviewBtn}</button></div>
+
+  <div class="card"><b>${t.eDataTitle}</b>
+    <label>${t.eNames}</label><input id="couple" value="${esc(e.couple)}">
+    <div class="row2">
+      <div><label>${t.eOccasionLabel}</label><select id="occ">${occ.map(o=>`<option value="${o.id}"${o.id===(e.occasion||"nikoh_toy")?" selected":""}>${o.label[lang==="uz"?"uz_latin":"ru"]}</option>`).join("")}</select></div>
+      <div><label>${t.eLangLabel}</label><select id="ilang">${INV_LANGS.map(l=>`<option value="${l.id}"${l.id===(e.lang||"uz_latin")?" selected":""}>${l.label}</option>`).join("")}</select></div>
+    </div>
+    <div class="row2"><div><label>${t.date}</label><input id="date" type="date" value="${e.event_date||""}"></div>
+      <div><label>${t.time}</label><input id="time" value="${esc(e.event_time||"")}"></div></div>
+    <label>${t.venue}</label><input id="venue" value="${esc(e.venue_name||"")}">
+    <label>${t.addr}</label><input id="addr" value="${esc(e.venue_addr||"")}">
+    <label>${t.eMap}</label><input id="map" value="${esc(e.map_url||"")}">
+    <label>${t.ePresetLabel}</label>
+    <select id="preset"><option value="">${t.ePresetNone}</option>${P.map(p=>`<option value="${p.id}">${p.label}</option>`).join("")}</select>
+    <label>${t.newGreet}</label><textarea id="greet">${esc(e.greeting||"")}</textarea>
+    <button class="b" id="save">${t.eSave}</button></div>
+  ${e.tier!=="full"?`<div class="lock"><b>${t.eTierTitle(e.tier==="free"?t.tierFree:t.tierPremium)}</b>
+    <p>${e.tier==="free"?t.eTierFreeText:t.eTierPremiumText}</p>
+    ${e.tier==="free"?`<button class="b gold" id="buyP">${t.payPremium}</button>`:""}
+    <button class="b gold" id="buyF" style="${e.tier==="free"?"background:transparent;color:var(--gold);border:1px solid var(--gold)":""}">${t.payFull}</button></div>`:""}
+  <div class="card"><button class="b sec" id="delev" style="color:var(--bad);border-color:var(--bad)">${t.eDeleteBtn}</button>
+    <div class="note">${t.eDeleteNote}</div></div>`;
+  let pickedTheme = cur;
+  document.querySelectorAll("#themes .t").forEach(el=>el.onclick=()=>{
+    pickedTheme = el.dataset.th; haptic("light");
+    document.querySelectorAll("#themes .t").forEach(x=>{x.style.borderColor="";x.style.background="";});
+    el.style.borderColor="var(--deep)"; el.style.background="var(--deep-bg)";
+  });
+  $("#preview").onclick=()=>{
+    const url = `${S.inviteBase}?theme=${pickedTheme}&ilang=${$("#ilang").value}`;
+    tg?.openLink ? tg.openLink(url) : window.open(url,"_blank");
+  };
+  // Смена повода или языка подставляет соответствующий текст — 18 вариантов вместо ручного набора.
+  const applyPreset=()=>{
+    const o=(window.toyOccasion? toyOccasion($("#occ").value) : null);
+    if(o) $("#greet").value = o.greeting[$("#ilang").value] || $("#greet").value;
+  };
+  $("#occ").onchange=applyPreset; $("#ilang").onchange=applyPreset;
+  $("#preset").onchange=e2=>{ const p=P.find(x=>x.id===e2.target.value); if(p) $("#greet").value=p.text; };
+  $("#save").onclick=async()=>{ haptic("medium");
+    const {event}=await call("event_save",{event:{id:e.id,couple:$("#couple").value,event_date:$("#date").value,
+      event_time:$("#time").value,venue_name:$("#venue").value,venue_addr:$("#addr").value,map_url:$("#map").value,
+      greeting:$("#greet").value,theme:pickedTheme,occasion:$("#occ").value,lang:$("#ilang").value}});
+    if(event){S.ev=event;tg?.showAlert?.(t.eSaved);render();} };
+  // Удаление идёт через бота: там подтверждение в два шага и понятно, что отменить нельзя.
+  $("#delev").onclick=()=>{
+    const url=`https://t.me/${(window.TOY_BOT||"toy_daftar_bot")}?start=cmd_delete`;
+    tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url);
+  };
+  $("#buyP") && ($("#buyP").onclick=()=>pay("premium"));
+  $("#buyF") && ($("#buyF").onclick=()=>pay("full"));
+}
+// Мини-апп закрываем ТОЛЬКО если счёт действительно ушёл: иначе человек нажал
+// «Premium — 49 000», приложение схлопнулось, а в чате пусто.
+async function pay(tier){
+  haptic("medium");
+  let r=null;
+  try { r = await call("pay",{event_id:S.ev.id,tier}); } catch(e){}
+  if(r?.ok) tg?.close?.();
+  else tg?.showAlert?.(L().errAccess);
+}
+renderLangSeg(); applyTheme();
+document.getElementById("themebtn").onclick=cycleTheme;
+document.documentElement.lang = lang==="uz" ? "uz" : "ru";
+boot();
+</script>
+</body>
+</html>
