@@ -699,6 +699,10 @@ function tabGuests(){
     </div>
     ${queueSize(S.onlyPending ? "remind" : "first") ? `<button class="b gold" id="sendAll" style="margin-top:10px">${
       S.onlyPending ? t.qStartRemind(queueSize("remind")) : t.qStart(queueSize("first"))}</button>` : ""}
+    ${queueSize("moved")||queueSize("thanks")?`<div class="row2" style="margin-top:8px">
+      ${queueSize("moved")?`<button class="b sec" id="sendMoved" style="margin:0">${t.qStartMoved(queueSize("moved"))}</button>`:""}
+      ${queueSize("thanks")?`<button class="b sec" id="sendThanks" style="margin:0">${t.qStartThanks(queueSize("thanks"))}</button>`:""}
+    </div>`:""}
     ${S.ev.tier==="free"?`<div class="note">${t.gFreeNote}</div>`:""}
 
   </div>
@@ -728,6 +732,8 @@ function tabGuests(){
     if(r.family){ S.fams.push(r.family); render(); }
   };
   $("#sendAll") && ($("#sendAll").onclick=()=>startQueue(S.onlyPending ? "remind" : "first"));
+  $("#sendMoved") && ($("#sendMoved").onclick=()=>startQueue("moved"));
+  $("#sendThanks") && ($("#sendThanks").onclick=()=>startQueue("thanks"));
   $("#buyP") && ($("#buyP").onclick=()=>pay("premium"));
   $("#remind") && ($("#remind").onclick=()=>{S.onlyPending=!S.onlyPending;render();});
   $("#bulkToggle").onclick=()=>{S.bulk=!S.bulk;S.diff=null;haptic("light");render();};
@@ -834,21 +840,40 @@ function shareText(f, kind){
 }
 function shareTo(f, kind){
   const link = S.inviteLink.replace("{token}", f.token);
-  call("mark_sent", { event_id: S.ev.id, family_ids: [f.id] });
-  f.sent_at = new Date().toISOString();
+  // Отмечаем только первую отправку. Напоминание, перенос и благодарность идут по
+  // тем же семьям — «когда отправили приглашение» от них меняться не должно.
+  if(!f.sent_at){
+    call("mark_sent", { event_id: S.ev.id, family_ids: [f.id] });
+    f.sent_at = new Date().toISOString();
+  }
   haptic("medium");
   const url = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(shareText(f, kind))}`;
   tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url);
 }
+// Кому что уходит:
+//   first  — кому ещё не отправляли
+//   remind — отправили, но молчат
+//   moved  — всем, кто уже получил приглашение: дата изменилась, ссылка та же
+//   thanks — тем, кто пришёл; появляется только после тоя
+function inQueue(f, kind){
+  if(kind === "remind") return !!f.sent_at && f.rsvp_status === "pending";
+  if(kind === "moved")  return !!f.sent_at;
+  if(kind === "thanks") return f.rsvp_status === "yes";
+  return !f.sent_at;
+}
+// «Спасибо» до тоя — бессмыслица, «перенесли» без даты — тоже: в тексте {{date}}.
+function queueAllowed(kind){
+  if(kind === "thanks") return !!S.ev.event_date && S.ev.event_date < new Date().toISOString().slice(0,10);
+  if(kind === "moved")  return !!S.ev.event_date;
+  return true;
+}
 function queueSize(kind){
-  return S.fams.filter(f => kind === "remind" ? (f.sent_at && f.rsvp_status === "pending") : !f.sent_at).length;
+  return queueAllowed(kind) ? S.fams.filter(f => inQueue(f, kind)).length : 0;
 }
 function startQueue(kind){
   S.sendKind = kind;
   S.sendDone = new Set();
-  S.sendQueue = S.fams
-    .filter(f => kind === "remind" ? (f.sent_at && f.rsvp_status === "pending") : !f.sent_at)
-    .map(f => f.id);
+  S.sendQueue = S.fams.filter(f => inQueue(f, kind)).map(f => f.id);
   S.tab = "send"; haptic("light"); render();
 }
 function tabSend(){
@@ -862,7 +887,7 @@ function tabSend(){
   const queue = (S.sendQueue || []).map(id => byId.get(id)).filter(f => f && !S.sendDone.has(f.id));
   const done = total - queue.length;
   if(!queue.length){
-    $("#tab").innerHTML = `<div class="card"><b>${kind==="remind"?t.qDoneTitleR:t.qDoneTitle}</b>
+    $("#tab").innerHTML = `<div class="card"><b>${t.qDoneTitleFor(kind)}</b>
       <div class="note" style="margin-top:6px">${t.qDoneText(done)}</div>
       <button class="b sec" id="back">${t.qBack}</button></div>`;
     $("#back").onclick=()=>{S.tab="guests";render();};
@@ -877,7 +902,7 @@ function tabSend(){
       <div style="height:100%;width:${pct}%;background:var(--gold)"></div></div>
     <div style="font-family:var(--display,'Cormorant Garamond',serif);font-size:22px;font-weight:600">${esc(f.name)}</div>
     <div class="note" style="margin:2px 0 14px">${t.gCount}: ${f.invited_count}</div>
-    <button class="b" id="go">${kind==="remind"?t.qSendR:t.qSend}</button>
+    <button class="b" id="go">${t.qSendFor(kind)}</button>
     <div class="row2" style="margin-top:8px">
       <button class="b sec" id="skip" style="margin:0">${t.qSkip}</button>
       <button class="b sec" id="stop" style="margin:0">${t.qStop}</button>
