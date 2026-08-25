@@ -93,6 +93,14 @@ input,select,textarea{width:100%;padding:11px 12px;border:1px solid var(--line);
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold)}
 textarea{min-height:66px;resize:vertical}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.mrow{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:9px 0;
+  border-bottom:1px solid var(--line2);font-size:14.5px}
+.mrow span{color:var(--ink2)}
+.mrow b{font-variant-numeric:tabular-nums;white-space:nowrap}
+.mrow.warn b,.mrow.warn span{color:var(--warn)}
+.mrow.total{border-bottom:0;border-top:1px solid var(--line);margin-top:2px;padding-top:12px;
+  font-size:16px;font-weight:600}
+.mrow.total b{font-family:var(--display,inherit);font-size:20px}
 .ic{background:none;border:0;font-size:17px;line-height:1;cursor:pointer;padding:6px;border-radius:8px}
 .ic:active{background:var(--line2)}
 button.b{width:100%;border:0;border-radius:12px;padding:13px;background:var(--deep);color:#fff;
@@ -433,6 +441,37 @@ function counts(){
   const pend=S.fams.filter(f=>f.rsvp_status==="pending");
   return {inv,yes,no,pend,pendInv:pend.reduce((a,f)=>a+(f.invited_count||0),0)};
 }
+/* ── Деньги ──────────────────────────────────────────────────────────────────
+   Продукт считал людей, а тойхона берёт деньги за МЕСТА — и берёт их за
+   приглашённых, а не за пришедших. Пока на экране «53 человека», это статистика.
+   «Молчат 8 семей = 19 мест = 2 280 000 сум, которые вы оплатите в любом случае» —
+   это причина сегодня разослать напоминания, а завтра купить Premium.
+
+   Считаем честно и в обе стороны: сколько уже насчитано и сколько снимется,
+   если молчащие ответят «не сможем». Второе число — то, ради чего человек
+   возвращается в приложение. */
+const SEAT_PRICE_DEFAULT = 120000;
+function seatPrice(){
+  const v = Number(S.ev.seat_price_uzs);
+  return Number.isFinite(v) && v > 0 ? v : SEAT_PRICE_DEFAULT;
+}
+function money(){
+  const c = counts(), p = seatPrice();
+  // Тойхона считает молчащих по числу приглашённых: пока семья не отказалась,
+  // места за ней держат и выставляют в счёт.
+  const seats = c.yes + c.pendInv;
+  return {
+    price: p,
+    yes: c.yes, yesSum: c.yes * p,
+    risk: c.pendInv, riskSum: c.pendInv * p, riskFams: c.pend.length,
+    seats, total: seats * p,
+    // Средняя цена одного молчащего ответа: столько снимется со счёта, если
+    // семья скажет «не сможем». Это перевод кнопки «напомнить» в сумы.
+    perFam: c.pend.length ? Math.round(c.pendInv / c.pend.length) * p : 0,
+  };
+}
+const uzs = (n) => Math.round(n).toLocaleString("ru").replace(/\u00A0/g, " ");
+
 function daysLeft(){ if(!S.ev.event_date) return null;
   return Math.ceil((new Date(S.ev.event_date) - new Date())/864e5); }
 function render(){
@@ -685,6 +724,30 @@ function diffCard(){
     <button class="b sec" id="cancelImp">${t.gBulkCancel}</button></div>`;
 }
 
+/* Денежный блок стоит на вкладке гостей, а не за пейволлом: это не функция
+   Premium, а причина им заинтересоваться. Человек должен увидеть сумму до того,
+   как мы попросим денег. */
+function moneyCard(){
+  const t = L();
+  if(!S.fams.length) return "";
+  const m = money();
+  return `
+  <div class="card" id="moneyCard" style="margin-top:12px">
+    <b>${t.mTitle}</b>
+    <div class="mrow"><span>${t.mSeatPrice}</span>
+      <input id="seatPrice" type="number" inputmode="numeric" min="0" step="10000"
+        value="${seatPrice()}" style="width:130px;text-align:right;margin:0"></div>
+    <div class="note" style="margin:6px 0 14px">${t.mSeatHint}</div>
+
+    <div class="mrow"><span>${t.mYes(m.yes)}</span><b>${uzs(m.yesSum)}</b></div>
+    ${m.risk?`<div class="mrow warn"><span>${t.mRisk(m.riskFams, m.risk)}</span><b>${uzs(m.riskSum)}</b></div>`:""}
+    <div class="mrow total"><span>${t.mTotal(m.seats)}</span><b>${uzs(m.total)}</b></div>
+
+    ${m.risk?`<div class="note" style="margin-top:12px">${t.mLever(uzs(m.perFam))}</div>`:
+              `<div class="note" style="margin-top:12px">${t.mAllIn}</div>`}
+  </div>`;
+}
+
 function tabGuests(){
   const t=L(), c=counts();
   const sideOpts
@@ -704,6 +767,7 @@ function tabGuests(){
     </div>
     ${queueSize(S.onlyPending ? "remind" : "first") ? `<button class="b gold" id="sendAll" style="margin-top:10px">${
       S.onlyPending ? t.qStartRemind(queueSize("remind")) : t.qStart(queueSize("first"))}</button>` : ""}
+    ${moneyCard()}
     ${queueSize("moved")||queueSize("thanks")?`<div class="row2" style="margin-top:8px">
       ${queueSize("moved")?`<button class="b sec" id="sendMoved" style="margin:0">${t.qStartMoved(queueSize("moved"))}</button>`:""}
       ${queueSize("thanks")?`<button class="b sec" id="sendThanks" style="margin:0">${t.qStartThanks(queueSize("thanks"))}</button>`:""}
@@ -736,6 +800,12 @@ function tabGuests(){
 
     if(r.family){ S.fams.push(r.family); render(); }
   };
+  $("#seatPrice") && ($("#seatPrice").onchange=async()=>{
+    const v = Math.max(0, +$("#seatPrice").value || 0);
+    S.ev.seat_price_uzs = v || null;
+    await call("event_save", { event: { id:S.ev.id, seat_price_uzs: v || null } });
+    haptic("light"); render();
+  });
   $("#sendAll") && ($("#sendAll").onclick=()=>startQueue(S.onlyPending ? "remind" : "first"));
   $("#sendMoved") && ($("#sendMoved").onclick=()=>startQueue("moved"));
   $("#sendThanks") && ($("#sendThanks").onclick=()=>startQueue("thanks"));
