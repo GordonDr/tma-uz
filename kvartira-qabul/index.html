@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Приёмка квартиры в новостройке — Ташкент | Kvartira Qabul</title>
+<meta name="description" content="Бесплатный чек-лист приёмки квартиры: 58 пунктов по 10 зонам с допусками из ШНҚ и КМК. Что проверять, чем мерить, что писать в акт. Акт осмотра и претензия застройщику — 99 000 сум.">
+<link rel="canonical" href="https://gordondr.github.io/tma-uz/kvartira-qabul/">
+<link rel="alternate" hreflang="ru" href="https://gordondr.github.io/tma-uz/kvartira-qabul/">
+<link rel="alternate" hreflang="uz" href="https://gordondr.github.io/tma-uz/kvartira-qabul/uz.html">
+<link rel="alternate" hreflang="x-default" href="https://gordondr.github.io/tma-uz/kvartira-qabul/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Приёмка квартиры в новостройке — чек-лист с нормами">
+<meta property="og:description" content="58 пунктов по 10 зонам, с допусками из ШНҚ и КМК в миллиметрах. Бесплатно, прямо в Telegram.">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/kvartira-qabul/">
+<meta name="theme-color" content="#F5F6F4">
+<link rel="icon" href="../brand/logo-kvartira.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=Golos+Text:wght@400;500;600;700&display=swap">
+<style>
+/* Направление — технический чертёж, а не лендинг.
+   Продукт про геометрию: углы, плоскости, допуски в миллиметрах. Поэтому
+   волосяные линейки, номера зон как на плане, табличные цифры и подписи
+   разрядкой — язык листа документации, а не рекламной страницы. */
+:root{
+  --paper:#F5F6F4; --card:#FFFFFF; --ink:#181C1A; --ink2:#3C443F; --muted:#5C635E;
+  --rule:#DCE0DB; --rule2:#EDF0EC;
+  --ochre:#B9670F; --ochre-bg:#FBF1E4; --blue:#2B4A6F; --bad:#A32A1E;
+  --display:Spectral,Georgia,serif; --body:"Golos Text",system-ui,-apple-system,sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#141715; --card:#1B1F1C; --ink:#EDF0EA; --ink2:#C3CAC1; --muted:#8E968D;
+    --rule:#2C332D; --rule2:#222824;
+    --ochre:#E5A244; --ochre-bg:#2A2113; --blue:#8FB4DC; --bad:#E2857A;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141715; --card:#1B1F1C; --ink:#EDF0EA; --ink2:#C3CAC1; --muted:#8E968D;
+  --rule:#2C332D; --rule2:#222824;
+  --ochre:#E5A244; --ochre-bg:#2A2113; --blue:#8FB4DC; --bad:#E2857A;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+.col{max-width:680px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.18;text-wrap:balance;margin:0}
+h1{font-size:clamp(31px,5.4vw,50px);letter-spacing:-.01em}
+h2{font-size:clamp(24px,3.6vw,33px);margin-bottom:14px}
+h3{font-size:19px;margin-bottom:6px}
+p{margin:0 0 16px}
+a{color:var(--ochre)}
+strong{font-weight:600}
+.lbl{font:600 11px var(--body);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.num{font-variant-numeric:tabular-nums}
+
+/* Волосяная сетка на всю ширину — тот же приём, что на листе чертежа */
+section{border-top:1px solid var(--rule);padding:56px 0}
+section:first-of-type{border-top:0}
+header{padding:26px 0 0}
+.top{display:flex;align-items:center;gap:11px}
+.top img{width:36px;height:36px;border-radius:9px;display:block}
+.top b{font:600 16px var(--body);letter-spacing:-.01em}
+.top span{color:var(--muted);font-size:13px}
+
+.hero{padding-top:44px}
+.hero p.lead{font-size:19px;line-height:1.55;color:var(--ink2);max-width:34em}
+.cta{display:inline-block;background:var(--ochre);color:#fff;text-decoration:none;
+  font:700 16px var(--body);padding:15px 26px;border-radius:12px;margin-top:8px}
+.cta:hover{filter:brightness(1.06)}
+.cta.sec{background:transparent;color:var(--ink);border:1px solid var(--rule);margin-left:8px}
+.after{color:var(--muted);font-size:13.5px;margin-top:12px}
+
+/* Зоны — как экспликация помещений на плане */
+.zones{list-style:none;padding:0;margin:22px 0 0;display:grid;gap:0;
+  border-top:1px solid var(--rule2)}
+.zones li{display:grid;grid-template-columns:44px 1fr auto;gap:14px;align-items:baseline;
+  padding:13px 2px;border-bottom:1px solid var(--rule2)}
+.zones .n{font:600 13px var(--body);color:var(--ochre);font-variant-numeric:tabular-nums}
+.zones .c{color:var(--muted);font-size:13.5px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.zones .d{color:var(--muted);font-size:14px;display:block;margin-top:1px}
+
+/* Таблица норм — главная ценность страницы. Горизонтальная прокрутка своя,
+   чтобы страница целиком никогда не ездила вбок. */
+.tw{overflow-x:auto;margin-top:22px;border:1px solid var(--rule);border-radius:12px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:14.5px}
+th,td{text-align:left;padding:12px 14px;border-bottom:1px solid var(--rule2);vertical-align:top}
+th{font:600 11px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  background:var(--rule2);position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.v{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600;color:var(--ochre)}
+td.src{color:var(--muted);font-size:13px}
+
+.grid2{display:grid;gap:20px}
+@media(min-width:760px){.grid2{grid-template-columns:1fr 1fr;gap:30px}}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:22px}
+.card h3{margin-bottom:8px}
+.price{font-family:var(--display);font-size:34px;font-weight:600;font-variant-numeric:tabular-nums}
+.price small{font:400 14px var(--body);color:var(--muted);display:block;margin-top:2px}
+
+.steps{counter-reset:s;list-style:none;padding:0;margin:20px 0 0}
+.steps li{counter-increment:s;position:relative;padding-left:46px;margin-bottom:18px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:30px;height:30px;
+  border:1px solid var(--ochre);color:var(--ochre);border-radius:50%;display:grid;place-items:center;
+  font:600 14px var(--body);font-variant-numeric:tabular-nums}
+
+.note{background:var(--ochre-bg);border-left:3px solid var(--ochre);padding:15px 18px;
+  border-radius:0 10px 10px 0;font-size:15px;margin:20px 0}
+
+details{border-bottom:1px solid var(--rule2);padding:15px 0}
+details summary{cursor:pointer;font-weight:600;font-size:16.5px;list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::before{content:"+";color:var(--ochre);font-weight:700;margin-right:10px}
+details[open] summary::before{content:"–"}
+details p{margin:10px 0 0;color:var(--ink2)}
+
+footer{border-top:1px solid var(--rule);padding:30px 0 46px;color:var(--muted);font-size:13.5px}
+footer a{color:var(--muted)}
+.langs{float:right}
+.langs a{margin-left:12px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <div class="top">
+    <img src="../brand/logo-kvartira.svg" alt="">
+    <div><b>Kvartira Qabul</b> <span>· приёмка квартиры</span></div>
+    <div class="langs"><a href="uz.html" hreflang="uz">O‘zbekcha</a></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="col">
+    <p class="lbl">Ташкент · новостройки</p>
+    <h1>Приёмка квартиры: что смотреть и чем это мерить</h1>
+    <p class="lead">Бесплатный чек-лист на 58 пунктов по 10 зонам. У каждого пункта —
+      допуск в миллиметрах и норма, из которой он взят. Открывается в Telegram,
+      работает без интернета в лифте и подвале.</p>
+    <a class="cta" href="https://t.me/kvartira_qabul_bot?start=site">Открыть чек-лист</a>
+    <a class="cta sec" href="#normy">Смотреть допуски</a>
+    <p class="after">Бесплатно и без регистрации. Акт осмотра и претензия — отдельно, 99&nbsp;000&nbsp;сум.</p>
+  </div>
+</section>
+
+<section id="problema">
+  <div class="col">
+    <h2>Что происходит в день приёмки</h2>
+    <p>Вам звонят за два дня и назначают время. Приходите — вместе с представителем
+      застройщика, у которого сегодня ещё пять квартир. Он торопится. Вы видите
+      квартиру впервые и не знаете, «так и должно быть» или нет.</p>
+    <p>Дальше два варианта. Подписать акт без замечаний — и всё, что найдётся потом,
+      вы устраняете за свой счёт. Или вписать замечания — но чтобы их вписать, надо
+      понимать, <strong>что именно является нарушением, а что нет</strong>. Кривая
+      стена — понятие растяжимое, пока вы не знаете, что улучшенная штукатурка
+      допускает 2&nbsp;мм на метр и не более 10&nbsp;мм на всю высоту.</p>
+    <p>Чек-лист нужен ровно для этого: не «посмотрите стены», а «приложите
+      двухметровое правило, просвет больше 3&nbsp;мм — пишем в акт, вот пункт нормы».</p>
+  </div>
+</section>
+
+<section id="zony">
+  <div class="col">
+    <h2>Десять зон, 58 пунктов</h2>
+    <p>Порядок не случайный: он повторяет то, как человек физически проходит
+      квартиру, чтобы не возвращаться в комнату дважды.</p>
+  </div>
+  <ol class="zones">
+    <li><span class="n">01</span><span>Входная дверь<span class="d">Замки, уплотнитель, зазоры полотна, откосы, глазок</span></span><span class="c">6 пунктов</span></li>
+    <li><span class="n">02</span><span>Стены и перегородки<span class="d">Вертикаль, плоскость, трещины, штукатурка, стыки листов</span></span><span class="c">8 пунктов</span></li>
+    <li><span class="n">03</span><span>Потолок<span class="d">Перепады плит в швах, ровность, следы протечек</span></span><span class="c">5 пунктов</span></li>
+    <li><span class="n">04</span><span>Полы и стяжка<span class="d">Просвет под правилом, уклон, бухтение, трещины</span></span><span class="c">7 пунктов</span></li>
+    <li><span class="n">05</span><span>Окна и балконный блок<span class="d">Створки, фурнитура, стеклопакет, монтажный шов, отлив</span></span><span class="c">8 пунктов</span></li>
+    <li><span class="n">06</span><span>Электрика<span class="d">Число розеток, автоматы, щит, заземление, освещение</span></span><span class="c">6 пунктов</span></li>
+    <li><span class="n">07</span><span>Водоснабжение и канализация<span class="d">Стояки, подводки, счётчики, уклон канализации</span></span><span class="c">5 пунктов</span></li>
+    <li><span class="n">08</span><span>Вентиляция<span class="d">Тяга в каналах кухни и санузла, отдельные каналы</span></span><span class="c">4 пункта</span></li>
+    <li><span class="n">09</span><span>Отопление<span class="d">Радиаторы, крепления, запорная арматура, опрессовка</span></span><span class="c">4 пункта</span></li>
+    <li><span class="n">10</span><span>Санузел и гидроизоляция<span class="d">Плитка, швы, уклон к трапу, заведение гидроизоляции на стены</span></span><span class="c">5 пунктов</span></li>
+  </ol>
+  <div class="col">
+    <div class="note">
+      <strong>Что взять с собой.</strong> Двухметровое правило или лазерный уровень,
+      рулетка, фонарь, зарядка для телефона или повербанк, лист бумаги (проверять
+      тягу), простой карандаш, малярный скотч — отмечать найденное прямо на стене.
+      И сам телефон: фотографии дефектов — это доказательство, а не память.
+    </div>
+  </div>
+</section>
+
+<section id="normy">
+  <div class="col">
+    <h2>Допуски: что считается браком</h2>
+    <p>Это выдержки из действующих узбекских норм. Основная — <strong>ШНҚ 3.04.01-21
+      «Изоляционные и отделочные покрытия»</strong>, введена приказом № 01/2-49
+      от 09.08.2024, зарегистрирована Минюстом за № 290 от 19.09.2024. Её текст
+      существует только на узбекском языке — ниже перевод с указанием таблиц и пунктов.</p>
+  </div>
+  <div class="tw">
+    <table>
+      <thead><tr><th>Что проверяется</th><th>Допуск</th><th>Норма</th></tr></thead>
+      <tbody>
+        <tr><td>Улучшенная штукатурка, отклонение от вертикали</td>
+            <td class="v">2 мм / 1 м<br>≤ 10 мм на высоту</td>
+            <td class="src">ШНҚ 3.04.01-21, табл. 10, п. 203</td></tr>
+        <tr><td>Штукатурка, неровности плавного очертания</td>
+            <td class="v">не более 2 шт. на 4 м²<br>глубиной до 3 мм</td>
+            <td class="src">ШНҚ 3.04.01-21, табл. 10, п. 203</td></tr>
+        <tr><td>Стяжка под ламинат, паркет, линолеум</td>
+            <td class="v">просвет ≤ 4 мм<br>под 2-м рейкой</td>
+            <td class="src">ШНҚ 3.04.01-21, табл. 19, п. 292</td></tr>
+        <tr><td>Стяжка под крупноформатную плитку свыше 1 м²</td>
+            <td class="v">просвет ≤ 2 мм</td>
+            <td class="src">ШНҚ 3.04.01-21, табл. 19, п. 292</td></tr>
+        <tr><td>Готовый пол, отклонение от уклона</td>
+            <td class="v">0,2 % размера<br>но ≤ 10 мм</td>
+            <td class="src">ШНҚ 3.04.01-21, табл. 29, п. 336</td></tr>
+        <tr><td>Бухтение плитки и монолитных покрытий</td>
+            <td class="v">изменения звука<br>быть не должно</td>
+            <td class="src">ШНҚ 3.04.01-21, табл. 29, п. 336</td></tr>
+        <tr><td>Облицовка керамикой, отклонение от вертикали</td>
+            <td class="v">1,5 мм / 1 м</td>
+            <td class="src">ШНҚ 3.04.01-21, табл. 12, п. 229</td></tr>
+        <tr><td>Ширина шва плитки</td>
+            <td class="v">± 0,5 мм</td>
+            <td class="src">ШНҚ 3.04.01-21, табл. 12, п. 229</td></tr>
+        <tr><td>Окраска: полосы, пятна, потёки, побеление</td>
+            <td class="v">не допускаются</td>
+            <td class="src">ШНҚ 3.04.01-21, табл. 13</td></tr>
+        <tr><td>Обои: пузыри, отслоение, расслоение</td>
+            <td class="v">не допускаются</td>
+            <td class="src">ШНҚ 3.04.01-21, п. 253</td></tr>
+        <tr><td>Кирпичная кладка, отклонение от вертикали</td>
+            <td class="v">10 мм на этаж</td>
+            <td class="src">КМК 3.03.01-98, табл. 34</td></tr>
+        <tr><td>Бетонные конструкции, отклонение от вертикали</td>
+            <td class="v">15 мм на высоту<br>местные ≤ 5 мм</td>
+            <td class="src">КМК 3.03.01-98, табл. 11</td></tr>
+        <tr><td>Перепад смежных плит перекрытия в шве</td>
+            <td class="v">8 мм при длине до 4 м<br>10 мм при 4–8 м</td>
+            <td class="src">КМК 3.03.01-98, табл. 12, поз. 12</td></tr>
+        <tr><td>Уклон пола в мокрых помещениях</td>
+            <td class="v">0,5–1 %</td>
+            <td class="src">ШНҚ 2.03.13-24 «Поллар», п. 9</td></tr>
+        <tr><td>Гидроизоляция санузла, заведение на стены</td>
+            <td class="v">≥ 200 мм<br>не менее 2 слоёв</td>
+            <td class="src">ШНҚ 2.03.13-24, пп. 97–98</td></tr>
+        <tr><td>Розетки в жилой комнате</td>
+            <td class="v">1 шт. на каждые 6 м²</td>
+            <td class="src">ШНҚ 2.08.01-24, п. 305</td></tr>
+        <tr><td>Розетки на кухне</td>
+            <td class="v">3 шт.<br>4 шт. при площади &gt; 8 м²</td>
+            <td class="src">ШНҚ 2.08.01-24, п. 307</td></tr>
+        <tr><td>Вентиляция: дымоход как вентканал</td>
+            <td class="v">не допускается</td>
+            <td class="src">ШНҚ 2.08.01-24, п. 296</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col">
+    <p style="margin-top:18px;color:var(--muted);font-size:14px">Полный список — 58 пунктов
+      с формулировками для акта — в чек-листе. Часть норм действующего фонда ТМСИТИ
+      опубликована только на узбекском; там, где числового требования норма не
+      содержит, чек-лист прямо говорит об этом, а не подставляет цифру из советского СНиП.</p>
+  </div>
+</section>
+
+<section id="akt">
+  <div class="col">
+    <h2>Акт осмотра и претензия</h2>
+    <p>Чек-лист бесплатный и остаётся бесплатным. Платное — только оформление
+      документов: перенести найденное в акт осмотра формулировками, которые
+      застройщик не отклонит, и составить претензию со ссылками на нормы и сроки.</p>
+  </div>
+  <div class="grid2" style="margin-top:22px">
+    <div class="card">
+      <h3>Что вы делаете</h3>
+      <ol class="steps">
+        <li>Проходите квартиру по чек-листу, отмечаете найденное и фотографируете.</li>
+        <li>Присылаете отметки и фотографии в бот.</li>
+        <li>Получаете акт осмотра и претензию — в течение 24 часов.</li>
+        <li>Подписываете и вручаете застройщику сами.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Сколько стоит</h3>
+      <p class="price">99 000 <small>сум за квартиру, разово</small></p>
+      <p style="margin-top:14px">В цену входит акт осмотра, претензия застройщику
+        и ссылки на нормы по каждому пункту. Оплата — после того, как документы
+        готовы и вы их увидели.</p>
+      <div class="note" style="margin-bottom:0">
+        Мы не проводим экспертизу и не гарантируем исход спора. Мы готовим
+        документы — подаёте вы сами.
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="sroki">
+  <div class="col">
+    <h2>Сроки, которые работают на вас</h2>
+    <p>Если недостаток обнаружен и заявлен, застройщик обязан устранить его в срок
+      <strong>не более двадцати дней</strong> со дня обращения — статья 19 Закона
+      Республики Узбекистан «О защите прав потребителей». Если не устранил —
+      появляется основание требовать возврата стоимости.</p>
+    <p>Отсюда практический вывод: замечания надо зафиксировать письменно и с датой.
+      Устная договорённость «мы всё поправим» срока не запускает и в спор не годится.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="col">
+    <h2>Частые вопросы</h2>
+
+    <details><summary>Можно ли не подписывать акт приёма-передачи?</summary>
+      <p>Можно. Вы вправе указать в акте выявленные недостатки или отказаться от
+        подписания до их устранения. Отказ надо оформить письменно с перечнем
+        замечаний — иначе он не фиксируется и застройщик вправе считать, что вы
+        уклоняетесь от приёмки.</p></details>
+
+    <details><summary>Что делать, если представитель торопит?</summary>
+      <p>Приёмка не ограничена по времени ни одним документом. Если вас торопят —
+        это не ваша проблема, а его расписание. Спокойно пройдите список до конца:
+        подписанный акт без замечаний отменить потом нельзя.</p></details>
+
+    <details><summary>Нужен ли специалист или хватит чек-листа?</summary>
+      <p>Чек-лист закрывает то, что видно и меряется правилом, рулеткой и фонарём —
+        а это большая часть типовых дефектов отделки и геометрии. Скрытые работы
+        (кабель в стене, состав стяжки, качество гидроизоляции под плиткой) чек-лист
+        не заменяет: там нужен инструментальный контроль.</p></details>
+
+    <details><summary>Работает ли это без интернета?</summary>
+      <p>Да. Отметки сохраняются на устройстве и отправляются, когда связь появится.
+        В новостройках лифт и подвал обычно без сети — именно поэтому так и сделано.</p></details>
+
+    <details><summary>Это юридическая услуга?</summary>
+      <p>Нет. Мы готовим документы по вашим отметкам и фотографиям, а не оказываем
+        юридическую помощь и не представляем вас нигде. Экспертизу технического
+        состояния зданий мы не проводим — это лицензируемый вид деятельности.</p></details>
+  </div>
+</section>
+
+<section>
+  <div class="col" style="text-align:center;max-width:560px;margin:0 auto">
+    <h2>Чек-лист открывается в Telegram</h2>
+    <p style="color:var(--ink2)">Без регистрации и без установки. Начните за день до приёмки —
+      успеете купить правило и зарядить повербанк.</p>
+    <a class="cta" href="https://t.me/kvartira_qabul_bot?start=site">Открыть чек-лист</a>
+  </div>
+</section>
+
+<footer>
+  <div>ИП, Ташкент, Республика Узбекистан ·
+    <a href="../kvartira/oferta.html">Публичная оферта и обработка данных</a> ·
+    <a href="https://t.me/kvartira_qabul_bot">Поддержка в боте</a></div>
+  <div style="margin-top:8px">Ссылки на нормы приведены для ориентира. Действующие
+    редакции ШНҚ и КМК — в фонде ТМСИТИ (shnk.tmsiti.uz).</div>
+</footer>
+</div>
+
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@graph":[
+    {
+      "@type":"WebSite",
+      "@id":"https://gordondr.github.io/tma-uz/kvartira-qabul/#website",
+      "url":"https://gordondr.github.io/tma-uz/kvartira-qabul/",
+      "name":"Kvartira Qabul",
+      "inLanguage":["ru","uz"]
+    },
+    {
+      "@type":"SoftwareApplication",
+      "name":"Kvartira Qabul — чек-лист приёмки квартиры",
+      "applicationCategory":"UtilitiesApplication",
+      "operatingSystem":"Telegram",
+      "url":"https://t.me/kvartira_qabul_bot",
+      "description":"Чек-лист приёмки квартиры в новостройке: 58 пунктов по 10 зонам с допусками из ШНҚ и КМК.",
+      "areaServed":{"@type":"Country","name":"Uzbekistan"},
+      "offers":[
+        {"@type":"Offer","name":"Чек-лист","price":"0","priceCurrency":"UZS"},
+        {"@type":"Offer","name":"Акт осмотра и претензия застройщику","price":"99000","priceCurrency":"UZS"}
+      ]
+    },
+    {
+      "@type":"FAQPage",
+      "mainEntity":[
+        {"@type":"Question","name":"Можно ли не подписывать акт приёма-передачи?",
+         "acceptedAnswer":{"@type":"Answer","text":"Можно. Вы вправе указать в акте выявленные недостатки или отказаться от подписания до их устранения. Отказ надо оформить письменно с перечнем замечаний."}},
+        {"@type":"Question","name":"Что делать, если представитель застройщика торопит?",
+         "acceptedAnswer":{"@type":"Answer","text":"Приёмка не ограничена по времени ни одним документом. Подписанный акт без замечаний отменить потом нельзя, поэтому список надо пройти до конца."}},
+        {"@type":"Question","name":"Нужен ли специалист или хватит чек-листа?",
+         "acceptedAnswer":{"@type":"Answer","text":"Чек-лист закрывает то, что видно и меряется правилом, рулеткой и фонарём. Скрытые работы требуют инструментального контроля и чек-листом не заменяются."}},
+        {"@type":"Question","name":"В какой срок застройщик обязан устранить недостатки?",
+         "acceptedAnswer":{"@type":"Answer","text":"Не более двадцати дней со дня обращения — статья 19 Закона Республики Узбекистан «О защите прав потребителей»."}}
+      ]
+    }
+  ]
+}
+</script>
+</body>
+</html>

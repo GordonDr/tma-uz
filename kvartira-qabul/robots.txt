@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://gordondr.github.io/tma-uz/kvartira-qabul/sitemap.xml
