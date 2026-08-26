@@ -49,6 +49,8 @@ h1,h2{font-family:"Cormorant Garamond",Georgia,serif;margin:0;font-weight:600;li
 .top .orn{display:block;margin:0 auto 10px;width:96px;height:22px}
 .top h1{font-size:clamp(28px,8vw,38px)}
 .top .amp{color:var(--gold);font-style:italic;display:block;font-size:.55em;margin:0}
+.top .pre{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:5px}
 .top .meta{color:var(--muted);font-size:13px;margin-top:6px}
 .top .tier{display:inline-block;margin-top:8px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
   padding:3px 10px;border-radius:20px;background:var(--gold-bg);color:var(--gold);border:1px solid var(--gold)}
@@ -418,7 +420,7 @@ function switchEvent(){
   const t=L(), tierName={free:t.tierFree,premium:t.tierPremium,full:t.tierFull};
   const rows = (S.all||[]).map(e=>`<button class="b sec pickev" data-id="${e.id}" style="margin-bottom:8px;text-align:left">
       ${e.id===S.ev.id?"✓ ":""}${esc(e.couple)}${e.event_date?` · ${new Date(e.event_date).toLocaleDateString(t.locale)}`:""}
-      <span style="color:var(--muted);font-weight:500"> — ${tierName[e.tier]||e.tier}</span></button>`).join("");
+      <span style="color:var(--muted);font-weight:500"> — ${esc(occLabel(e.occasion))||""}${occLabel(e.occasion)?", ":""}${tierName[e.tier]||e.tier}</span></button>`).join("");
   $("#tab").innerHTML = `<div class="card"><b>${t.swTitle}</b>
     <div class="note" style="margin:0 0 10px">${t.swNote}</div>
     <div>${rows}</div>
@@ -535,14 +537,54 @@ function money(){
 }
 const uzs = (n) => Math.round(n).toLocaleString("ru").replace(/\u00A0/g, " ");
 
+/* ── G-06. Шапка кабинета говорит, что за той ───────────────────────────────
+   Повод сквозной: он лежит в базе, задаёт текст приглашения и тему оформления.
+   А шапка была одна на всё — бешик-той открывался экраном, неотличимым от
+   свадьбы. Это не косметика: свадьбы идут двумя сезонами, а бешик, суннат
+   и юбилей — круглый год, и именно ими продукт живёт вне сезона. Человек,
+   пришедший с бешик-тоем, должен с первого экрана видеть, что попал в своё,
+   а не «ну, тут вообще-то про свадьбы».
+
+   Подпись берём из invite-texts.js — того же файла, откуда её берут тексты
+   приглашения: две копии списка поводов разъехались бы за неделю (Р-25). */
+function occLabel(occasion){
+  const o = window.toyOccasion ? toyOccasion(occasion || "nikoh_toy") : null;
+  return (o && o.label && o.label[lang === "uz" ? "uz_latin" : "ru"]) || "";
+}
 function daysLeft(){ if(!S.ev.event_date) return null;
   return Math.ceil((new Date(S.ev.event_date) - new Date())/864e5); }
+
+/* ── G-03. Уведомление махалли ──────────────────────────────────────────────
+   Организатор обязан сообщить о тое в махаллинский сход граждан не позднее
+   чем за неделю. Основание — Низом, утверждённый совместным постановлением
+   Кенгашей Законодательной палаты и Сената Олий Мажлиса № 2736-III от
+   14.09.2019 (действует с 01.01.2020). Про договор с тойхоной помнят все:
+   его требует сам зал. Про махаллю не напоминает никто, потому что это
+   единственная обязанность, у которой нет заинтересованной стороны.
+
+   Считаем дату сами и печатаем её в счёте для зала: «за неделю» в голове
+   превращается в «на днях», а конкретное число — в дело на сегодня. И это
+   то, чем наш счёт отличается от таблицы, которую зал попросил бы сделать
+   в Excel: один лист закрывает обе обязанности сразу.
+
+   Полдень берём нарочно: от «за семь суток» нас интересует календарная дата,
+   и с полудня ни переход через месяц, ни часовой пояс её не сдвигают. */
+function mahDate(){
+  const iso = S.ev && S.ev.event_date;
+  if(!iso) return "";
+  const ms = Date.parse(`${iso}T12:00:00+05:00`);
+  if(isNaN(ms)) return "";
+  return new Date(ms - 7 * 864e5).toLocaleDateString(L().locale,
+    { day:"numeric", month:"long", year:"numeric", timeZone:"Asia/Tashkent" });
+}
 function render(){
   const t=L(), c=counts();
   const tierName={free:t.tierFree,premium:t.tierPremium,full:t.tierFull}[S.ev.tier];
   const dl=daysLeft(), names=(S.ev.couple||"").split(/&|\bи\b|\bva\b/);
+  const occ=occLabel(S.ev.occasion);
   $("#app").innerHTML = `
   <div class="top" style="color:var(--gold)">${ORN}
+    ${occ?`<div class="pre">${esc(occ)}</div>`:""}
     <h1 style="color:var(--ink)">${esc(names[0].trim())}${names[1]?`<span class="amp">&amp;</span>${esc(names[1].trim())}`:""}</h1>
     <div class="meta">${S.ev.event_date? new Date(S.ev.event_date).toLocaleDateString(t.locale,{day:"numeric",month:"long"}):t.noDate}${S.ev.event_time?` · ${esc(S.ev.event_time)}`:""}${dl!==null&&dl>=0?t.daysLeft(dl):""}<br>${esc(S.ev.venue_name||t.noVenue)}</div>
     <span class="tier">${tierName}</span>
@@ -1492,7 +1534,9 @@ function tabZal(){
     <button class="b sec" id="copy">${t.zCopyBtn}</button>
     <button class="b sec" id="csv">${t.zCsvBtn}</button>
     <button class="b sec" id="docx">${t.zDocBtn}</button>
-    <div class="note">${t.zNote}</div></div>`;
+    <div class="note">${t.zNote}</div></div>
+  <div class="notice"><b>${t.zMahTitle}</b>
+    <p>${mahDate() ? t.zMahText(mahDate()) : t.zMahNoDate}</p></div>`;
 
   const rows=()=>S.fams.map(f=>({name:f.name,side:f.side==="kelin"?t.zKelin:t.zKuyov,inv:f.invited_count,
     st:f.rsvp_status==="yes"?t.zStYes:f.rsvp_status==="no"?t.zStNo:t.zStPending,
@@ -1502,7 +1546,8 @@ function tabZal(){
 
     const txt=`${S.ev.couple} · ${dstr}\n`+
       `${t.zCopyConfirmed(c.yes)}\n${t.zCopyPending(c.pend.length,c.pendInv)}\n${t.zCopyDeclined(c.no)}\n`+
-      `${t.zCopyEst(est)}\n${t.zCopySides(sum(kuyov),sum(kelin))}`;
+      `${t.zCopyEst(est)}\n${t.zCopySides(sum(kuyov),sum(kelin))}`+
+      (mahDate() ? `\n${String(t.zMahDoc(mahDate())).replace(/<[^>]+>/g,"")}` : "");
     navigator.clipboard?.writeText(txt); haptic("light"); tg?.showAlert?.(t.zCopied); };
   $("#csv").onclick=()=>{
     const head=t.zCsvHead+"\n";
@@ -1511,18 +1556,38 @@ function tabZal(){
     const body=rows().map(r=>[r.name,r.side,r.inv,r.st,r.cnt,r.tbl].map(csvCell).join(";")).join("\n");
     dl(`${t.zCsvFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.csv`,"﻿"+head+body,"text/csv"); };
   $("#docx").onclick=()=>{
+    haptic("medium");
     const byT={}; S.fams.forEach(f=>{const k=f.table_id||0;(byT[k]=byT[k]||[]).push(f);});
-    const blocks=Object.keys(byT).sort((a,b)=>a-b).map(k=>{
+    const parts=Object.keys(byT).sort((a,b)=>a-b).map(k=>{
       const tb=S.tables.find(x=>x.id==k), title=tb?t.zDocTable(tb.num):t.zDocNoTable;
       const list=byT[k].filter(f=>f.rsvp_status!=="no");
       const tot=list.reduce((a,f)=>a+(f.rsvp_status==="yes"?f.rsvp_count:f.invited_count),0);
-      return `<h3>${t.zDocBlock(title,tot)}</h3><table><tr><th>${t.zThFamily}</th><th>${t.zThPeople}</th><th>${t.zThStatus}</th></tr>${
-        list.map(f=>`<tr><td>${esc(f.name)}</td><td>${f.rsvp_status==="yes"?f.rsvp_count:f.invited_count}</td><td>${f.rsvp_status==="yes"?t.zDocStYes:t.zDocStPending}</td></tr>`).join("")}</table>`;
-    }).join("");
+      return {title,list,tot};
+    });
+    const seats=f=>f.rsvp_status==="yes"?f.rsvp_count:f.invited_count;
+    const stat=f=>f.rsvp_status==="yes"?t.zDocStYes:t.zDocStPending;
+    const blocks=parts.map(b=>`<h3>${t.zDocBlock(b.title,b.tot)}</h3><table><tr><th>${t.zThFamily}</th><th>${t.zThPeople}</th><th>${t.zThStatus}</th></tr>${
+      b.list.map(f=>`<tr><td>${esc(f.name)}</td><td>${seats(f)}</td><td>${stat(f)}</td></tr>`).join("")}</table>`).join("");
+    // G-03. Строка про махаллю стоит в самом документе, а не только на экране:
+    // документ — это то, что организатор пересылает и перечитывает, и именно
+    // про уведомление он забывает. Ноль разработки, но это и отличает наш счёт
+    // от таблицы, которую зал попросил бы сделать в Excel.
+    const head=`<h1>${t.zDocH1(esc(S.ev.couple))}<br><span style="font-size:11pt">${dstr} · ${esc(S.ev.venue_name||"")}</span></h1>
+      <p>${t.zDocSummary(c.yes,c.pend.length,c.pendInv,est)}</p>${mahDate()?`<p>${t.zMahDoc(mahDate())}</p>`:""}`;
+    const strip=s=>String(s).replace(/<[^>]+>/g,"");
+    // Текстом — тот же документ для вставки в Excel и Google Таблицы: колонки
+    // разделены табуляцией, поэтому вставка раскладывается сама.
+    const plain=[`${S.ev.couple} · ${dstr} · ${S.ev.venue_name||""}`,
+      strip(t.zDocSummary(c.yes,c.pend.length,c.pendInv,est))]
+      .concat(mahDate()?[strip(t.zMahDoc(mahDate()))]:[], [""])
+      .concat(...parts.map(b=>[`${t.zDocBlock(b.title,b.tot)}`,
+        [t.zThFamily,t.zThPeople,t.zThStatus].join("\t")]
+        .concat(b.list.map(f=>[f.name,seats(f),stat(f)].join("\t")), [""])))
+      .join("\n");
+    if(isMobileTg()) return showDocOverlay(head+blocks, plain);
     dl(`${t.zDocFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.doc`,
       `<html><head><meta charset="utf-8"><style>body{font-family:'Times New Roman',serif;margin:1.5cm}h1{font-size:15pt;text-align:center}h3{font-size:12pt;margin:12pt 0 4pt}table{border-collapse:collapse;width:100%}td,th{border:1px solid #000;padding:4pt;font-size:11pt}</style></head><body>
-      <h1>${t.zDocH1(esc(S.ev.couple))}<br><span style="font-size:11pt">${dstr} · ${esc(S.ev.venue_name||"")}</span></h1>
-      <p>${t.zDocSummary(c.yes,c.pend.length,c.pendInv,est)}</p>${blocks}</body></html>`,"application/msword"); };
+      ${head}${blocks}</body></html>`,"application/msword"); };
 }
 /* В Telegram WebView на телефоне программное скачивание молча не срабатывает:
    клик по <a download> ничего не делает и ничего не сообщает. Человек жмёт

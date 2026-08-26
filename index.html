@@ -1,9 +1,135 @@
-<!doctype html><meta charset="utf-8"><title>TMA UZ</title>
-<meta name="robots" content="noindex">
-<body style="font:16px/1.6 system-ui;max-width:640px;margin:60px auto;padding:0 20px">
-<h1 style="font-size:20px">Мини-приложения</h1>
-<ul>
-  <li><a href="kvartira/index.html">Kvartira Qabul — чек-лист приёмки</a></li>
-  <li><a href="toy/organizer.html">To'y-Daftar — кабинет организатора</a></li>
-</ul>
-<p style="color:#777;font-size:14px">Страницы открываются внутри Telegram. Здесь они лежат просто как статика.</p>
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Корневая страница репозитория Pages. Служебная: сюда попадают те, кому
+     владелец дал ссылку на корень, и он сам, когда проверяет, что выкатилось.
+     noindex намеренно — в выдаче должны быть сайты продуктов, а не эта витрина;
+     конкурировать с собственными страницами за один и тот же запрос глупо.
+
+     Почему файл лежит в репозитории, а не правится прямо на Pages. Раньше
+     правился прямо там, и это единственное, что жило в проде без исходника:
+     любая выкатка могла его затереть, и никто бы не заметил. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Продукты — Узбекистан</title>
+<style>
+  :root{
+    --bg:#FAF9F7; --card:#FFFFFF; --ink:#1A1D21; --ink2:#4A5057; --muted:#7B838C;
+    --line:#E6E3DE; --line2:#F2F0EC; --accent:#8A6A2F; --accent-bg:#FBF6EA;
+    --ok:#2F6B4F; --ok-bg:#EEF6F1; --warn:#8A5A1F; --warn-bg:#FBF2E6;
+    --shadow:0 1px 2px rgba(26,29,33,.05), 0 4px 16px rgba(26,29,33,.04);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#131518; --card:#1B1E22; --ink:#ECEEF0; --ink2:#B6BCC3; --muted:#858D96;
+      --line:#2A2F35; --line2:#22262B; --accent:#D8B26A; --accent-bg:#23201A;
+      --ok:#7FC0A0; --ok-bg:#1A2420; --warn:#D9A45F; --warn-bg:#241D14;
+      --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#131518; --card:#1B1E22; --ink:#ECEEF0; --ink2:#B6BCC3; --muted:#858D96;
+    --line:#2A2F35; --line2:#22262B; --accent:#D8B26A; --accent-bg:#23201A;
+    --ok:#7FC0A0; --ok-bg:#1A2420; --warn:#D9A45F; --warn-bg:#241D14;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 4px 16px rgba(0,0,0,.25);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    -webkit-font-smoothing:antialiased}
+  .wrap{max-width:720px;margin:0 auto;padding:48px 20px 64px}
+  header{margin-bottom:36px}
+  h1{font-size:24px;line-height:1.25;margin:0 0 8px;letter-spacing:-.01em;text-wrap:balance}
+  .sub{color:var(--muted);font-size:14.5px;margin:0}
+  h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);
+    font-weight:600;margin:36px 0 12px}
+  .list{display:flex;flex-direction:column;gap:10px}
+  .item{display:block;background:var(--card);border:1px solid var(--line);
+    border-radius:14px;padding:16px 18px;text-decoration:none;color:inherit;
+    box-shadow:var(--shadow);transition:border-color .15s,transform .15s}
+  .item:hover{border-color:var(--accent)}
+  .item:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .name{font-weight:650;font-size:16.5px;margin-bottom:3px;letter-spacing:-.005em}
+  .what{color:var(--ink2);font-size:14px;line-height:1.5}
+  .links{margin-top:10px;display:flex;gap:14px;flex-wrap:wrap;font-size:13px}
+  .links a{color:var(--accent);text-decoration:none;font-weight:600}
+  .links a:hover{text-decoration:underline;text-underline-offset:2px}
+  .tag{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;
+    border-radius:20px;vertical-align:2px;margin-left:8px;letter-spacing:.01em}
+  .tag.live{background:var(--ok-bg);color:var(--ok)}
+  .tag.soon{background:var(--warn-bg);color:var(--warn)}
+  .soonlist .item{opacity:.72}
+  footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line2);
+    color:var(--muted);font-size:13px;line-height:1.55}
+  footer a{color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>Небольшие продукты для Узбекистана</h1>
+    <p class="sub">Каждый решает одну задачу, которую иначе решают перепиской,
+      блокнотом или переплатой.</p>
+  </header>
+
+  <h2>Работают</h2>
+  <div class="list">
+
+    <a class="item" href="kvartira-qabul/">
+      <div class="name">Kvartira Qabul<span class="tag live">работает</span></div>
+      <div class="what">Приёмка квартиры у застройщика: чек-лист из 48 пунктов
+        со ссылками на строительные нормы — бесплатно. Акт осмотра и претензия
+        по вашим отметкам и фотографиям — за 99 000 сум.</div>
+      <div class="links"><span>Сайт →</span></div>
+    </a>
+
+    <a class="item" href="toy-daftar/">
+      <div class="name">To'y-Daftar<span class="tag live">работает</span></div>
+      <div class="what">Учёт гостей тоя по семьям, а не по людям: гость отвечает
+        за всю семью одним касанием. Тойхона просит точное число за неделю —
+        здесь оно считается само.</div>
+      <div class="links"><span>Сайт →</span></div>
+    </a>
+
+  </div>
+
+  <h2>Готовятся</h2>
+  <div class="list soonlist">
+
+    <div class="item">
+      <div class="name">Ball-Qalqon<span class="tag soon">скоро</span></div>
+      <div class="what">Карта штрафных баллов водителя: сколько сейчас, когда
+        спишутся, какое нарушение при вашем счёте закрывает вопрос с одного раза.</div>
+    </div>
+
+    <div class="item">
+      <div class="name">Avtomaktab-Narx<span class="tag soon">скоро</span></div>
+      <div class="what">Полная цена автошколы со всеми строками, о которых
+        не говорят при записи. И разбор договора до того, как вы его подписали.</div>
+    </div>
+
+    <div class="item">
+      <div class="name">Ustoz-Sertifikat<span class="tag soon">скоро</span></div>
+      <div class="what">Учителю начальных классов: сколько даст надбавка
+        за национальный сертификат и план подготовки до дня экзамена.</div>
+    </div>
+
+    <div class="item">
+      <div class="name">Kontrakt-12%<span class="tag soon">скоро</span></div>
+      <div class="what">Сколько подоходного налога вернётся с оплаты за учёбу —
+        и когда не вернётся ничего.</div>
+    </div>
+
+  </div>
+
+  <footer>
+    Индивидуальный предприниматель, Ташкент. Информационные услуги;
+    экспертизой и юридической помощью не являются, исход не гарантируется.
+    Условия каждого продукта — на его странице.
+  </footer>
+
+</div>
+</body>
+</html>
