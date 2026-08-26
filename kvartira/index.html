@@ -128,6 +128,12 @@ h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-
   display:flex;align-items:center;justify-content:center;gap:8px}
 .buy:active{transform:translateY(1px)}
 .cta .note{text-align:center;font-size:11px;color:var(--muted);margin-top:7px;line-height:1.35}
+/* Полоса «нет сети». Показывается только классом на body, чтобы состояние жило
+   в одном месте, а не в пяти обработчиках. Цвет — янтарный, а не красный:
+   это не поломка, чек-лист работает, ограничена только отправка. */
+.offbar{display:none;background:var(--amber-bg);color:var(--amber-ink);border:1px solid var(--amber);
+  border-radius:10px;padding:8px 11px;margin:0 0 8px;font-size:12px;line-height:1.4;text-align:left}
+body.offline .offbar{display:block}
 .foot{text-align:center;font-size:11.5px;color:var(--muted);padding:16px 0 6px;line-height:1.5}
 </style>
 </head>
@@ -192,6 +198,7 @@ h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-
 </div>
 
 <div class="cta"><div class="inner">
+  <div class="offbar" id="t-offbar">Сети нет. Чек-лист работает, отметки сохраняются — они уйдут в бот, когда связь появится.</div>
   <button class="buy" id="buy"><span>📄</span><span id="t-buy">Акт + претензия — 99 000 сум</span></button>
   <div class="note"><span id="t-note">Фото дефектов → готовые документы за 24 часа</span><br>
     <a href="sample.html" id="t-sample" style="color:var(--muted);text-decoration:underline;text-underline-offset:2px">Посмотреть образец акта</a></div>
@@ -203,6 +210,24 @@ if (tg?.colorScheme === "dark") document.documentElement.dataset.theme = "dark";
 else if (!tg && window.matchMedia?.("(prefers-color-scheme: dark)").matches) document.documentElement.dataset.theme = "dark";
 tg?.onEvent?.("themeChanged", () => { document.documentElement.dataset.theme = tg.colorScheme === "dark" ? "dark" : ""; });
 const haptic = t => { try { tg?.HapticFeedback?.impactOccurred?.(t || "light"); } catch(e){} };
+
+// Офлайн-режим (G-03). Чек-листом пользуются в пустой квартире сдающегося дома,
+// где интернета обычно нет. Отметки и раньше лежали на устройстве, но сама
+// страница грузилась из сети — то есть в тот единственный момент, ради которого
+// продукт существует, он не открывался.
+// Регистрация тихая и необязательная: в приватном режиме и на старых браузерах
+// serviceWorker недоступен, и это не повод показывать человеку ошибку.
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+  });
+}
+// Признак, что сети нет, нужен интерфейсу: кнопка заказа без сети не сработает,
+// и честнее сказать об этом заранее, чем показать бесконечный спиннер.
+const online = () => navigator.onLine !== false;
+addEventListener("online",  () => document.body.classList.remove("offline"));
+addEventListener("offline", () => document.body.classList.add("offline"));
+if (!online()) document.body.classList.add("offline");
 
 const store={mem:{},get(k){try{return localStorage.getItem(k)}catch(e){return this.mem[k]??null}},
   set(k,v){try{localStorage.setItem(k,v)}catch(e){this.mem[k]=v}},del(k){try{localStorage.removeItem(k)}catch(e){delete this.mem[k]}}};
@@ -218,6 +243,7 @@ const TXT={
  ru:{title:"Приёмка квартиры",sub:"Пройдите по пунктам во время осмотра",bag:"Возьмите с собой",
    warn:"<b>Не подписывайте акт приёма-передачи, пока замечания не вписаны в документ.</b> Каждый дефект — стикер на месте и два фото: общий план и крупно.",
    buy:`Акт + претензия — ${CONFIG.PRICE_LABEL}`,note:"Фото дефектов → готовые документы за 24 часа",
+   offbar:"Сети нет — так и должно быть в новостройке. Чек-лист работает, отметки сохраняются на телефоне и уйдут в бот, когда связь появится.",
    doneT:"🎉 Осмотр завершён",doneP:"Нашли дефекты? Оформим акт осмотра и претензию застройщику — вам останется только подать.",
    foot:"Kvartira Qabul · документы для самостоятельной подачи<br>Не является экспертизой. Исход спора не гарантируется.",
    sampleLink:"Посмотреть образец акта",
@@ -229,6 +255,7 @@ const TXT={
  uz:{title:"Kvartirani qabul qilish",sub:"Ko'rik davomida bandlarni belgilang",bag:"O'zingiz bilan oling",
    warn:"<b>Kamchiliklar hujjatga yozilmaguncha qabul dalolatnomasini imzolamang.</b> Har bir nuqson — joyiga stiker va ikkita surat: umumiy va yaqin plan.",
    buy:`Dalolatnoma + pretenziya — ${CONFIG.PRICE_LABEL}`,note:"Nuqson suratlari → 24 soatda tayyor hujjatlar",
+   offbar:"Internet yo'q — yangi binoda bu odatiy hol. Ro'yxat ishlayapti, belgilar telefonda saqlanadi va aloqa paydo bo'lganda botga yuboriladi.",
    doneT:"🎉 Ko'rik yakunlandi",doneP:"Nuqson topdingizmi? Dalolatnoma va pretenziyani tayyorlaymiz — sizga faqat topshirish qoladi.",
    foot:"Kvartira Qabul · o'zingiz topshirishingiz uchun hujjatlar<br>Ekspertiza emas. Nizo natijasi kafolatlanmaydi.",
    sampleLink:"Dalolatnoma namunasini ko.rish",
@@ -248,9 +275,50 @@ function plural(n,one,few,many){
 const total = CHECKLIST.reduce((a,s)=>a+s.items.length,0);
 const CHECK_SVG = `<svg width="13" height="10" viewBox="0 0 13 10" fill="none"><path d="M1.5 5L4.8 8.3L11.5 1.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
+/* Очередь событий на случай отсутствия сети (G-03).
+   Раньше .catch(()=>{}) означал «не отправилось — и ладно». Для аналитики это
+   терпимо, но через ту же ручку уходит defect_marked — список найденных дефектов,
+   который владелец видит в карточке заказа. Человек проходит чек-лист в квартире
+   без сети, отмечает пятнадцать дефектов, выходит на улицу и жмёт «заказать» —
+   и владелец получает заказ без единого дефекта. Ровно то, за что платят.
+   Поэтому неотправленное складывается на устройство и уходит, когда сеть есть. */
+const OUTBOX = "kq_outbox_v1";
+const outRead  = () => { try { return JSON.parse(store.get(OUTBOX) || "[]"); } catch(e) { return []; } };
+// Держим последние 20: очередь — это хвост, а не архив. Без предела один
+// заход по чек-листу без сети раздувает localStorage прогрессом и отметками.
+const outWrite = (a) => store.set(OUTBOX, JSON.stringify(a.slice(-20)));
+
+function send(event, meta){
+  return fetch(CONFIG.FUNCTIONS_URL+"/track",{method:"POST",headers:{"content-type":"application/json"},
+    body:JSON.stringify({initData:tg.initData,event,meta})}).then(r=>{
+      if(!r.ok) throw new Error(String(r.status));
+      return true;
+    });
+}
+
 function track(event, meta){ if(!tg?.initData) return;
-  fetch(CONFIG.FUNCTIONS_URL+"/track",{method:"POST",headers:{"content-type":"application/json"},
-    body:JSON.stringify({initData:tg.initData,event,meta})}).catch(()=>{}); }
+  send(event, meta).catch(()=>{ const a=outRead(); a.push({event,meta}); outWrite(a); });
+}
+
+/* Отправляем по одному и по порядку: событие defect_marked перезаписывает
+   предыдущее такое же, и переставленный порядок дал бы владельцу устаревший
+   список. Первая же неудача останавливает разбор — сеть либо есть, либо нет,
+   и долбиться остальными нет смысла. */
+let flushing = false;
+async function flushOutbox(){
+  if(flushing || !tg?.initData) return;
+  const a = outRead(); if(!a.length) return;
+  flushing = true;
+  try {
+    while(a.length){
+      await send(a[0].event, a[0].meta);
+      a.shift(); outWrite(a);
+    }
+  } catch(e){ /* сети всё ещё нет — остаток лежит до следующего раза */ }
+  finally { outWrite(a); flushing = false; }
+}
+addEventListener("online", flushOutbox);
+setTimeout(flushOutbox, 1500);   // и при обычном открытии: сеть могла появиться между заходами
 
 /* Названия инструментов — короткий словарь, а не поле в каждом пункте: разных
    значений всего четырнадцать, и держать перевод в 58 местах значило бы
@@ -278,6 +346,7 @@ function renderStatic(){
   document.getElementById("t-warn").innerHTML=t.warn;
   document.getElementById("t-buy").textContent=t.buy;
   document.getElementById("t-note").textContent=t.note;
+  document.getElementById("t-offbar").textContent=t.offbar;
   document.getElementById("t-doneT").textContent=t.doneT;
   document.getElementById("t-doneP").textContent=t.doneP;
   document.getElementById("t-foot").innerHTML=t.foot;
