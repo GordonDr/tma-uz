@@ -184,8 +184,20 @@ const API = (window.TOY_API || "https://<project>.functions.supabase.co/toy");
 // бесплатный вход в продукт. Ссылка обязана нести код, иначе канал не считается вообще.
 const BOT = (window.TOY_BOT || "toy_daftar_bot");
 // Держим в одном месте с ботом: цифра в подвале приглашения и скидка, которую бот
-// применяет по ?start=inv_<id>, должны совпадать (INVITE_DISCOUNT_UZS в секретах функции).
+// применяет по ?start=inv_*, должны совпадать (INVITE_DISCOUNT_UZS в секретах функции).
 const VIRAL_OFF = Number(window.TOY_INVITE_DISCOUNT || 10000);
+
+/* V-03. В метку виральной ссылки кладём токен семьи, а не id тоя.
+   Раньше все 200 гостей одного тоя приходили с одинаковым `inv_<id>`, и на
+   вопрос «какая семья привела нового организатора» ответа не было вовсе —
+   а это единственная цифра, по которой видно, работает ли виральная петля
+   и у кого именно. Токен уже есть на странице, второго идентификатора
+   заводить не нужно; бот меняет его на номер семьи и наружу токен не пишет.
+   Для предпросмотра и для старых ссылок остаётся прежний вид с id тоя. */
+function startTag(e){
+  if(token) return `inv_${token}`;
+  return e && e.id ? `inv_${e.id}` : "inv";
+}
 
 
 /* ─── Язык страницы ─────────────────────────────────────────────────────────
@@ -342,6 +354,21 @@ const applyTheme = (name) => toyApplyTheme(name);
 // а без этого организатор может внедрить атрибут на страницу, которую видят его гости.
 const esc = s => String(s??"").replace(/[<>&"']/g,c=>
   ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
+/* A-09 · Кнопка «Карта». Экранирования мало: esc не трогает схему, и
+   «javascript:alert(1)» проходит его целиком, а потом выполняется по нажатию
+   на странице, которую открывают до двухсот гостей. Адрес карты вводит
+   организатор или второй хозяин — то есть чужой код в приглашении ставится
+   через обычное поле формы.
+
+   Схему разрешаем белым списком: http и https. Не подошло — кнопку просто не
+   рисуем, без объяснений: объяснять гостю, что у хозяина плохая ссылка, тут
+   некому и незачем. Тот же белый список стоит на сервере (safeMapUrl) — здесь
+   он второй рубеж на случай страницы, открытой из кэша до выкатки сервера.
+   Функция объявлена, а не встроена, потому что её же гоняет проверка. */
+function okMap(v){
+  var s = String(v == null ? "" : v).replace(/^\s+|\s+$/g, "");
+  return /^https?:\/\/[^\s]/i.test(s);
+}
 // Русские числительные: «4 человека», но «5 человек». Строка стоит на самой заметной
 // кнопке приглашения — кривое согласование там читается как небрежность.
 const plu=(n,one,few,many)=>{
@@ -456,7 +483,7 @@ function render(e, f, preview){
       ${row(u.lblWhen, dateStr ? `${dateStr}${e.event_time?`<span class="sub">${esc(normTime(e.event_time))}</span>`:""}` : "")}
       ${row(u.lblWhere, e.venue_name ? `${esc(e.venue_name)}${e.venue_addr?`<span class="sub">${esc(e.venue_addr)}</span>`:""}` : "")}
     </dl>
-    ${e.map_url?`<a class="map" href="${esc(e.map_url)}" target="_blank" rel="noopener">${u.map}</a>`:""}
+    ${okMap(e.map_url)?`<a class="map" href="${esc(e.map_url)}" target="_blank" rel="noopener">${u.map}</a>`:""}
     <div class="cd" id="cd"></div>
   </section>
   <section class="rsvp" id="rsvp">
@@ -475,9 +502,9 @@ function render(e, f, preview){
   ${preview?"":`<div class="viral" id="viral"${f.rsvp_status==="pending"?" hidden":""}>
     <b>${u.viralTitle}</b>
     <p>${u.viralText(VIRAL_OFF.toLocaleString("ru"))}</p>
-    <a class="vbtn" href="https://t.me/${BOT}?start=inv${e.id?`_${e.id}`:""}">${u.viralBtn}</a>
+    <a class="vbtn" href="https://t.me/${BOT}?start=${startTag(e)}">${u.viralBtn}</a>
   </div>`}
-  <div class="foot">${preview?u.previewTheme(t.label[lang]||t.label.ru):`${u.madeIn} · <a href="https://t.me/${BOT}?start=inv${e.id?`_${e.id}`:""}">${u.makeOwn}</a>`}
+  <div class="foot">${preview?u.previewTheme(t.label[lang]||t.label.ru):`${u.madeIn} · <a href="https://t.me/${BOT}?start=${startTag(e)}">${u.makeOwn}</a>`}
 
     <div style="margin-top:14px;font-size:11px;opacity:.85;text-align:left">
       <b>${u.privTitle}.</b> ${u.privText}

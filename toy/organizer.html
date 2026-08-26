@@ -86,6 +86,23 @@ h1,h2{font-family:"Cormorant Garamond",Georgia,serif;margin:0;font-weight:600;li
 .pngov img{width:100%;border-radius:12px;display:block;box-shadow:0 10px 40px rgba(0,0,0,.4)}
 .pngov .hint{color:#fff;font-size:13.5px;line-height:1.5;text-align:center;margin:12px 0 10px;opacity:.9}
 
+/* A-22: документ по столам на телефоне показываем свёрстанным во весь экран.
+   Раньше он уходил в dl() и на телефоне оборачивался простынёй HTML-исходника. */
+.docov{position:fixed;inset:0;z-index:85;background:rgba(42,33,28,.78);
+  display:flex;align-items:flex-start;justify-content:center;padding:12px;overflow:auto}
+.docov .dwrap{width:100%;max-width:620px}
+.docov .dpaper{background:#fff;color:#1C1613;border-radius:14px;padding:18px 16px;
+  font:400 14px Manrope,system-ui,sans-serif;line-height:1.5;overflow-x:auto}
+.docov .dpaper h1{font:600 19px "Cormorant Garamond",Georgia,serif;text-align:center;margin:0 0 10px}
+.docov .dpaper h3{font:600 15px Manrope,sans-serif;margin:16px 0 6px}
+.docov .dpaper p{margin:0 0 8px}
+.docov .dpaper table{border-collapse:collapse;width:100%;font-size:13px}
+.docov .dpaper td,.docov .dpaper th{border:1px solid #C9BCA9;padding:6px 8px;text-align:left}
+.docov .dpaper th{background:#F4EDE3;font-weight:600}
+.docov .dbar{display:flex;gap:8px;margin-top:12px}
+.docov .dbar .b{margin:0;flex:1}
+.docov .dhint{color:#fff;opacity:.9;font-size:12.5px;line-height:1.5;text-align:center;margin-top:10px}
+
 .stats span{display:block;font-size:10.5px;color:var(--muted);margin-top:5px;letter-spacing:.02em}
 
 /* tabs */
@@ -571,9 +588,27 @@ function splitRow(line, sep){
   }
   out.push(cur); return out.map(s=>s.trim());
 }
+/* A-11 · Формулы в выгрузке. Пожелание гостя, начинающееся с «=», «+», «-» или
+   «@», Excel открывает не как текст, а как формулу — и открывает файл ХОЗЯИН
+   тоя, на своей машине. Пишет строку гость, выполняется она у хозяина: путь тот
+   же, что у XSS, только через Excel.
+
+   Гасим ведущий символ апострофом и ячейку после этого всегда берём в кавычки,
+   чтобы апостроф не склеился с разделителем. Чистые числа не трогаем: «-500»
+   с апострофом перестаёт быть числом, а суммы подарков здесь складывают —
+   опасен не минус, а минус перед формулой.
+
+   Обычные функции, а не стрелки: этот кусок гоняется отдельной проверкой,
+   и она умеет ES5. */
+var CSV_NUM=/^-?\d+([.,]\d+)?$/;
+function csvSafe(s){
+  if(CSV_NUM.test(s)) return s;
+  return /^[=+\-@\t\r]/.test(s) ? "'"+s : s;
+}
 function csvCell(v){
-  const s=String(v??"");
-  return /[";\n\r]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+  var raw=String(v==null?"":v);
+  var s=csvSafe(raw);
+  return (s!==raw || /[";\n\r]/.test(s)) ? '"'+s.replace(/"/g,'""')+'"' : s;
 }
 // Заголовки принимаем на обоих языках и в любом регистре — файл мог прийти от зала или от тамады.
 const COL_ALIASES = {
@@ -626,7 +661,12 @@ function parseGuests(text){
     const map = hasHeader ? idx : {id:0,name:1,side:2,invited:3,status:4,count:5,table:6,note:7};
     const rows = body.map(line=>{
       const c = splitRow(line, sep);
-      const get = k => map[k]!==undefined ? (c[map[k]] ?? "") : "";
+      // A-11, обратная сторона: на выгрузке мы гасим ведущий «=» апострофом.
+      // Excel этот апостроф съедает сам, а LibreOffice и «Google Таблицы»
+      // возвращают его буквой — и круг «выгрузил → поправил → загрузил» копил
+      // бы по апострофу за проход. Снимаем ровно тот, что поставили сами.
+      const unq = s => String(s ?? "").replace(/^'(?=[=+\-@])/, "");
+      const get = k => map[k]!==undefined ? unq(c[map[k]] ?? "") : "";
       const name = String(get("name")).trim();
       if(!name) return null;
       const invited = Math.max(1, Math.min(50, parseInt(get("invited"),10) || 2));
@@ -815,6 +855,7 @@ function tabGuests(){
   const sideOpts
  = `<option value="kuyov">${t.gSideKuyov}</option><option value="kelin">${t.gSideKelin}</option>`;
   $("#tab").innerHTML = `
+  ${pendingStrip()}
   <div class="card">
     <b>${t.gAddTitle}</b>
     <label>${t.gName}</label><input id="fname" placeholder="${t.gNamePh}">
@@ -881,6 +922,9 @@ function tabGuests(){
   $("#sendThanks") && ($("#sendThanks").onclick=()=>startQueue("thanks"));
   $("#buyP") && ($("#buyP").onclick=()=>pay("premium"));
   $("#remind") && ($("#remind").onclick=()=>{S.onlyPending=!S.onlyPending;render();});
+  // A-21: отметку «отправлено» ставит человек, а не нажатие кнопки.
+  $("#psYes") && ($("#psYes").onclick=()=>{ haptic("medium"); confirmSent(pendingFams().map(f=>f.id)); });
+  $("#psNo")  && ($("#psNo").onclick =()=>{ haptic("light");  declineSent(pendingGet()); });
   $("#bulkToggle").onclick=()=>{S.bulk=!S.bulk;S.diff=null;haptic("light");render();};
   $("#bulkCancel") && ($("#bulkCancel").onclick=()=>{S.bulk=false;S.diff=null;render();});
   $("#exportX").onclick=()=>{
@@ -988,17 +1032,72 @@ function shareText(f, kind){
     ? (window.toyFill ? toyFill(tpl, { ...S.ev, dateStr: dt }) : tpl)
     : `${S.ev.greeting || ""}\n\n${S.ev.couple}\n${dt}\n${S.ev.venue_name || ""}`;
 }
+/* ── A-21. «Отправлено» ставится с ваших слов, а не по нажатию ───────────────
+   Между нажатием и ушедшим приглашением стоит чужой экран — выбор чата в
+   Telegram. Его закрывают: промахнулись, передумали, позвонили. Раньше отметка
+   уходила в базу до этого экрана, и отменённая отправка выглядела как
+   состоявшаяся.
+
+   Цена ошибки здесь не косметическая. Семья с `sent_at` выпадает из очереди
+   «кому ещё не отправляли» и больше в неё не возвращается — то есть гость
+   теряется молча и навсегда. При этом место за ним продолжает считаться
+   в счёте для зала как «молчит», и организатор платит за стул, приглашения
+   на который не было. Он же видит «разослано 40» и по этой цифре бронирует зал.
+
+   Поэтому в базу пишем только то, что человек подтвердил. Ошибиться можно
+   в обе стороны, но неотмеченная семья просто снова появится в очереди —
+   а отмеченная по ошибке исчезает. Выбираем ту сторону, где потери нет.
+
+   Список ждущих подтверждения лежит в localStorage, а не только в памяти:
+   openTelegramLink на части клиентов закрывает мини-апп целиком, и без этого
+   вопрос «отправили?» пропал бы вместе со страницей. */
+const pendKey = () => `td_pending_sent_${S.ev && S.ev.id}`;
+function pendingGet(){
+  try{ const a = JSON.parse(localStorage.getItem(pendKey()) || "[]"); return Array.isArray(a) ? a : []; }
+  catch(e){ return []; }
+}
+function pendingSet(a){ try{ localStorage.setItem(pendKey(), JSON.stringify(a.slice(-300))); }catch(e){} }
+function pendingAdd(id){ const a = pendingGet(); if(!a.includes(id)){ a.push(id); pendingSet(a); } }
+function pendingDrop(ids){ const s = new Set(ids); pendingSet(pendingGet().filter(x => !s.has(x))); }
+// Ждут ответа только те, кого ещё не отметили: остальное — след прошлых заходов
+// и удалённых семей, и показывать его незачем.
+function pendingFams(){
+  return pendingGet().map(id => S.fams.find(f => f.id === id)).filter(f => f && !f.sent_at);
+}
+async function confirmSent(ids){
+  pendingDrop(ids);
+  const fresh = ids.filter(id => { const f = S.fams.find(x => x.id === id); return f && !f.sent_at; });
+  const now = new Date().toISOString();
+  fresh.forEach(id => { const f = S.fams.find(x => x.id === id); if(f) f.sent_at = now; });
+  render();
+  if(fresh.length) await call("mark_sent", { event_id: S.ev.id, family_ids: fresh });
+}
+function declineSent(ids){ pendingDrop(ids); render(); }
+// Полоса подтверждения в списке гостей. Ловит два случая: отправку из строки
+// семьи (там очереди нет) и возврат в кабинет после того, как мини-апп закрылся.
+function pendingStrip(){
+  const t = L(), list = pendingFams();
+  if(!list.length) return "";
+  return `<div class="notice" id="pstrip">
+    <b>${t.psTitle}</b>
+    <p>${t.psText(list.length)}</p>
+    <p style="margin-top:5px"><b>${list.slice(0,8).map(f=>esc(f.name)).join(", ")}${list.length>8?" …":""}</b></p>
+    <div class="row2" style="margin-top:9px">
+      <button class="b" id="psYes" style="margin:0">${t.psYes}</button>
+      <button class="b sec" id="psNo" style="margin:0">${t.psNo}</button>
+    </div></div>`;
+}
+
 function shareTo(f, kind){
   const link = S.inviteLink.replace("{token}", f.token);
   // Отмечаем только первую отправку. Напоминание, перенос и благодарность идут по
   // тем же семьям — «когда отправили приглашение» от них меняться не должно.
-  if(!f.sent_at){
-    call("mark_sent", { event_id: S.ev.id, family_ids: [f.id] });
-    f.sent_at = new Date().toISOString();
-  }
+  if(!f.sent_at) pendingAdd(f.id);
   haptic("medium");
   const url = `https://t.me/share/url?url=${encodeURIComponent(link)}&text=${encodeURIComponent(shareText(f, kind))}`;
   tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url);
+  // Перерисовываем, чтобы вопрос «отправили?» встретил человека сразу по возвращении.
+  setTimeout(() => render(), 400);
 }
 // Кому что уходит:
 //   first  — кому ещё не отправляли
@@ -1022,6 +1121,7 @@ function queueSize(kind){
 }
 function startQueue(kind){
   S.sendKind = kind;
+  S.sendAsk = null;
   S.sendDone = new Set();
   S.sendQueue = S.fams.filter(f => inQueue(f, kind)).map(f => f.id);
   S.tab = "send"; haptic("light"); render();
@@ -1036,6 +1136,24 @@ function tabSend(){
   const byId = new Map(S.fams.map(f => [f.id, f]));
   const queue = (S.sendQueue || []).map(id => byId.get(id)).filter(f => f && !S.sendDone.has(f.id));
   const done = total - queue.length;
+  // A-21. Очередь не идёт дальше сама: следующая семья открывается ответом
+  // на прямой вопрос. Один тап вместо потерянного гостя — размен честный.
+  if(S.sendAsk != null && byId.get(S.sendAsk)){
+    const af = byId.get(S.sendAsk);
+    $("#tab").innerHTML = `
+    <div class="card">
+      <div class="note" style="margin:0 0 8px">${t.qProgress(done, total)}</div>
+      <b>${t.qAskTitle}</b>
+      <div style="font-family:var(--display,'Cormorant Garamond',serif);font-size:22px;font-weight:600;margin-top:6px">${esc(af.name)}</div>
+      <div class="note" style="margin:6px 0 14px">${t.qAskText}</div>
+      <button class="b" id="askYes">${t.qAskYes}</button>
+      <button class="b sec" id="askNo">${t.qAskNo}</button>
+    </div>`;
+    $("#askYes").onclick=()=>{ haptic("medium"); S.sendDone.add(af.id); S.sendAsk=null; confirmSent([af.id]); };
+    $("#askNo").onclick =()=>{ haptic("light");  S.sendAsk=null; declineSent([af.id]); };
+    return;
+  }
+  S.sendAsk = null;
   if(!queue.length){
     $("#tab").innerHTML = `<div class="card"><b>${t.qDoneTitleFor(kind)}</b>
       <div class="note" style="margin-top:6px">${t.qDoneText(done)}</div>
@@ -1061,9 +1179,11 @@ function tabSend(){
   </div>`;
   // Отмечаем отправленной и сразу показываем следующую: возвращаться из чата
   // человек будет уже на неё, а не на начало списка.
-  $("#go").onclick=()=>{ S.sendDone.add(f.id); shareTo(f, kind); setTimeout(()=>render(), 300); };
+  // В sendDone семья попадёт только после подтверждения: до него она остаётся
+  // текущей, и повторное нажатие «отправить» ничего не портит.
+  $("#go").onclick=()=>{ S.sendAsk = f.id; shareTo(f, kind); };
   $("#skip").onclick=()=>{ S.sendDone.add(f.id); haptic("light"); render(); };
-  $("#stop").onclick=()=>{ S.tab="guests"; render(); };
+  $("#stop").onclick=()=>{ S.tab="guests"; S.sendAsk=null; render(); };
 }
 
 /* ── Авто-раскладка по столам ────────────────────────────────────────────────
@@ -1386,7 +1506,9 @@ function tabZal(){
     navigator.clipboard?.writeText(txt); haptic("light"); tg?.showAlert?.(t.zCopied); };
   $("#csv").onclick=()=>{
     const head=t.zCsvHead+"\n";
-    const body=rows().map(r=>[r.name,r.side,r.inv,r.st,r.cnt,r.tbl].join(";")).join("\n");
+    // A-11 плюс старая дыра рядом: строки шли в файл вообще без обработки, и
+    // «;» в названии семьи разъезжал колонки, а «=» в ней открывался формулой.
+    const body=rows().map(r=>[r.name,r.side,r.inv,r.st,r.cnt,r.tbl].map(csvCell).join(";")).join("\n");
     dl(`${t.zCsvFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.csv`,"﻿"+head+body,"text/csv"); };
   $("#docx").onclick=()=>{
     const byT={}; S.fams.forEach(f=>{const k=f.table_id||0;(byT[k]=byT[k]||[]).push(f);});
@@ -1414,21 +1536,58 @@ function isMobileTg(){
   return p === "android" || p === "ios";
 }
 function dl(name,content,type){
-  // Документ для печати — HTML: показывать его исходником бессмысленно, его
-  // открывают в новом окне и печатают оттуда.
-  if(isMobileTg() && type === "application/msword") return printDoc(content);
   if(isMobileTg()) return showCopySheet(name, content);
   try{
     const b=new Blob([content],{type});const a=document.createElement("a");
     a.href=URL.createObjectURL(b);a.download=name;a.click();URL.revokeObjectURL(a.href);
   }catch(e){ showCopySheet(name, content); }
 }
-function printDoc(html){
-  const w = window.open("", "_blank");
-  if(!w) return showCopySheet("doc", html);
-  w.document.write(html);
-  w.document.close();
-  setTimeout(()=>{ try{ w.print(); }catch(e){} }, 300);
+
+/* ── A-22. Документ по столам на телефоне ────────────────────────────────────
+   Половина платного оффера — «рассадка без бумажек», и на телефоне она
+   открывалась вываленным HTML-исходником: `<html><head><style>body{font-family…`
+   во весь экран. Так получалось честно и по шагам: скачать файл во встроенном
+   браузере Telegram нельзя (D-24), поэтому документ шёл в `printDoc`, тот звал
+   `window.open`, а Telegram на iOS отдаёт `null` — и оставался единственный
+   запасной путь, textarea с исходником.
+
+   Чинить надо не запасной путь, а сам замысел: на телефоне не существует ни
+   файла, ни печати, поэтому и отдавать надо не файл, а документ. Показываем
+   его свёрстанным во весь экран — таким, каким он выйдет на бумаге. Дальше
+   человек делает то, что и так делает: скриншот и пересылка администратору
+   тойхоны, ровно как со счётом зала через zalPng.
+
+   Почему не картинка через canvas, как zalPng: там одно число во весь лист,
+   здесь — тридцать столов по десять семей. В PNG такой список либо нечитаем,
+   либо весит столько, что Telegram сожмёт его в кашу. Тот же список текстом
+   («Скопировать») вставляется в Excel и Google Таблицы и остаётся редактируемым.
+   На десктопе всё как было: настоящий .doc и настоящая печать. */
+function showDocOverlay(bodyHtml, plain){
+  const t = L();
+  const ov = document.createElement("div"); ov.className = "docov";
+  ov.innerHTML = `<div class="dwrap">
+    <div class="dpaper">${bodyHtml}</div>
+    <div class="dbar">
+      <button class="b" id="dcopy">${t.dlCopy}</button>
+      <button class="b sec" id="dclose">${t.zPngClose}</button>
+    </div>
+    <div class="dhint">${t.docHint}</div>
+  </div>`;
+  document.body.appendChild(ov);
+  ov.querySelector("#dclose").onclick = () => ov.remove();
+  ov.onclick = e => { if(e.target === ov) ov.remove(); };
+  ov.querySelector("#dcopy").onclick = async () => {
+    try{ await navigator.clipboard.writeText(plain); }
+    catch(e){
+      const ta = document.createElement("textarea");
+      ta.value = plain; ta.style.position = "fixed"; ta.style.opacity = "0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); }catch(e2){}
+      ta.remove();
+    }
+    haptic("medium");
+    ov.querySelector("#dcopy").textContent = t.dlCopied;
+  };
 }
 function showCopySheet(name, content){
   const t=L();

@@ -250,12 +250,17 @@ const store={mem:{},get(k){try{return localStorage.getItem(k)}catch(e){return th
   set(k,v){try{localStorage.setItem(k,v)}catch(e){this.mem[k]=v}},del(k){try{localStorage.removeItem(k)}catch(e){delete this.mem[k]}}};
 const LS="kq_done_v1", LSB="kq_bad_v1";
 let lang = store.get("kq_lang") || (tg?.initDataUnsafe?.user?.language_code === "uz" ? "uz" : "ru");
+document.documentElement.lang = lang;   // в разметке жёстко стоит ru, а язык мог сохраниться узбекским
 let done = new Set(JSON.parse(store.get(LS) || "[]"));
 // Пункты, где человек нашёл дефект. Это мост от бесплатного чек-листа к платному акту:
 // список уходит в бот вместе с заказом, и владельцу не приходится вытаскивать его перепиской.
 let bad = new Set(JSON.parse(store.get(LSB) || "[]"));
 let openSec = null;
 
+/* Цена задаётся одним числом в config.js, но слово «сум» в узбекском тексте
+   пишется «soʻm». Отдельной константы в конфиге нет намеренно: два числа
+   разъедутся, а одно — нет. */
+const PRICE_UZ = String(CONFIG.PRICE_LABEL).replace(/сум/i, "soʻm");
 const TXT={
  ru:{title:"Приёмка квартиры",sub:"Пройдите по пунктам во время осмотра",bag:"Возьмите с собой",
    warn:"<b>Не подписывайте акт приёма-передачи, пока замечания не вписаны в документ.</b> Каждый дефект — стикер на месте и два фото: общий план и крупно.",
@@ -274,27 +279,29 @@ const TXT={
    how:"как проверить",flag:"здесь дефект",flagOn:"дефект отмечен",
    foundT:n=>`Отмечено замечаний: ${n}`,
    foundP:"Эти пункты попадут в акт осмотра — переносить их вручную не придётся. Сфотографируйте каждое: общий план и крупно.",
+   foundMore:n=>`… и ещё ${n} ${plural(n,"замечание","замечания","замечаний")}`,
    buyBad:n=>`Оформить ${n} ${plural(n,"замечание","замечания","замечаний")} в акт`,
    noteBad:"Акт осмотра + претензия застройщику · 24 часа"},
- uz:{title:"Kvartirani qabul qilish",sub:"Ko'rik davomida bandlarni belgilang",bag:"O'zingiz bilan oling",
+ uz:{title:"Kvartirani qabul qilish",sub:"Koʻrik davomida bandlarni belgilang",bag:"Oʻzingiz bilan oling",
    warn:"<b>Kamchiliklar hujjatga yozilmaguncha qabul dalolatnomasini imzolamang.</b> Har bir nuqson — joyiga stiker va ikkita surat: umumiy va yaqin plan.",
-   buy:`Dalolatnoma + pretenziya — ${CONFIG.PRICE_LABEL}`,note:"Nuqson suratlari → 24 soatda tayyor hujjatlar",
-   offbar:"Internet yo'q — yangi binoda bu odatiy hol. Ro'yxat ishlayapti, belgilar telefonda saqlanadi va aloqa paydo bo'lganda botga yuboriladi.",
+   buy:`Dalolatnoma + pretenziya — ${PRICE_UZ}`,note:"Nuqson suratlari → 24 soatda tayyor hujjatlar",
+   offbar:"Internet yoʻq — yangi binoda bu odatiy hol. Roʻyxat ishlayapti, belgilar telefonda saqlanadi va aloqa paydo boʻlganda botga yuboriladi.",
    arTitle:"Farqni pulda hisoblash",
-   arDog:"Shartnoma bo'yicha maydon, m²", arFact:"O'lchangan maydon, m²", arPrice:"Shartnomadagi 1 m² narxi, so'm",
-   arLess:(d)=>`<b style="display:inline;font-size:inherit">${d} m²</b> yetishmayapti. Shartnoma bo'yicha bu qayta hisob-kitob uchun asos: `,
-   arSum:"so'm", arNeedPrice:"Metr narxini kiriting — summani hisoblab beraman",
-   arMore:(d)=>`Haqiqiy maydon shartnomadagidan ${d} m² katta. Bunday holda quruvchi qo'shimcha to'lov talab qilishi mumkin — shartnomangizda bu haqda nima yozilganini ko'ring.`,
+   arDog:"Shartnoma boʻyicha maydon, m²", arFact:"Oʻlchangan maydon, m²", arPrice:"Shartnomadagi 1 m² narxi, soʻm",
+   arLess:(d)=>`<b style="display:inline;font-size:inherit">${d} m²</b> yetishmayapti. Shartnoma boʻyicha bu qayta hisob-kitob uchun asos: `,
+   arSum:"soʻm", arNeedPrice:"Metr narxini kiriting — summani hisoblab beraman",
+   arMore:(d)=>`Haqiqiy maydon shartnomadagidan ${d} m² katta. Bunday holda quruvchi qoʻshimcha toʻlov talab qilishi mumkin — shartnomangizda bu haqda nima yozilganini koʻring.`,
    arSame:"Maydon shartnomaga mos keladi.",
-   arNote:"Har xonaning ikki devori bo'yicha, pol bo'ylab, plintussiz o'lchang. Hisob telefoningizda bajariladi va hujjat buyurtma qilsangiz dalolatnomaga kiradi.",
-   doneT:"🎉 Ko'rik yakunlandi",doneP:"Nuqson topdingizmi? Dalolatnoma va pretenziyani tayyorlaymiz — sizga faqat topshirish qoladi.",
-   foot:"Kvartira Qabul · o'zingiz topshirishingiz uchun hujjatlar<br>Ekspertiza emas. Nizo natijasi kafolatlanmaydi.",
-   sampleLink:"Dalolatnoma namunasini ko.rish",
+   arNote:"Har xonaning ikki devori boʻyicha, pol boʻylab, plintussiz oʻlchang. Hisob telefoningizda bajariladi va hujjat buyurtma qilsangiz dalolatnomaga kiradi.",
+   doneT:"🎉 Koʻrik yakunlandi",doneP:"Nuqson topdingizmi? Dalolatnoma va pretenziyani tayyorlaymiz — sizga faqat topshirish qoladi.",
+   foot:"Kvartira Qabul · oʻzingiz topshirishingiz uchun hujjatlar<br>Ekspertiza emas. Nizo natijasi kafolatlanmaydi.",
+   sampleLink:"Dalolatnoma namunasini koʻrish",
    how:"qanday tekshirish",flag:"bu yerda nuqson",flagOn:"nuqson belgilandi",
    foundT:n=>`Belgilangan kamchiliklar: ${n}`,
-   foundP:"Bu bandlar ko'rik dalolatnomasiga kiradi — qo'lda ko'chirish shart emas. Har birini suratga oling: umumiy va yaqin plan.",
+   foundP:"Bu bandlar koʻrik dalolatnomasiga kiradi — qoʻlda koʻchirish shart emas. Har birini suratga oling: umumiy va yaqin plan.",
+   foundMore:n=>`… va yana ${n} ta kamchilik`,
    buyBad:n=>`${n} ta kamchilikni dalolatnomaga kiritish`,
-   noteBad:"Ko'rik dalolatnomasi + pretenziya · 24 soat"}
+   noteBad:"Koʻrik dalolatnomasi + pretenziya · 24 soat"}
 };
 // Русские окончания для счётчика: «1 замечание / 2 замечания / 5 замечаний».
 function plural(n,one,few,many){
@@ -356,10 +363,10 @@ setTimeout(flushOutbox, 1500);   // и при обычном открытии: �
    гарантированно их рассинхронизировать. */
 const TOOL_UZ = {
   "фонарик":"fonar", "камера":"kamera", "салфетка":"salfetka", "рулетка":"ruletka",
-  "лист бумаги":"bir varaq qog'oz", "уровень":"nivelir", "уровень/шарик":"nivelir yoki sharcha",
+  "лист бумаги":"bir varaq qogʻoz", "уровень":"nivelir", "уровень/шарик":"nivelir yoki sharcha",
   "лампочка":"lampochka", "зарядка":"quvvatlagich", "зажигалка":"zajigalka",
   "бутылка воды":"bir shisha suv", "договор":"shartnoma",
-  "папка документов":"hujjatlar papkasi", "набор":"to'plam",
+  "папка документов":"hujjatlar papkasi", "набор":"toʻplam",
 };
 const toolName = (v) => (lang === "uz" && TOOL_UZ[v]) ? TOOL_UZ[v] : v;
 
@@ -539,7 +546,7 @@ function renderFound(){
   const list=badList();
   box.innerHTML=`<b>⚠ ${t.foundT(n)}</b><p>${t.foundP}</p>
     <div class="list">${list.slice(0,6).map(x=>`<div>${x.t}</div>`).join("")}
-    ${list.length>6?`<div>… и ещё ${list.length-6}</div>`:""}</div>`;
+    ${list.length>6?`<div>${t.foundMore(list.length-6)}</div>`:""}</div>`;
 }
 function update(){
   const d=done.size, pct=Math.round(100*d/total);
@@ -559,8 +566,16 @@ function update(){
     haptic("heavy"); tg?.HapticFeedback?.notificationOccurred?.("success");
   }
 }
-document.getElementById("lru").onclick=()=>{lang="ru";store.set("kq_lang",lang);renderStatic();renderList();};
-document.getElementById("luz").onclick=()=>{lang="uz";store.set("kq_lang",lang);renderStatic();renderList();};
+// document.documentElement.lang — не украшение: по нему браузер выбирает словарь
+// переносов и правила чтения вслух. Страница объявляла ru навсегда, и узбекский
+// текст читался экранной читалкой по-русски.
+// update() здесь обязателен, а не «на всякий случай»: блок найденных замечаний
+// и текст кнопки заказа рисуются только оттуда. Без него человек, переключивший
+// язык на узбекский после того, как отметил дефекты, продолжал видеть весь этот
+// блок по-русски — заголовок, пояснение и строку «… и ещё N».
+const setLang=(v)=>{lang=v;store.set("kq_lang",lang);document.documentElement.lang=lang;renderStatic();renderList();update();};
+document.getElementById("lru").onclick=()=>setLang("ru");
+document.getElementById("luz").onclick=()=>setLang("uz");
 document.getElementById("buy").onclick=()=>{
   haptic("medium");
   // Отправляем список синхронно перед уходом в бот, чтобы владелец увидел его в карточке заказа.
@@ -585,11 +600,11 @@ const CONSENT_TXT={
        ok:"Понятно, начать", more:"Условия и обработка данных" },
   uz:{ h:"Boshlashdan oldin", sub:"Qisqa va yuridik tilsiz.",
        li:["Cheklist <b>bepul</b>. Belgilar telefoningizda saqlanadi va hech qayerga yuborilmaydi.",
-           "Bizga <b>nima boradi</b>: cheklistni ochganingiz, oxirigacha borganingiz, «rasmiylashtirish» tugmasini bosganingiz — va <b>qaysi bandlarni nuqson deb belgilaganingiz</b>. Belgilanganini saqlaymiz, buyurtmada qayta so'ramaslik uchun. Bularning bari Telegram-ID'ingizga bog'langan, ya'ni shaxssizlantirilmagan.",
-           "Maydonni hisoblasangiz, u ham e'tirozlar bilan birga boradi: dalolatnomaning alohida bandi uchun kerak.",
-           "Dalolatnoma buyurtma qilsangiz — F.I.Sh., telefon va shartnoma rekvizitlarini so'raymiz. Faqat pretenziya ismli bo'lishi uchun. Rad etish mumkin.",
-           "O'zingiz haqingizdagi hamma narsani o'chirish — botdagi <b>/delete</b> buyrug'i, istalgan vaqtda."],
-       ok:"Tushunarli, boshlaymiz", more:"Shartlar va ma'lumotlarni qayta ishlash" },
+           "Bizga <b>nima boradi</b>: cheklistni ochganingiz, oxirigacha borganingiz, «rasmiylashtirish» tugmasini bosganingiz — va <b>qaysi bandlarni nuqson deb belgilaganingiz</b>. Belgilanganini saqlaymiz, buyurtmada qayta soʻramaslik uchun. Bularning bari Telegram-IDʼingizga bogʻlangan, yaʼni shaxssizlantirilmagan.",
+           "Maydonni hisoblasangiz, u ham eʼtirozlar bilan birga boradi: dalolatnomaning alohida bandi uchun kerak.",
+           "Dalolatnoma buyurtma qilsangiz — F.I.Sh., telefon va shartnoma rekvizitlarini soʻraymiz. Faqat pretenziya ismli boʻlishi uchun. Rad etish mumkin.",
+           "Oʻzingiz haqingizdagi hamma narsani oʻchirish — botdagi <b>/delete</b> buyrugʻi, istalgan vaqtda."],
+       ok:"Tushunarli, boshlaymiz", more:"Shartlar va maʼlumotlarni qayta ishlash" },
 };
 /* ── R-01 · «Приложение открыли» — до экрана согласия ────────────────────────
    Порог вердикта «≥300 открытий чек-листа» считался по checklist_open, который
