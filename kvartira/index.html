@@ -404,6 +404,10 @@ const AREA_LS = "kq_area_v1";
 const areaRead = () => { try { return JSON.parse(store.get(AREA_LS) || "{}"); } catch(e) { return {}; } };
 const num = (v) => { const n = parseFloat(String(v).replace(",", ".")); return Number.isFinite(n) && n > 0 ? n : 0; };
 const uzs = (n) => Math.round(n).toLocaleString("ru");
+// Разделитель — запятая: и в русском, и в узбекском так, и это же число
+// человек понесёт застройщику в акте. Точка там выглядит как чужая цифра.
+// Хвостовой ноль убираем: «1,3 м²», а не «1,30 м²» — в договоре пишут так.
+const dec = (n) => String(+(+n).toFixed(2)).replace(".", ",");
 
 function areaCalc(){
   const a = areaRead();
@@ -420,10 +424,10 @@ function areaBox(t){
   let out = "";
   if(r){
     if(r.diff > 0.01){
-      out = `<div class="ar-out bad">${t.arLess(r.diff.toFixed(2))}` +
+      out = `<div class="ar-out bad">${t.arLess(dec(r.diff))}` +
             (r.sum ? `<b>${uzs(r.sum)} ${t.arSum}</b>` : `<span class="ar-hint">${t.arNeedPrice}</span>`) + `</div>`;
     } else if(r.diff < -0.01){
-      out = `<div class="ar-out">${t.arMore((-r.diff).toFixed(2))}</div>`;
+      out = `<div class="ar-out">${t.arMore(dec(-r.diff))}</div>`;
     } else {
       out = `<div class="ar-out ok">${t.arSame}</div>`;
     }
