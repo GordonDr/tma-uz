@@ -193,6 +193,23 @@ const T_ORG = {
     sBtnSeat:"→ за стол", sBtnPick:"выберите стол",
     sEmptyAll:"Все рассажены 👌", sAlertPick:"Сначала выберите стол",
 
+    /* авто-раскладка */
+    saBtn:"🪑 Разложить всех по столам",
+    saBtnNote:"Семья садится целиком, келин томон и куёв томон сидят группами, уже рассаженные остаются на своих местах.",
+    saSaving:(d,n)=>`Рассаживаем… ${d} из ${n}`,
+    saUndoing:(d,n)=>`Отменяем… ${d} из ${n}`,
+    saNoTables:"Сначала создайте столы",
+    saNothing:"Рассаживать некого — все уже за столами",
+    saDoneTitle:"Разложено",
+    saDone:(f,s,tb)=>`Семей: ${f} · мест: ${s} · столов занято: ${tb}`,
+    saAllFit:"Все поместились.",
+    saLeft:(f,s)=>`Не поместились семей: ${f} (мест: ${s}).`,
+    saLeftHint:"Добавьте столов или мест за столом и нажмите ещё раз — рассаженные останутся на местах.",
+    saUndo:"Отменить раскладку",
+    saUndoConfirm:(n)=>`Вернуть в «не рассажены» ${n} — тех, кого посадила эта кнопка? Рассаженные вручную останутся на местах.`,
+    saUndone:"Раскладка отменена",
+    saPartial:(n)=>`Не сохранилось: ${n}. Связь пропала на середине. Нажмите ещё раз — досадим остальных.`,
+
     /* для зала */
     zEstNote:"осторожная оценка для заказа: подтвердившие + 60% от молчащих",
     zYes:"подтвердили", zPending:(n)=>`ещё молчат (${n} семей)`,
@@ -424,6 +441,23 @@ const T_ORG = {
     sRowYes:(n)=>`${n} kishi keladi`, sRowInvited:(n)=>`${n} kishi taklif qilingan`,
     sBtnSeat:"→ stolga", sBtnPick:"stolni tanlang",
     sEmptyAll:"Hamma joylashtirildi 👌", sAlertPick:"Avval stolni tanlang",
+
+    /* avtomatik joylashtirish */
+    saBtn:"🪑 Hammani stollarga joylashtirish",
+    saBtnNote:"Oila butunicha o'tiradi, kelin tomon va kuyov tomon guruh bo'lib joylashadi, qo'lda joylashtirilganlar joyida qoladi.",
+    saSaving:(d,n)=>`Joylashtirilmoqda… ${n} tadan ${d}`,
+    saUndoing:(d,n)=>`Bekor qilinmoqda… ${n} tadan ${d}`,
+    saNoTables:"Avval stollarni yarating",
+    saNothing:"Joylashtiradigan oila yo'q — hammasi stolda",
+    saDoneTitle:"Joylashtirildi",
+    saDone:(f,s,tb)=>`Oila: ${f} · joy: ${s} · band stol: ${tb}`,
+    saAllFit:"Hammasi sig'di.",
+    saLeft:(f,s)=>`Sig'magan oilalar: ${f} (joy: ${s}).`,
+    saLeftHint:"Stol sonini yoki stoldagi joy sonini oshiring va yana bosing — joylashtirilganlar joyida qoladi.",
+    saUndo:"Joylashuvni bekor qilish",
+    saUndoConfirm:(n)=>`Shu tugma joylashtirgan ${n} oila «joylashtirilmagan»ga qaytarilsinmi? Qo'lda joylashtirilganlar joyida qoladi.`,
+    saUndone:"Joylashuv bekor qilindi",
+    saPartial:(n)=>`Saqlanmadi: ${n}. Aloqa yarim yo'lda uzildi. Yana bosing — qolganini joylashtiramiz.`,
 
     zEstNote:"buyurtma uchun ehtiyotkor hisob: tasdiqlaganlar + javob bermaganlarning 60 foizi",
     zYes:"tasdiqladi", zPending:(n)=>`hali javob yo'q (${n} ta oila)`,

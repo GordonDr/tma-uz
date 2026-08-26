@@ -3,6 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/brand/toy-og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../brand/logo-toy.svg" type="image/svg+xml">
+<link rel="icon" href="../brand/toy-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../brand/toy-apple.png">
 <title>To'y-Daftar — кабинет</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -225,7 +232,7 @@ function renderLangSeg(){
 }
 
 const API = (window.TOY_API || "https://<project>.functions.supabase.co/toy");
-const S = { ev:null, all:[], fams:[], tables:[], gifts:[], tab:"guests", inviteBase:"", inviteLink:"", venueHint:50, selTab:null, onlyPending:false, bulk:false, diff:null };
+const S = { ev:null, all:[], fams:[], tables:[], gifts:[], tab:"guests", inviteBase:"", inviteLink:"", venueHint:50, selTab:null, onlyPending:false, bulk:false, diff:null, autoseat:null };
 
 const $ = s => document.querySelector(s);
 const esc = s => String(s??"").replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
@@ -431,7 +438,8 @@ async function open(id){
   if(d.error) return say(L().errAccess);
   S.ev=d.event; localStorage.setItem("td_last_event", String(id)); S.fams=d.families; S.tables=d.tables; S.gifts=d.gifts; S.wishes=d.wishes||0; S.inviteBase=d.invite_base; S.inviteLink=d.invite_link||`${d.invite_base}?t={token}`; S.venueHint=d.venue_hint||50;
 
-  S.bulk=false; S.onlyPending=false;
+  // Итог авто-раскладки принадлежит конкретному тою: у другого и столы другие.
+  S.bulk=false; S.onlyPending=false; S.autoseat=null;
   // Список тоёв держим свежим: после создания нового он должен появиться в переключателе.
   const idx=(S.all||[]).findIndex(e=>e.id===d.event.id);
   if(idx>=0) S.all[idx]=d.event; else S.all=[d.event, ...(S.all||[])];
@@ -1026,6 +1034,214 @@ function tabSend(){
   $("#stop").onclick=()=>{ S.tab="guests"; render(); };
 }
 
+/* ── Авто-раскладка по столам ────────────────────────────────────────────────
+   Premium обещает «рассадку без бумажек», но руками это два касания на каждую
+   семью: выбрать стол, нажать семью. На трёхстах семьях — шестьсот касаний,
+   то есть на реальном объёме обещание не выполняется вовсе, а рассадка входит
+   в платный тариф.
+
+   Почему алгоритм именно такой:
+
+   • Семья неделима. Тойхона считает деньги за места, но за стол садится род,
+     и «Каримовлар оиласи» пополам между шестым и седьмым столом — это скандал,
+     а не экономия двух стульев. Сажаем целиком либо не сажаем вовсе.
+
+   • Стороны врозь. Келин томон и куёв томон — две разные родни. Келин занимает
+     ряд столов с начала, куёв — с конца; сходятся они в середине зала и
+     перемешиваются только тогда, когда мест впритык и выбора уже нет.
+
+   • Большие семьи первыми (first-fit-decreasing). Если начать с мелких, семья
+     из девяти человек не влезет никуда при куче свободных мест по три.
+
+   • Плотно, но без перелива. Из подходящих столов берём тот, где после посадки
+     останется меньше всего свободного, — так пустых стульев в итоге меньше.
+
+   • Рассаженное руками не трогаем. Сватов к родителям организатор посадил сам;
+     авто-раскладка досаживает остальных, а не перетасовывает зал заново.
+
+   • Один и тот же список даёт одну и ту же раскладку: никакого Math.random,
+     сортировка с полным порядком (размер → сторона → id). Иначе второе нажатие
+     выдавало бы другую картинку, и кнопке перестали бы верить.
+
+   planSeating ничего не пишет — ни в S, ни в сеть. Именно поэтому её можно
+   прогнать на синтетике: toySeatTest() ниже в этом же блоке.                  */
+
+// Сколько мест держит семья. Пока семья не отказалась, зал считает её по числу
+// приглашённых — та же формула, по которой тойхона выставляет счёт.
+function famSeats(f){
+  const n = f.rsvp_status==="yes" ? f.rsvp_count : f.invited_count;
+  return Math.max(0, n|0);
+}
+const famSide = f => (f.side==="kelin" ? "kelin" : "kuyov");
+// Сравнение кортежей: без него выбор стола превращается в нечитаемое условие.
+function lessKey(a,b){ for(let i=0;i<a.length;i++){ if(a[i]!==b[i]) return a[i]<b[i]; } return false; }
+
+function planSeating(fams, tables){
+  const T = (tables||[]).map(x=>({ id:x.id, num:x.num|0, cap:Math.max(0,x.capacity|0), used:0, side:null, mixed:false }));
+  const byId = new Map(T.map(x=>[x.id,x]));
+  // Занятое место и «чей это стол» считаем по уже рассаженным: двигать мы их
+  // не будем, но место они держат и сторону столу задают тоже они.
+  for(const f of (fams||[])){
+    if(f.table_id==null) continue;
+    const tb = byId.get(f.table_id); if(!tb) continue;
+    tb.used += famSeats(f);
+    const sd = famSide(f);
+    if(tb.side===null) tb.side = sd; else if(tb.side!==sd) tb.mixed = true;
+  }
+  // Отказавшимся место не нужно. Семья с нулём мест — тоже не задача рассадки.
+  const pool = (fams||[]).filter(f => f.table_id==null && f.rsvp_status!=="no" && famSeats(f)>0);
+  pool.sort((a,b)=> famSeats(b)-famSeats(a)
+    || (famSide(a)==="kelin"?0:1)-(famSide(b)==="kelin"?0:1)
+    || (a.id-b.id));
+
+  const plan=[], left=[];
+  for(const f of pool){
+    const s = famSeats(f), sd = famSide(f);
+    let best=null, bk=null;
+    for(const tb of T){
+      const slack = tb.cap - tb.used - s;
+      if(slack < 0) continue;             // семью не режем: стол просто не подходит
+      // 0 — стол уже занят своей стороной, 1 — пустой, 2 — смешанный, 3 — чужая сторона.
+      const rank = tb.used===0 ? 1 : (tb.mixed ? 2 : (tb.side===sd ? 0 : 3));
+      // Келин заполняет ряд с начала, куёв — с конца: так стороны сидят группами.
+      const k = [rank, slack, sd==="kelin" ? tb.num : -tb.num, tb.id];
+      if(!bk || lessKey(k,bk)){ best=tb; bk=k; }
+    }
+    if(!best){ left.push(f); continue; }
+    best.used += s;
+    if(best.side===null) best.side = sd; else if(best.side!==sd) best.mixed = true;
+    plan.push({ family_id:f.id, table_id:best.id, seats:s });
+  }
+  return { plan, seats: plan.reduce((acc,p)=>acc+p.seats,0), left,
+           leftSeats: left.reduce((acc,f)=>acc+famSeats(f),0),
+           tables: new Set(plan.map(p=>p.table_id)).size };
+}
+
+/* Синтетика. Ни node, ни python в системе нет, поэтому проверка живёт здесь и
+   гоняется из консоли браузера: toySeatTest(60) и toySeatTest(300). Проверяются
+   ровно те свойства, ради которых алгоритм и писался, — семья не разорвана,
+   стол не переполнен, сумма сходится, повтор даёт то же самое. Дешевле держать
+   тридцать строк в кабинете, чем каждый раз собирать фейковый той руками. */
+function toySeatTest(n, cap, nt, preseat){
+  n = n|0 || 60; cap = cap|0 || 10;
+  nt = nt|0 || Math.ceil(n*4.5/cap);
+  preseat = preseat===undefined ? Math.min(5,n) : (preseat|0);
+  let seed = (n*7919 + cap*31 + nt) & 0x7fffffff;    // свой ГПСЧ: тест обязан повторяться
+  const rnd = ()=> ((seed = (seed*1103515245 + 12345) & 0x7fffffff) / 0x7fffffff);
+  const tables = Array.from({length:nt}, (_,i)=>({ id:i+1, num:i+1, capacity:cap }));
+  const fams = Array.from({length:n}, (_,i)=>{
+    const size = 1 + Math.floor(rnd()*8), r = rnd();
+    const st = r<0.6 ? "yes" : (r<0.75 ? "no" : "pending");
+    return { id:i+1, name:"F"+(i+1), side: rnd()<0.5 ? "kelin" : "kuyov",
+      invited_count:size, rsvp_status:st,
+      rsvp_count: st==="yes" ? Math.max(1, size - (rnd()<0.3?1:0)) : 0, table_id:null };
+  });
+  for(let i=0;i<preseat && i<n;i++) fams[i].table_id = tables[i % nt].id;
+
+  const snapshot = fams.map(f=>f.table_id);
+  const r1 = planSeating(fams, tables), r2 = planSeating(fams, tables);
+  const errs = [];
+  if(JSON.stringify(r1.plan)!==JSON.stringify(r2.plan)) errs.push("раскладка не воспроизводится");
+  if(fams.some((f,i)=>f.table_id!==snapshot[i])) errs.push("planSeating меняет входные данные");
+
+  const seen = new Set();
+  for(const p of r1.plan){
+    if(seen.has(p.family_id)) errs.push("семья посажена дважды: "+p.family_id);
+    seen.add(p.family_id);
+    const f = fams.find(x=>x.id===p.family_id);
+    if(f.table_id!=null) errs.push("тронули рассаженного вручную: "+f.id);
+    if(p.seats!==famSeats(f)) errs.push("семья разорвана: "+f.id);
+  }
+
+  // Считаем «было» и «досадили» раздельно. Кабинет позволяет посадить руками
+  // семью из восьми за стол на шесть — такой стол переполнен ещё до кнопки, и
+  // чинить его не наше дело. А вот усугубить нельзя: если авто-раскладка кого-то
+  // за этот стол досадила, это уже её ошибка. Первый прогон синтетики без такого
+  // разделения показал пять «переполненных» столов, которых алгоритм не касался.
+  const was={}, add={};
+  tables.forEach(tb=>{ was[tb.id]=0; add[tb.id]=0; });
+  fams.forEach(f=>{ if(f.table_id!=null) was[f.table_id]+=famSeats(f); });
+  r1.plan.forEach(p=>{ add[p.table_id]+=p.seats; });
+  tables.forEach(tb=>{
+    if(add[tb.id]>0 && was[tb.id]+add[tb.id]>tb.capacity)
+      errs.push("переполнен стол "+tb.num+": "+(was[tb.id]+add[tb.id])+" из "+tb.capacity);
+  });
+
+  const need = fams.filter(f=>f.table_id==null && f.rsvp_status!=="no" && famSeats(f)>0);
+  if(r1.plan.length + r1.left.length !== need.length) errs.push("рассаженные плюс непоместившиеся не сходятся со списком");
+  if(r1.seats + r1.leftSeats !== need.reduce((acc,f)=>acc+famSeats(f),0)) errs.push("сумма мест не сходится");
+
+  // Смешанные столы не ошибка, но если их половина зала — значит разделение
+  // сторон перестало работать, и это видно только по такому счётчику.
+  const sides = {}; tables.forEach(tb=>{ sides[tb.id]=new Set(); });
+  fams.forEach(f=>{ if(f.table_id!=null) sides[f.table_id].add(famSide(f)); });
+  r1.plan.forEach(p=>{ sides[p.table_id].add(famSide(fams.find(x=>x.id===p.family_id))); });
+  const mixed = tables.filter(tb=>sides[tb.id].size>1).length;
+
+  return { n, tables:nt, cap, preseat, placed:r1.plan.length, seats:r1.seats,
+    left:r1.left.length, leftSeats:r1.leftSeats, tablesUsed:r1.tables, mixed,
+    ok: errs.length===0, errs };
+}
+window.toySeatTest = toySeatTest;
+
+/* Запись рассадки. Пакетной записи table_id в API нет — есть только family_update
+   на одну семью, — поэтому идём по списку, но по шесть запросов сразу: триста
+   семей подряд по одной это минута с мёртвым экраном и обрыв на первом же
+   провале связи. Прогресс показываем прямо на кнопке: иначе человек жмёт второй раз. */
+async function pushTables(pairs, onStep){
+  let i=0, done=0; const failed=[];
+  const worker = async ()=>{
+    while(i<pairs.length){
+      const p = pairs[i++];
+      let r=null;
+      try { r = await call("family_update",{event_id:S.ev.id,family_id:p.family_id,table_id:p.table_id}); } catch(e){}
+      if(!r || !r.family) failed.push(p);
+      done++; if(onStep) onStep(done, pairs.length);
+    }
+  };
+  await Promise.all(Array.from({length:Math.min(6,pairs.length)}, worker));
+  return failed;
+}
+
+async function autoSeat(btn){
+  const t=L();
+  if(!S.tables.length) return say(t.saNoTables);
+  const res = planSeating(S.fams, S.tables);
+  // Если не поместился вообще никто — это не «ничего не произошло», а нехватка
+  // столов, и сказать об этом надо цифрами.
+  if(!res.plan.length) return say(res.left.length ? t.saLeft(res.left.length,res.leftSeats)+" "+t.saLeftHint : t.saNothing);
+  haptic("medium");
+  btn.disabled=true; btn.textContent=t.saSaving(0,res.plan.length);
+  const failed = await pushTables(res.plan, (d,total)=>{ btn.textContent=t.saSaving(d,total); });
+  // На экране должно стоять только то, что принял сервер: иначе после
+  // перезагрузки часть гостей молча вернётся в «не рассажены».
+  const bad = new Set(failed.map(p=>p.family_id));
+  const ok = res.plan.filter(p=>!bad.has(p.family_id));
+  ok.forEach(p=>{ const f=S.fams.find(x=>x.id===p.family_id); if(f) f.table_id=p.table_id; });
+  if(!ok.length){ btn.disabled=false; btn.textContent=t.saBtn; return say(t.errNet); }
+  S.autoseat = { ids: ok.map(p=>p.family_id), leftFams: res.left.length, leftSeats: res.leftSeats };
+  haptic("medium"); render();
+  if(failed.length) say(t.saPartial(failed.length));
+}
+
+// Право передумать. Возвращаем в «не рассажены» ровно тех, кого посадила кнопка,
+// — руками посаженных и прошлые раскладки не трогаем.
+async function autoSeatUndo(btn){
+  const t=L(), a=S.autoseat; if(!a) return;
+  const ids = a.ids.filter(id=>S.fams.some(f=>f.id===id && f.table_id!=null));
+  if(!ids.length){ S.autoseat=null; return render(); }
+  if(!await ask(t.saUndoConfirm(ids.length))) return;
+  haptic("medium");
+  btn.disabled=true; btn.textContent=t.saUndoing(0,ids.length);
+  const failed = await pushTables(ids.map(id=>({family_id:id,table_id:null})), (d,total)=>{ btn.textContent=t.saUndoing(d,total); });
+  const bad = new Set(failed.map(p=>p.family_id));
+  ids.forEach(id=>{ if(bad.has(id)) return; const f=S.fams.find(x=>x.id===id); if(f) f.table_id=null; });
+  // Не отменённые остаются в списке кнопки: второе нажатие доотменит их.
+  S.autoseat = failed.length ? { ids: failed.map(p=>p.family_id), leftFams:a.leftFams, leftSeats:a.leftSeats } : null;
+  render();
+  say(failed.length ? t.saPartial(failed.length) : t.saUndone);
+}
+
 /* ---------- рассадка ---------- */
 function tabSeating(){
   const t=L();
@@ -1035,21 +1251,40 @@ function tabSeating(){
       <button class="b gold" id="buyP">${t.payPremium}</button></div>`;
     $("#buyP").onclick=()=>pay("premium"); return;
   }
-  const seated=x=>S.fams.filter(f=>f.table_id===x.id).reduce((a,f)=>a+(f.rsvp_status==="yes"?f.rsvp_count:f.invited_count),0);
+  const seated=x=>S.fams.filter(f=>f.table_id===x.id).reduce((acc,f)=>acc+famSeats(f),0);
   const un=S.fams.filter(f=>!f.table_id && f.rsvp_status!=="no");
+  // Итог последней авто-раскладки пересчитываем из S.fams на каждой отрисовке:
+  // если часть записей до сервера не дошла, в шапке должно стоять то, что реально
+  // сохранено, а не то, что мы собирались сохранить.
+  const a=S.autoseat;
+  const aSeated = a ? a.ids.map(id=>S.fams.find(f=>f.id===id)).filter(f=>f && f.table_id!=null) : [];
+  const canAuto = S.tables.length>0 && un.length>0;
+  const goAttr = canAuto ? "" : ' disabled style="opacity:.5"';
   $("#tab").innerHTML=`
   <div class="card"><b>${t.sTablesTitle}</b>
     <div class="row2"><div><label>${t.sCount}</label><input id="tcount" type="number" value="${S.tables.length||20}" min="1" max="60"></div>
       <div><label>${t.sCap}</label><input id="tcap" type="number" value="${S.tables[0]?.capacity||10}" min="4" max="20"></div></div>
     <button class="b sec" id="mk">${t.sRecreate}</button>
     <div class="note">${t.sRecreateNote}</div></div>
+  <div class="card">
+    <button class="b" id="saGo"${goAttr}>${t.saBtn}</button>
+    <div class="note">${t.saBtnNote}</div></div>
+  ${aSeated.length ? `<div class="notice" style="background:var(--ok-bg);border-color:var(--ok)">
+    <b>${t.saDoneTitle}</b>
+    <p>${t.saDone(aSeated.length, aSeated.reduce((acc,f)=>acc+famSeats(f),0), new Set(aSeated.map(f=>f.table_id)).size)}</p>
+    <p style="margin-top:5px">${a.leftFams ? t.saLeft(a.leftFams,a.leftSeats)+" "+t.saLeftHint : t.saAllFit}</p>
+    <button class="b sec" id="saUndo">${t.saUndo}</button></div>` : ""}
   <div class="tgrid" id="tgrid"></div>
   <div class="card"><b>${t.sUnseated(un.length)}</b>
     <div class="note">${S.selTab?t.sHintSelected:t.sHintPick}</div>
     <div id="unseat" style="margin-top:8px"></div></div>`;
   $("#mk").onclick=async()=>{ if(!await ask(t.sRecreateConfirm))return;
     const r=await call("tables_set",{event_id:S.ev.id,count:+$("#tcount").value,capacity:+$("#tcap").value});
-    if(r.tables){S.tables=r.tables;S.fams.forEach(f=>f.table_id=null);render();} };
+    // Столов с прежними id больше нет: и выбранный стол, и итог прошлой раскладки
+    // после пересоздания указывали бы в пустоту.
+    if(r.tables){S.tables=r.tables;S.fams.forEach(f=>f.table_id=null);S.selTab=null;S.autoseat=null;render();} };
+  $("#saGo") && ($("#saGo").onclick=()=>autoSeat($("#saGo")));
+  $("#saUndo") && ($("#saUndo").onclick=()=>autoSeatUndo($("#saUndo")));
   $("#tgrid").innerHTML = S.tables.length ? S.tables.map(x=>{
     const s=seated(x);
     return `<div class="t ${S.selTab===x.id?"sel":""} ${s>=x.capacity?"full":""}" data-id="${x.id}"><b>${x.num}</b><span>${s}/${x.capacity}</span></div>`;

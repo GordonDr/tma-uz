@@ -1,38 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-label="Kvartira Qabul">
-  <!--
-    Знак Kvartira Qabul — угол комнаты и метка прямого угла.
-
-    Было два неудачных захода. «Лист с зелёной галочкой» — иконка любого
-    чек-листа на свете. Полный план квартиры с дверным раствором на 40 px
-    складывался в рамку с точкой посередине и читался как замочная скважина.
-
-    Приёмка — это проверка геометрии: углы, плоскости, стыки. Две толстые стены
-    и стандартная метка прямого угла между ними — это ровно то, что делает
-    приёмщик, и это читается на 28 px, потому что элементов всего три.
-  -->
-  <defs>
-    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#E5A244"/>
-      <stop offset="1" stop-color="#B9670F"/>
-    </linearGradient>
-  </defs>
-
-  <rect width="512" height="512" fill="url(#g)"/>
-
-  <!-- Стены. Срез углов прямой, не скруглённый: скругление сразу читается
-       как карточка или рамка, а не как кладка. -->
-  <path d="M158 118 V 394 H 400" fill="none" stroke="#FFF6E9"
-        stroke-width="34" stroke-linecap="square" stroke-linejoin="miter"/>
-
-  <!-- Отвес: вертикаль, по которой стену и проверяют. Второй по громкости
-       элемент после стен — на 28 px он обязан остаться грузом, а не пылинкой,
-       иначе знак сваливается в букву «Г». -->
-  <path d="M312 112 V 226" fill="none" stroke="#7A2E12" stroke-width="14"
-        stroke-linecap="round" opacity=".85"/>
-  <path d="M312 222 l 30 42 -30 46 -30 -46 z" fill="#7A2E12"/>
-
-  <!-- Метка прямого угла — то же обозначение, что на строительном чертеже.
-       Самый тихий слой: он для тех, кто смотрит на знак вблизи. -->
-  <path d="M158 322 H 230 V 394" fill="none" stroke="#FFF6E9"
-        stroke-width="13" stroke-linecap="square" opacity=".55"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#E5A244"></stop><stop offset="1" stop-color="#B9670F"></stop>
+  </linearGradient></defs>
+  <rect x="0" y="0" width="512" height="512" rx="112" fill="url(#g)"></rect>
+  
+  <path d="M84 70 H130 V400 H430 V446 H84 Z" fill="#FFF6E9"></path>
+  <path d="M170 400 V360 H130" fill="none" stroke="#FFF6E9" stroke-width="6" stroke-linecap="butt"></path>
+  <path d="M300 84 V250" fill="none" stroke="#7A2E12" stroke-width="10"></path>
+  <path d="M266 284 A34 34 0 1 1 334 284 L300 358 Z" fill="#7A2E12"></path>
 </svg>
