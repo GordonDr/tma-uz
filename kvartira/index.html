@@ -259,12 +259,16 @@ let openSec = null;
 
 /* Цена задаётся одним числом в config.js, но слово «сум» в узбекском тексте
    пишется «soʻm». Отдельной константы в конфиге нет намеренно: два числа
-   разъедутся, а одно — нет. */
-const PRICE_UZ = String(CONFIG.PRICE_LABEL).replace(/сум/i, "soʻm");
+   разъедутся, а одно — нет.
+   Не const: G-05 разрешил владельцу менять цену командой в боте, и ниже,
+   после первой отрисовки, значение обновляется с сервера. Подпись читается
+   геттером, поэтому новая цена доезжает до кнопки без пересборки словаря. */
+let PRICE_RU = String(CONFIG.PRICE_LABEL);
+let PRICE_UZ = PRICE_RU.replace(/сум/i, "soʻm");
 const TXT={
  ru:{title:"Приёмка квартиры",sub:"Пройдите по пунктам во время осмотра",bag:"Возьмите с собой",
    warn:"<b>Не подписывайте акт приёма-передачи, пока замечания не вписаны в документ.</b> Каждый дефект — стикер на месте и два фото: общий план и крупно.",
-   buy:`Акт + претензия — ${CONFIG.PRICE_LABEL}`,note:"Фото дефектов → готовые документы за 24 часа",
+   get buy(){ return `Акт + претензия — ${PRICE_RU}` },note:"Фото дефектов → готовые документы за 24 часа",
    offbar:"Сети нет — так и должно быть в новостройке. Чек-лист работает, отметки сохраняются на телефоне и уйдут в бот, когда связь появится.",
    arTitle:"Посчитать разницу в деньгах",
    arDog:"Площадь по договору, м²", arFact:"Замерили фактически, м²", arPrice:"Цена за м² по договору, сум",
@@ -284,7 +288,7 @@ const TXT={
    noteBad:"Акт осмотра + претензия застройщику · 24 часа"},
  uz:{title:"Kvartirani qabul qilish",sub:"Koʻrik davomida bandlarni belgilang",bag:"Oʻzingiz bilan oling",
    warn:"<b>Kamchiliklar hujjatga yozilmaguncha qabul dalolatnomasini imzolamang.</b> Har bir nuqson — joyiga stiker va ikkita surat: umumiy va yaqin plan.",
-   buy:`Dalolatnoma + pretenziya — ${PRICE_UZ}`,note:"Nuqson suratlari → 24 soatda tayyor hujjatlar",
+   get buy(){ return `Dalolatnoma + pretenziya — ${PRICE_UZ}` },note:"Nuqson suratlari → 24 soatda tayyor hujjatlar",
    offbar:"Internet yoʻq — yangi binoda bu odatiy hol. Roʻyxat ishlayapti, belgilar telefonda saqlanadi va aloqa paydo boʻlganda botga yuboriladi.",
    arTitle:"Farqni pulda hisoblash",
    arDog:"Shartnoma boʻyicha maydon, m²", arFact:"Oʻlchangan maydon, m²", arPrice:"Shartnomadagi 1 m² narxi, soʻm",
@@ -647,6 +651,31 @@ function showConsent(){
 }
 showConsent();
 renderStatic(); renderList(); update();
+
+/* ── G-05 · Цена на кнопке берётся с сервера ─────────────────────────────────
+   Владелец меняет цену командой /price, не трогая код. Если бы кнопка чек-листа
+   продолжала показывать вшитое при сборке число, человек увидел бы одну цену
+   на кнопке и другую в боте — через десять секунд после нажатия. Это ровно тот
+   класс расхождения, ради которого заведён claims.pl, только между базой
+   и страницей, а не между страницей и данными.
+
+   Вшитое число остаётся ФОЛБЭКОМ и не удаляется: чек-лист по построению работает
+   без сети (G-03), и в пустой квартире без интернета кнопка обязана показать цену,
+   а не пустое место. Поэтому запрос без ожидания, без индикатора и без единого
+   сообщения об ошибке: не ответил — осталось как было. */
+fetch(CONFIG.FUNCTIONS_URL + "/offer", { cache: "no-store" })
+  .then(r => r.ok ? r.json() : null)
+  .then(o => {
+    const n = Number(o && o.price_uzs);
+    if (!Number.isFinite(n) || n < 10000 || n > 5000000) return;
+    // Пробел приводим к обычному: в config.js он обычный, и «99 000 сум»
+    // на кнопке не должно вдруг начать выглядеть иначе, чем на сайте.
+    const num = n.toLocaleString("ru-RU").replace(/\s/g, " ");
+    PRICE_RU = num + " сум";
+    PRICE_UZ = num + " soʻm";
+    renderStatic(); update();
+  })
+  .catch(() => {});
 </script>
 </body>
 </html>

@@ -568,14 +568,28 @@ function daysLeft(){ if(!S.ev.event_date) return null;
    в Excel: один лист закрывает обе обязанности сразу.
 
    Полдень берём нарочно: от «за семь суток» нас интересует календарная дата,
-   и с полудня ни переход через месяц, ни часовой пояс её не сдвигают. */
+   и с полудня ни переход через месяц, ни часовой пояс её не сдвигают.
+
+   Месяц пишем сами, а не через toLocaleDateString: локаль uz-UZ выдаёт
+   «2026 M10 31», и срок, названный законом, выглядел бы машинным мусором.
+   В приглашении эта же таблица уже есть по той же причине. Русскую форму
+   тоже собираем руками — Intl добавляет « г.», и следом за ней в предложении
+   вставала вторая точка. */
+const MONTHS_ORG = {
+  ru: ["января","февраля","марта","апреля","мая","июня",
+       "июля","августа","сентября","октября","ноября","декабря"],
+  uz: ["yanvar","fevral","mart","aprel","may","iyun",
+       "iyul","avgust","sentabr","oktabr","noyabr","dekabr"],
+};
 function mahDate(){
   const iso = S.ev && S.ev.event_date;
   if(!iso) return "";
   const ms = Date.parse(`${iso}T12:00:00+05:00`);
   if(isNaN(ms)) return "";
-  return new Date(ms - 7 * 864e5).toLocaleDateString(L().locale,
-    { day:"numeric", month:"long", year:"numeric", timeZone:"Asia/Tashkent" });
+  const d = new Date(ms - 7 * 864e5);
+  const part = k => new Intl.DateTimeFormat("en-GB", { timeZone:"Asia/Tashkent", [k]:"numeric" }).format(d);
+  const list = MONTHS_ORG[lang === "uz" ? "uz" : "ru"];
+  return `${Number(part("day"))} ${list[Number(part("month")) - 1]} ${part("year")}`;
 }
 function render(){
   const t=L(), c=counts();
