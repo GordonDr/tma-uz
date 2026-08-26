@@ -93,6 +93,22 @@ h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-
 .txt{font-size:14.5px;line-height:1.45;cursor:pointer}
 .item.on .txt{color:var(--muted)}
 .how{margin-top:7px;font-size:13px;color:var(--ink2);background:var(--line2);border-radius:9px;padding:8px 10px;display:none}
+/* ---------- сверка метража (G-02) ---------- */
+.area{margin-top:9px;background:var(--line2);border-radius:11px;padding:11px}
+.ar-t{font:600 12.5px Manrope,sans-serif;color:var(--ink2);margin-bottom:8px}
+.ar-row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.area label{display:block;font-size:11px;color:var(--muted);font-weight:600}
+.area .ar-w{margin-top:8px}
+.area input{width:100%;margin-top:3px;border:1px solid var(--line);border-radius:8px;padding:9px 10px;
+  background:var(--card);color:var(--ink);font:600 14px Rubik,sans-serif;font-variant-numeric:tabular-nums}
+.area input:focus{outline:2px solid var(--amber);outline-offset:-1px}
+.ar-out{margin-top:9px;border-radius:9px;padding:9px 11px;font-size:13px;line-height:1.4;
+  background:var(--card);border:1px solid var(--line)}
+.ar-out.bad{border-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+.ar-out.ok{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+.ar-out b{display:block;margin-top:4px;font-size:17px;font-variant-numeric:tabular-nums}
+.ar-hint{display:block;margin-top:4px;font-size:11.5px;font-weight:600;opacity:.85}
+.ar-note{margin-top:8px;font-size:11px;color:var(--muted);line-height:1.4}
 .item.exp .how{display:block}
 /* отметка «здесь дефект» — мост от бесплатного чек-листа к платному акту */
 .flag{border:1px solid var(--line);background:transparent;color:var(--muted);font:600 11px Rubik,sans-serif;
@@ -244,6 +260,13 @@ const TXT={
    warn:"<b>Не подписывайте акт приёма-передачи, пока замечания не вписаны в документ.</b> Каждый дефект — стикер на месте и два фото: общий план и крупно.",
    buy:`Акт + претензия — ${CONFIG.PRICE_LABEL}`,note:"Фото дефектов → готовые документы за 24 часа",
    offbar:"Сети нет — так и должно быть в новостройке. Чек-лист работает, отметки сохраняются на телефоне и уйдут в бот, когда связь появится.",
+   arTitle:"Посчитать разницу в деньгах",
+   arDog:"Площадь по договору, м²", arFact:"Замерили фактически, м²", arPrice:"Цена за м² по договору, сум",
+   arLess:(d)=>`Не хватает <b style="display:inline;font-size:inherit">${d} м²</b>. По договору это основание для перерасчёта: `,
+   arSum:"сум", arNeedPrice:"Впишите цену метра — посчитаю сумму",
+   arMore:(d)=>`Фактическая площадь больше договорной на ${d} м². Доплату в этом случае может потребовать застройщик — посмотрите, что об этом сказано в вашем договоре.`,
+   arSame:"Площадь совпадает с договором.",
+   arNote:"Замер по двум стенам каждой комнаты, по полу, без плинтуса. Цифры считаются на вашем телефоне и попадают в акт, если закажете документы.",
    doneT:"🎉 Осмотр завершён",doneP:"Нашли дефекты? Оформим акт осмотра и претензию застройщику — вам останется только подать.",
    foot:"Kvartira Qabul · документы для самостоятельной подачи<br>Не является экспертизой. Исход спора не гарантируется.",
    sampleLink:"Посмотреть образец акта",
@@ -256,6 +279,13 @@ const TXT={
    warn:"<b>Kamchiliklar hujjatga yozilmaguncha qabul dalolatnomasini imzolamang.</b> Har bir nuqson — joyiga stiker va ikkita surat: umumiy va yaqin plan.",
    buy:`Dalolatnoma + pretenziya — ${CONFIG.PRICE_LABEL}`,note:"Nuqson suratlari → 24 soatda tayyor hujjatlar",
    offbar:"Internet yo'q — yangi binoda bu odatiy hol. Ro'yxat ishlayapti, belgilar telefonda saqlanadi va aloqa paydo bo'lganda botga yuboriladi.",
+   arTitle:"Farqni pulda hisoblash",
+   arDog:"Shartnoma bo'yicha maydon, m²", arFact:"O'lchangan maydon, m²", arPrice:"Shartnomadagi 1 m² narxi, so'm",
+   arLess:(d)=>`<b style="display:inline;font-size:inherit">${d} m²</b> yetishmayapti. Shartnoma bo'yicha bu qayta hisob-kitob uchun asos: `,
+   arSum:"so'm", arNeedPrice:"Metr narxini kiriting — summani hisoblab beraman",
+   arMore:(d)=>`Haqiqiy maydon shartnomadagidan ${d} m² katta. Bunday holda quruvchi qo'shimcha to'lov talab qilishi mumkin — shartnomangizda bu haqda nima yozilganini ko'ring.`,
+   arSame:"Maydon shartnomaga mos keladi.",
+   arNote:"Har xonaning ikki devori bo'yicha, pol bo'ylab, plintussiz o'lchang. Hisob telefoningizda bajariladi va hujjat buyurtma qilsangiz dalolatnomaga kiradi.",
    doneT:"🎉 Ko'rik yakunlandi",doneP:"Nuqson topdingizmi? Dalolatnoma va pretenziyani tayyorlaymiz — sizga faqat topshirish qoladi.",
    foot:"Kvartira Qabul · o'zingiz topshirishingiz uchun hujjatlar<br>Ekspertiza emas. Nizo natijasi kafolatlanmaydi.",
    sampleLink:"Dalolatnoma namunasini ko.rish",
@@ -355,6 +385,77 @@ function renderStatic(){
   document.getElementById("luz").classList.toggle("on",lang==="uz");
   document.getElementById("bagItems").innerHTML=bagList().map(x=>`<span class="it">${x}</span>`).join("");
 }
+/* ── Сверка метража с договором (G-02) ───────────────────────────────────────
+   Это единственный пункт чек-листа, у которого есть прямая денежная цена.
+   Все остальные дефекты — «застройщик должен устранить», а недостающие
+   квадратные метры считаются в сумах прямо на месте и по договору подлежат
+   перерасчёту. Ради этого пункта человек и берёт с собой рулетку.
+
+   Считаем только недостачу. Если фактическая площадь БОЛЬШЕ договорной,
+   доплату может потребовать уже застройщик — подсказывать ему сумму
+   не наше дело, но и молчать нельзя: пишем, что это его основание,
+   а не наше, и на этом останавливаемся.
+
+   Цену метра просим отдельным полем, а не выводим из общей суммы договора:
+   в договоре бывает и рассрочка, и скидка, и цена «за объект». Пусть
+   человек введёт то число, которое стоит в его собственном договоре. */
+const AREA_ID = "w6";
+const AREA_LS = "kq_area_v1";
+const areaRead = () => { try { return JSON.parse(store.get(AREA_LS) || "{}"); } catch(e) { return {}; } };
+const num = (v) => { const n = parseFloat(String(v).replace(",", ".")); return Number.isFinite(n) && n > 0 ? n : 0; };
+const uzs = (n) => Math.round(n).toLocaleString("ru");
+
+function areaCalc(){
+  const a = areaRead();
+  const dog = num(a.dog), fact = num(a.fact), price = num(a.price);
+  if(!dog || !fact) return null;
+  const diff = +(dog - fact).toFixed(2);
+  return { dog, fact, price, diff, sum: price ? diff * price : 0 };
+}
+
+function areaBox(t){
+  const a = areaRead();
+  const v = (x) => (a[x] === undefined || a[x] === null) ? "" : String(a[x]);
+  const r = areaCalc();
+  let out = "";
+  if(r){
+    if(r.diff > 0.01){
+      out = `<div class="ar-out bad">${t.arLess(r.diff.toFixed(2))}` +
+            (r.sum ? `<b>${uzs(r.sum)} ${t.arSum}</b>` : `<span class="ar-hint">${t.arNeedPrice}</span>`) + `</div>`;
+    } else if(r.diff < -0.01){
+      out = `<div class="ar-out">${t.arMore((-r.diff).toFixed(2))}</div>`;
+    } else {
+      out = `<div class="ar-out ok">${t.arSame}</div>`;
+    }
+  }
+  return `<div class="area">
+    <div class="ar-t">${t.arTitle}</div>
+    <div class="ar-row">
+      <label>${t.arDog}<input type="text" inputmode="decimal" data-ar="dog" value="${v("dog")}" placeholder="58,4"></label>
+      <label>${t.arFact}<input type="text" inputmode="decimal" data-ar="fact" value="${v("fact")}" placeholder="57,1"></label>
+    </div>
+    <label class="ar-w">${t.arPrice}<input type="text" inputmode="numeric" data-ar="price" value="${v("price")}" placeholder="9 000 000"></label>
+    ${out}
+    <div class="ar-note">${t.arNote}</div>
+  </div>`;
+}
+
+function wireArea(row, si){
+  row.querySelectorAll("[data-ar]").forEach(inp=>{
+    // Клик по полю не должен считаться отметкой пункта: строка целиком кликабельна.
+    inp.onclick = e => e.stopPropagation();
+    inp.oninput = () => {
+      const a = areaRead();
+      a[inp.dataset.ar] = inp.value.replace(/\s/g, "");
+      store.set(AREA_LS, JSON.stringify(a));
+      clearTimeout(areaTimer);
+      // Перерисовываем с задержкой: иначе поле теряет фокус на каждой цифре.
+      areaTimer = setTimeout(()=>{ openSec = si; renderList(); syncDefects(); }, 900);
+    };
+  });
+}
+let areaTimer = null;
+
 function renderList(){
   const t=TXT[lang], box=document.getElementById("list"); box.innerHTML="";
   CHECKLIST.forEach((sec,si)=>{
@@ -379,6 +480,7 @@ function renderList(){
               ${it.tool?`<span class="chip">🧰 ${toolName(it.tool)}</span>`:""}
             </div>
             ${it.how?`<div class="how">${lang==="uz"&&it.how_uz?it.how_uz:it.how}</div>`:""}
+            ${it.id===AREA_ID?areaBox(t):""}
           </div>
         </div>`).join("")}</div>`;
     el.querySelector(".head").onclick=()=>{ openSec = el.classList.contains("open")?-1:si; haptic("light"); renderList(); };
@@ -396,6 +498,7 @@ function renderList(){
         store.set(LSB,JSON.stringify([...bad])); store.set(LS,JSON.stringify([...done]));
         haptic("medium"); openSec=si; renderList(); update(); syncDefects();
       };
+      if(id===AREA_ID) wireArea(row, si);
     });
     box.appendChild(el);
   });
@@ -422,7 +525,7 @@ function badList(){
 let syncTimer=null;
 function syncDefects(){   // дебаунс: человек отмечает подряд несколько пунктов
   clearTimeout(syncTimer);
-  syncTimer=setTimeout(()=>track("defect_marked",{n:bad.size, defects:badList(), done_items:[...done]}), 1200);
+  syncTimer=setTimeout(()=>track("defect_marked",{n:bad.size, defects:badList(), done_items:[...done], area:areaCalc()}), 1200);
 }
 function renderFound(){
   const box=document.getElementById("found"), t=TXT[lang], n=bad.size;
@@ -456,8 +559,9 @@ document.getElementById("luz").onclick=()=>{lang="uz";store.set("kq_lang",lang);
 document.getElementById("buy").onclick=()=>{
   haptic("medium");
   // Отправляем список синхронно перед уходом в бот, чтобы владелец увидел его в карточке заказа.
-  if(bad.size) track("defect_marked",{n:bad.size, defects:badList(), done_items:[...done]});
-  track("act_view",{n_defects:bad.size});
+  const ar=areaCalc();
+  if(bad.size||ar) track("defect_marked",{n:bad.size, defects:badList(), done_items:[...done], area:ar});
+  track("act_view",{n_defects:bad.size, area_diff:ar?ar.diff:null});
   const url=`https://t.me/${CONFIG.BOT_USERNAME}?start=buy_from_tma`;
   tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url);
   setTimeout(()=>tg?.close?.(), 150);
