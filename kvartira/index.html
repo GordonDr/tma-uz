@@ -576,18 +576,42 @@ document.getElementById("buy").onclick=()=>{
    доказательство информированности, а не галочка ради галочки. */
 const CONSENT_TXT={
   ru:{ h:"Прежде чем начать", sub:"Коротко и без юридического языка.",
-       li:["Чек-лист <b>бесплатный</b>. Отметки хранятся в вашем телефоне.",
-           "Мы видим <b>обезличенную статистику</b>: открыли, дошли до конца, нажали «оформить». Имя и содержание заметок в неё не попадают.",
+       li:["Чек-лист <b>бесплатный</b>. Галочки хранятся в вашем телефоне и никуда не уходят.",
+           "Что <b>уходит к нам</b>: что вы открыли чек-лист, дошли до конца, нажали «оформить» — и <b>какие пункты вы отметили как дефекты</b>. Отмеченное сохраняем, чтобы не переспрашивать при заказе. Всё это привязано к вашему Telegram-ID, а не обезличено.",
+           "Метраж, если посчитаете, уходит вместе с замечаниями: он нужен для отдельного абзаца акта.",
            "Если закажете акт — попросим ФИО, телефон и реквизиты договора. Только чтобы претензия была именной. Можно отказаться.",
            "Стереть всё о себе — команда <b>/delete</b> в боте, в любой момент."],
        ok:"Понятно, начать", more:"Условия и обработка данных" },
   uz:{ h:"Boshlashdan oldin", sub:"Qisqa va yuridik tilsiz.",
-       li:["Cheklist <b>bepul</b>. Belgilar telefoningizda saqlanadi.",
-           "Biz <b>shaxssizlantirilgan statistikani</b> ko'ramiz: ochdi, oxirigacha bordi, «rasmiylashtirish» tugmasini bosdi. Ism va izohlar mazmuni bunga kirmaydi.",
+       li:["Cheklist <b>bepul</b>. Belgilar telefoningizda saqlanadi va hech qayerga yuborilmaydi.",
+           "Bizga <b>nima boradi</b>: cheklistni ochganingiz, oxirigacha borganingiz, «rasmiylashtirish» tugmasini bosganingiz — va <b>qaysi bandlarni nuqson deb belgilaganingiz</b>. Belgilanganini saqlaymiz, buyurtmada qayta so'ramaslik uchun. Bularning bari Telegram-ID'ingizga bog'langan, ya'ni shaxssizlantirilmagan.",
+           "Maydonni hisoblasangiz, u ham e'tirozlar bilan birga boradi: dalolatnomaning alohida bandi uchun kerak.",
            "Dalolatnoma buyurtma qilsangiz — F.I.Sh., telefon va shartnoma rekvizitlarini so'raymiz. Faqat pretenziya ismli bo'lishi uchun. Rad etish mumkin.",
            "O'zingiz haqingizdagi hamma narsani o'chirish — botdagi <b>/delete</b> buyrug'i, istalgan vaqtda."],
        ok:"Tushunarli, boshlaymiz", more:"Shartlar va ma'lumotlarni qayta ishlash" },
 };
+/* ── R-01 · «Приложение открыли» — до экрана согласия ────────────────────────
+   Порог вердикта «≥300 открытий чек-листа» считался по checklist_open, который
+   пишется ПОСЛЕ согласия. Значит «не открыл приложение» и «открыл и закрыл
+   согласие» были одним числом, а это два разных диагноза: первое лечится
+   каналом, второе — продуктом. У Rulchi этот же экран оказался крупнейшим
+   обрывом всей воронки — почти треть пришедших.
+
+   Побочно даёт качество канала уже на второй день закупки: у канала
+   с накрученным охватом доля дошедших до продукта падает сразу.
+
+   from — метка того, откуда человек пришёл: из напоминания, из ноджа, из меню.
+   Кнопка бота открывает мини-апп по адресу с ?from=…, поэтому метка приходит
+   параметром запроса; start_param читаем тоже — он приезжает при входе
+   по ссылке t.me/…?startapp=…, это другой путь и терять его нельзя. */
+(function(){
+  const q = new URLSearchParams(location.search).get("from") || "";
+  const p = tg?.initDataUnsafe?.start_param || "";
+  const raw = q || p;
+  const from = /^[a-z0-9_]{1,32}$/i.test(raw) ? raw : null;
+  track("app_open", from ? { from } : {});
+})();
+
 function showConsent(){
   if(store.get("kq_consent")) { track("checklist_open",{}); return; }
   const t=CONSENT_TXT[lang]||CONSENT_TXT.ru;
