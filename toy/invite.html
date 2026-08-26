@@ -135,6 +135,13 @@ textarea{width:100%;margin-top:16px;padding:12px;border:1px solid var(--line);
 textarea:focus{outline:none;border-color:var(--accent)}
 .send{width:100%;margin-top:16px;background:var(--deep);color:var(--card);
   border-color:var(--deep);font-weight:700;font-size:16px;padding:16px}
+/* Кнопка календаря — настоящая ссылка, а не button: внутри Telegram переход
+   по href работает всегда, а обработчик со скачиванием файла — нет (A-23). */
+a.send{display:block;box-sizing:border-box;text-align:center;text-decoration:none;
+  border:1px solid var(--deep);border-radius:calc(var(--radius) * .6);
+  font-family:var(--body);line-height:1.2}
+a.icsdl{display:block;margin-top:10px;text-align:center;font-size:13px;
+  color:var(--muted);text-decoration:underline;cursor:pointer}
 .done{text-align:center;padding:24px 8px}
 .done .big{font-family:var(--display);font-size:30px;margin-bottom:8px}
 .wish{margin-top:20px;padding-top:18px;border-top:1px solid var(--line);text-align:left}
@@ -215,6 +222,7 @@ const UI = {
     doneYes:"Rahmat! Kutamiz 💐", doneNo:"Xabar berganingiz uchun rahmat",
     markedYes:(n)=>`Belgiladik: ${n} kishi`, markedNo:"Boshqa safar koʻrishishni umid qilamiz",
     ics:"📅 Kalendarga qoʻshish",
+    icsDl:"kompyuterga .ics fayl yuklab olish",
     changeHint:"Rejalaringiz oʻzgarsa — shu havolani qayta oching va javobni oʻzgartiring.",
     fail:"Boʻlmadi — qaytadan urinib koʻring",
     errPick:"Avval javobni tanlang: kelamiz, hammamiz emas yoki kelolmaymiz",
@@ -252,6 +260,7 @@ const UI = {
     doneYes:"Раҳмат! Кутамиз 💐", doneNo:"Хабар берганингиз учун раҳмат",
     markedYes:(n)=>`Белгиладик: ${n} киши`, markedNo:"Бошқа сафар кўришишни умид қиламиз",
     ics:"📅 Календарга қўшиш",
+    icsDl:"компьютерга .ics файлни юклаб олиш",
     changeHint:"Режаларингиз ўзгарса — шу ҳаволани қайта очинг ва жавобни ўзгартиринг.",
     fail:"Бўлмади — қайтадан уриниб кўринг",
     errPick:"Аввал жавобни танланг: келамиз, ҳаммамиз эмас ёки келолмаймиз",
@@ -290,6 +299,7 @@ const UI = {
     doneYes:"Спасибо! Будем ждать 💐", doneNo:"Спасибо, что сообщили",
     markedYes:(n)=>`Мы отметили: ${n} чел.`, markedNo:"Будем рады видеть вас в другой раз",
     ics:"📅 Добавить в календарь",
+    icsDl:"скачать файл .ics для компьютера",
     changeHint:"Если планы изменятся — откройте эту ссылку снова и поменяйте ответ.",
     fail:"Не получилось — попробуйте ещё раз",
     errPick:"Сначала выберите ответ: придём, придём не все или не сможем",
@@ -514,7 +524,9 @@ function render(e, f, preview){
       // в единственную секунду, когда человек уже сказал «придём» и расположен.
       `<div class="done"><div class="big">${state.status==="yes"?u.doneYes:u.doneNo}</div>
       <div class="fam">${state.status==="yes"?u.markedYes(state.count):u.markedNo}</div>
-      ${state.status==="yes"&&d?`<button class="send" id="ics" style="margin-top:14px">${u.ics}</button>`:""}
+      ${state.status==="yes"&&d?`<a class="send" id="ics" style="margin-top:14px" target="_blank"
+          rel="noopener" href="${esc(gcalUrl(e,d))}">${u.ics}</a>${
+        IS_DESKTOP?`<a class="icsdl" id="icsdl" href="#">${u.icsDl}</a>`:""}`:""}
       <div class="wish" id="wishBox">
         <b>${u.wishTitle}</b>
         <textarea id="wish" placeholder="${u.wishPh}" maxlength="600"></textarea>
@@ -531,7 +543,10 @@ function render(e, f, preview){
       document.getElementById("wishBox").innerHTML =
         `<div class="fam">${ok?.ok ? u.wishDone : u.fail}</div>`;
     };
-    const ics=document.getElementById("ics"); if(ics) ics.onclick=()=>addToCalendar(e,d);
+    // Ссылка на Google Calendar работает и обработчиком, и без него. Файл .ics
+    // предлагаем только на десктопе — на телефоне он и есть тот самый молчаливый отказ.
+    const icsdl=document.getElementById("icsdl");
+    if(icsdl) icsdl.onclick=(ev)=>{ ev.preventDefault(); addToCalendar(e,d); };
     // Оффер показываем только после ответа. До ответа он стоял вплотную к
     // «Сможете прийти?» и первым, что видел гость, была реклама — а расположен
     // он ровно в ту секунду, когда только что написал «придём».
@@ -549,6 +564,38 @@ function render(e, f, preview){
   sendBtn.onclick=()=>submit(sendBtn);
 }
 
+/* A-23. Кнопка «Добавить в календарь» у гостя внутри Telegram молча ничего
+   не делала: она собирала .ics в Blob и «нажимала» на <a download>, а во
+   встроенном браузере Telegram программное скачивание не срабатывает — ни
+   файла, ни сообщения об ошибке. Молчаливый отказ хуже отсутствия кнопки:
+   гость уверен, что напоминание встало, и не приходит.
+
+   Тот же класс поломки уже был у нас на выгрузках Premium (D-24), и лечится
+   он одинаково: не пытаться отдать файл, а увести туда, где работает обычный
+   переход по ссылке. Здесь это шаблон события Google Calendar — открывается
+   переходом, без скачивания и без разрешений.
+
+   .ics оставлен, но только на десктопе: там он нужен для Outlook и Apple
+   Calendar и там же он действительно скачивается. */
+const IS_DESKTOP = !/Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent || "");
+// Формат Google Calendar: YYYYMMDDTHHMMSSZ, начало и конец через косую черту.
+const gcalStamp = x => {
+  const p=n=>String(n).padStart(2,"0");
+  return `${x.getUTCFullYear()}${p(x.getUTCMonth()+1)}${p(x.getUTCDate())}T${p(x.getUTCHours())}${p(x.getUTCMinutes())}00Z`;
+};
+function gcalUrl(e,d){
+  const u=U();
+  const end=new Date(d.getTime()+5*3600*1000);
+  const q=new URLSearchParams({
+    action:"TEMPLATE",
+    text:`${u.icsTitle} — ${(e.couple||"").trim()}`,
+    dates:`${gcalStamp(d)}/${gcalStamp(end)}`,
+    location:[(e.venue_name||""),(e.venue_addr||"")].filter(Boolean).join(", "),
+    details:u.icsDesc,
+    ctz:"Asia/Tashkent",
+  });
+  return `https://calendar.google.com/calendar/render?${q.toString()}`;
+}
 function addToCalendar(e,d){
   const pad=n=>String(n).padStart(2,"0");
   const fmt=x=>`${x.getUTCFullYear()}${pad(x.getUTCMonth()+1)}${pad(x.getUTCDate())}T${pad(x.getUTCHours())}${pad(x.getUTCMinutes())}00Z`;
