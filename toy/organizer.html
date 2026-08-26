@@ -235,7 +235,14 @@ const API = (window.TOY_API || "https://<project>.functions.supabase.co/toy");
 const S = { ev:null, all:[], fams:[], tables:[], gifts:[], tab:"guests", inviteBase:"", inviteLink:"", venueHint:50, selTab:null, onlyPending:false, bulk:false, diff:null, autoseat:null };
 
 const $ = s => document.querySelector(s);
-const esc = s => String(s??"").replace(/[<>&]/g,c=>({"<":"&lt;",">":"&gt;","&":"&amp;"}[c]));
+// Кавычки экранируем тоже — как в invite.html. Значения подставляются внутрь
+// АТРИБУТОВ (value="${esc(...)}" в полях настроек тоя, семей и книги подарков),
+// поэтому без кавычки атрибут разрывается. Ломается это и без злого умысла:
+// зал «Тойхона "Зарафшон"» обрезался до «Тойхона » и молча уезжал в базу.
+// А второй хозяин тоя, у которого прав меньше, мог через это выполнить код
+// в кабинете создателя и добраться до его initData — то есть обойти границу Р-21.
+const esc = s => String(s??"").replace(/[<>&"']/g,c=>
+  ({"<":"&lt;",">":"&gt;","&":"&amp;",'"':"&quot;","'":"&#39;"}[c]));
 const ORN = `<svg class="orn" viewBox="0 0 96 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
 <path d="M2 11h30M64 11h30" stroke="currentColor" stroke-width="1" opacity=".55"/>
 <path d="M48 3c3.4 3.4 6.8 5.2 6.8 8s-3.4 4.6-6.8 8c-3.4-3.4-6.8-5.2-6.8-8s3.4-4.6 6.8-8z" stroke="currentColor" stroke-width="1.2" fill="none"/>
