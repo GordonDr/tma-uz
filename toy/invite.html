@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="uz">
 <head>
+<meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="../brand/logo-toy.svg" type="image/svg+xml">
@@ -187,41 +188,41 @@ const VIRAL_OFF = Number(window.TOY_INVITE_DISCOUNT || 10000);
    и двоюродный брат из Москвы. Выбор запоминается для этого приглашения. */
 const UI = {
   uz_latin:{
-    privTitle:"Ma'lumotlaringiz",
-    privText:"Bu ro'yxatni Sizni taklif qilgan oila yuritadi. Xizmatda saqlanadi: oilangiz nomi, taklif qilinganlar soni, javobingiz va yozsangiz — tilagingiz, hamda havola ochilgani belgisi. Telefon, familiya va manzilni so'ramaymiz va saqlamaymiz. Ma'lumotlar tantanadan 90 kun o'tgach o'chiriladi. Qayta ishlash haqida bilish, aniqlashtirish yoki o'chirishni talab qilish huquqingiz bor — tashkilotchiga yoki xizmat egasiga yozing.",
-    privLink:"Shartlar va ma'lumotlarni qayta ishlash",
+    privTitle:"Maʼlumotlaringiz",
+    privText:"Bu roʻyxatni Sizni taklif qilgan oila yuritadi. Xizmatda saqlanadi: oilangiz nomi, taklif qilinganlar soni, javobingiz va yozsangiz — tilagingiz, hamda havola ochilgani belgisi. Telefon, familiya va manzilni soʻramaymiz va saqlamaymiz. Maʼlumotlar tantanadan 90 kun oʻtgach oʻchiriladi. Qayta ishlash haqida bilish, aniqlashtirish yoki oʻchirishni talab qilish huquqingiz bor — tashkilotchiga yoki xizmat egasiga yozing.",
+    privLink:"Shartlar va maʼlumotlarni qayta ishlash",
     code:"uz", short:"UZ", locale:"uz-UZ",
     loading:"Yuklanmoqda…",
     pre:"Taklifnoma",
     lblWhen:"Qachon", lblWhere:"Qayerda",
-    greetDefault:"Sizni to'y marosimiga taklif etamiz",
-    map:"📍 Xaritada ko'rsatish",
+    greetDefault:"Sizni toʻy marosimiga taklif etamiz",
+    map:"📍 Xaritada koʻrsatish",
     ask:"Kela olasizmi?",
     invited:(n)=>`taklif qilingan: ${n}`,
     yes:"Kelamiz 🎉", no:"Kelolmaymiz",
     yesAll:(n)=>n===1?"Kelaman 🎉":`Hammamiz kelamiz — ${n} kishi 🎉`, yesSome:"Hammamiz emas",
-    viralTitle:"O'z to'yingiz bormi?",
-    viralText:(s)=>`Mehmonlarni shu yerda yig'ing: taklifnoma, javoblar va to'yxona uchun hisob. Shu havola bo'yicha — ${s} so'm chegirma.`,
+    viralTitle:"Oʻz toʻyingiz bormi?",
+    viralText:(s)=>`Mehmonlarni shu yerda yigʻing: taklifnoma, javoblar va toʻyxona uchun hisob. Shu havola boʻyicha — ${s} soʻm chegirma.`,
     viralBtn:"Chegirma bilan ochish",
 
     howMany:"Necha kishi keladi?",
     wishTitle:"Yosh oilaga tilak yozib qoldiring",
-    wishPh:"Bir-ikki og'iz so'z — kelin-kuyov to'ydan keyin hammasini birga o'qiydi",
+    wishPh:"Bir-ikki ogʻiz soʻz — kelin-kuyov toʻydan keyin hammasini birga oʻqiydi",
     wishBtn:"Tilakni yuborish",
     wishDone:"Tilagingiz yetib bordi. Rahmat 🤍",
     send:"Javobni yuborish", sending:"Yuborilmoqda…",
-    previewBtn:"Mehmon shunday ko'radi",
+    previewBtn:"Mehmon shunday koʻradi",
     doneYes:"Rahmat! Kutamiz 💐", doneNo:"Xabar berganingiz uchun rahmat",
-    markedYes:(n)=>`Belgiladik: ${n} kishi`, markedNo:"Boshqa safar ko'rishishni umid qilamiz",
-    ics:"📅 Kalendarga qo'shish",
-    changeHint:"Rejalaringiz o'zgarsa — shu havolani qayta oching va javobni o'zgartiring.",
-    fail:"Bo'lmadi — qaytadan urinib ko'ring",
+    markedYes:(n)=>`Belgiladik: ${n} kishi`, markedNo:"Boshqa safar koʻrishishni umid qilamiz",
+    ics:"📅 Kalendarga qoʻshish",
+    changeHint:"Rejalaringiz oʻzgarsa — shu havolani qayta oching va javobni oʻzgartiring.",
+    fail:"Boʻlmadi — qaytadan urinib koʻring",
     errPick:"Avval javobni tanlang: kelamiz, hammamiz emas yoki kelolmaymiz",
     today:"bugun", dd:"kun", hh:"soat", mm:"daqiqa",
-    madeIn:"To'y-Daftarda yaratilgan", makeOwn:"o'z to'yingiz uchun taklifnoma qiling",
-    previewTheme:(l)=>`«${l}» mavzusi ko'rinishi`,
-    icsTitle:"To'y", icsAlarm:"Ertaga to'y",
-    icsDesc:"Taklifnoma: javobni o'zgartirish uchun xabardagi havolani oching",
+    madeIn:"Toʻy-Daftarda yaratilgan", makeOwn:"oʻz toʻyingiz uchun taklifnoma qiling",
+    previewTheme:(l)=>`«${l}» mavzusi koʻrinishi`,
+    icsTitle:"Toʻy", icsAlarm:"Ertaga toʻy",
+    icsDesc:"Taklifnoma: javobni oʻzgartirish uchun xabardagi havolani oching",
   },
   uz_cyrillic:{
     privTitle:"Маълумотларингиз",
@@ -255,7 +256,7 @@ const UI = {
     fail:"Бўлмади — қайтадан уриниб кўринг",
     errPick:"Аввал жавобни танланг: келамиз, ҳаммамиз эмас ёки келолмаймиз",
     today:"бугун", dd:"кун", hh:"соат", mm:"дақиқа",
-    madeIn:"To'y-Daftarда яратилган", makeOwn:"ўз тўйингиз учун таклифнома қилинг",
+    madeIn:"Toʻy-Daftarда яратилган", makeOwn:"ўз тўйингиз учун таклифнома қилинг",
     previewTheme:(l)=>`«${l}» мавзуси кўриниши`,
     icsTitle:"Тўй", icsAlarm:"Эртага тўй",
     icsDesc:"Таклифнома: жавобни ўзгартириш учун хабардаги ҳаволани очинг",
@@ -293,14 +294,14 @@ const UI = {
     fail:"Не получилось — попробуйте ещё раз",
     errPick:"Сначала выберите ответ: придём, придём не все или не сможем",
     today:"сегодня", dd:"дн.", hh:"ч.", mm:"мин.",
-    madeIn:"Создано в To'y-Daftar", makeOwn:"сделать приглашение для своего тоя",
+    madeIn:"Создано в Toʻy-Daftar", makeOwn:"сделать приглашение для своего тоя",
     previewTheme:(l)=>`Предпросмотр темы «${l}»`,
     icsTitle:"Той", icsAlarm:"Завтра той",
     icsDesc:"Приглашение: чтобы изменить ответ, откройте ссылку из сообщения",
   },
 };
 const LANG_ORDER = ["uz_latin","uz_cyrillic","ru"];
-const LANG_BTN = { uz_latin:"O'z", uz_cyrillic:"Ўз", ru:"Ру" };
+const LANG_BTN = { uz_latin:"Oʻz", uz_cyrillic:"Ўз", ru:"Ру" };
 // Параметры адреса объявлены здесь, а не ниже: LK на них ссылается, и обращение
 // к const до инициализации роняло весь скрипт — гость видел пустую карточку.
 // Данные могут прийти двумя путями: вложенными в страницу сервером (шаг 55, ссылка
@@ -380,7 +381,7 @@ async function boot(){
         couple: pick("couple", "Aziz & Nilufar"),
         event_date: pick("date", "2026-10-18"),
         event_time: pick("time", "18:00"),
-        venue_name: pick("venue", "To'yxona «Zarafshon»"),
+        venue_name: pick("venue", "Toʻyxona «Zarafshon»"),
         venue_addr: pick("addr", "Toshkent, Chilonzor"),
         map_url: "", greeting: greet, theme: previewTheme, lang: il },
         {name:"Karimovlar oilasi",invited_count:4,rsvp_status:"pending",rsvp_count:0}, true);

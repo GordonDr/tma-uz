@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="ru">
 <head>
+<meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
 <meta property="og:image" content="https://gordondr.github.io/tma-uz/brand/toy-og.png">
@@ -10,7 +11,7 @@
 <link rel="icon" href="../brand/logo-toy.svg" type="image/svg+xml">
 <link rel="icon" href="../brand/toy-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../brand/toy-apple.png">
-<title>To'y-Daftar — кабинет</title>
+<title>Toʻy-Daftar — кабинет</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -222,7 +223,7 @@ const footLang = () => { const a=document.getElementById("footOferta");
 footLang();
 function renderLangSeg(){
   const seg=document.getElementById("langseg");
-  seg.innerHTML = [["ru","Ру"],["uz","O'z"]].map(([k,t])=>
+  seg.innerHTML = [["ru","Ру"],["uz","Oʻz"]].map(([k,t])=>
     `<button data-l="${k}" class="${k===lang?"on":""}">${t}</button>`).join("");
   seg.querySelectorAll("button").forEach(b=>b.onclick=()=>{
     lang=b.dataset.l; try{ localStorage.setItem(LANG_KEY,lang); }catch(e){} footLang();
@@ -254,7 +255,7 @@ const ORN = `<svg class="orn" viewBox="0 0 96 22" fill="none" xmlns="http://www.
 /* Языки самого приглашения — это НЕ язык кабинета: организатор может вести кабинет
    по-русски, а гостям слать приглашение на узбекской кириллице. */
 const INV_LANGS = [
-  {id:"uz_latin",    label:"O'zbekcha (lotin)"},
+  {id:"uz_latin",    label:"Oʻzbekcha (lotin)"},
   {id:"uz_cyrillic", label:"Ўзбекча (кирилл)"},
   {id:"ru",          label:"Русский"},
 ];
@@ -294,7 +295,7 @@ async function call(action, body={}){
   call("app_open", from ? { from } : {}).catch(() => {});
 })();
 // Список всех тоёв владельца. Раньше открывался всегда events[0], и второй той —
-// beshik-to'y, той второго ребёнка, клиент организатора — был недоступен вообще.
+// beshik-toʻy, той второго ребёнка, клиент организатора — был недоступен вообще.
 /* ── Первый экран согласия ──────────────────────────────────────────────────
    Организатор вводит имена ЧУЖИХ семей, и до этого экрана он ни разу не видел
    ни условий, ни слова о том, что мы храним. Согласие показывалось только перед
@@ -308,10 +309,10 @@ const CONSENT_TXT={
        ok:"Понятно, начать", more:"Условия и обработка данных" },
   uz:{ h:"Boshlashdan oldin", sub:"Qisqa va yuridik tilsiz.",
        li:["Taklifnomalar va mehmonlar javoblari — <b>bepul</b>, istagancha oila.",
-           "Mehmonlar haqida faqat <b>oila nomi va kishilar sonini</b> saqlaymiz. Telefon va manzil kerak emas va so'ralmaydi.",
-           "Mehmonlar ma'lumotlari to'y sanasidan <b>90 kun</b> o'tgach o'chiriladi.",
-           "To'yni barcha ma'lumotlari bilan o'chirish — botdagi <b>/delete</b> buyrug'i."],
-       ok:"Tushunarli, boshlaymiz", more:"Shartlar va ma'lumotlarni qayta ishlash" },
+           "Mehmonlar haqida faqat <b>oila nomi va kishilar sonini</b> saqlaymiz. Telefon va manzil kerak emas va soʻralmaydi.",
+           "Mehmonlar maʼlumotlari toʻy sanasidan <b>90 kun</b> oʻtgach oʻchiriladi.",
+           "Toʻyni barcha maʼlumotlari bilan oʻchirish — botdagi <b>/delete</b> buyrugʻi."],
+       ok:"Tushunarli, boshlaymiz", more:"Shartlar va maʼlumotlarni qayta ishlash" },
 };
 /* ── Диалоги ─────────────────────────────────────────────────────────────────
    Внутри Telegram браузерные alert/confirm/prompt выглядят чужеродно, а на части
@@ -494,7 +495,7 @@ function counts(){
    возвращается в приложение. */
 // Ташкент, 2026: место в тойхоне стоит от 200 до 800 тысяч, в залах при отелях
 // доходит до трёх миллионов. Медиана ближе к 250. Осторожно с цифрами из поиска:
-// первой по «to'yxona narxlari» выходит статья 2019 года, где всё в 3–5 раз дешевле.
+// первой по «toʻyxona narxlari» выходит статья 2019 года, где всё в 3–5 раз дешевле.
 const SEAT_PRICE_DEFAULT = 250000;
 function seatPrice(){
   const v = Number(S.ev.seat_price_uzs);
@@ -594,7 +595,7 @@ function colIndex(header){
   return idx;
 }
 const YES_WORDS=["придут","да","yes","keladi","ha","+"];
-const NO_WORDS =["отказ","нет","no","kelolmaydi","yo'q","yoq","-"];
+const NO_WORDS =["отказ","нет","no","kelolmaydi","yoʻq","yoq","-"];
 function normStatus(v){
   const s=String(v||"").toLowerCase().trim();
   if(!s) return "pending";
@@ -1541,7 +1542,7 @@ async function zalPng(){
   x.textAlign="center"; x.fillStyle=MUTED; x.font=`400 24px ${SANS}`;
   x.fillText(t.zPngFooter(new Date().toLocaleDateString(t.locale)), W/2, H-92);
   x.fillStyle=GOLD; x.font=`600 26px ${SANS}`;
-  x.fillText("To'y-Daftar", W/2, H-54);
+  x.fillText("Toʻy-Daftar", W/2, H-54);
 
 
   showPngOverlay(cv, `${t.zPngFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.png`, t.zPngHint);

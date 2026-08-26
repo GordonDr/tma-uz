@@ -125,7 +125,7 @@ const TOY_THEMES = {
   kecha: {
     tier:"free", orn:TOY_ORN.rings, frame:"double", names:"stack",
     label:{ uz_latin:"Kecha · kechki", uz_cyrillic:"Кеча · кечки", ru:"Kecha · вечернее" },
-    sub:{ uz_latin:"to'q, bayramona", uz_cyrillic:"тўқ, байрамона", ru:"тёмное, праздничное" },
+    sub:{ uz_latin:"toʻq, bayramona", uz_cyrillic:"тўқ, байрамона", ru:"тёмное, праздничное" },
     c:["#12141C","#D9B45B","#F2EDE4"],
     vars:{
       "--bg":"#12141C","--card":"#1A1D28","--ink":"#F2EDE4","--muted":"#9A93A8",
@@ -138,7 +138,7 @@ const TOY_THEMES = {
   anor: {
     tier:"premium", orn:TOY_ORN.anor, frame:"double", names:"caps",
     label:{ uz_latin:"Anor · anor rang", uz_cyrillic:"Анор · анор ранг", ru:"Anor · гранат" },
-    sub:{ uz_latin:"to'q qizil, tantanali", uz_cyrillic:"тўқ қизил, тантанали", ru:"гранатовое, торжественное" },
+    sub:{ uz_latin:"toʻq qizil, tantanali", uz_cyrillic:"тўқ қизил, тантанали", ru:"гранатовое, торжественное" },
     c:["#5E1220","#E8C77A","#F6E9D8"],
     vars:{
       "--bg":"#5E1220","--card":"#6B1626","--ink":"#F6E9D8","--muted":"#D2A08C",
@@ -150,7 +150,7 @@ const TOY_THEMES = {
   zumrad: {
     tier:"premium", orn:TOY_ORN.star, frame:"double", names:"stack",
     label:{ uz_latin:"Zumrad · zumrad", uz_cyrillic:"Зумрад · зумрад", ru:"Zumrad · изумруд" },
-    sub:{ uz_latin:"to'q yashil, qimmatbaho", uz_cyrillic:"тўқ яшил, қимматбаҳо", ru:"изумрудное, богатое" },
+    sub:{ uz_latin:"toʻq yashil, qimmatbaho", uz_cyrillic:"тўқ яшил, қимматбаҳо", ru:"изумрудное, богатое" },
     c:["#0F3129","#D4B872","#EFE7D6"],
     vars:{
       "--bg":"#0F3129","--card":"#143A31","--ink":"#EFE7D6","--muted":"#9CB5A8",
@@ -185,8 +185,8 @@ const TOY_THEMES = {
 
   suzani: {
     tier:"premium", orn:TOY_ORN.palak, frame:"band", names:"stack",
-    label:{ uz_latin:"Suzani · so'zana", uz_cyrillic:"Сузани · сўзана", ru:"Suzani · сюзане" },
-    sub:{ uz_latin:"naqshli, an'anaviy", uz_cyrillic:"нақшли, анъанавий", ru:"с узором, традиционное" },
+    label:{ uz_latin:"Suzani · soʻzana", uz_cyrillic:"Сузани · сўзана", ru:"Suzani · сюзане" },
+    sub:{ uz_latin:"naqshli, anʼanaviy", uz_cyrillic:"нақшли, анъанавий", ru:"с узором, традиционное" },
     c:["#FAF3E4","#A8232B","#1D4E6B"],
     vars:{
       "--bg":"#FAF3E4","--card":"#FFFCF4","--ink":"#2C1E18","--muted":"#7A5B47",
@@ -198,7 +198,7 @@ const TOY_THEMES = {
   zamon: {
     tier:"premium", orn:TOY_ORN.slash, frame:"none", names:"rule",
     label:{ uz_latin:"Zamon · zamonaviy", uz_cyrillic:"Замон · замонавий", ru:"Zamon · современное" },
-    sub:{ uz_latin:"qat'iy, yoshlarcha", uz_cyrillic:"қатъий, ёшларча", ru:"строгое, молодёжное" },
+    sub:{ uz_latin:"qatʼiy, yoshlarcha", uz_cyrillic:"қатъий, ёшларча", ru:"строгое, молодёжное" },
     c:["#111111","#E8FF5A","#F5F5F0"],
     vars:{
       "--bg":"#111111","--card":"#171717","--ink":"#F5F5F0","--muted":"#8E8E85",
