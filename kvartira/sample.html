@@ -297,10 +297,13 @@ td.norm{font-size:11px;color:#3d4954;line-height:1.45}
   </div>
 </div>
 
-<div class="why" data-uz="<b>Yigirma kun — oʻylab topilgan emas.</b> Bu «Isteʼmolchilar huquqlarini himoya qilish toʻgʻrisida»gi qonunning 19-moddasidagi toʻgʻridan-toʻgʻri muddat. «Oqilona muddatda» degan ibora oylab choʻzishga imkon beradi; moddaga havola bilan aniq muddat — yoʻq.">
+<div class="why" data-uz="<b>Yigirma kun — oʻylab topilgan emas.</b> Bu «Isteʼmolchilar huquqlarini himoya qilish toʻgʻrisida»gi qonunning 19-moddasidagi toʻgʻridan-toʻgʻri muddat. Modda ish bajarish yoki xizmat koʻrsatish shartnomasi haqida — namunadagidek pudrat va ulushli qurilishda ishtirok etish shartnomalari shunga kiradi. Kvartira tayyor uy-joyni oldi-sotdi shartnomasi boʻyicha olingan boʻlsa, muddat shartnoma va tovar sifati qoidalari bilan belgilanadi. «Oqilona muddatda» degan ibora oylab choʻzishga imkon beradi; moddaga havola bilan aniq muddat — yoʻq.">
   <b>Двадцать дней — не выдумка.</b> Это прямой срок из статьи 19 Закона «О защите прав потребителей».
 
-  Формулировка «в разумный срок» позволяет тянуть месяцами; конкретный срок со ссылкой на статью — нет.
+  Статья — про договор о выполнении работы или оказании услуги: подряд и долевое участие, как в образце.
+  Если квартира куплена по договору купли-продажи готового жилья, срок определяется договором и правилами
+  о качестве товара. Формулировка «в разумный срок» позволяет тянуть месяцами; конкретный срок
+  со ссылкой на статью — нет.
 </div>
 </div>
 
@@ -386,7 +389,7 @@ function applyLang(){
   document.title = lang==="uz" ? "Kvartira Qabul — hujjat namunasi" : "Kvartira Qabul — образец документа";
   document.getElementById("buy").href="https://t.me/"+bot+"?start=sample";
   const bar=document.getElementById("langbar");
-  bar.innerHTML=[["ru","Ру"],["uz","O'z"]]
+  bar.innerHTML=[["ru","Ру"],["uz","Oʻz"]]
     .map(([k,t])=>`<button data-l="${k}" class="${k===lang?"on":""}">${t}</button>`).join("");
   bar.querySelectorAll("button").forEach(b=>b.onclick=()=>{
     lang=b.dataset.l; try{localStorage.setItem(LK,lang);}catch(e){} applyLang();
