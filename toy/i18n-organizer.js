@@ -243,7 +243,13 @@ const T_ORG = {
     zNote:"Пришлите администратору за 7–10 дней до тоя — так считают плов и посадку.",
     docHint:"Это готовый документ. Сделайте скриншот и перешлите администратору тойхоны — или откройте кабинет с компьютера и распечатайте. «Скопировать» отдаёт тот же список текстом: он вставляется в Excel и Google Таблицы колонками.",
     zMahTitle:"🏘 Уведомить махаллю",
-    zMahText:(d)=>`Сообщить о тое в махаллинский сход граждан нужно не позднее чем за неделю — то есть до <b>${d}</b>. Это обязанность организатора по Низому № 2736-III от 14.09.2019; тойхона отдельно уведомляет органы внутренних дел. Строка есть и в документе для зала — один лист закрывает обе обязанности.`,
+    /* Пункт 11 Низома называет поимённо, что применяется к тоям в домах и на
+       гузарах: пункты 3 и 4 — то есть лимит гостей и недельное уведомление
+       махалли действуют и дома. А вот абзац первый пункта 9 (договор с залом)
+       в этот перечень не входит: на домашнем тое договора нет. Раньше подсказка
+       говорила про обе обязанности одинаково всем — и половине читателей
+       приписывала обязанность, которой у них нет. */
+    zMahText:(d)=>`Сообщить о тое в махаллинский сход граждан нужно не позднее чем за неделю — то есть до <b>${d}</b>. Это обязанность организатора по Низому № 2736-III от 14.09.2019, и она одинакова, где бы ни проходил той — в зале, дома или на гузаре. Если той в тойхане, кафе или ресторане и гостей 50 и больше, нужен ещё письменный договор с залом, а зал письменно уведомляет органы внутренних дел за два дня. Дома договора нет — остаётся только махалля. Строка есть и в документе для зала.`,
     zMahNoDate:"Укажите дату тоя во вкладке «Той» — посчитаем, до какого числа нужно уведомить махаллю. По Низому № 2736-III от 14.09.2019 это делают не позднее чем за неделю.",
     zMahDoc:(d)=>`Уведомить махаллинский сход граждан о тое — не позднее ${d} (Низом № 2736-III от 14.09.2019).`,
     zKelin:"невеста", zKuyov:"жених",
@@ -504,7 +510,7 @@ const T_ORG = {
     zNote:"Toʻydan 7–10 kun oldin maʼmurga yuboring — palov va joylarni shunga qarab hisoblashadi.",
     docHint:"Bu tayyor hujjat. Skrinshot olib toʻyxona maʼmuriga yuboring yoki kabinetni kompyuterdan ochib chop eting. «Nusxalash» xuddi shu roʻyxatni matn koʻrinishida beradi: Excel va Google Jadvallarga ustunlar boʻlib joylashadi.",
     zMahTitle:"🏘 Mahallani xabardor qilish",
-    zMahText:(d)=>`Toʻy haqida mahalla fuqarolar yigʻiniga kamida bir hafta oldin — yaʼni <b>${d}</b> gacha — xabar berish kerak. Bu tashkilotchining 14.09.2019 yildagi 2736-III-son Nizom boʻyicha majburiyati; toʻyxona esa ichki ishlar organlarini alohida xabardor qiladi. Bu satr toʻyxona uchun hujjatda ham bor — bitta varaq ikkala majburiyatni yopadi.`,
+    zMahText:(d)=>`Toʻy haqida mahalla fuqarolar yigʻiniga kamida bir hafta oldin — yaʼni <b>${d}</b> gacha — xabar berish kerak. Bu tashkilotchining 14.09.2019 yildagi 2736-III-son Nizom boʻyicha majburiyati va toʻy qayerda oʻtishidan qatʼi nazar bir xil: zaldami, uydami, guzardami. Agar toʻy toʻyxona, kafe yoki restoranda boʻlsa va mehmonlar 50 nafardan koʻp boʻlsa, zal bilan yozma shartnoma ham kerak, zal esa ichki ishlar organlarini ikki kun oldin yozma xabardor qiladi. Uyda shartnoma boʻlmaydi — faqat mahalla qoladi. Bu satr toʻyxona uchun hujjatda ham bor.`,
     zMahNoDate:"«Toʻy» boʻlimida sanani koʻrsating — mahallani qachongacha xabardor qilish kerakligini hisoblab beramiz. 14.09.2019 yildagi 2736-III-son Nizomga koʻra buni kamida bir hafta oldin qilishadi.",
     zMahDoc:(d)=>`Mahalla fuqarolar yigʻinini toʻy haqida xabardor qilish — ${d} dan kechiktirmay (14.09.2019 yildagi 2736-III-son Nizom).`,
     zKelin:"kelin", zKuyov:"kuyov",
@@ -566,7 +572,13 @@ const PREP_I18N = {
       "Разослать приглашения всем семьям (кнопка «Отправить» у каждой)",
       "Согласовать меню и напитки с залом",
       "Наряды: примерки и подгонка",
-      "Транспорт для молодожёнов и старших родственников",
+      // Пункт 4 Низома № 2736-III ограничивает кортеж: не более трёх легковых
+      // машин при регистрации брака и при приезде-отъезде жениха и невесты,
+      // и платные перевозки — только у лицензированных перевозчиков (личные
+      // машины хозяев тоя и машины спонсоров — исключение). Это обязанность
+      // организатора, а не зала, и штраф по ней тот же, что за превышение
+      // числа гостей. Про махаллю напоминают все, про машины — никто.
+      "Транспорт: в кортеже не больше трёх легковых машин (пункт 4 Низома № 2736-III); платные перевозки — только у лицензированного перевозчика, личные машины хозяев тоя и машины спонсоров не в счёт",
       "Составить тайминг дня и отдать ведущему"]},
     {t:"За неделю", items:[
       "Сообщить о тое в махаллю — по Низому № 2736-III это делают не позднее чем за неделю",
@@ -596,7 +608,7 @@ const PREP_I18N = {
       "Barcha oilalarga taklifnoma yuborish (har birida «Yuborish» tugmasi bor)",
       "Toʻyxona bilan menyu va ichimliklarni kelishish",
       "Kiyimlar: oʻlchov olish va bichib-tikish",
-      "Kelin-kuyov va katta yoshli qarindoshlar uchun transport",
+      "Transport: kortejda uchtadan ortiq yengil avtomobil boʻlmasin (2736-III-son Nizomning 4-bandi); pullik tashish faqat litsenziyali tashuvchida, toʻy egalarining shaxsiy mashinalari va homiylar mashinalari bundan mustasno",
       "Kun tartibini tuzib, boshlovchiga berish"]},
     {t:"Bir hafta oldin", items:[
       "Toʻy haqida mahallani xabardor qilish — 2736-III-son Nizomga koʻra kamida bir hafta oldin",
