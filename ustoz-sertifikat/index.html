@@ -1,0 +1,2842 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ustamam — ustama kalkulyatori, mashq va imtihongacha reja</title>
+<meta name="description" content="Boshlang'ich sinf o'qituvchisi uchun: milliy sertifikat ustamasi har oy necha so'm bo'lishini hisoblang, 20 ta savolda izohli mashq qiling va imtihon kuningizgacha kun-ba-kun reja oling. Bepul.">
+<meta name="keywords" content="milliy sertifikat, boshlang'ich sinf o'qituvchisi, ustama, malaka imtihoni, 411-son qaror, test, mashq">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="uz_UZ">
+<meta property="og:title" content="B+ sertifikat maoshingizga har oy qancha qo'shadi?">
+<meta property="og:description" content="Maoshingizni tanlang — ustama necha so'm ekanini ko'rasiz. Keyin 20 ta savolda o'zingizni sinang. Bepul.">
+<!-- og:image здесь НЕТ, и это решение, а не пропуск. Единственная нарисованная
+     картинка превью (og.png) сделана до переименования: на ней написано старое
+     имя «Ustoz-Sertifikat» — ровно то, от которого ушли, потому что по нему
+     поиск уводит к чужой платформе, продающей курс. Превью — самое крупное,
+     что видно в канале до всякого текста, поэтому чужое имя там хуже, чем
+     отсутствие картинки: без og:image Telegram разворачивает ссылку заголовком
+     и описанием, а они верные. Перерисовка вынесена владельцу (Р15), сам файл
+     убран из app/ в корень продукта, чтобы деплой его не выкатывал. -->
+<meta name="theme-color" content="#F6F4EE">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230E5C46'/><path d='M17 33l10 11 20-24' stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<!-- Google Fonts здесь БЫЛИ и сняты. Причина не в скорости: страница обещает
+     «список того, что уходит на сервер, полный — откройте вкладку „Сеть“ и
+     посчитайте сами», а вкладка «Сеть» показывала четыре запроса, которых нет
+     в списке: один к fonts.googleapis.com и три к fonts.gstatic.com. Они уносят
+     к третьей стороне IP, User-Agent и адрес страницы. Приглашение проверить
+     нельзя выполнять наполовину: либо запросов нет, либо они названы. Выбран
+     первый вариант — шрифт не стоит того, чтобы отдавать посетителя гуглу. -->
+<style>
+/* Направление — школьная тетрадь: линейка, красное поле слева, зелёная доска.
+   У двух живых продуктов свои языки (чертёж у Kvartira, свадебное золото у To'y),
+   поэтому третий не заимствует ни палитру, ни шрифты — иначе на Pages они
+   выглядели бы одним продуктом в трёх оттенках.
+   Шрифты — системные, ни одного внешнего запроса: заголовки засечками
+   (Georgia и её замены есть и на Android, и на iOS, и на Windows), текст —
+   системным интерфейсным. Это решение про приватность, а не про вкус,
+   см. комментарий над <style>. */
+:root{
+  --paper:#F6F4EE; --card:#FFFFFF; --ink:#191E1B; --ink2:#414B45; --muted:#626C66;
+  --line:#DFDBD0; --line2:#EFECE3;
+  --acc:#0E5C46; --acc-bg:#E4EFE9; --acc-ink:#FFFFFF;
+  --red:#A63120; --gold:#8A6410;
+  --display:Georgia,"Times New Roman","Noto Serif",serif;
+  --body:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --shadow:0 14px 40px rgba(20,40,30,.07);
+}
+/* Тёмная тема задаётся ТОЛЬКО переопределением токенов: полная светлая палитра
+   живёт в голом :root, иначе при системной теме страница возьмёт фон хоста. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#111512; --card:#191E1A; --ink:#E9EEE8; --ink2:#BFC9C0; --muted:#8A948B;
+    --line:#2B322D; --line2:#222823;
+    --acc:#63CFA8; --acc-bg:#14302A; --acc-ink:#111512;
+    --red:#E8897A; --gold:#D9B25E;
+    --shadow:0 14px 40px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111512; --card:#191E1A; --ink:#E9EEE8; --ink2:#BFC9C0; --muted:#8A948B;
+  --line:#2B322D; --line2:#222823;
+  --acc:#63CFA8; --acc-bg:#14302A; --acc-ink:#111512;
+  --red:#E8897A; --gold:#D9B25E;
+  --shadow:0 14px 40px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:760px;margin:0 auto;padding:0 18px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.2;margin:0;text-wrap:balance}
+h1{font-size:clamp(28px,6.4vw,44px);letter-spacing:-.015em}
+h2{font-size:clamp(22px,4.4vw,30px);margin-bottom:10px}
+h3{font-size:18px;margin-bottom:6px}
+p{margin:0 0 14px}
+a{color:var(--acc)}
+strong{font-weight:600}
+.num{font-variant-numeric:tabular-nums}
+.lbl{font:600 11px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.small{font-size:13.5px;color:var(--muted)}
+section{border-top:1px solid var(--line);padding:44px 0}
+
+/* Шапка и обложка: линейка тетради и красное поле слева.
+   Линии рисуются градиентом, а не картинкой, — чтобы не тащить ассет ради фона. */
+header{padding:22px 0 0}
+.top{display:flex;align-items:center;gap:11px}
+.mark{width:38px;height:38px;border-radius:10px;background:var(--acc);flex:none;
+  display:grid;place-items:center}
+.mark svg{width:22px;height:22px;display:block}
+.top b{font:700 16px var(--body);letter-spacing:-.01em;display:block}
+.top span{color:var(--muted);font-size:13px}
+.hero{position:relative;padding:30px 0 40px;
+  background:repeating-linear-gradient(to bottom,transparent 0 33px,var(--line2) 33px 34px)}
+.hero:before{content:"";position:absolute;left:-2px;top:0;bottom:0;width:2px;background:var(--red);opacity:.5}
+.hero .lead{font-size:clamp(16.5px,3.4vw,19px);color:var(--ink2);max-width:36em}
+.tag{display:inline-block;background:var(--acc-bg);color:var(--acc);font:600 12.5px var(--body);
+  padding:5px 11px;border-radius:999px;margin-bottom:14px}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;
+  box-shadow:var(--shadow)}
+.card + .card{margin-top:14px}
+@media(min-width:560px){ .card{padding:24px} }
+
+/* Калькулятор */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 0}
+.chip{border:1px solid var(--line);background:var(--paper);color:var(--ink2);font:inherit;
+  font-size:14px;padding:9px 13px;border-radius:999px;cursor:pointer;text-align:left;
+  transition:border-color .12s,background .12s,color .12s}
+.chip:hover{border-color:var(--acc)}
+.chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--acc-ink);font-weight:600}
+.chip:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{
+  outline:2px solid var(--acc);outline-offset:2px}
+.chip .c{display:block;font-size:12px;opacity:.85;font-variant-numeric:tabular-nums}
+label{display:block;font:600 11px var(--body);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);margin:18px 0 6px}
+input[type=text],input[type=number],textarea{width:100%;padding:12px 13px;border:1px solid var(--line);
+  border-radius:12px;background:var(--paper);color:var(--ink);font:inherit;font-size:16px}
+textarea{min-height:80px;resize:vertical}
+.row-check{display:flex;gap:9px;align-items:flex-start;margin-top:14px;font-size:14px;color:var(--ink2)}
+.row-check input{margin-top:3px;flex:none;width:17px;height:17px;accent-color:var(--acc)}
+
+.out{margin-top:20px;border-top:1px dashed var(--line);padding-top:18px}
+.big{font-family:var(--display);font-weight:700;font-size:clamp(32px,9vw,52px);line-height:1.05;
+  color:var(--acc);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.big small{font-family:var(--body);font-size:15px;font-weight:600;color:var(--ink2);
+  display:block;letter-spacing:0;margin-top:4px}
+.grid2{display:grid;gap:12px;margin-top:16px}
+@media(min-width:520px){ .grid2{grid-template-columns:1fr 1fr} }
+.tile{background:var(--acc-bg);border-radius:12px;padding:14px 15px}
+.tile b{display:block;font-family:var(--display);font-size:23px;font-variant-numeric:tabular-nums;
+  line-height:1.2}
+.tile span{font-size:13px;color:var(--ink2);display:block;margin-top:2px}
+
+/* Тест */
+.qhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:12px}
+.bar{height:4px;background:var(--line2);border-radius:4px;overflow:hidden;margin-bottom:16px}
+.bar i{display:block;height:100%;background:var(--acc);width:0;transition:width .25s}
+.q{font-family:var(--display);font-size:19px;font-weight:600;line-height:1.35;margin:0 0 14px}
+.opts{display:grid;gap:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;width:100%;
+  border:1px solid var(--line);background:var(--paper);color:var(--ink);font:inherit;font-size:15.5px;
+  padding:12px 14px;border-radius:12px;cursor:pointer;transition:border-color .12s,background .12s}
+.opt:hover:not(:disabled){border-color:var(--acc)}
+.opt:disabled{cursor:default}
+.opt .k{font:600 13px var(--body);color:var(--muted);flex:none;width:16px;padding-top:1px}
+.opt.ok{border-color:var(--acc);background:var(--acc-bg)}
+.opt.ok .k{color:var(--acc)}
+.opt.no{border-color:var(--red);background:transparent}
+.opt.no .k{color:var(--red)}
+.izoh{margin-top:14px;border-left:3px solid var(--acc);padding:2px 0 2px 14px;font-size:15px;color:var(--ink2)}
+.izoh b{color:var(--ink)}
+.verdikt{font:600 14px var(--body);margin-top:14px}
+.verdikt.ok{color:var(--acc)}
+.verdikt.no{color:var(--red)}
+.blocks{display:grid;gap:9px;margin-top:16px}
+.brow{display:grid;grid-template-columns:1fr 62px;gap:10px;align-items:center;font-size:14.5px}
+.brow .bg{grid-column:1 / -1;height:6px;background:var(--line2);border-radius:6px;overflow:hidden}
+.brow .bg i{display:block;height:100%;background:var(--acc)}
+.brow .v{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink2)}
+
+.btn{display:inline-block;border:0;background:var(--acc);color:var(--acc-ink);font:700 16px var(--body);
+  padding:14px 24px;border-radius:12px;cursor:pointer;text-decoration:none;text-align:center}
+.btn:hover{filter:brightness(1.07)}
+.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:600}
+.btn.wide{display:block;width:100%}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:center}
+
+.price{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin:4px 0 2px}
+.price b{font-family:var(--display);font-size:30px;font-variant-numeric:tabular-nums}
+.price s{color:var(--muted);font-size:15px}
+.note{background:var(--acc-bg);border-radius:12px;padding:13px 15px;font-size:14.5px;color:var(--ink2);margin-top:14px}
+.err{color:var(--red);font-size:14px;margin-top:8px;font-weight:600}
+ul.plain{list-style:none;padding:0;margin:12px 0 0}
+ul.plain li{padding:9px 0 9px 24px;border-bottom:1px solid var(--line2);position:relative;font-size:15px}
+ul.plain li:before{content:"";position:absolute;left:2px;top:17px;width:8px;height:8px;border-radius:50%;
+  background:var(--acc)}
+ul.plain li.no:before{background:var(--red)}
+details{border-bottom:1px solid var(--line2);padding:12px 0}
+summary{cursor:pointer;font-weight:600;font-size:15.5px;list-style:none}
+summary::-webkit-details-marker{display:none}
+summary:before{content:"+ ";color:var(--acc);font-weight:700}
+details[open] summary:before{content:"– "}
+details p{margin:10px 0 2px;color:var(--ink2);font-size:15px}
+footer{border-top:1px solid var(--line);padding:28px 0 44px;color:var(--muted);font-size:13.5px}
+footer a{color:var(--muted)}
+footer ol{padding-left:18px;margin:10px 0 0}
+footer li{margin-bottom:6px}
+
+/* ── Тетрадь ошибок ──────────────────────────────────────────────────────────
+   Строка ошибки — это не «карточка товара», а запись в тетради: слева предмет,
+   справа сколько раз промахнулся. Разбор раскрывается на месте, потому что
+   уводить учителя со списка ради одного объяснения — значит потерять список. */
+.xlist{display:grid;gap:0;margin-top:14px}
+.xrow{border-top:1px solid var(--line2);padding:12px 0}
+.xrow:first-child{border-top:0}
+.xrow summary{display:flex;gap:10px;align-items:baseline;justify-content:space-between}
+.xrow summary:before{content:""}
+.xrow .qq{font-family:var(--display);font-size:16px;font-weight:600;line-height:1.35;flex:1}
+.xrow .cnt{font-variant-numeric:tabular-nums;font:600 12.5px var(--body);color:var(--red);flex:none}
+.xrow .bl{font:600 11px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
+  display:block;margin-bottom:4px}
+.xrow .due{color:var(--acc);font-weight:600}
+
+/* Секундомер сдачи. Цифры табличные — иначе минута дёргает всю строку. */
+.timer{font-family:var(--display);font-variant-numeric:tabular-nums;font-weight:700;
+  font-size:22px;letter-spacing:-.01em}
+.timer.warn{color:var(--red)}
+.mock-note{font-size:13.5px;color:var(--muted);margin-top:10px}
+
+/* План. Таблица со своей горизонтальной прокруткой: на 320 px даты и задание
+   не помещаются рядом, а вся страница ездить вбок не должна ни при каких. */
+.tw{overflow-x:auto;margin-top:16px;border:1px solid var(--line);border-radius:12px}
+table.plan{border-collapse:collapse;width:100%;min-width:460px;font-size:14.5px}
+table.plan th,table.plan td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line2);
+  vertical-align:top}
+table.plan th{font:600 10.5px var(--body);letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);background:var(--line2)}
+table.plan tr:last-child td{border-bottom:0}
+table.plan td.d{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+table.plan td.n{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--muted);text-align:right}
+table.plan tr.rest td{color:var(--muted)}
+table.plan tr.mock td{background:var(--acc-bg)}
+table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
+.plan-sum{display:grid;gap:10px;margin-top:14px}
+@media(min-width:520px){ .plan-sum{grid-template-columns:1fr 1fr 1fr} }
+
+/* Печатный лист. На экране его нет совсем: это не «версия для печати»,
+   а сам продукт — то, что учитель кладёт в журнал и вешает над столом.
+
+   ОДИН ЛИСТ — ЭТО ОБЕЩАНИЕ, И ОНО СУЖЕНО ДО ИЗМЕРЕННОГО. Раньше здесь стояла
+   таблица «строка на день»: три дня бесплатного плана давали 1,17 страницы,
+   тридцать дней платного — 2,10, девяносто — 4,24. То есть чем больше
+   человек платил, тем дальше лист был от обещанного. Поэтому план на листе
+   печатается КАЛЕНДАРЁМ: девяносто дней — это тринадцать-четырнадцать строк
+   по семь клеток, а не девяносто строк. Ничего из плана не потеряно: в клетке
+   стоит блок и номер темы, а сами темы перечислены легендой под календарём.
+   Но и после этого на один лист помещается план ДО 31 ДНЯ, а не любой:
+   32 дня и длиннее выходят на вторую страницу, 90 дней дают 1,11–1,15 листа.
+   Так и сказано в оффере — обещать «bitta varaq» для длинного плана нельзя,
+   это проверяется одним Ctrl+P.
+   Проверяется тем же способом, каким приёмка это поймала: правила из этого
+   блока применяются как обычные, #varaqa ставится в 703px (A4 210 мм минус
+   поля 12 мм при 96 dpi), и высота обязана быть меньше 1032px. Про 688px,
+   которые стояли здесь до 28.08.2026, — комментарий ниже. */
+#varaqa{display:none}
+@media print{
+  @page{margin:12mm}
+  body{background:#fff;color:#000;font-size:10pt}
+  .wrap{max-width:none;padding:0}
+  header,.hero,section,footer,.btns,.chips,form,#lead-ok{display:none!important}
+  #varaqa{display:block}
+  /* ТИПОГРАФИКА ПОДЖАТА 27.08.2026, И ВОТ ЗАЧЕМ. На лист пришли три обязательных
+     абзаца: дата, к которой привязана сумма взноса (без неё бумага становится
+     неправдой 1 сентября), оговорка про финансирование надбавки с 2027 года
+     и второе прочтение скидки. Они стоят 134 точки высоты.
+
+     СПОСОБ ЗАМЕРА (исправлен 28.08.2026): печатные правила применяются как
+     обычные, #varaqa выставляется шириной 703px, предел высоты — 1032 точки.
+     703 и 1032 — это A4 без полей 12 мм при 96 dpi: 210 − 24 = 186 мм = 703 px
+     и 297 − 24 = 273 мм = 1032 px. До 28.08 здесь стояло 688px — ширина
+     от ПРЕЖНИХ полей 14 мм (794 − 2×53). Когда поля стали 12 мм, высоту
+     пересчитали (1017 → 1032), а ширину забыли: лист мерился на 15 точек уже,
+     чем печатается, текст переносился лишний раз и число страниц выходило
+     завышенным. Отсюда «1,16» в README против «0,88» там же.
+     Поджатие возвращает 113 из этих 134. Оставшегося не хватает, и это
+     не вопрос кегля: см. запись про обещание «90 kunlik reja bitta varaqqa»
+     в BACKLOG.md (U-65) — там измерения по длинам плана. */
+  #varaqa h1{font-size:12pt;margin:0 0 .5mm}
+  #varaqa h2{font-size:9.5pt;margin:1.6mm 0 .5mm;border-bottom:1px solid #999;padding-bottom:.3mm}
+  #varaqa table{width:100%;border-collapse:collapse;font-size:8pt}
+  #varaqa th,#varaqa td{border:1px solid #bbb;padding:.6mm 1mm;text-align:left}
+  #varaqa th{background:#eee}
+  #varaqa .vgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.6mm;margin-top:1.4mm}
+  #varaqa .vbox{border:1px solid #bbb;padding:.9mm}
+  #varaqa .vbox b{display:block;font-size:10pt}
+  #varaqa .vsmall{font-size:7pt;color:#444;margin:.6mm 0 0;line-height:1.22}
+  /* Два столбца рядом: по отдельности это две короткие таблицы, одна под
+     другой они съедали сорок миллиметров высоты просто так. */
+  #varaqa .vcols{display:grid;grid-template-columns:1fr 1fr;gap:4mm;align-items:start}
+  #varaqa .vcols h2{margin-top:2.6mm}
+  #varaqa .cal{table-layout:fixed;font-size:7pt;margin-top:1mm}
+  #varaqa .cal th{text-align:center;padding:.6mm;font-size:7pt}
+  #varaqa .cal td{padding:.7mm .8mm;vertical-align:top;line-height:1.25}
+  /* Дата — своей строкой, блок и минуты — одной: три строки в клетке
+     превращали календарь на 90 дней в 525 точек высоты, две дают 360.
+     На листе, который обязан поместиться на A4, это решает страницу. */
+  #varaqa .cal .dd{font-weight:700;display:block}
+  #varaqa .cal .bl,#varaqa .cal .mn{display:inline}
+  #varaqa .cal .mn{color:#555}
+  #varaqa .cal .mn:before{content:" · "}
+  #varaqa .cal td.rest{background:#f5f5f5;color:#444}
+  #varaqa .cal td.mock{background:#e7e7e7}
+  #varaqa .cal td.bosh{background:#fff;border-color:#eee}
+  #varaqa .cal td.lock{color:#999}
+  /* Плотный режим для длинных планов: девяносто дней — это четырнадцать
+     строк календаря, и на десятых долях миллиметра здесь решается страница. */
+  #varaqa .cal.dense{font-size:6pt}
+  #varaqa .cal.dense td{padding:.35mm .5mm;line-height:1.15}
+  #varaqa .vlegend{columns:4;column-gap:4mm;font-size:6pt;color:#444;margin:1mm 0 0;line-height:1.2}
+  #varaqa .vlegend div{break-inside:avoid;margin-bottom:.5mm}
+  #varaqa tr{break-inside:avoid}
+}
+.hide{display:none}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<header>
+  <div class="top">
+    <span class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5 11-13" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+    <span>
+      <b>Ustamam</b>
+      <span>Boshlang'ich sinf o'qituvchilari uchun mashq</span>
+    </span>
+  </div>
+</header>
+
+<div class="hero">
+  <span class="tag">VMQ № 411, 29.07.2026</span>
+  <h1>B+ sertifikat maoshingizga har oy qancha qo'shadi?</h1>
+  <p class="lead">2026/2027 o'quv yilidan boshlab B+ va undan yuqori darajadagi milliy
+  sertifikatga ega boshlang'ich sinf o'qituvchisiga <strong>har oy lavozim maoshining
+  15 foizi</strong> miqdorida ustama to'lanadi. Maoshingizni tanlang — bu necha so'm
+  ekanini ko'rasiz. Keyin 20 ta savolda o'zingizni sinab ko'ring, xatolaringiz daftarga
+  yig'iladi, imtihon kuningizgacha esa kun-ba-kun reja tuziladi — bosib chiqarsa bo'ladi.</p>
+</div>
+</div>
+
+<div class="wrap">
+<section id="kalk">
+  <span class="lbl">1-qadam</span>
+  <h2>Ustama kalkulyatori</h2>
+  <!-- «Lavozim maoshi», а не «зарплата»: п. 6 постановления платит 15 процентов
+       именно «lavozim maoshiga». Раньше подсказка говорила «как в расчётном
+       листе» — а в расчётном листе стоит начисленная сумма с доплатами
+       и переработкой, и от неё 15 процентов дают завышенное число. -->
+  <p class="small">Toifangizni tanlang yoki lavozim maoshingizni kiriting — hisob
+    varaqasidagi <strong>lavozim maoshi (bazaviy tarif stavkasi)</strong> qatoridan,
+    ustamalar va qo'shimcha soatlar bilan jamlangan summadan emas: qaror 15 foizni
+    aynan lavozim maoshiga to'laydi (6-band).</p>
+
+  <div class="card">
+    <label for="oklad">Lavozim maoshi</label>
+    <div class="chips" id="toifa"></div>
+    <input type="text" id="oklad" inputmode="numeric" autocomplete="off" placeholder="yoki o'zingiz kiriting, masalan 3 390 824">
+    <div class="row-check" id="row-plus7">
+      <input type="checkbox" id="plus7">
+      <label for="plus7" style="margin:0;text-transform:none;letter-spacing:0;font-size:14px;font-weight:400;color:var(--ink2)">
+        2026-yil 1-sentyabrdan byudjet xodimlari maoshi 7 foizga oshadi (PF-115, 23.06.2026).
+        Belgilansa, tanlangan summa 7 foizga oshirib hisoblanadi — bu bizning hisobimiz,
+        toifalar bo'yicha yangi rasmiy jadval hali e'lon qilinmagan.
+      </label>
+    </div>
+
+    <!-- Скидки п. 4 стоят В КАЛЬКУЛЯТОРЕ, а не сноской внизу страницы.
+         Для члена семьи из Соцреестра это 278 100 вместо 556 200 — экономия
+         в 2,8 раза больше цены нашего же набора, и это самое дорогое, что
+         страница вообще может сказать человеку. Тот же вопрос ждёт его на
+         портале (анкета, приложение 2 к Низому, вопрос 7), и лучше он
+         упрётся в него здесь. -->
+    <label style="margin-top:18px">Chegirmangiz bormi</label>
+    <div class="chips" id="chegirma"></div>
+    <p class="small" style="margin-top:8px">VMQ № 411, 1-ilova, 4-band, ikkinchi xatboshi:
+      Ijtimoiy reyestrning «kambag'al oila» toifasidagi oila a'zolariga va I hamda II guruh
+      nogironligi bo'lgan shaxslarga — 50 foiz, «davlat ta'minotidagi oila» toifasidagi
+      oila a'zolariga — 75 foiz chegirma. Toifadan yaqinda chiqarilgan bo'lsangiz,
+      o'sha bandning uchinchi va to'rtinchi xatboshilari yordam beradi: «davlat
+      ta'minotidagi oila» yoki «kambag'al oila» toifasidan chiqarilgani sababli
+      «kambag'allik chegarasidagi oila» toifasiga o'tkazilganlarga chegirma avvalgi
+      toifasi bo'yicha qo'llanadi; og'ir hayotiy vaziyat sababli o'sha toifaga
+      kiritilganlarga esa — «kambag'al oila» miqdorida, <strong>reyestrga kiritilgan
+      sanadan boshlab 12 oydan ko'p bo'lmagan muddatda</strong>. Ya'ni chegirma darrov
+      yo'qolmaydi, lekin muddatsiz ham emas. YIDXP dagi so'rovnomaning 7-savoli aynan
+      shu haqda so'raydi, va toifani biz tekshirmaymiz — qarorni portal qabul qiladi.</p>
+    <!-- Скидка и 90% отсчитаны в тексте от ОДНОЙ базы, и это оставляет два чтения.
+         Раньше страница отвечала на это перестановочностью множителей — то есть
+         на вопрос, которого никто не задавал. Называем оба числа: платить,
+         скорее всего, придётся по большему, и планировать надо по нему. -->
+    <p class="small" style="margin-top:8px"><strong>Diqqat: bu yerda ikkita o'qish mumkin,
+      va biz kattasini ko'rsatamiz.</strong> 4-band chegirmani «belgilangan to'lovning
+      50 foizi miqdorida» deb beradi, 21-band esa «belgilangan to'lov miqdorining
+      90 foizi» ni undiradi — ikkalasi ham bitta bazadan.
+      <span id="ikki-raqam"></span>
+      Qaysi biri YIDXP invoysida chiqishini biz bilmaymiz va taxmin
+      qilmaymiz — shuning uchun kalkulyator <strong>kattasini</strong> hisoblaydi:
+      pulni kam rejalashtirgandan ko'ra ortiqcha rejalashtirgan xavfsizroq.
+      Invoys kichikroq chiqsa — yaxshi.</p>
+
+    <div class="out" id="out">
+      <div class="big num" id="oyiga">— <small>oyiga, 15% ustama</small></div>
+      <div class="grid2">
+        <div class="tile"><b class="num" id="yiliga">—</b><span>12 oyda (sertifikat amal qilgan davrda)</span></div>
+        <div class="tile"><b class="num" id="qoplash">—</b><span>imtihon yig'imi shuncha vaqtda qoplanadi</span></div>
+      </div>
+      <!-- Оговорка про 2027 год стоит вплотную к плиткам, а не в подвале
+           «Источники». Решение принимают по колонке «12 oyda» и по плитке
+           окупаемости; оговорка, лежащая через два экрана, до решения
+           не доходит. Текст нормы приведён дословно — п. 6 абз. 3. -->
+      <p class="small" style="margin-top:14px"><strong>2027-yildan — budjet so'rovnomalariga
+      bog'liq.</strong> Qarorning 6-bandi uchinchi xatboshisi: 2026-yilgi xarajatlar
+      Maktabgacha va maktab ta'limi vazirligiga ajratilgan mablag'lar doirasida
+      moliyalashtiriladi, «2027-yildan boshlab esa budjet qonunchiligi talablariga muvofiq
+      taqdim etilgan budjet so'rovnomalariga asosan Davlat budjeti parametrlarida nazarda
+      tutiladi». Sertifikat uch yil amal qiladi, biz esa yuqorida 12 oyni sanaymiz — bu
+      hisob, kafolat emas: 2027-yildan keyingi to'lovlar budjet jarayoniga bog'liq.</p>
+      <p class="small" style="margin-top:14px" id="yiliga-izoh"></p>
+      <p class="small" style="margin-top:14px" id="taqqos"></p>
+    </div>
+  </div>
+
+  <div class="note">
+    Ustama <strong>B+ va undan yuqori</strong> daraja uchun, sertifikat amal qilgan davrda
+    to'lanadi. Bu sahifa hisob-kitob qiladi va tushuntiradi, xolos: ustamani biz
+    to'lamaymiz, uni kafolatlay olmaymiz ham. Tartib — qarorda, to'lov — byudjetdan.
+  </div>
+</section>
+
+<section id="test">
+  <span class="lbl">2-qadam</span>
+  <h2>20 savollik mashq</h2>
+  <p>Ona tili, matematika, tabiiy fanlar, tarbiya, texnologiya va o'qitish metodikasi.
+  Har bir javobdan keyin darhol izoh chiqadi — nega bu variant to'g'ri va nega eng
+  jozibali xato variant noto'g'ri.</p>
+
+  <div class="card" id="testcard">
+    <div id="t-intro">
+      <h3>Boshlashdan oldin bir gap</h3>
+      <p class="small">Bular imtihon savollari emas va imtihon savollari bo'lishi ham mumkin emas:
+      rasmiy savollar banki yopiq. Bu — boshlang'ich sinf dasturi va o'qitish metodikasi
+      bo'yicha biz tuzgan mashq savollari. Imtihonning aniq spetsifikatsiyasi
+      (savollar soni, vaqt, bloklar ulushi) 26.08.2026 holatiga e'lon qilinmagan;
+      e'lon qilinishi bilan mashqni unga moslaymiz.</p>
+      <button class="btn wide" id="t-start" type="button">Mashqni boshlash</button>
+    </div>
+
+    <div id="t-run" class="hide">
+      <div class="qhead">
+        <span class="lbl" id="t-blok">—</span>
+        <span class="small num" id="t-count">1 / 20</span>
+      </div>
+      <div class="bar"><i id="t-bar"></i></div>
+      <p class="q" id="t-q">—</p>
+      <div class="opts" id="t-opts"></div>
+      <div id="t-fb" class="hide">
+        <p class="verdikt" id="t-verdikt">—</p>
+        <div class="izoh" id="t-izoh">—</div>
+        <button class="btn wide" id="t-next" type="button" style="margin-top:16px">Keyingi savol</button>
+      </div>
+    </div>
+
+    <div id="t-done" class="hide">
+      <h3>Natija</h3>
+      <div class="big num" id="t-score">— <small>20 tadan to'g'ri</small></div>
+      <div class="blocks" id="t-blocks"></div>
+      <p class="small" style="margin-top:16px">Rasmiy imtihonda ustama uchun kamida
+      <strong>B+ daraja</strong> kerak, ya'ni 60 ball. Bu mashq rasmiy baho bermaydi —
+      u faqat qaysi blokda bo'shliq borligini ko'rsatadi.</p>
+      <!-- Сравнение с прошлой попыткой. Раньше страница обещала «изменение между
+           попытками», а показывала только последнюю: единственный ключ в хранилище
+           перезаписывался. Теперь история попыток есть, и разница считается здесь. -->
+      <p class="small hide" id="t-trend"></p>
+      <div class="btns">
+        <button class="btn" id="t-again" type="button">Yana bir bor</button>
+        <button class="btn sec" id="t-share" type="button">Hamkasbga yuborish</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="xato">
+  <span class="lbl">3-qadam</span>
+  <h2>Xatolar daftari</h2>
+  <p class="small">Mashqda noto'g'ri javob bergan har bir savol shu yerga izohi bilan tushadi.
+    Daftardan chiqishi uchun bitta shart bor: o'sha savolga <strong>ikki xil kunda</strong>
+    to'g'ri javob berish. Bir kunda ikki marta topish — eslab qolish, takrorlash emas.</p>
+
+  <div class="card">
+    <p class="small" id="x-bosh">Daftar hozircha bo'sh. 2-qadamdagi mashqni boshlang —
+      xatolar bu yerga o'zi yig'iladi.</p>
+    <div class="xlist" id="x-list"></div>
+    <div class="btns hide" id="x-btns">
+      <button class="btn" id="x-drill" type="button">Faqat xatolarim ustida mashq</button>
+      <button class="btn sec" id="x-clear" type="button">Daftarni tozalash</button>
+    </div>
+    <!-- zapret-ok: перечень сверен со всеми вызовами ev() в этом файле построчно
+         и с телом запросов на живом прогоне через перехват window.fetch. Текст
+         вопроса FAQ и referrer из отправки убраны — иначе перечень «только числа»
+         был бы неправдой, а проверить его человеку стоит одной вкладки «Сеть». -->
+    <p class="small" style="margin-top:14px"><strong>Daftarning o'zi shu brauzerda saqlanadi
+      va serverga yuborilmaydi</strong> — qaysi savolda xato qilganingiz bizga ko'rinmaydi.
+      Serverga qadam nomi va raqamlar ketadi, va biz ularni to'liq sanab o'tamiz:
+      kalkulyatorga kiritgan maosh summangiz va undan chiqqan oylik ustama; maoshni
+      qo'lda yozdingizmi yoki toifadan tanladingizmi; mashq va sinov natijangiz
+      (nechtadan nechta), urinish savollar izohini o'qishdan oldin bo'ldimi yoki keyin
+      (ha yoki yo'q) hamda sinovga ketgan soniyalar; xatolar daftaringizda nechta
+      savol qolgani — qaysilari emas, faqat soni; reja necha kunga tuzilgani, imtihon
+      sanasini kiritdingizmi (ha yoki yo'q) va tarifingiz (bepul yoki to'liq);
+      savol-javobda birinchi bo'lib nechanchi savolni ochganingiz — matni emas, tartib
+      raqami; qaysi tugmalarni bosganingiz (zayavka, bosib chiqarish, hamkasbga
+      yuborish) va zayavka tugmasini narx blokidan bosdingizmi yoki rejadanmi;
+      qaysi havoladan kelganingiz va brauzeringizga beriladigan tasodifiy
+      sessiya kodi. Ro'yxat shu yerda tugaydi: brauzerdagi «Tarmoq» oynasini ochib
+      o'zingiz sanab chiqing. Ismingiz, telefoningiz yoki @nikingiz va shu formada
+      o'zingiz tanlagan javoblar (nima kerak, qancha to'lashga tayyorsiz, izohingiz)
+      faqat pastdagi zayavka formasini to'ldirib yuborsangiz ketadi.</p>
+  </div>
+</section>
+
+<section id="sinov">
+  <span class="lbl">4-qadam</span>
+  <h2>Imtihon shaklida: vaqt bilan, izohsiz</h2>
+  <p class="small">Mashq va imtihon — ikki boshqa narsa. Mashqda har javobdan keyin izoh
+    chiqadi va odam o'zini bilganday his qiladi. Imtihonda izoh yo'q, orqaga qaytish yo'q,
+    vaqt esa ketmoqda. Shu farqni imtihon kuni emas, bugun bilib qo'ygan ma'qul.</p>
+
+  <div class="card" id="mockcard">
+    <div id="m-intro">
+      <p class="small"><strong>Shartlar.</strong> 20 ta savol, har biriga bir daqiqa,
+        javobni o'zgartirib bo'lmaydi, izohlar faqat oxirida — hammasi birdan.
+        Rasmiy imtihonning vaqt me'yori e'lon qilinmagan, shuning uchun «bir savolga
+        bir daqiqa» — bizning mashq shartimiz, qaror sharti emas.</p>
+      <button class="btn wide" id="m-start" type="button">Sinovni boshlash</button>
+    </div>
+
+    <div id="m-run" class="hide">
+      <div class="qhead">
+        <span class="lbl" id="m-blok">—</span>
+        <span class="timer" id="m-timer">20:00</span>
+      </div>
+      <div class="bar"><i id="m-bar"></i></div>
+      <p class="small num" id="m-count">1 / 20</p>
+      <p class="q" id="m-q">—</p>
+      <div class="opts" id="m-opts"></div>
+      <p class="mock-note">Javobni tanlaganingizdan keyin keyingi savolga o'tiladi.
+        Izohlar sinov tugagach chiqadi.</p>
+    </div>
+
+    <div id="m-done" class="hide">
+      <h3>Sinov natijasi</h3>
+      <div class="big num" id="m-score">— <small>to'g'ri javob</small></div>
+      <p class="small" id="m-time">—</p>
+      <div class="blocks" id="m-blocks"></div>
+      <p class="small" style="margin-top:16px">Ustama uchun kamida <strong>60 ball</strong>,
+        ya'ni B+ daraja kerak. Bu bizning mashqimiz bahosi, imtihon bahosi emas — imtihonda
+        ball Rash modeli bo'yicha hisoblanadi.</p>
+      <p class="small hide" id="m-trend"></p>
+      <div class="btns">
+        <button class="btn sec" id="m-izoh" type="button">Barcha izohlarni ko'rish</button>
+        <button class="btn sec" id="m-again" type="button">Yana bir bor</button>
+      </div>
+      <div id="m-izohlar" class="hide" style="margin-top:18px"></div>
+    </div>
+  </div>
+</section>
+
+<section id="reja">
+  <span class="lbl">5-qadam</span>
+  <h2>Imtihon kuningizgacha kun-ba-kun reja</h2>
+  <p class="small">Imtihon sanangizni kiriting. Reja shu kungacha kun-ba-kun tuziladi:
+    eng bo'sh bloklaringizga ko'proq kun, yakshanbaga — faqat xatolar daftari,
+    oxirgi uch kunga — takrorlash va hujjatlar. Bu <strong>bizning mashq rejamiz</strong>,
+    imtihon dasturi emas: dastur e'lon qilinmagan.</p>
+
+  <div class="card">
+    <label for="r-sana">Imtihon sanasi</label>
+    <input type="date" id="r-sana">
+    <p class="small" style="margin-top:8px">Sana hali ma'lum bo'lmasa, bo'sh qoldiring —
+      reja 30 kunga tuziladi. Boshlang'ich sinf o'qituvchilari uchun imtihon jadvali
+      26.08.2026 holatiga e'lon qilinmagan.</p>
+
+    <div class="plan-sum" id="r-sum"></div>
+    <div class="tw"><table class="plan" id="r-table"></table></div>
+
+    <!-- Кнопка набора стоит ЗДЕСЬ, а не только в прайсе. Без неё событие
+         cta{where:"reja"} уходило по кнопке ПЕЧАТИ, то есть печать бесплатного
+         плана попадала в воронку как намерение заплатить. PROVERKA §4.6
+         сравнивает cta_iz_plana с cta_iz_prajsa; сравнение имеет смысл только
+         если обе стороны требуют одинакового действия — нажать кнопку набора. -->
+    <div class="btns" id="r-btns">
+      <button class="btn" id="r-print" type="button">Bosib chiqarish yoki PDF qilib saqlash</button>
+      <button class="btn sec" id="r-copy" type="button">Matn sifatida nusxalash</button>
+      <button class="btn sec hide" id="r-take" type="button">To'liq rejani olish — to'plam</button>
+    </div>
+    <p class="small" id="r-hint" style="margin-top:12px"></p>
+    <!-- Доступ к набору — это ССЫЛКА С КЛЮЧОМ, а не запись о человеке: касс нет,
+         аккаунтов нет, метка живёт в localStorage одного браузера. Значит очистка
+         браузера, другой телефон или режим инкогнито доступ теряют — молча.
+         Человек, заплативший 99 000, об этом обязан знать заранее и знать,
+         как вернуть. Показываем только тому, у кого набор уже включён:
+         остальным это шум. -->
+    <p class="small hide" id="r-kalit" style="margin-top:10px;padding:10px 12px;border-radius:9px;background:var(--warn-bg,#FBF2E6);color:var(--warn-ink,#8A5A1F)">
+      <b>Havolani saqlab qo'ying.</b> To'plam shu qurilmaning brauzeriga bog'langan:
+      brauzer tozalansa, boshqa telefonda ochilsa yoki inkognito rejimda ishlatilsa —
+      to'plam ko'rinmaydi. Sizga yuborilgan kalitli havola uni istalgan qurilmada
+      qaytadan ochadi. Havola yo'qolsa — bizga o'sha yozishmada yozing, qayta yuboramiz.
+    </p>
+  </div>
+</section>
+
+<!-- Печатный лист. На экране его нет: это и есть предмет продажи — один лист,
+     который учитель кладёт в журнал. Собирается из тех же чисел, что на экране,
+     поэтому разойтись с ними не может. -->
+<div id="varaqa" aria-hidden="true">
+  <h1>Malaka imtihoniga tayyorgarlik varaqasi</h1>
+  <p class="vsmall" id="v-head">—</p>
+
+  <div class="vgrid">
+    <div class="vbox"><b id="v-oyiga">—</b><span class="vsmall" id="v-oyiga-izoh">oyiga, 15% ustama</span></div>
+    <div class="vbox"><b id="v-yigim">—</b><span class="vsmall" id="v-yigim-izoh">to'lanadigan summa (0,9 × 1,5 BHM)</span></div>
+    <div class="vbox"><b id="v-ball">—</b><span class="vsmall">oxirgi natija</span></div>
+  </div>
+
+  <!-- ДВЕ ОГОВОРКИ СТОЯТ ЗДЕСЬ, А НЕ В ПОДВАЛЕ ЛИСТА, И ЭТО НЕ ВЁРСТКА.
+       Решение человек принимает по трём числам выше. Оговорка, отвечающая
+       за одно из них, но лежащая через страницу, до решения не доходит:
+       лист складывают пополам и кладут в журнал первой половиной наружу.
+       v-tolov — про то, что взнос привязан к ДНЮ ПОДАЧИ ЗАЯВЛЕНИЯ, а не
+       ко дню печати листа; v-ustama-izoh — про то, что надбавка с 2027 года
+       зависит от бюджетных заявок, то есть колонка «12 oyda» и три года
+       сертификата не гарантированы актом. -->
+  <p class="vsmall" id="v-tolov"></p>
+  <p class="vsmall" id="v-ustama-izoh"></p>
+
+  <div class="vcols">
+    <div>
+      <h2>Bloklar bo'yicha</h2>
+      <table id="v-blocks"></table>
+    </div>
+    <div>
+      <!-- Попытки. Это ровно то, что оффер называет листом готовности;
+           до этого лист показывал только последнюю попытку. -->
+      <h2>Urinishlar</h2>
+      <table id="v-tarix"></table>
+      <p class="vsmall" id="v-tarix-izoh"></p>
+    </div>
+  </div>
+
+  <h2 id="v-reja-h">Reja</h2>
+  <table id="v-cal" class="cal"></table>
+  <div class="vlegend" id="v-legend"></div>
+  <p class="vsmall" id="v-reja-izoh"></p>
+
+  <h2>Rasmiy qoidalar</h2>
+  <p class="vsmall" id="v-qoida"><strong>Ariza va sertifikat</strong> — Yagona interaktiv davlat
+    xizmatlari portali (qarorda YIDXP, portal manzili my.gov.uz) orqali; sertifikat QR kodli
+    elektron shaklda, bir ish kunida, uch yil muddatga. <strong>To'lov</strong> — belgilangan
+    to'lov ariza berilgan kundagi BHM ning 1,5 baravari, undan 90 foizi undiriladi
+    (21-band), chunki ro'yxatdan YIDXP orqali o'tiladi<span id="v-qoida-summa"></span>;
+    <strong>kambag'al oila</strong>
+    toifasi va I–II guruh nogironligi uchun 50 foiz, <strong>davlat ta'minotidagi oila</strong>
+    uchun 75 foiz chegirma (4-band). <strong>Ustama</strong> — B+ va undan yuqori daraja bo'lsa,
+    boshlang'ich sinflarda dars beruvchi boshlang'ich ta'lim mutaxassisligiga ega o'qituvchiga
+    lavozim maoshining 15 foizi, har oy, sertifikat amal qilgan davrda, 2026/2027 o'quv yilidan.
+    <strong>Darajalar</strong> — 70+ A+ · 65–69,9 A · 60–64,9 B+ · 55–59,9 B · 50–54,9 C+ ·
+    46–49,9 C. <strong>Imtihon formati</strong>
+    (savollar soni, vaqt me'yori, o'tkazish muddatlari) vakolatli organ tomonidan tasdiqlanadi
+    va uning rasmiy veb-saytiga joylashtiriladi.</p>
+
+  <h2>Muddatlar: yozib qo'ying</h2>
+  <p class="vsmall" id="v-muddat"><strong>To'lov va ro'yxatdan o'tish — imtihondan kamida
+    12 kun oldin</strong> (Nizomga 1-ilova, SXEMA: to'lov «imtihondan kamida 12 kun oldin»,
+    ro'yxatga olish «imtihon sanasidan 12 kun oldin» yakunlanadi). <strong>Ruxsatnoma</strong>
+    (sana va joy) — imtihondan 3 kun oldin, YIDXP orqali. <strong>Natijalar</strong> —
+    imtihon yakunlangandan keyin 21 ish kunidan kechikmay. <strong>Pulni qaytarish yoki
+    keyingi imtihonga o'tkazish</strong> — uzrli sabab bo'lsa, imtihon o'tkazilgan sanadan
+    3 kundan kechikmay, YIDXP orqali; ariza 7 ish kunida ko'riladi. <strong>Apellyatsiya</strong> —
+    natijalar e'lon qilingan kundan 3 kun ichida, YIDXP orqali; komissiya 2 hafta ichida
+    ko'rib chiqadi; takroriy apellyatsiyaga yo'l qo'yilmaydi.</p>
+  <p class="vsmall"><strong>Imtihon binosiga qo'llanma, adabiyot, telefon va boshqa
+    texnika vositalarini olib kirish qat'iyan man etiladi</strong> (15-band). Qoidani
+    buzgan chetlashtiriladi, natijalari hisoblanmaydi va to'lov qaytarilmaydi (23-band).</p>
+
+  <p class="vsmall"><strong>Natijalar bekor qilinishi mumkin bo'lgan holat.</strong>
+    Testologiya me'yorlari buzilsa (imtihon materiallari maxfiyligi buzilishi, savollarning
+    oldindan qo'lga kiritilishi yoki natijalar taqsimotining me'yordagi taqsimotdan keskin
+    farq qilishi), vakolatli organ natijalarni bekor qiladi — ayrim hududlarda aniqlansa,
+    o'sha hududlar bo'yicha. Bunda <strong>sizning xohishingizga ko'ra to'lov qaytariladi
+    yoki qayta imtihon tashkil etiladi</strong> (17-band). Bu — imtihonni haqiqatda
+    yozgan odamga pul qaytariladigan yagona holat.</p>
+  <p class="vsmall"><strong>Chegirmani biz tekshirmaymiz.</strong> Ijtimoiy reyestrdagi
+    toifangizni yuqorida siz o'zingiz belgilagansiz; qaror bo'yicha chegirmani qo'llash
+    huquqi haqida so'rovnomaning 7-savolida javob beriladi va qarorni YIDXP qabul qiladi,
+    biz emas. Toifangiz tasdiqlanmasa, to'lanadigan summa chegirmasiz hisoblanadi.</p>
+
+  <!-- Второе прочтение скидки. На экране этот абзац есть с самого начала,
+       а на листе его не было — при том что к порталу человек идёт с листом.
+       Расхождение между прочтениями у 75% больше, чем расхождение по дате,
+       ради которого на сайте построен целый раздел. Пустым абзац остаётся,
+       когда скидка не выбрана: там второго прочтения нет. -->
+  <p class="vsmall" id="v-ikki-oqish"></p>
+
+  <p class="vsmall">Manba: VMQ № 411, 29.07.2026 (lex.uz/uz/docs/-8362485, 1-ilova),
+    PF-91, 02.06.2025 va PF-115, 23.06.2026 (BHM 412 000 va 440 000).
+    Bu varaqa rasmiy hujjat emas, imtihondan o'tishni kafolatlamaydi,
+    reja esa bizning mashq rejamiz — imtihon dasturi emas.</p>
+</div>
+
+<section id="bank">
+  <span class="lbl">To'plam</span>
+  <h2>Imtihon to'plami</h2>
+  <!-- Оффер называет ровно то, что продукт делает. До этого он обещал три вещи,
+       из которых одна не существует, а другая давно бесплатна — и покупатель
+       за 99 000 получал бы дни 4..N плана. Теперь платных вещей две, и про
+       каждую сразу сказано, работает она сегодня или нет. -->
+  <p>Yuqoridagi hammasi bepul va shundayligicha qoladi: kalkulyator, 20 savollik izohli mashq,
+  xatolar daftari, vaqt bilan sinov, tayyorlik varaqasi va rejaning birinchi uch kuni.
+  To'plamda ikkita narsa bor, va biz ularni aralashtirmaymiz: bittasi
+  <strong>bugun ishlab turibdi</strong>, ikkinchisi <strong>hali yozilmoqda</strong> —
+  shuning uchun bugun to'lov ham qabul qilinmayapti.</p>
+
+  <div class="card">
+    <!-- Помесячной цены здесь НЕТ. Она стояла ценой, но помесячного тарифа
+         не существует: tarif() знает два состояния, «full» и «bepul», и нигде
+         не сказано, что входит в помесячный вариант и чем он отличается.
+         Цена, за которой нет описанного товара, — это не цена. -->
+    <div class="price"><b class="num" id="price-full">99 000</b> <span>so'm — bir marta, imtihon kuningizgacha. Obuna emas, oylik to'lov yo'q</span></div>
+
+    <p class="small"><strong>Nega aynan shu narx.</strong> Imtihonda qatnashish uchun ariza
+    berilgan kundagi BHM ning 1,5 baravari belgilanadi, undan esa 90 foizi undiriladi
+    (21-band): 31-avgustgacha 556 200 so'm, 1-sentyabrdan 594 000 so'm. O'ta olmasangiz,
+    keyingi urinish uchun yana shuncha.
+    To'plam — o'sha
+    to'lovning beshdan bir qismidan ham kam. Toifangizdan qat'i nazar, u birinchi oylik
+    ustamaning to'rtdan bir qismidan arzon. Taqqoslash uchun kurslar: ustoz.uz da
+    «Ona tili | Milliy sertifikat kursi» — butun kursga 500 000 so'm (27.08.2026 holatiga).
+    Oylik narxni chiqarmaymiz: o'sha sahifaning o'zi ikki xil muddat ko'rsatadi —
+    sarlavhada «2 oylik intensiv kurs», o'sha sahifadagi savol-javobda esa
+    «Kurs 45 kun davom etadi». Bu ona tili sertifikatiga tayyorlov; boshlang'ich sinf
+    o'qituvchilari malaka imtihoniga atalgan kursni topmadik — imtihon spetsifikatsiyasi
+    hali e'lon qilinmagan. Biz kurs emas, mashq va reja sotamiz — dars jadvalisiz, telefonda.</p>
+
+    <ul class="plain">
+      <li><strong>1. To'liq shaxsiy reja — imtihon kuningizgacha. Bugun ishlab turibdi.</strong>
+        Kun-ba-kun, eng bo'sh bloklaringizga eng ko'p kun (buni mashq natijangizdan
+        hisoblaymiz), bosib chiqarsa yoki PDF qilib saqlasa bo'ladi — taqvim
+        ko'rinishida, uni jurnalga qo'yasiz. <strong>Nechta varaq bo'lishini
+        o'lchadik va aytamiz:</strong> 31 kungacha bo'lgan reja bitta A4 ga sig'adi,
+        undan uzuni esa <strong>bitta varaqqa sig'maydi</strong>: eng uzun, 90 kunlik
+        reja — 1,11–1,15 varaq (varaqdagi urinishlar soniga va reja qaysi hafta
+        kunidan boshlanishiga qarab), ya'ni ikkinchi varaq deyarli bo'sh chiqadi.
+        O'lchandi 28.08.2026, taxmin emas.
+        Taqvim aynan shuning uchun: kun-bir-qator ko'rinishida 90 kunlik reja to'rt
+        varaqdan oshardi. Bepulda birinchi uch kuni ko'rinadi va
+        ular haqiqiy — 5-qadamda hoziroq sinab ko'ring. To'plam shu rejaning qolgan
+        kunlarini ochadi, boshqa hech narsani emas.</li>
+      <li><strong>2. To'liq savollar banki — hali yozilmoqda, bugun yo'q.</strong>
+        Besh blok va o'qitish metodikasi bo'yicha, har bir savolga izoh: nega to'g'ri va
+        qaysi tipik xato ko'zda tutilgan. Bugun sahifada 20 ta savol bor, hammasi bepul.
+        Bank tayyor bo'lgach, xatolar daftari va reja savollarni undan oladi.</li>
+      <li class="no"><strong>To'plamda emas: tayyorlik varaqasi.</strong> U bepul va
+        bepulligicha qoladi — bloklar bo'yicha foiz, urinishlar ro'yxati va sana,
+        ham ekranda, ham bosma varaqda. Buning uchun pul so'ramaymiz.
+        <strong>Urinishlar orasidagi farq</strong> esa faqat izohlarni ko'rishdan
+        oldingi urinishlar uchun foiz punktida yoziladi: savollarimiz 20 ta va
+        takroriy urinish yodda qolganini o'lchaydi, tayyorlikni emas. Buni yashirmaymiz —
+        varaqda har bir takroriy urinish shunday belgilangan.</li>
+      <li class="no"><strong>Va'da qilmaydigan narsalarimiz:</strong> imtihondan o'tishni,
+        ustama olishni va «rasmiy savollar»ni. Rasmiy savollar yopiq, ularni hech kim
+        tarqata olmaydi.</li>
+    </ul>
+
+    <div class="note">
+      <strong>Bugun nimasi tayyor, nimasi yo'q.</strong> Ishlayapti: kalkulyator,
+      20 savollik mashq, xatolar daftari, vaqt bilan sinov, tayyorlik varaqasi
+      (urinishlar ro'yxati bilan; farq foiz punktida faqat izohlarni ko'rishdan
+      oldingi urinishlar uchun) va reja — bepulda uch kun, to'liq to'plamda.
+      Yo'q: to'liq savollar banki. Shuning uchun rejada har kunga savollar soni emas,
+      <strong>vaqt</strong> yozilgan: bugun bizda 20 tadan ortiq savol yo'q va biz uni
+      va'da qilmaymiz. Bank tayyor bo'lgach ham, uni boshlang'ich sinflar metodisti
+      o'qib chiqmaguncha sotilmaydi: imtihonni 556 200 – 594 000 so'mga yiqitgan
+      o'qituvchi bu haqda o'qituvchilar kanalida yozadi, va u haqli bo'ladi. Shuning uchun pastdagi
+      forma — zayavka, to'lov emas.
+    </div>
+
+    <div class="note">
+      <strong>Hozircha to'lov qabul qilmaymiz.</strong> Bu sahifa — talabni o'lchash uchun.
+      Siz zayavka qoldirasiz; to'plam tayyor bo'lganda birinchi bo'lib sizga yozamiz,
+      narxni tasdiqlaymiz va shundan keyingina to'lov haqida gaplashamiz. Zayavka
+      qoldirganlar uchun narx shu sahifadagi narx bo'lib qoladi.
+    </div>
+
+    <form id="lead" novalidate>
+      <label for="contact">Aloqa uchun</label>
+      <input type="text" id="contact" autocomplete="off" placeholder="@telegram yoki telefon raqami">
+
+      <label>Nima kerak</label>
+      <div class="chips" id="want"></div>
+
+      <label>Bunga qancha to'lashga tayyorsiz</label>
+      <div class="chips" id="price"></div>
+      <p class="small" style="margin-top:8px">Hech biri oldindan belgilanmagan va biz sizning
+      o'rningizga tanlamaymiz — aynan bu javob biz uchun asosiy o'lchov. Ikkala qatordan ham
+      o'zingiz tanlang.</p>
+
+      <label for="note">Qaysi blok qiyin? Nima qo'shishimiz kerak?</label>
+      <textarea id="note" placeholder="Masalan: matematika metodikasi bo'yicha ko'proq savol kerak"></textarea>
+
+      <p class="err hide" id="lead-err">Aloqa ma'lumotini yozing — busiz sizga javob bera olmaymiz.</p>
+      <button class="btn wide" type="submit" id="lead-btn" style="margin-top:18px">Zayavka qoldirish</button>
+      <p class="small" style="margin-top:10px">Tugmani bosish orqali aloqa ma'lumotingizni
+      shu savollar banki bo'yicha sizga javob berish uchun ishlatishimizga rozilik bildirasiz.
+      Uchinchi shaxslarga sotmaymiz va reklama yubormaymiz. Ma'lumotingiz bizning bazamizda
+      (Supabase, Frankfurt serveri) saqlanadi va bizga Telegram orqali keladi — ya'ni u
+      O'zbekistondan tashqaridagi serverlarda ham bo'ladi. O'chirishimizni istasangiz —
+      javob xatimizga shunday deb yozing, o'chiramiz.</p>
+    </form>
+
+    <div id="lead-ok" class="hide">
+      <h3>Yozib oldik, rahmat</h3>
+      <p>To'plam tayyor bo'lganda birinchi bo'lib sizga yozamiz. Agar imtihon
+      spetsifikatsiyasi yoki jadvali e'lon qilinsa, u haqda ham xabar beramiz.
+      Shu orada rejangizni bosib chiqaring — u bugundan ishlaydi.</p>
+      <button class="btn sec" id="ok-share" type="button">Hamkasbga yuborish</button>
+    </div>
+  </div>
+</section>
+
+<section id="halol">
+  <h2>Ochiq gapiramiz</h2>
+  <ul class="plain">
+    <li><strong>Biz davlat organi emasmiz.</strong> Bilim va malakalarni baholash agentligi
+    bilan aloqamiz yo'q, rasmiy savollar bankiga kirmaymiz va sertifikat bermaymiz.</li>
+    <li><strong>Savollar — bizniki.</strong> Boshlang'ich sinf dasturi va metodikasi asosida
+    tuzilgan. 26.08.2026 holatiga ularni mustaqil metodist tekshirmagan — na bepul yigirmatasini,
+    na kelajakdagi bankni. Buni va'da qilib qo'ymaymiz: tekshiruv bo'lsa, shu yerda yozamiz.</li>
+    <li class="no"><strong>Natijani va'da qilmaymiz.</strong> Mashq qilish imtihondan o'tishni
+    kafolatlamaydi. Ballni siz to'playsiz, ustamani byudjet to'laydi.</li>
+    <li class="no"><strong>Nimani hali bilmaymiz:</strong> imtihonning aniq spetsifikatsiyasi —
+    savollar soni, topshiriqlar turi, vaqt me'yori — 27.08.2026 holatiga e'lon qilinmagan,
+    boshlang'ich sinf o'qituvchilari uchun imtihon jadvali ham e'lon qilinmagan. Qarorning
+    o'zi buni shunday belgilaydi: format va o'tkazish muddatlari vakolatli organ tomonidan
+    tasdiqlanadi va uning rasmiy veb-saytiga joylashtiriladi (VMQ № 411, 1-ilova, 8-band).
+    1 stavkadan ortiq ishlaganda ustama qanday hisoblanishi ham aniq emas.
+    Bilib olganimizda shu sahifada yozamiz.</li>
+    <li class="no"><strong>Reja — bizning rejamiz.</strong> Undagi mavzular boshlang'ich sinf
+    dasturidan olingan, imtihon dasturidan emas: imtihon dasturi yo'q. Reja vaqtni taqsimlaydi,
+    imtihonda nima so'ralishini aytmaydi.</li>
+  </ul>
+</section>
+
+<section id="faq">
+  <h2>Savol-javob</h2>
+  <div id="faqlist">
+    <details>
+      <summary>Ustama kimga to'lanadi?</summary>
+      <p>«Boshlang'ich ta'lim» yo'nalishi bo'yicha boshlang'ich sinflarda dars beruvchi va
+      B+ yoki undan yuqori darajadagi milliy sertifikatga ega o'qituvchiga — 2026/2027 o'quv
+      yilidan boshlab, sertifikat amal qilgan davrda, har oy lavozim maoshining 15 foizi
+      miqdorida (VMQ № 411, 29.07.2026).</p>
+    </details>
+    <details>
+      <summary>Necha ball kerak?</summary>
+      <p>Baholash shkalasi: 70 balldan yuqori — A+, 65–69,9 — A, 60–64,9 — B+, 55–59,9 — B,
+      50–54,9 — C+, 46–49,9 — C. Sertifikat 46 balldan boshlab beriladi, lekin 15 foizlik
+      ustama uchun kamida <strong>B+</strong>, ya'ni 60 ball kerak.</p>
+    </details>
+    <details>
+      <summary>Imtihonda nima so'raladi?</summary>
+      <p>Qaror bo'yicha test orqali boshlang'ich sinf fanlari bo'yicha bilim,
+      o'qitish metodikasi va pedagogik mahorat baholanadi. Ya'ni alohida bitta fan emas,
+      umumlashtirilgan blok. Savollar soni va vaqt kabi aniq spetsifikatsiya hali e'lon
+      qilinmagan — e'lon qilinishi bilan mashqni moslaymiz.</p>
+    </details>
+    <details>
+      <summary>Imtihon qancha turadi?</summary>
+      <p>Bu yerda ikkita raqam bor. <strong>Belgilangan to'lov</strong> — ariza topshirilgan
+      sanadagi bazaviy hisoblash miqdorining 1,5 baravari: 1-sentyabrgacha BHM 412 000 so'm
+      (PF-91, 02.06.2025), ya'ni 618 000 so'm; 1-sentyabrdan BHM 440 000 so'm
+      (PF-115, 23.06.2026), ya'ni 660 000 so'm. <strong>Undiriladigan summa</strong> esa
+      shundan 90 foizi — «ro'yxatdan YIDXP orqali o'tilgani sababli» (1-ilova, 4-bob,
+      21-band): <strong>556 200 so'm</strong> va <strong>594 000 so'm</strong>. Boshqa
+      ro'yxatdan o'tish yo'li yo'q (9-band), shuning uchun 90 foiz har doim qo'llanadi.
+      Chegirmangiz bo'lsa — yana kamroq: 50 foiz bilan 278 100, 75 foiz bilan 139 050 so'm,
+      1-sentyabrdan esa 297 000 va 148 500 so'm. Yuqoridagi kalkulyator bugungi sanaga va
+      tanlagan chegirmangizga to'g'ri keladigan summani oladi. Chegirmali summalar
+      ko'paytiruvchi o'qish bo'yicha hisoblangan (618 000 × 0,9 × 0,5); ayirmali o'qishda
+      556 200 − 309 000 = 247 200 chiqadi, va qaysi biri invoysda bo'lishini biz
+      bilmaymiz — shuning uchun kattasini ko'rsatamiz.
+      Imtihondan o'ta olmasangiz, keyingi urinish uchun to'lov qaytadan to'lanadi.</p>
+    </details>
+    <details>
+      <summary>Menda «kambag'al oila» yoki «davlat ta'minotidagi oila» toifasi bormi — to'lov kamayadimi?</summary>
+      <p>Ha. VMQ № 411, 1-ilova, 4-band, ikkinchi xatboshi: Ijtimoiy reyestrning
+      «kambag'al oila» toifasidagi oila a'zolariga va I hamda II guruh nogironligi bo'lgan
+      shaxslarga — belgilangan to'lovning <strong>50 foizi</strong> miqdorida,
+      «davlat ta'minotidagi oila» toifasidagi oila a'zolariga esa <strong>75 foizi</strong>
+      miqdorida chegirma. Toifadan yaqinda chiqarilgan bo'lsangiz ham chegirma darrov
+      yo'qolmaydi, lekin muddatsiz emas: uchinchi xatboshi — «davlat ta'minotidagi oila»
+      yoki «kambag'al oila» toifasidan chiqarilgani sababli «kambag'allik chegarasidagi
+      oila» toifasiga o'tkazilganlarga chegirma avvalgi toifasi bo'yicha; to'rtinchi
+      xatboshi — og'ir hayotiy vaziyat sababli o'sha toifaga kiritilganlarga «kambag'al
+      oila» miqdorida, «ular Ijtimoiy reyestrda turgan davrda, biroq ushbu reyestrga
+      kiritilgan sanadan boshlab <strong>12 oydan ko'p bo'lmagan muddatda</strong>».
+      Kalkulyatorda buni 1-qadamda tanlaysiz; YIDXP dagi so'rovnomaning 7-savoli ham
+      aynan shu haqda, va qarorni portal qabul qiladi — biz toifani tekshirmaymiz.</p>
+    </details>
+    <details>
+      <summary>Imtihonga qachongacha ariza berish va to'lash kerak?</summary>
+      <p>Nizomga 1-ilova (SXEMA), 1-bosqich: talabgor to'lovni <strong>imtihondan kamida
+      12 kun oldin</strong> amalga oshiradi; 2-bosqich: ro'yxatga olish <strong>imtihon
+      sanasidan 12 kun oldin</strong> yakunlanadi. Ya'ni imtihonga 12 kun qolganda
+      ariza berish ham, to'lash ham kech. Imtihon o'tkaziladigan sana va joy
+      (ruxsatnoma) imtihondan 3 kun oldin YIDXP orqali keladi (10-band), natijalar esa
+      imtihon yakunlangandan keyin 21 ish kunidan kechikmay e'lon qilinadi (16-band).
+      Imtihonlar yil davomida o'tkaziladi, ariza esa «o'z xohishiga ko'ra» beriladi.</p>
+    </details>
+    <details>
+      <summary>Imtihon kuni kasal bo'lib qolsam yoki xizmat safarida bo'lsam?</summary>
+      <p>22-band: uzrli sabab (xizmat safari, malaka oshirish, kasallik yoki oila
+      a'zosining vafoti — tasdiqlovchi hujjat bilan) tufayli qatnasha olmasangiz,
+      <strong>imtihon o'tkazilgan sanadan uch kundan kechikmay</strong> YIDXP orqali
+      murojaat qilasiz: keyingi imtihonga o'tkazish yoki to'lovni qaytarish. Qaytarish
+      to'liq, Nizomga 3-ilovadagi shakl bo'yicha (10-bandda bank kartangiz so'raladi),
+      ariza 7 ish kunida ko'riladi (25-band). Lekin kechikkan, uzrli sababsiz kelmagan
+      yoki imtihondan chetlashtirilgan talabgorga to'lov qaytarilmaydi (23-band), va
+      chetlashtirishga asos — binoga qo'llanma, adabiyot yoki telefon olib kirish
+      hamda boshqa talabgorlar bilan muloqot qilish (15-band).</p>
+      <p><strong>Yana bitta holat bor, va u imtihonni haqiqatda yozganlarga tegishli.</strong>
+      17-band: testologiya me'yorlari buzilgani aniqlansa — imtihon materiallari
+      xavfsizligi va maxfiyligi qoidalari buzilsa, savollar oldindan qo'lga kiritilgan
+      bo'lsa yoki natijalar taqsimoti me'yordagi taqsimotdan keskin farq qilsa —
+      vakolatli organ natijalarni bekor qiladi (ayrim hududlarda aniqlansa, o'sha
+      hududlar bo'yicha). Bunda dosloviy: «talabgorlarning xohishiga ko'ra amalga
+      oshirilgan to'lov miqdori qaytariladi yoki qayta malaka imtihoni tashkil
+      etiladi» — tanlov sizniki.</p>
+    </details>
+    <details>
+      <summary>Sertifikat faqat 15 foiz ustama beradimi?</summary>
+      <p>Yo'q. Qarorning 3-ilovasi VMQ № 572 (17.09.2021) dagi pedagog kadrlarni
+      attestatsiyadan o'tkazish nizomining 36-bandini o'zgartirdi: kamida B+ darajali
+      sertifikatga ega o'qituvchiga sertifikat amal qilgan davrda navbatdagi majburiy
+      attestatsiyada mutaxassislik fani va kasb standarti bo'yicha bilim darajasini
+      aniqlash hamda o'quv fani bo'yicha malaka sinovidan <strong>maksimal ball</strong>
+      beriladi va u o'sha o'quv fani bo'yicha malaka sinovidan <strong>ozod etiladi</strong>.
+      Ikkinchi bosqich sinovida qatnashish majburiyligicha qoladi. Attestatsiya malaka
+      toifasini belgilaydi, toifa esa lavozim maoshini — ya'ni o'sha 15 foiz
+      hisoblanadigan bazani.</p>
+      <p><strong>Lekin bu yerda bitta cheklov bor, va u kam gapiriladi.</strong>
+      O'sha 572-son nizomning 48-bandi (VMQ № 130, 28.02.2025 tahriri) attestatsiyada
+      86 va undan yuqori ball olgan pedagoglarga bazaviy tarif stavkasiga qo'shimcha
+      <strong>70 foiz</strong> ustama beradi — biroq o'sha bandda dosloviy shunday
+      yozilgan: «Belgilangan darajadagi milliy yoki unga mos darajadagi xalqaro
+      sertifikatga ega bo'lganligi sababli navbatdagi majburiy attestatsiyada
+      mutaxassislik fani va kasb standarti bo'yicha bilim darajasini aniqlash hamda
+      o'quv fani bo'yicha malaka sinovidan berilgan maksimal ball e'tiborga olinmaydi».
+      Ya'ni sertifikat uchun qo'yilgan maksimal ball <strong>70 foizlik ustamaga
+      hisoblanmaydi</strong>: u ustama faqat malaka sinovining ikkala bosqichida
+      qatnashib, oliy yoki birinchi toifaga erishgan (yoki uni saqlagan) pedagogga
+      beriladi, muddati esa ikki yil. Bunday pedagoglar ustamani o'z xohishiga ko'ra
+      navbatdan tashqari attestatsiyada qatnashish orqali olishlari mumkin. Va butun
+      shu qoida o'zi ham shartli: 48-band uni «attestatsiya tizimi xalqaro e'tirof
+      etilgan vakolatli xorijiy tashkilotlar akkreditatsiyasidan o'tkazilgandan so'ng»
+      ishlaydi deb yozadi. Sertifikat 15 foizni beradi va majburiy attestatsiyani
+      yengillashtiradi — 70 foizlik ustamani esa almashtirmaydi.</p>
+      <p>Attestatsiyaga umuman bormaslik esa alohida narxga ega: o'sha nizomning
+      46-bandi — uzrsiz sababga ko'ra attestatsiyada qatnashmagan pedagogning malaka
+      toifasi (lavozimi) <strong>bir pog'ona tushiriladi</strong>, mutaxassis (oliy
+      ma'lumotli o'qituvchi) lavozimidagi pedagog bilan esa ish beruvchi mehnat
+      shartnomasini bekor qilish huquqiga ega. Sertifikat sizni attestatsiyadan
+      ozod qilmaydi — u faqat bitta sinovdan ozod qiladi.</p>
+    </details>
+    <details>
+      <summary>Sertifikat qanday beriladi?</summary>
+      <p>Elektron shaklda, QR kodli — Yagona interaktiv davlat xizmatlari portali orqali
+      (qarorda u YIDXP deb yuritiladi, portal manzili my.gov.uz), bir ish kuni ichida.
+      Sertifikat <strong>uch yil muddatga</strong> beriladi — VMQ № 411, 1-ilova, 18-band
+      va 2-band ta'rifi.</p>
+    </details>
+    <details>
+      <summary>Menda ona tilidan sertifikat bor. Ustama qancha?</summary>
+      <p>Bu boshqa tartib va u boshqacha hisoblanadi. 50 foizlik ustama lavozim maoshining
+      hammasidan emas, <strong>ona tili fan soatlari uchun</strong> to'lanadi:
+      1-sinfda o'quv yilining 1–2-choraklarida 4 soat «Alifbe» va 4 soat «Yozuv»,
+      3–4-choraklarida 4 soat «Ona tili» va 4 soat «O'qish savodxonligi»;
+      2–4-sinflarda 4 soatdan «Ona tili» va 3 soatdan «O'qish savodxonligi» —
+      <a href="https://talimxabarlari.uz/19354/" rel="nofollow noopener" target="_blank">talimxabarlari.uz, 07.01.2025</a>.
+      <strong>Daraja sharti ham bor.</strong> Ustama to'lash uchun asos — <strong>C darajadagi</strong>
+      milliy sertifikat; qaror kuchga kirgunga qadar olingan sertifikatlar uchun bu
+      <strong>60 ball</strong> degani —
+      <a href="https://talimxabarlari.uz/26760/" rel="nofollow noopener" target="_blank">talimxabarlari.uz, 15.04.2025</a>.
+      Bu 50 foiz VMQ № 411 dagi 15 foiz bilan qanday qo'shilishi haqida ochiq manbalarda
+      ma'lumot topmadik, shuning uchun bu yerda hech narsa qo'shmaymiz — aniq summani
+      maktab hisobchisidan so'rang.</p>
+    </details>
+    <details>
+      <summary>Nega kurslardan arzon?</summary>
+      <p>Chunki bu kurs emas. Bizda o'qituvchi ham, jadval ham, video ham yo'q — faqat
+      imtihon formatidagi savollar, xatolar daftari, vaqt bilan sinov va kun-ba-kun reja.
+      Kurs kerak bo'lsa, kurs oling: biz uni almashtirmaymiz.</p>
+    </details>
+    <details>
+      <summary>Ariza qayerdan beriladi va to'lov qancha?</summary>
+      <p>Ariza <strong>Yagona interaktiv davlat xizmatlari portali</strong> (YIDXP,
+      my.gov.uz) orqali elektron beriladi — boshqa yo'l qarorda yo'q (9-band).
+      Aynan shu sababli to'lovning 90 foizi undiriladi (21-band): belgilangan to'lov
+      <strong>ariza berilgan kundagi</strong> BHM ning 1,5 baravari, undiriladigani esa
+      1-sentyabrgacha <strong>556 200 so'm</strong>, 1-sentyabrdan
+      <strong>594 000 so'm</strong>. Ya'ni farq 37 800 so'm va u bitta kunga bog'liq.
+      To'lov imtihondan kamida 12 kun oldin amalga oshiriladi (Nizomga 1-ilova, SXEMA).
+      Sertifikat QR kodli, elektron, bir ish kunida shu portal orqali beriladi;
+      natijaga rozi bo'lmasangiz, apellyatsiya natijalar e'lon qilingan kundan uch kun
+      ichida beriladi (26-band) va komissiya uni ikki hafta ichida ko'rib chiqadi
+      (27-band; komissiya vakolatli organ va Ilmiy markaz xodimlari hamda
+      mutaxassis-ekspertlardan 5 yoki 7 kishilik tarkibda tuziladi),
+      takroriy apellyatsiyaga esa yo'l qo'yilmaydi (29-band) — lekin komissiya
+      qarori ustidan sudga shikoyat qilish mumkin (o'sha 29-band). Manba — qarorning
+      o'zi lex.uz da (havola pastda), gazeta sharhi emas. Arizani biz
+      bermaymiz va to'lovni biz qabul qilmaymiz: bu portal ishi.</p>
+    </details>
+    <details>
+      <summary>Reja nima va u nimasi bilan pullik?</summary>
+      <p>Imtihon sanangizni kiritasiz — sahifa o'sha kungacha kun-ba-kun reja tuzadi:
+      qaysi kuni qaysi blok, yakshanbada faqat xatolar daftari, har yettinchi kuni
+      vaqt bilan sinov, oxirgi uch kunda takrorlash va hujjatlar. Bo'sh bloklaringizga
+      ko'proq kun ajratiladi — buni mashq natijangizdan hisoblaymiz.
+      Rejaning <strong>birinchi uch kuni bepul</strong> va ular haqiqiy: bosib chiqarsa
+      ham, PDF qilib saqlasa ham bo'ladi. To'liq reja imtihon kuningizgacha — to'plamda.
+      Reja bizniki, imtihon dasturi emas: dastur e'lon qilinmagan.</p>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <p class="lbl">Manbalar</p>
+  <ol>
+    <!-- Первоисточник стоит ПЕРВЫМ и открыт нами самими. Раньше здесь были две
+         новости, а про lex.uz было написано «машинно читаемого текста не нашли» —
+         неправда: постановление читается обычным запросом, вместе с приложением. -->
+    <li>15% ustama, B+ va undan yuqori daraja, 2026/2027 o'quv yili; baholash shkalasi;
+      belgilangan to'lov 1,5 BHM (1-ilova, 4-band) va undan 90 foizi undirilishi
+      (4-bob, 21-band); 50 va 75 foizlik chegirmalar (4-band); 12 kunlik to'lov muddati
+      (Nizomga 1-ilova, SXEMA); natijalar 21 ish kunida (16-band); natijalarning bekor
+      qilinishi va shunda to'lovning qaytarilishi (17-band); pulni qaytarish
+      (22–25-band); apellyatsiya tartibi (26–29-band); QR kodli elektron sertifikat uch
+      yil muddatga; imtihon formati vakolatli organ tomonidan tasdiqlanishi; ustamaning
+      2027-yildan boshlab budjet so'rovnomalari orqali nazarda tutilishi (qarorning
+      6-bandi, uchinchi xatboshi) — qarorning rasmiy matni:
+      <a href="https://lex.uz/uz/docs/-8362485" rel="nofollow noopener" target="_blank">VMQ № 411, 29.07.2026 (lex.uz)</a>.
+      Sharhlar: <a href="https://kun.uz/news/2026/07/30/b-darajadagi-milliy-sertifikatga-ega-oqituvchilarga-ustama-beriladi" rel="nofollow noopener" target="_blank">kun.uz, 30.07.2026</a>,
+      <a href="https://uz24.uz/uz/articles/ustama-26-7-30" rel="nofollow noopener" target="_blank">uz24.uz, 30.07.2026</a>.</li>
+    <li>Lavozim maoshlari toifalar bo'yicha (kalkulyatordagi tayyor summalar):
+      <a href="https://infoedu.uz/2025-yilda-pedagog-kadrlar-qancha-maosh-oladi" rel="nofollow noopener" target="_blank">infoedu.uz, 08.02.2026</a>.
+      2026-yil 1-sentyabrdan bu summalar sahifada 7 foizga oshirib ko'rsatiladi — bu
+      bizning hisobimiz, yangi rasmiy jadval emas.</li>
+    <li>Attestatsiya: sertifikat egasiga maksimal ball va malaka sinovidan ozod etilishi
+      (36-band, uchinchi xatboshi), 86 balldan yuqori uchun 70 foizlik ustama va
+      sertifikat uchun qo'yilgan maksimal ballning unga hisoblanmasligi (48-band,
+      ikkinchi — to'rtinchi xatboshilar), attestatsiyada uzrsiz qatnashmaslik oqibati
+      (46-band) — VMQ № 572, 17.09.2021, amaldagi tahrirda (48-band — VMQ № 130,
+      28.02.2025 tahriri; 36-bandning uchinchi xatboshisi — VMQ № 411 tahriri):
+      <a href="https://lex.uz/uz/docs/-5641270" rel="nofollow noopener" target="_blank">lex.uz/uz/docs/-5641270</a>.</li>
+    <li>BHM 412 000 so'm — 2025-yil 1-avgustdan, PF-91, 02.06.2025, II bo'lim,
+      3-band «b»:
+      <a href="https://lex.uz/ru/docs/7553336" rel="nofollow noopener" target="_blank">lex.uz/ru/docs/7553336</a>.
+      BHM 440 000 so'm va byudjet xodimlari maoshining 7 foizga oshishi — 2026-yil
+      1-sentyabrdan, PF-115, 23.06.2026: maoshlarning oshishi — I bo'lim, 2-band;
+      BHM ning yangi miqdori — II bo'lim, 3-band «b»:
+      <a href="https://lex.uz/uz/docs/-8283656" rel="nofollow noopener" target="_blank">o'zbekcha</a>,
+      <a href="https://lex.uz/ru/docs/8283680" rel="nofollow noopener" target="_blank">ruscha rasmiy matn</a>.
+      412 000 raqami PF-115 da yo'q — uni boshqa farmon belgilagan, shuning uchun
+      ikkalasi ham alohida ko'rsatilgan.</li>
+    <li>Narxni taqqoslash uchun — «Ona tili | Milliy sertifikat kursi», butun kursga
+      500 000 so'm (27.08.2026 holatiga). O'sha sahifa muddat bo'yicha o'ziga zid:
+      sarlavhada «2 oylik intensiv kurs», savol-javobda «Kurs 45 kun davom etadi» —
+      shuning uchun oylik narxni chiqarmadik:
+      <a href="https://ustoz.uz/course/ona-tili-milliy-sertifikat-kursi" rel="nofollow noopener" target="_blank">ustoz.uz</a>.</li>
+    <li>Ona tili sertifikati uchun 50 foizlik ustama — fan soatlari ro'yxati choraklar kesimida:
+      <a href="https://talimxabarlari.uz/19354/" rel="nofollow noopener" target="_blank">talimxabarlari.uz, 07.01.2025</a>;
+      daraja sharti (C daraja, eski sertifikatlar uchun 60 ball):
+      <a href="https://talimxabarlari.uz/26760/" rel="nofollow noopener" target="_blank">talimxabarlari.uz, 15.04.2025</a>.</li>
+  </ol>
+  <p style="margin-top:16px">Sahifa 27.08.2026 da yangilangan. Raqamlar shu sanadagi manbalarga
+  asoslangan; qaror matnining rasmiy tahriri lex.uz da va biz uni o'zimiz o'qidik.</p>
+</footer>
+</div>
+
+<script src="config.js"></script>
+<script src="questions.js"></script>
+<script>
+/* ── Замер ───────────────────────────────────────────────────────────────────
+   sess — случайная строка в localStorage. Она склеивает шаги ОДНОГО браузера
+   и ничего не утверждает про личность: в отчётах это «сессии», а не «люди».
+   source запоминается первым касанием: человек может вернуться по прямой ссылке
+   без ?src=, и тогда заявка потеряла бы канал — а порог считается по каналам. */
+var LS = window.localStorage;
+function ls(k, v) {
+  try { if (v === undefined) return LS.getItem(k); LS.setItem(k, v); return v; } catch (e) { return null; }
+}
+var sess = ls("ustoz_sess");
+if (!sess) {
+  sess = "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  ls("ustoz_sess", sess);
+}
+var qs = new URLSearchParams(location.search);
+var source = qs.get("src") || ls("ustoz_src") || "direct";
+ls("ustoz_src", source);
+
+/* Событий шесть и они закрыты списком на сервере. Поэтому «начал тест» и
+   «закончил тест» едут внутри calc через meta.kind, а не новым именем события:
+   опечатка в имени вернулась бы 400 и тихо обнулила колонку в отчёте. */
+var sent = 0;
+function ev(name, meta) {
+  if (sent > 40) return;          // потолок на сессию: цикл в консоли не должен есть общую базу
+  sent++;
+  try {
+    fetch(window.MVP.EV, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        product: window.MVP.PRODUCT, sess: sess, event: name,
+        meta: meta || {}, source: source,
+      }),
+    }).catch(function () {});
+  } catch (e) {}
+}
+/* Реферер не отправляется. Он не число и в перечень «что уходит на сервер»
+   не помещается, а канал у нас и так есть: ?src= запоминается первым касанием
+   и едет отдельным полем source. Обещание в разделе «Xatolar daftari» должно
+   выдерживать вкладку «Сеть», а не только чтение. */
+ev("open", {});
+
+/* ── Числа ─────────────────────────────────────────────────────────────────── */
+function fmt(n) {
+  return String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+var USTAMA = 0.15;          // ВМҚ № 411: 15% лавозим маоши
+
+// БҲМ. Оба значения подписаны СВОИМ указом и своей датой, а не словом «сейчас»:
+// 412 000 в ПФ-115 не упоминается вообще, это значение ввёл другой акт, и
+// человек, открывший ПФ-115 по нашей подсказке, не нашёл бы там этого числа.
+var BHM_HOZIR = 412000;               // с 01.08.2025 — ПФ-91 от 02.06.2025, разд. II, п. 3(б)(ii)
+var BHM_SENT  = 440000;               // с 01.09.2026 — ПФ-115 от 23.06.2026, разд. II, п. 3(б)(ii)
+var BHM_SANA  = new Date(2026, 8, 1); // 1 сентября 2026, местное время
+
+// ВЗНОС СЧИТАЕТСЯ В ДВА ХОДА, И ЭТО НЕ ПРИДИРКА К ФОРМУЛИРОВКЕ.
+//
+// Ход первый — п. 4 приложения 1: «ariza berilgan kundagi bazaviy hisoblash
+// miqdorining 1,5 baravari». Это УСТАНОВЛЕННАЯ плата: 618 000 / 660 000.
+//
+// Ход второй — глава 4, п. 21, первое предложение: «Davlat xizmati koʻrsatilishi
+// uchun roʻyxatdan YIDXP orqali oʻtilgani sababli talabgordan belgilangan toʻlov
+// miqdorining 90 foizi undiriladi». Взимается 90%. И это не льгота, которую можно
+// не получить: п. 9 не оставляет другого пути регистрации — «YIDXP orqali
+// elektron shaklda ariza berib, roʻyxatdan oʻtadi», бумажного заявления в тексте
+// нет вовсе. Значит 90% применяются ВСЕГДА, и к оплате идёт 556 200 / 594 000.
+//
+// Раньше здесь стояло `bhm(sent) * 1.5`, то есть установленная плата выдавалась
+// за сумму к оплате. Ошибка не всплывала ни в одной внутренней сверке: число
+// месяцев окупаемости от неё не меняется (618 000/508 624 и 556 200/508 624 —
+// оба округляются вверх до 2), расходилась только та цифра, ради которой
+// страницу и открывают, и она же ехала в печатный лист.
+var YIGIM_BHM   = 1.5;   // п. 4 — установленная плата
+var YIDXP_ULUSH = 0.9;   // п. 21 — взимается 90%, потому что регистрация только через ЕПИГУ
+
+// Скидки п. 4, абзац второй. Их спрашивают прямо в анкете на ЕПИГУ (приложение 2
+// к Положению, вопрос 7 «chegirmani qoʻllash huquqiga egaligi: Ha/Yoʻq»), поэтому
+// человек упрётся в этот вопрос на портале — и лучше ему упереться здесь.
+// Оба процента множители, поэтому порядок применения на результат не влияет.
+var CHEGIRMA = [
+  { k: "Chegirmasiz",                                        v: 0 },
+  { k: "«Kambag'al oila» yoki I–II guruh nogironligi",       v: 0.5 },
+  { k: "«Davlat ta'minotidagi oila»",                        v: 0.75 },
+];
+var chegirma = 0;                     // доля скидки, 0 / 0,5 / 0,75
+
+// Обе даты в картинке должны быть одной датой. Галочка «+7% с 1 сентября»
+// показывает сентябрьский оклад — значит и взнос надо брать сентябрьский
+// (БҲМ 440 000), иначе на экране смешиваются август и сентябрь:
+// прибавка будущая, а взнос сегодняшний. Поэтому bhm() принимает признак
+// «считаем по сентябрю», а не смотрит только на календарь.
+function bhm(sent)         { return (sent || new Date() >= BHM_SANA) ? BHM_SENT : BHM_HOZIR; }
+function belgilangan(sent) { return bhm(sent) * YIGIM_BHM; }              // 618 000 / 660 000
+function yigim(sent)       { return belgilangan(sent) * YIDXP_ULUSH * (1 - chegirma); }
+// Подпись под суммой всегда называет дату, на которую она верна, и следующую
+// цифру: учитель, читающий страницу 30 августа, платит 556 200, а подающий
+// заявление 2 сентября — 594 000, и обоим надо видеть свою. Установленная плата
+// тоже названа: без неё человек не сойдётся с квитанцией на портале и решит,
+// что мы ошиблись, — а мы как раз не ошиблись.
+function yigimIzoh(sent) {
+  var b = belgilangan(sent);
+  var t = "belgilangan to'lov " + fmt(b) + " so'm (1,5 BHM), undan 21-band bo'yicha 90 foizi undiriladi";
+  if (chegirma) t += ", ustiga " + Math.round(chegirma * 100) + " foiz chegirma";
+  if (new Date() >= BHM_SANA) return "1-sentyabrdan BHM " + fmt(BHM_SENT) + " so'm; " + t;
+  if (sent) {
+    return "1-sentyabrdagi holat bo'yicha: maosh ham, BHM ham o'sha kundan o'zgaradi, " +
+           "BHM " + fmt(BHM_SENT) + " so'm; " + t +
+           "; bugun ariza bersangiz to'lov " + fmt(BHM_HOZIR * YIGIM_BHM * YIDXP_ULUSH * (1 - chegirma)) + " so'm";
+  }
+  return "BHM " + fmt(BHM_HOZIR) + " so'm bo'yicha; " + t +
+         "; 1-sentyabrdan to'lov " + fmt(BHM_SENT * YIGIM_BHM * YIDXP_ULUSH * (1 - chegirma)) + " so'm bo'ladi";
+}
+var RAISE = 1.07;           // ПФ-115: +7% бюджетникам с 01.09.2026
+// ustoz.uz: 500 000 сум за курс целиком. Помесячной цены здесь БОЛЬШЕ НЕТ,
+// и это не сокращение текста. Первоисточник сам себе противоречит: в шапке
+// страницы «2 oylik intensiv kurs», а в её же FAQ — «Kurs 45 kun davom etadi»
+// (открыто 27.08.2026). Из противоречия нельзя вывести цену месяца, а мы её
+// выводили и называли «250 000 в месяц» — числа, которого источник не содержит.
+// Сравниваем целое с целым: 500 000 за курс против 99 000 за набор.
+var KURS = 500000;
+
+// Оклады по категориям — infoedu.uz, 08.02.2026. Здесь они лежат один раз,
+// чтобы подпись под чипом и число в расчёте не разъехались.
+var TOIFA = [
+  { k: "O'rta maxsus ma'lumotli", v: 3169623 },
+  { k: "Oliy ma'lumotli",         v: 3390824 },
+  { k: "2-toifa",                 v: 3796213 },
+  { k: "1-toifa",                 v: 4230138 },
+  { k: "Oliy toifa",              v: 4674594 },
+];
+
+// 1 сентября 2026 оклады бюджетников выросли на 7 процентов (ПФ-115, разд. I,
+// п. 2), а официальной таблицы окладов по категориям на новую базу ещё нет.
+// Значит с этого дня справочные числа в чипах — вчерашние, и оставлять их
+// нельзя: на том же экране рядом уже стоит сентябрьский взнос (его переключает
+// BHM_SANA), и человек читает август и сентябрь одновременно. Пересчитываем
+// чипы один раз здесь.
+//
+// Почему галочка после этой даты убирается, а не включается сама. Свой оклад
+// человек берёт из расчётного листа, и после 1 сентября лист УЖЕ повышенный:
+// умножить его на 1,07 второй раз значит завысить надбавку. Повышать надо
+// только нашу справочную таблицу, а не то, что ввели руками. Раньше это
+// решала галочка, снятая по умолчанию, — то есть не решал никто.
+// Округления здесь НЕТ намеренно. Округлив оклад, мы получили бы 508 725 там,
+// где таблица на сайте даёт 508 724: сайт округляет надбавку, а не оклад,
+// и два наших экрана разошлись бы на сум в продукте, который продаётся
+// точностью. fmt() округлит при показе, а считать надо от дробного.
+var SENTABR = new Date() >= BHM_SANA;
+if (SENTABR) {
+  TOIFA.forEach(function (t) { t.v = t.v * RAISE; });
+}
+// Считаем ли мы по сентябрю. До 1 сентября это выбор человека (галочка),
+// после — данность: повышение уже произошло.
+function sentHisob() { return SENTABR || elPlus7.checked; }
+
+var elToifa = document.getElementById("toifa");
+var elOklad = document.getElementById("oklad");
+var elPlus7 = document.getElementById("plus7");
+var picked = -1;
+
+// После 1 сентября подпись у галочки читается в будущем времени о том, что уже
+// случилось, а сама галочка предлагает включить повышение, которое в чипах
+// теперь и так учтено. Поэтому строку заменяем на пояснение: те же слова
+// в прошедшем времени и прямая оговорка, что оклад из своего расчётного листа
+// повышать второй раз не надо.
+if (SENTABR) {
+  var rowP7 = document.getElementById("row-plus7");
+  if (rowP7) {
+    rowP7.innerHTML = "";
+    rowP7.className = "";
+    var p7 = document.createElement("p");
+    p7.className = "small";
+    p7.style.margin = "8px 0 0";
+    p7.appendChild(document.createTextNode(
+      "2026-yil 1-sentyabrdan byudjet xodimlari maoshi 7 foizga oshdi (PF-115, 23.06.2026, " +
+      "I bo'lim, 2-band). Yuqoridagi toifa summalari shu 7 foiz bilan ko'rsatilgan — " +
+      "bu bizning hisobimiz, toifalar bo'yicha yangi rasmiy jadval hali e'lon qilinmagan. " +
+      "Maoshingizni o'zingiz kiritsangiz, uni oshirmang: hisob varaqangizdagi summa " +
+      "1-sentyabrdan keyin allaqachon oshirilgan."));
+    rowP7.appendChild(p7);
+  }
+}
+
+TOIFA.forEach(function (t, i) {
+  var b = document.createElement("button");
+  b.type = "button";
+  b.className = "chip";
+  b.setAttribute("aria-pressed", "false");
+  b.innerHTML = "";
+  b.appendChild(document.createTextNode(t.k));
+  var c = document.createElement("span");
+  c.className = "c";
+  c.appendChild(document.createTextNode(fmt(t.v) + " so'm"));
+  b.appendChild(c);
+  b.addEventListener("click", function () {
+    picked = i;
+    elOklad.value = "";
+    paint();
+    calc("toifa");
+  });
+  elToifa.appendChild(b);
+});
+
+// Скидка — такой же чип, как категория. Она меняет ровно одну вещь: сумму
+// взноса. На саму надбавку она не влияет и туда не переносится.
+//
+// Событие замера отсюда НЕ уходит: calc вызывается с нулём. Перечень «что
+// уходит на сервер» в разделе «Xatolar daftari» закрыт списком и проверяется
+// человеком во вкладке «Сеть»; новое поле сделало бы этот список неправдой,
+// а знать долю льготников важнее не настолько.
+var elChegirma = document.getElementById("chegirma");
+CHEGIRMA.forEach(function (c, i) {
+  var cb = document.createElement("button");
+  cb.type = "button";
+  cb.className = "chip";
+  cb.setAttribute("aria-pressed", i === 0 ? "true" : "false");
+  cb.appendChild(document.createTextNode(c.k));
+  if (c.v) {
+    var cs = document.createElement("span");
+    cs.className = "c";
+    cs.appendChild(document.createTextNode("−" + Math.round(c.v * 100) + "%"));
+    cb.appendChild(cs);
+  }
+  cb.addEventListener("click", function () {
+    chegirma = c.v;
+    var kids = elChegirma.children;
+    for (var j = 0; j < kids.length; j++) {
+      kids[j].setAttribute("aria-pressed", j === i ? "true" : "false");
+    }
+    calc(0);
+    varaqaTayyorla();
+  });
+  elChegirma.appendChild(cb);
+});
+
+function base() {
+  var manual = String(elOklad.value || "").replace(/[^0-9]/g, "");
+  if (manual) return parseInt(manual, 10);
+  if (picked >= 0) return TOIFA[picked].v;
+  return 0;
+}
+
+function paint() {
+  var kids = elToifa.children;
+  for (var i = 0; i < kids.length; i++) {
+    kids[i].setAttribute("aria-pressed", i === picked ? "true" : "false");
+  }
+}
+
+// ЧИСЛА ДВУХ ПРОЧТЕНИЙ СКИДКИ СЧИТАЮТСЯ, А НЕ ЗАШИТЫ В ТЕКСТ. Раньше в абзаце
+// на экране стояло «618 000 × 0,9 × 0,5 = 278 100; ayirmali o'qishda
+// 556 200 − 309 000 = 247 200» — руками. Первого сентября база становится
+// 660 000, и абзац начинал противоречить и сам себе, и печатному листу, где
+// та же оговорка считается по формуле. Одна мысль в двух местах не имеет права
+// держаться на двух разных источниках чисел: именно так расходятся экран и PDF.
+//
+// Вызывается ДО проверки оклада в calc(): абзац объясняет правило, а не
+// считает деньги этого человека, и должен стоять на экране с первой секунды —
+// в том числе когда оклад ещё не введён.
+function ikkiOqishYoz() {
+  var el = document.getElementById("ikki-raqam");
+  if (!el) return;
+  // Без выбранной скидки берём 50% как пример: без числа правило не читается.
+  var c = chegirma || 0.5;
+  var b = belgilangan(sentHisob());
+  el.textContent =
+    (chegirma ? "Sizning chegirmangizda" : "Masalan, 50 foiz chegirmada") +
+    " baza " + fmt(b) + " so'm: ko'paytiruvchi o'qishda " + fmt(b) + " × 0,9 × " +
+    String(1 - c).replace(".", ",") + " = " + fmt(b * YIDXP_ULUSH * (1 - c)) +
+    " so'm; ayirmali o'qishda " + fmt(b * YIDXP_ULUSH) + " − " + fmt(b * c) +
+    " = " + fmt(b * YIDXP_ULUSH - b * c) + " so'm.";
+}
+
+function calc(how) {
+  var b = base();
+  var out = document.getElementById("oyiga");
+  ikkiOqishYoz();
+  if (!b || b < 100000) {
+    out.innerHTML = "";
+    out.appendChild(document.createTextNode("—"));
+    var s0 = document.createElement("small");
+    s0.appendChild(document.createTextNode("oyiga, 15% ustama"));
+    out.appendChild(s0);
+    document.getElementById("yiliga").textContent = "—";
+    document.getElementById("qoplash").textContent = "—";
+    document.getElementById("taqqos").textContent = "";
+    document.getElementById("yiliga-izoh").textContent = "";
+    return;
+  }
+  if (!SENTABR && elPlus7.checked) b = b * RAISE;
+  var oy = b * USTAMA;
+
+  out.innerHTML = "";
+  out.appendChild(document.createTextNode(fmt(oy) + " so'm"));
+  var s = document.createElement("small");
+  s.appendChild(document.createTextNode("oyiga, 15% ustama" + (sentHisob() ? " (7% oshirilgan maoshdan)" : "")));
+  out.appendChild(s);
+
+  // Год считается от ОКРУГЛЁННОЙ месячной надбавки, а не от дробной: человек
+  // получает на руки целое число сумов каждый месяц, и таблица на сайте набрана
+  // тем же способом. Без округления здесь приложение показывало 6 530 727,
+  // а сайт — 6 530 724: три сума разницы, но две наши поверхности не имеют права
+  // называть одно и то же число по-разному в продукте, который продаётся точностью.
+  var oyOkr = Math.round(oy);
+  document.getElementById("yiliga").textContent = fmt(oyOkr * 12) + " so'm";
+  // Год без галочки считается от ДОСЕНТЯБРЬСКОГО оклада, а сертификат по осенней
+  // сессии начинает действовать целиком после 1 сентября — то есть все двенадцать
+  // месяцев надбавка идёт от повышенного оклада. Молча подставлять +7% нельзя:
+  // оклад человек выбрал сам. Но и молчать нельзя — так мы занижаем собственную
+  // выгоду на 427 236 сум в год у высшего образования и на 588 996 у высшей
+  // категории (числа исполнены, не выведены на бумаге: раньше здесь стояли
+  // 427 241 и 588 995, которых код не выдаёт ни при какой категории).
+  // Поэтому говорим вслух и показываем, сколько именно недосчитано.
+  // После 1 сентября ветка с «отметьте галочку» не выполняется вовсе:
+  // sentHisob() уже истинна, и год считается по сентябрю сам.
+  document.getElementById("yiliga-izoh").textContent = sentHisob()
+    ? "«12 oyda» 1-sentyabrdan keyingi maoshdan hisoblangan — 2026-yilgi kuzgi sessiya bo'yicha sertifikat aynan shu davrda amal qiladi."
+    : "«12 oyda» 1-sentyabrgacha bo'lgan maoshdan hisoblangan. Sertifikat 1-sentyabrdan keyin amal qila boshlasa, 12 oyda " +
+      fmt(Math.round(oy * RAISE) * 12) + " so'm chiqadi, ya'ni " +
+      fmt(Math.round(oy * RAISE) * 12 - oyOkr * 12) +
+      " so'm ko'proq — yuqoridagi katakchani belgilang.";
+  // Сколько месяцев надбавки покрывают взнос за экзамен. Считаем вверх:
+  // «полтора месяца» звучит точнее, чем есть, — округление вниз льстило бы нам.
+  var Y = yigim(sentHisob());
+  var oylar = Math.ceil(Y / oy);
+  document.getElementById("qoplash").textContent = oylar + " oy";
+  document.getElementById("taqqos").textContent =
+    "Imtihon uchun to'lanadigan summa — " + fmt(Y) + " so'm (" + yigimIzoh(sentHisob()) +
+    "). To'lov imtihondan kamida 12 kun oldin amalga oshirilishi kerak. " +
+    "Ustama to'lovni " + oylar + " oyda qoplaydi. Taqqoslash uchun: ustoz.uz dagi " +
+    "«Ona tili | Milliy sertifikat kursi» butun kursga " + fmt(KURS) + " so'm; " +
+    "bizning to'plam — " + fmt(window.MVP.PRICE_FULL) + " so'm, bir marta.";
+
+  if (how) {
+    if (!calc.fired) { calc.fired = 0; }
+    if (calc.fired < 3) {   // трёх событий хватает, чтобы увидеть «пользовался»; дальше это шум
+      calc.fired++;
+      ev("calc", { kind: "ustama", how: how, oklad: Math.round(b), oyiga: Math.round(oy) });
+    }
+  }
+}
+elOklad.addEventListener("input", function () {
+  picked = -1;
+  paint();
+  clearTimeout(elOklad.t);
+  elOklad.t = setTimeout(function () { calc("qolda"); }, 700);
+});
+elPlus7.addEventListener("change", function () { calc(0); });
+calc(0);
+
+/* ── Машқ (демо-тест) ───────────────────────────────────────────────────────
+
+   ПОРЯДОК СОБИРАЕТСЯ ЗАНОВО НА КАЖДУЮ ПОПЫТКУ. Раньше здесь лежал зашитый
+   список, и «сдача на время» шла теми же двадцатью вопросами в том же
+   порядке, что бесплатный машқ: строка «изменение между попытками» мерила
+   память о только что прочитанных разборах. Порядок теперь перемешивается
+   внутри блока, а блоки чередуются — первые три задания по-прежнему
+   показывают ширину экзамена, а не один предмет.
+
+   Перемешивание НЕ решает главного: вопросов двадцать и они одни и те же.
+   Поэтому рядом стоит флаг «разборы уже показаны», и всё, что выводится
+   из повторной попытки, помечено этим флагом — см. korganmi(). */
+function aralashtir(a) {
+  for (var i = a.length - 1; i > 0; i--) {
+    var j = Math.floor(Math.random() * (i + 1));
+    var t = a[i]; a[i] = a[j]; a[j] = t;
+  }
+  return a;
+}
+function tartib() {
+  var guruh = {}, bloklar = [];
+  for (var i = 0; i < QUESTIONS.length; i++) {
+    var b = QUESTIONS[i].blok;
+    if (!guruh[b]) { guruh[b] = []; bloklar.push(b); }
+    guruh[b].push(i);
+  }
+  bloklar.forEach(function (b) { aralashtir(guruh[b]); });
+  aralashtir(bloklar);
+  var out = [], qoldi = QUESTIONS.length;
+  while (qoldi > 0) {
+    bloklar.forEach(function (b) {
+      if (guruh[b].length) { out.push(guruh[b].shift()); qoldi--; }
+    });
+  }
+  return out;
+}
+
+/* «Разборы уже показаны». Ставится в тот момент, когда разбор ПОКАЗАН, а не
+   когда попытка закончена: в машқе разбор появляется сразу после ответа,
+   и человек, бросивший машқ на пятом вопросе, пять разборов уже прочитал. */
+function korganmi() { return ls("ustoz_korgan") === "1"; }
+function korganQoy() { ls("ustoz_korgan", "1"); }
+
+// Одно место, где доля превращается в проценты: и на экране, и на печатном
+// листе. Две копии этой строки разъехались бы на первом же округлении.
+function foiz(ok, n) { return n ? Math.round(ok / n * 100) + "%" : "—"; }
+
+var order = tartib();
+// Каким режимом запущен движок: «mashq» — полный прогон, «daftar» — прогон
+// по тетради ошибок. Раньше режим угадывался по длине order, и у человека,
+// ошибшегося во всех двадцати, тетрадь тоже давала двадцать — прогон по
+// уже разобранным вопросам попадал бы в диагноз, от чего защита и ставилась.
+var rejim = "mashq";
+// Были ли разборы прочитаны ДО начала этой попытки. Снимается один раз на
+// старте: внутри попытки флаг в хранилище уже станет единицей после первого
+// же ответа, и попытка сама себя объявила бы повторной.
+var tKorgan = korganmi();
+var idx = 0, right = 0, answered = false, perBlok = {};
+
+var elQ = document.getElementById("t-q");
+var elOpts = document.getElementById("t-opts");
+var elFb = document.getElementById("t-fb");
+
+function cur() { return QUESTIONS[order[idx]]; }
+
+function show() {
+  var q = cur();
+  document.getElementById("t-blok").textContent = BLOKLAR[q.blok] || q.blok;
+  document.getElementById("t-count").textContent = (idx + 1) + " / " + order.length;
+  document.getElementById("t-bar").style.width = ((idx) / order.length * 100) + "%";
+  elQ.textContent = q.savol;
+  elOpts.innerHTML = "";
+  answered = false;
+  elFb.className = "hide";
+  q.javoblar.forEach(function (text, i) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "opt";
+    var k = document.createElement("span");
+    k.className = "k";
+    k.appendChild(document.createTextNode("ABCD".charAt(i)));
+    b.appendChild(k);
+    b.appendChild(document.createTextNode(text));
+    b.addEventListener("click", function () { answer(i); });
+    elOpts.appendChild(b);
+  });
+}
+
+function answer(i) {
+  if (answered) return;
+  answered = true;
+  korganQoy();   // разбор сейчас будет показан — дальше набор считается прочитанным
+  var q = cur();
+  var ok = i === q.togri;
+  if (!perBlok[q.blok]) perBlok[q.blok] = { n: 0, ok: 0 };
+  perBlok[q.blok].n++;
+  if (ok) { right++; perBlok[q.blok].ok++; }
+  // Любой ответ машқа идёт в тетрадь ошибок: неверный кладёт вопрос туда,
+  // верный приближает его к выбыванию. Точка входа одна на все режимы —
+  // вторая копия правила «два верных дня» разъехалась бы с первой.
+  xatoQayd(q, ok);
+
+  var kids = elOpts.children;
+  for (var j = 0; j < kids.length; j++) {
+    kids[j].disabled = true;
+    if (j === q.togri) kids[j].className = "opt ok";
+    else if (j === i) kids[j].className = "opt no";
+  }
+  var v = document.getElementById("t-verdikt");
+  v.className = "verdikt " + (ok ? "ok" : "no");
+  v.textContent = ok ? "To'g'ri" : "Noto'g'ri. To'g'ri javob — " + "ABCD".charAt(q.togri);
+  var iz = document.getElementById("t-izoh");
+  iz.innerHTML = "";
+  var bb = document.createElement("b");
+  bb.appendChild(document.createTextNode("Nega: "));
+  iz.appendChild(bb);
+  iz.appendChild(document.createTextNode(q.izoh));
+  elFb.className = "";
+  document.getElementById("t-next").textContent =
+    idx + 1 < order.length ? "Keyingi savol" : "Natijani ko'rish";
+}
+
+document.getElementById("t-start").addEventListener("click", function () {
+  // Прогон по тетради ошибок оставляет в order короткий список. Без этой
+  // строки «Mashqni boshlash» после него дал бы три вопроса вместо двадцати,
+  // и человек решил бы, что тест сломан.
+  order = tartib(); rejim = "mashq"; tKorgan = korganmi();
+  idx = 0; right = 0; perBlok = {};
+  document.getElementById("t-intro").className = "hide";
+  document.getElementById("t-run").className = "";
+  show();
+  ev("calc", { kind: "test_start" });
+});
+
+document.getElementById("t-next").addEventListener("click", function () {
+  if (idx + 1 < order.length) { idx++; show(); return; }
+  finish();
+});
+
+function finish() {
+  var korgan = tKorgan;   // был ли набор прочитан ДО начала этой попытки
+  document.getElementById("t-run").className = "hide";
+  document.getElementById("t-done").className = "";
+  var sc = document.getElementById("t-score");
+  sc.innerHTML = "";
+  sc.appendChild(document.createTextNode(right + " / " + order.length));
+  var s = document.createElement("small");
+  s.appendChild(document.createTextNode("to'g'ri javob"));
+  sc.appendChild(s);
+
+  var box = document.getElementById("t-blocks");
+  box.innerHTML = "";
+  Object.keys(BLOKLAR).forEach(function (key) {
+    var d = perBlok[key];
+    if (!d) return;
+    var row = document.createElement("div");
+    row.className = "brow";
+    var nm = document.createElement("span");
+    nm.appendChild(document.createTextNode(BLOKLAR[key]));
+    var vv = document.createElement("span");
+    vv.className = "v";
+    // Процент, а не только дробь: оффер обещает «bloklar bo'yicha foiz»,
+    // и обещанное слово должно быть на экране, а не только в описании.
+    vv.appendChild(document.createTextNode(d.ok + " / " + d.n + " · " + foiz(d.ok, d.n)));
+    var bg = document.createElement("span");
+    bg.className = "bg";
+    var fill = document.createElement("i");
+    fill.style.width = (d.ok / d.n * 100) + "%";
+    bg.appendChild(fill);
+    row.appendChild(nm); row.appendChild(vv); row.appendChild(bg);
+    box.appendChild(row);
+  });
+  // korgan уезжает в замер, чтобы средний балл в PROVERKA §4.4 считался по
+  // ЧИСТЫМ первым попыткам. Без этой пометки повторные прогоны по уже
+  // разобранным вопросам тянут средний балл вверх, и он читается как
+  // «банк слишком лёгкий», хотя лёгким его сделала память.
+  ev("calc", { kind: "test_done", ball: right, jami: order.length, korgan: korgan ? 1 : 0 });
+  // Результат машқа — это вход в план: слабые блоки получают больше дней.
+  // Поэтому здесь не только событие в замер, но и пересчёт плана и тетради.
+  // Прогон по тетради ошибок в диагноз не идёт: там человек второй раз отвечает
+  // на то, что только что разобрал, и 15 из 15 означало бы «слабых блоков нет».
+  // План после такого прогона перестал бы давать время как раз туда, где провал.
+  // Режим проверяется прямо, а не по длине списка: у человека, ошибшегося во
+  // всех двадцати, тетрадь тоже даёт двадцать — и защита по длине не сработала бы.
+  if (rejim === "mashq" && order.length === QUESTIONS.length) {
+    natijaYoz({ ball: right, jami: order.length, blok: perBlok, qayerdan: "mashq", korgan: korgan });
+  }
+  xatoChiz();
+  rejaOdam = true;          // прогон машқа — действие; план после него перестроен по-настоящему
+  rejaChiz();
+}
+
+document.getElementById("t-again").addEventListener("click", function () {
+  // Порядок собирается заново: «ещё раз» по тому же списку — это проверка
+  // памяти на порядок, а не на предмет.
+  order = tartib(); rejim = "mashq"; tKorgan = korganmi();
+  idx = 0; right = 0; perBlok = {};
+  document.getElementById("t-done").className = "hide";
+  document.getElementById("t-run").className = "";
+  show();
+});
+
+/* ── Заявка ──────────────────────────────────────────────────────────────────
+   Заранее не отмечено НИЧЕГО, и это не про вежливость к пользователю.
+   Второй порог теста (PROVERKA, §4.2) считает, сколько человек НАЗВАЛИ
+   99 000 и выше. Если бы эта цена стояла по умолчанию, в базу уезжало бы
+   «выбрал 99 000» от всякого, кто просто не тронул чипы, — порог подтверждал
+   бы сам себя, и владелец купил бы рекламу на цифру, которая ничего не значит.
+   Пустой выбор — это данные, которых нет, и он не должен выглядеть как ноль. */
+// Подписи тарифов собираются из config.js, а не набиты руками: tools/claims.pl
+// про этот продукт ничего не знает, и разъехавшуюся цену никакая проверка
+// не поймает — поймает покупатель, которому в заявке записали не то, что он видел.
+// Второй чип раньше назывался «Oyiga 49 000 so'm» — то есть предлагал тариф,
+// которого нет. Вопрос при этом настоящий и его стоит задать: удобнее ли
+// человеку платить частями. Он и задан — как вопрос, а не как прейскурант.
+var WANT = [
+  "Imtihon to'plami — " + fmt(window.MVP.PRICE_FULL) + " so'm",
+  "Bo'lib to'lash qulayroq bo'lardi",
+  "Avval xabar bering",
+];
+var PRICES = [49000, 99000, 149000];
+var wantPick = -1, pricePick = -1;   // -1 = человек ещё не выбирал
+
+// Обе группы чипов рисуются одним кодом: два одинаковых цикла раньше и
+// разъехались — в одном по умолчанию стоял индекс 0, в другом цена.
+function chipRow(host, labels, onpick) {
+  labels.forEach(function (text, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip";
+    b.setAttribute("aria-pressed", "false");
+    b.appendChild(document.createTextNode(text));
+    b.addEventListener("click", function () {
+      var kk = host.children;
+      for (var j = 0; j < kk.length; j++) {
+        kk[j].setAttribute("aria-pressed", j === i ? "true" : "false");
+      }
+      onpick(i);
+      document.getElementById("lead-err").className = "err hide";
+    });
+    host.appendChild(b);
+  });
+}
+
+// Цена в заголовке блока — оттуда же, из config.js. В разметке она написана
+// и без скрипта (со сломанным JS блок не должен остаться без цены), но живое
+// значение ставится здесь: два числа в двух файлах расходятся молча.
+document.getElementById("price-full").textContent = fmt(window.MVP.PRICE_FULL);
+
+var elWant = document.getElementById("want");
+var elPrice = document.getElementById("price");
+chipRow(elWant, WANT, function (i) { wantPick = i; });
+chipRow(elPrice, PRICES.map(function (p) { return fmt(p) + " so'm"; }),
+        function (i) { pricePick = i; });
+
+// Клик по кнопке заявки — это cta. Отдельное событие нужно, чтобы отличить
+// «дошёл до формы» от «отправил»: разрыв между ними означает, что просят лишнее.
+var ctaSent = false;
+document.getElementById("lead-btn").addEventListener("click", function () {
+  if (!ctaSent) { ctaSent = true; ev("cta", { where: "bank" }); }
+});
+
+function leadErr(msg, el) {
+  var e = document.getElementById("lead-err");
+  e.textContent = msg;
+  e.className = "err";
+  if (el && el.focus) el.focus();
+}
+
+document.getElementById("lead").addEventListener("submit", function (e) {
+  e.preventDefault();
+  var contact = String(document.getElementById("contact").value || "").trim();
+  var err = document.getElementById("lead-err");
+  if (contact.length < 4) {
+    leadErr("Aloqa ma'lumotini yozing — busiz sizga javob bera olmaymiz.",
+            document.getElementById("contact"));
+    return;
+  }
+  // Пока человек не выбрал сам — заявка не уходит. Иначе измеряемая величина
+  // (названная цена) подменяется нашим значением по умолчанию.
+  if (wantPick < 0) {
+    leadErr("Nima kerakligini tanlang — yuqoridagi uchta variantdan bittasini.",
+            elWant.children[0]);
+    return;
+  }
+  if (pricePick < 0) {
+    leadErr("Qancha to'lashga tayyorligingizni o'zingiz tanlang — biz sizning o'rningizga tanlamaymiz.",
+            elPrice.children[0]);
+    return;
+  }
+  err.className = "err hide";
+  var btn = document.getElementById("lead-btn");
+  btn.disabled = true;
+  btn.textContent = "Yuborilmoqda...";
+
+  var body = {
+    product: window.MVP.PRODUCT, sess: sess, source: source,
+    contact: contact,
+    want: WANT[wantPick],
+    price_pick: PRICES[pricePick],
+    note: String(document.getElementById("note").value || "").slice(0, 600),
+  };
+  fetch(window.MVP.LEAD, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(body),
+  }).then(function (r) { return r.json().catch(function () { return { ok: r.ok }; }); })
+    .then(function (res) {
+      if (!res || res.ok === false) throw new Error("no");
+      document.getElementById("lead").className = "hide";
+      document.getElementById("lead-ok").className = "";
+      ev("lead", { want: WANT[wantPick], price: PRICES[pricePick] });
+    })
+    .catch(function () {
+      btn.disabled = false;
+      btn.textContent = "Yana urinib ko'ring";
+      err.textContent = "Yuborilmadi. Internetni tekshirib, qayta bosing.";
+      err.className = "err";
+    });
+});
+
+
+/* ── Тариф ───────────────────────────────────────────────────────────────────
+   Касс нет и в этом круге не будет (Р-07): тариф включается руками. Ключ
+   приезжает в ?kalit= и остаётся в localStorage.
+
+   Это МЕТКА, а не защита, и написать иначе было бы враньём: код лежит в
+   config.js, который читает кто угодно. Настоящий замок ставится на запись
+   в базе, а не в браузере (Р-22) — и ставится он тогда, когда появится
+   касса и появится то, что стоит защищать: банк вопросов. Сегодня за меткой
+   стоит один платный артефакт — полный план, — и человек, который полез
+   в исходник ради него, всё равно не тот, кто заплатил бы. */
+function tarif() {
+  return ls("ustoz_tarif") === "full" ? "full" : "bepul";
+}
+(function () {
+  var k = qs.get("kalit");
+  if (k && window.MVP.KALIT && k === window.MVP.KALIT) ls("ustoz_tarif", "full");
+})();
+
+/* ── Тетрадь ошибок ──────────────────────────────────────────────────────────
+   Хранится в localStorage и на сервер не уезжает: на сервер идёт только балл
+   и канал. Правило выбывания — два верных ответа В РАЗНЫЕ ДНИ. Один день —
+   это память о только что прочитанном разборе, а не знание; поэтому в записи
+   лежат ДАТЫ верных ответов, а не их количество. */
+function xatoOqi() {
+  try { return JSON.parse(ls("ustoz_xato") || "{}") || {}; } catch (e) { return {}; }
+}
+function xatoYoz(map) {
+  try { ls("ustoz_xato", JSON.stringify(map)); } catch (e) {}
+}
+function bugunKun() {
+  var d = new Date();
+  return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+}
+// Единая точка: сюда приходит любой ответ из любого режима.
+function xatoQayd(q, togri) {
+  var m = xatoOqi();
+  var r = m[q.id];
+  if (!togri) {
+    if (!r) r = m[q.id] = { b: q.blok, n: 0, kun: [] };
+    r.n++;
+    r.kun = [];             // ошибся снова — счётчик верных обнуляется, иначе «два раза» ничего не значит
+    xatoYoz(m);
+    return;
+  }
+  if (!r) return;           // верный ответ на вопрос, которого в тетради нет, ничего не меняет
+  var t = bugunKun();
+  if (r.kun.indexOf(t) < 0) r.kun.push(t);
+  if (r.kun.length >= 2) delete m[q.id];
+  xatoYoz(m);
+}
+function xatoRoyxat() {
+  var m = xatoOqi(), out = [];
+  QUESTIONS.forEach(function (q, i) {
+    if (m[q.id]) out.push({ q: q, i: i, r: m[q.id] });
+  });
+  return out;
+}
+
+var elXList = document.getElementById("x-list");
+var elXBosh = document.getElementById("x-bosh");
+var elXBtns = document.getElementById("x-btns");
+
+function xatoChiz() {
+  var list = xatoRoyxat();
+  elXList.innerHTML = "";
+  elXBosh.className = list.length ? "hide" : "small";
+  elXBtns.className = list.length ? "btns" : "hide";
+  list.forEach(function (it) {
+    var d = document.createElement("details");
+    d.className = "xrow";
+    var s = document.createElement("summary");
+    var w = document.createElement("span");
+    w.className = "qq";
+    var bl = document.createElement("span");
+    bl.className = "bl";
+    bl.appendChild(document.createTextNode(BLOKLAR[it.q.blok] || it.q.blok));
+    w.appendChild(bl);
+    w.appendChild(document.createTextNode(it.q.savol));
+    var c = document.createElement("span");
+    c.className = "cnt";
+    // Показываем не «сколько раз ошибся», а сколько верных дней осталось:
+    // человеку нужно действие, а не упрёк.
+    var qoldi = 2 - (it.r.kun || []).length;
+    c.appendChild(document.createTextNode(qoldi + " kun"));
+    s.appendChild(w); s.appendChild(c);
+    d.appendChild(s);
+    var p = document.createElement("p");
+    p.className = "small";
+    p.style.marginTop = "10px";
+    var b = document.createElement("b");
+    b.appendChild(document.createTextNode("To'g'ri javob: "));
+    p.appendChild(b);
+    p.appendChild(document.createTextNode(it.q.javoblar[it.q.togri]));
+    d.appendChild(p);
+    var iz = document.createElement("div");
+    iz.className = "izoh";
+    iz.appendChild(document.createTextNode(it.q.izoh));
+    d.appendChild(iz);
+    elXList.appendChild(d);
+  });
+}
+
+// Прогон по тетради — тот же движок машқа: order подменяется, всё остальное
+// (показ, разбор, запись в тетрадь) работает как есть. Второй копии движка
+// быть не должно — она разъедется с первой на первой же правке.
+document.getElementById("x-drill").addEventListener("click", function () {
+  var list = xatoRoyxat();
+  if (!list.length) return;
+  order = list.map(function (it) { return it.i; });
+  rejim = "daftar"; tKorgan = korganmi();
+  idx = 0; right = 0; perBlok = {};
+  document.getElementById("t-intro").className = "hide";
+  document.getElementById("t-done").className = "hide";
+  document.getElementById("t-run").className = "";
+  show();
+  ev("calc", { kind: "xato_drill", n: list.length });
+  document.getElementById("testcard").scrollIntoView({ block: "start" });
+});
+document.getElementById("x-clear").addEventListener("click", function () {
+  xatoYoz({});
+  xatoChiz();
+});
+
+/* ── Сдача в форме экзамена ──────────────────────────────────────────────────
+   Отдельный режим, а не галочка в машқе, потому что он отличается тремя
+   вещами сразу: часы идут, ответ не переигрывается, разбора до конца нет.
+   Учитель, который тренировался только с мгновенным разбором, выходит на
+   экзамен с завышенной оценкой себя — а попытка стоит 556 200 сум.
+   Норматив времени экзамена не опубликован, поэтому минута на вопрос названа
+   НАШИМ условием прямо на странице, а не выдана за требование постановления. */
+var mOrder = [], mIdx = 0, mRight = 0, mBlok = {}, mTicker = 0, mQoldi = 0, mJami = 0, mJavob = [];
+var mKorgan = false;   // были ли разборы прочитаны до начала этой сдачи
+var elMOpts = document.getElementById("m-opts");
+
+function mSoat(sec) {
+  var mm = Math.floor(sec / 60), ss = sec % 60;
+  return mm + ":" + (ss < 10 ? "0" : "") + ss;
+}
+function mShow() {
+  var q = QUESTIONS[mOrder[mIdx]];
+  document.getElementById("m-blok").textContent = BLOKLAR[q.blok] || q.blok;
+  document.getElementById("m-count").textContent = (mIdx + 1) + " / " + mOrder.length;
+  document.getElementById("m-bar").style.width = (mIdx / mOrder.length * 100) + "%";
+  document.getElementById("m-q").textContent = q.savol;
+  elMOpts.innerHTML = "";
+  q.javoblar.forEach(function (text, i) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.className = "opt";
+    var k = document.createElement("span");
+    k.className = "k";
+    k.appendChild(document.createTextNode("ABCD".charAt(i)));
+    b.appendChild(k);
+    b.appendChild(document.createTextNode(text));
+    b.addEventListener("click", function () { mAnswer(i); });
+    elMOpts.appendChild(b);
+  });
+}
+function mAnswer(i) {
+  var q = QUESTIONS[mOrder[mIdx]];
+  var ok = i === q.togri;
+  mJavob.push({ q: q, tanlov: i, ok: ok });
+  if (!mBlok[q.blok]) mBlok[q.blok] = { n: 0, ok: 0 };
+  mBlok[q.blok].n++;
+  if (ok) { mRight++; mBlok[q.blok].ok++; }
+  xatoQayd(q, ok);
+  mIdx++;
+  if (mIdx < mOrder.length) { mShow(); return; }
+  mFinish();
+}
+function mFinish() {
+  clearInterval(mTicker);
+  document.getElementById("m-run").className = "hide";
+  document.getElementById("m-done").className = "";
+  var sc = document.getElementById("m-score");
+  sc.innerHTML = "";
+  sc.appendChild(document.createTextNode(mRight + " / " + mOrder.length));
+  var s = document.createElement("small");
+  s.appendChild(document.createTextNode("to'g'ri javob"));
+  sc.appendChild(s);
+  var ketdi = mJami - mQoldi;
+  document.getElementById("m-time").textContent =
+    "Vaqt: " + mSoat(ketdi) + " (" + mSoat(mJami) + " dan). " +
+    (mJavob.length < mOrder.length
+      ? "Vaqt tugadi — javobsiz savollar xato deb hisoblandi."
+      : "Vaqtdan " + mSoat(mQoldi) + " qoldi.");
+
+  var box = document.getElementById("m-blocks");
+  box.innerHTML = "";
+  Object.keys(BLOKLAR).forEach(function (key) {
+    var d = mBlok[key];
+    if (!d) return;
+    var row = document.createElement("div");
+    row.className = "brow";
+    var nm = document.createElement("span");
+    nm.appendChild(document.createTextNode(BLOKLAR[key]));
+    var vv = document.createElement("span");
+    vv.className = "v";
+    vv.appendChild(document.createTextNode(d.ok + " / " + d.n + " · " + foiz(d.ok, d.n)));
+    var bg = document.createElement("span");
+    bg.className = "bg";
+    var fill = document.createElement("i");
+    fill.style.width = (d.ok / d.n * 100) + "%";
+    bg.appendChild(fill);
+    row.appendChild(nm); row.appendChild(vv); row.appendChild(bg);
+    box.appendChild(row);
+  });
+
+  // Сдача — самый честный вход в план: человек только что увидел свою цифру.
+  natijaYoz({ ball: mRight, jami: mOrder.length, blok: mBlok, qayerdan: "sinov", korgan: mKorgan });
+  xatoChiz();
+  rejaOdam = true;
+  rejaChiz();
+  ev("calc", { kind: "sinov_done", ball: mRight, jami: mOrder.length, sek: ketdi, korgan: mKorgan ? 1 : 0 });
+}
+function mTick() {
+  mQoldi--;
+  var t = document.getElementById("m-timer");
+  t.textContent = mSoat(Math.max(0, mQoldi));
+  t.className = mQoldi <= 60 ? "timer warn" : "timer";
+  if (mQoldi <= 0) {
+    // Незаданные вопросы считаются неверными — иначе «время вышло» было бы
+    // выгоднее, чем ответить наугад, и сдача перестала бы быть сдачей.
+    while (mIdx < mOrder.length) {
+      var q = QUESTIONS[mOrder[mIdx]];
+      if (!mBlok[q.blok]) mBlok[q.blok] = { n: 0, ok: 0 };
+      mBlok[q.blok].n++;
+      xatoQayd(q, false);
+      mIdx++;
+    }
+    mFinish();
+  }
+}
+document.getElementById("m-start").addEventListener("click", function () {
+  // Свой порядок на каждую сдачу: тот же список, что в машқе, превращал
+  // сдачу в повтор машқа — те же двадцать вопросов и те же места.
+  mOrder = tartib();
+  mKorgan = korganmi();
+  mIdx = 0; mRight = 0; mBlok = {}; mJavob = [];
+  mJami = mQoldi = mOrder.length * 60;
+  document.getElementById("m-intro").className = "hide";
+  document.getElementById("m-done").className = "hide";
+  document.getElementById("m-izohlar").className = "hide";
+  document.getElementById("m-run").className = "";
+  document.getElementById("m-timer").textContent = mSoat(mQoldi);
+  document.getElementById("m-timer").className = "timer";
+  mShow();
+  clearInterval(mTicker);
+  mTicker = setInterval(mTick, 1000);
+  ev("calc", { kind: "sinov_start" });
+});
+document.getElementById("m-again").addEventListener("click", function () {
+  document.getElementById("m-done").className = "hide";
+  document.getElementById("m-intro").className = "";
+});
+document.getElementById("m-izoh").addEventListener("click", function () {
+  var box = document.getElementById("m-izohlar");
+  if (box.className !== "hide") { box.className = "hide"; return; }
+  korganQoy();   // сейчас будут показаны все разборы набора
+  box.innerHTML = "";
+  mJavob.forEach(function (a, n) {
+    var d = document.createElement("div");
+    d.style.marginBottom = "16px";
+    var p = document.createElement("p");
+    p.className = "q";
+    p.style.fontSize = "16px";
+    p.appendChild(document.createTextNode((n + 1) + ". " + a.q.savol));
+    d.appendChild(p);
+    var v = document.createElement("p");
+    v.className = "verdikt " + (a.ok ? "ok" : "no");
+    v.style.marginTop = "0";
+    v.appendChild(document.createTextNode(
+      a.ok ? "To'g'ri" : "Siz: " + a.q.javoblar[a.tanlov] + " · To'g'ri: " + a.q.javoblar[a.q.togri]));
+    d.appendChild(v);
+    var iz = document.createElement("div");
+    iz.className = "izoh";
+    iz.appendChild(document.createTextNode(a.q.izoh));
+    d.appendChild(iz);
+    box.appendChild(d);
+  });
+  box.className = "";
+});
+
+/* ── План ────────────────────────────────────────────────────────────────────
+   Продаётся именно он: не «доступ», а лист, который учитель кладёт в журнал.
+   Считается из трёх вещей — сколько дней осталось, где у человека провал,
+   какой сегодня день недели. Воскресенье в узбекской школе выходной, суббота
+   рабочая, поэтому лёгкий день ровно один в неделю. */
+var MAVZULAR = {
+  "ona-tili": ["Tovush va harf: sh, ch, ng", "So'z turkumlari", "Bo'g'in va satrdan satrga ko'chirish",
+               "Kelishiklar", "So'z tarkibi: o'zak va qo'shimcha", "O'qish savodxonligi: matn bo'yicha savol"],
+  "matematika": ["Og'zaki hisob va amallar tartibi", "Perimetr va yuza", "Ulush va qism",
+                 "Masala: «nechta ko'p» va «necha marta ko'p»", "Uzunlik, massa, vaqt birliklari",
+                 "Katakli qog'ozda geometriya"],
+  "tabiiy": ["Tirik va notirik tabiat", "Suvning holatlari", "O'simlik qismlari va vazifasi",
+             "Ob-havo va fasllar", "Inson organizmi va salomatlik", "Tabiatni muhofaza qilish"],
+  "tarbiya": ["Oila va mahalla", "Mehnat va kasblar", "Yo'l harakati qoidalari",
+              "Muomala odobi", "Vatan va bayramlar", "Sog'lom turmush tarzi"],
+  "texnologiya": ["Materiallar va ularning xossalari", "O'lchash va belgilash", "Qog'oz bilan ishlash",
+                  "Xavfsizlik qoidalari", "Ish o'rnini tashkil qilish", "Loyiha ishi bosqichlari"],
+  "metodika": ["Dars maqsadini qo'yish", "Baholash: joriy, oraliq, yakuniy", "Differensial yondashuv",
+               "Juftlik va guruhda ishlash", "Savol berish texnikasi", "Uy vazifasi va qayta aloqa"],
+};
+var HAFTA = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
+var HAFTA_Q = ["Ya", "Du", "Se", "Ch", "Pa", "Ju", "Sh"];
+// Короткие имена блоков — только для клетки календаря на печатном листе.
+// Полные имена остаются на экране и в легенде тем: сокращение нужно там,
+// где ширина клетки 24 мм, и нигде больше.
+var QISQA = {
+  "ona-tili": "Ona tili", "matematika": "Matem.", "tabiiy": "Tabiiy",
+  "tarbiya": "Tarbiya", "texnologiya": "Texnol.", "metodika": "Metodika",
+};
+// В дне плана стоит ВРЕМЯ, а не количество вопросов. Раньше стояло «12 savol»,
+// и на плане в 30 дней это складывалось в «savol jami» под три сотни — при банке
+// в 20 вопросов и невыполненном U-31. То есть план обещал контент, которого нет.
+// Время план распределяет по-настоящему: это ровно то, чем он и является.
+var DAQIQA = 25;            // рабочий день плана: 25 минут занятия
+var DAQIQA_DAM = 15;        // день отдыха: только тетрадь ошибок
+var DAQIQA_SINOV = 30;      // сдача на время: 20 вопросов и разбор после
+var REJA_MAX = 90;          // дальше 90 дней план становится враньём про мотивацию
+var BEPUL_KUN = 3;          // бесплатная часть плана: три дня, настоящих и печатаемых
+
+// Последний результат: {ball, jami, blok, qayerdan}. Живёт в localStorage,
+// потому что план обязан пережить закрытие страницы: учитель прогоняет тест
+// сегодня, а печатает план завтра утром перед уроками. Без этого назавтра
+// он получил бы «блоки пока равны» и решил бы, что мы его результат потеряли.
+var natija = null;
+try { natija = JSON.parse(ls("ustoz_natija") || "null"); } catch (e) { natija = null; }
+/* История попыток. Раньше был один ключ и он перезаписывался: страница обещала
+   «изменение между попытками», а показать могла только последнюю (U-32).
+   Теперь попытки лежат списком, и разница считается из него — и на экране,
+   и в печатном листе. Список живёт в браузере; на сервер, как и раньше,
+   уезжает только балл. */
+var TARIX_MAX = 12;          // дальше список не растёт: лист готовности не журнал
+function tarixOqi() {
+  try { var a = JSON.parse(ls("ustoz_tarix") || "[]"); return a && a.length ? a : []; }
+  catch (e) { return []; }
+}
+function natijaYoz(n) {
+  natija = n;
+  try { ls("ustoz_natija", JSON.stringify(n)); } catch (e) {}
+  var t = tarixOqi();
+  t.push({ ball: n.ball, jami: n.jami, blok: n.blok, qayerdan: n.qayerdan,
+           korgan: n.korgan ? 1 : 0, kun: bugunKun(), sana: ddmm(new Date()) });
+  if (t.length > TARIX_MAX) t = t.slice(t.length - TARIX_MAX);
+  try { ls("ustoz_tarix", JSON.stringify(t)); } catch (e) {}
+  trendChiz();
+}
+
+/* Одна и та же разница показывается в двух местах — под машқом и под сдачей.
+   Считается в процентных пунктах доли верных, а не в баллах: у машқа и у сдачи
+   разное число вопросов, и «+2 балла» из 3 и из 20 значат разное.
+
+   ПОЧЕМУ РАЗНИЦА ПИШЕТСЯ НЕ ВСЕГДА. Вопросов у нас двадцать, других нет, и
+   после первого машқа человек прочитал разбор каждого. Вторая попытка идёт
+   по тем же двадцати — перемешанным, но тем же, — и «+35 п.п. — улучшилось»
+   означало бы «запомнил», а не «готов». Это ровно та ловушка, от которой
+   код защищается в прогоне по тетради ошибок; здесь она была открыта.
+   Поэтому число пишется только тогда, когда ОБЕ сравниваемые попытки прошли
+   до того, как разборы были показаны. Иначе показываются обе цифры и прямо
+   сказано, что разница здесь ничего не измеряет. */
+function ozgarishBor(a, b) { return !a.korgan && !b.korgan; }
+
+function trendChiz() {
+  var t = tarixOqi();
+  ["t-trend", "m-trend"].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.className = "small";
+    if (t.length < 2) {
+      el.textContent = "Bu shu brauzerdagi birinchi urinishingiz — izohlarni ko'rishdan " +
+        "oldingi urinish. Aynan u tashxis uchun ishlatiladi: reja shunga qarab tuziladi.";
+      return;
+    }
+    var a = t[t.length - 2], b = t[t.length - 1];
+    var bosh = "O'tgan urinish (" + a.sana + ", " +
+      (a.qayerdan === "sinov" ? "sinov" : "mashq") + "): " + a.ball + " / " + a.jami +
+      ". Bu safar: " + b.ball + " / " + b.jami + ". ";
+    if (ozgarishBor(a, b)) {
+      var d = Math.round((b.ball / b.jami - a.ball / a.jami) * 1000) / 10;
+      var soz = d > 0 ? "yaxshilandi" : (d < 0 ? "pasaydi" : "o'zgarmadi");
+      el.textContent = bosh + "O'zgarish: " + (d > 0 ? "+" : "") + d +
+        " foiz punkti — " + soz + ". Saqlangan urinishlar: " + t.length + " ta.";
+    } else {
+      el.textContent = bosh + "Farqni foiz punktida yozmaymiz: bu 20 ta savolning " +
+        "izohini siz allaqachon o'qigansiz, boshqa savollarimiz esa hozircha yo'q. " +
+        "Ya'ni takroriy urinish yodda qolganini ko'rsatadi, tayyorlikni emas. " +
+        "Tashxis uchun izohlarni ko'rishdan oldingi urinish ishlatiladi. " +
+        "Saqlangan urinishlar: " + t.length + " ta.";
+    }
+  });
+}
+/* rejaOdam — признак того, что план перестроен ДЕЙСТВИЕМ человека, а не показан
+   при загрузке. Без него события reja и reja_wall уходили при каждом открытии
+   страницы, до единого клика: оба счётчика равнялись бы числу сессий и не
+   говорили бы ничего (приёмка 27.08 поймала это живым прогоном — три строки
+   в базе за одну загрузку). */
+var rejaKunlar = [], rejaSana = null, rejaWallSent = false, rejaSent = false, rejaOdam = false;
+// Рубеж оплаты хранится рядом с планом, чтобы печатный лист брал его оттуда же,
+// откуда экран. Отдельный «источник правды для печати» — то, из-за чего цифра
+// на экране и цифра в PDF расходятся.
+var rejaMuddat = null, rejaMuddatOtgan = false;
+
+function kun0(d) { return new Date(d.getFullYear(), d.getMonth(), d.getDate()); }
+function ddmm(d) {
+  var dd = d.getDate(), mm = d.getMonth() + 1;
+  return (dd < 10 ? "0" : "") + dd + "." + (mm < 10 ? "0" : "") + mm;
+}
+/* Собрать дату и проверить, что она существует. «31.02.2026» браузер молча
+   превращает в 3 марта — это не та дата, которую набрал человек, и принимать
+   её молча нельзя: план построится не до его дня. */
+function sanaYasa(y, m, d) {
+  if (m < 1 || m > 12 || d < 1 || d > 31) return null;
+  var x = new Date(y, m - 1, d);
+  if (x.getFullYear() !== y || x.getMonth() !== m - 1 || x.getDate() !== d) return null;
+  return x;
+}
+/* Возвращает состояние поля, а не одну дату. Раньше здесь было три разных
+   случая — пусто, непонятно, прошло, — и все три давали null; план молча
+   строился на 30 дней, а заготовленное сообщение «дата прошла» было
+   недостижимо. Человек, купивший «план до дня экзамена», получал план
+   не до своего дня и узнавал об этом только по подписи плитки. */
+function sanaOqi() {
+  var v = String(document.getElementById("r-sana").value || "").trim();
+  if (!v) return { bosh: true };
+  var m = v.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/);
+  if (m) { var a = sanaYasa(+m[1], +m[2], +m[3]); return a ? { sana: a } : { tushunarsiz: true }; }
+  // Поле type=date не везде доживает до WebView, поэтому руками набранное
+  // 15.10.2026 и 15.10.26 тоже понимается: иначе план молча не строится
+  // и виноватым оказывается пользователь.
+  m = v.match(/^(\d{1,2})[.\/\-](\d{1,2})[.\/\-](\d{2}|\d{4})$/);
+  if (m) {
+    var y = +m[3]; if (y < 100) y += 2000;
+    var b = sanaYasa(y, +m[2], +m[1]);
+    return b ? { sana: b } : { tushunarsiz: true };
+  }
+  return { tushunarsiz: true };
+}
+
+// Слабость блока: 1 − доля верных. Без прогона все блоки равны — план всё
+// равно строится, потому что «сначала пройди тест» это отказ в услуге.
+function ogirlik() {
+  var w = {}, keys = Object.keys(BLOKLAR);
+  keys.forEach(function (k) {
+    var d = natija && natija.blok ? natija.blok[k] : null;
+    w[k] = d && d.n ? Math.max(0.15, 1 - d.ok / d.n) : 0.5;
+  });
+  return w;
+}
+
+function rejaTuz() {
+  var bugun = kun0(new Date());
+  var holat = sanaOqi();
+  // Непонятая и прошедшая дата — это ДВА РАЗНЫХ ответа человеку, и оба он
+  // обязан увидеть. Молча подставлять 30 дней нельзя ни в том, ни в другом.
+  if (holat.tushunarsiz) return { kun: [], imtihon: null, kesildi: false, xato: "tushunarsiz" };
+  var imtihon = holat.sana || null;
+  if (imtihon && kun0(imtihon) <= bugun) {
+    return { kun: [], imtihon: null, kesildi: false, xato: "otgan" };
+  }
+  var oxir = imtihon ? kun0(imtihon) : new Date(bugun.getTime() + 30 * 86400000);
+  // Дни считаются от сегодняшнего включительно до дня ПЕРЕД экзаменом:
+  // в день экзамена не готовятся, а если экзамен завтра — один день всё же есть,
+  // и он не должен превращаться в «дата прошла».
+  var kunlar = Math.round((oxir - bugun) / 86400000);
+  var kesildi = false;
+  if (kunlar > REJA_MAX) { kunlar = REJA_MAX; kesildi = true; }
+  if (kunlar < 1) return { kun: [], imtihon: null, kesildi: false, xato: "otgan" };
+
+  var boshlanish = new Date(oxir.getTime() - kunlar * 86400000);
+  var w = ogirlik(), keys = Object.keys(BLOKLAR);
+
+  // ШАГ 1. Сначала размечается ТИП каждого дня и только потом дни делятся
+  // между блоками. Почему именно так: раньше доля считалась от всех
+  // календарных дней (30), а разбирали очередь только рабочие (около 20).
+  // Очередь строится чередованием, поэтому её хвост принадлежит целиком
+  // блокам с наибольшей долей — то есть самым слабым, — и этот хвост
+  // не доезжал никогда. На выходе блок с нулём верных ответов получал
+  // МЕНЬШЕ дней, чем самый сильный: ровно наоборот обещанию оффера.
+  var tur = [], ishKun = 0;
+  for (var i = 0; i < kunlar; i++) {
+    var dd = new Date(boshlanish.getTime() + i * 86400000);
+    var qq = kunlar - i;              // сколько дней осталось, считая этот
+    var t;
+    if (qq === 3 || qq === 1) t = "rest";
+    else if (qq === 2) t = "mock";
+    else if (dd.getDay() === 0) t = "rest";
+    else if (i > 0 && i % 7 === 6) t = "mock";
+    else { t = "ish"; ishKun++; }
+    tur.push(t);
+  }
+
+  // ШАГ 2. Рабочие дни делятся пропорционально слабости.
+  var bosh = taqsim(ishKun, keys, w);
+  // Раскладываем не подряд, а чередованием: два дня подряд по одному блоку
+  // за неделю до экзамена — это скука, а не подготовка.
+  var aral = [], qoldi = ishKun, qolgan = {};
+  keys.forEach(function (k) { qolgan[k] = bosh[k]; });
+  while (qoldi > 0) {
+    keys.forEach(function (k) {
+      if (qolgan[k] > 0) { aral.push(k); qolgan[k]--; qoldi--; }
+    });
+  }
+  if (!aral.length) aral = keys.slice();   // рабочих дней нет — индекс не должен уехать в undefined
+
+  var out = [], hisob = {}, p = 0;
+  for (var i2 = 0; i2 < kunlar; i2++) {
+    var d = new Date(boshlanish.getTime() + i2 * 86400000);
+    var row = { sana: d, hafta: HAFTA[d.getDay()], daq: DAQIQA };
+    if (tur[i2] === "rest") {
+      row.tur = "rest"; row.daq = DAQIQA_DAM;
+      var qolgan2 = kunlar - i2;
+      // Раньше здесь стояло «Ariza, to'lov va hujjatlarni tekshirish» — совет,
+      // который к этому дню опаздывает на одиннадцать суток: по СХЕМЕ (приложение 1
+      // к Низому) платёж делается не позднее чем за 12 дней до экзамена, а
+      // регистрация к тому же сроку уже закрыта. План, который ведёт человека
+      // к дате экзамена и предлагает «проверить оплату» накануне, доводит его
+      // до дня, когда подать уже нельзя.
+      row.ish = qolgan2 === 1
+        ? "Yengil takrorlash. Ruxsatnoma va shaxsni tasdiqlovchi hujjatni tayyorlab qo'ying"
+        : (qolgan2 === 3 ? "Barcha bloklar bo'yicha xatolar daftari" : "Dam kuni: faqat xatolar daftari");
+      row.qisqa = qolgan2 === 1 ? "Hujjatlar" : "Daftar";
+    } else if (tur[i2] === "mock") {
+      row.tur = "mock"; row.daq = DAQIQA_SINOV;
+      row.ish = "Sinov: imtihon shaklida, vaqt bilan";
+      row.qisqa = "Sinov";
+    } else {
+      var b = aral[p % aral.length]; p++;
+      hisob[b] = (hisob[b] || 0);
+      var mv = MAVZULAR[b] || [];
+      var nomer = hisob[b] % (mv.length || 1);
+      row.tur = "ish";
+      row.blok = b;
+      row.mavzu = nomer + 1;           // номер темы в цикле блока — для календаря на печатном листе
+      row.ish = (BLOKLAR[b] || b) + " — " + (mv[nomer] || "takrorlash");
+      row.qisqa = (QISQA[b] || b) + " " + (nomer + 1);
+      hisob[b]++;
+    }
+    out.push(row);
+  }
+
+  // РУБЕЖ 12 ДНЕЙ. День с индексом i отстоит от экзамена ровно на (kunlar − i)
+  // суток, поэтому день, когда до экзамена остаётся 12, — последний, в который
+  // по СХЕМЕ ещё можно заплатить и зарегистрироваться («imtihondan kamida
+  // 12 kun oldin» / «imtihon sanasidan 12 kun oldin»). Отмечаем его в плане,
+  // но НЕ полагаемся на отметку: у бесплатного плана видны первые три дня,
+  // и срок, спрятанный за платной стеной, — это срок, о котором мы промолчали.
+  // Поэтому дата уезжает ещё и в сводку, которая видна всегда.
+  var muddat = null, muddatOtgan = false;
+  if (imtihon) {
+    if (kunlar >= 12) {
+      muddat = new Date(oxir.getTime() - 12 * 86400000);
+      out[kunlar - 12].muddat = true;
+      out[kunlar - 12].ish += ". OXIRGI KUN: to'lov va ro'yxatdan o'tish (imtihondan 12 kun oldin)";
+    } else {
+      // До экзамена меньше двенадцати дней — значит либо всё уже оплачено,
+      // либо на этот экзамен податься уже нельзя. Промолчать здесь означает
+      // продать подготовку к экзамену, на который человек не попадёт.
+      muddatOtgan = true;
+    }
+  }
+  return { kun: out, imtihon: imtihon, kesildi: kesildi, xato: null,
+           muddat: muddat, muddatOtgan: muddatOtgan };
+}
+
+/* Разложить n дней по блокам пропорционально слабости.
+   Свойство, ради которого написано именно так: если блок A слабее блока B,
+   он НЕ МОЖЕТ получить меньше дней, чем B. Доказательство держится на двух
+   вещах — сначала всем поровну по одному дню, потом остаток раздаётся по
+   величине дробной части, а при равных дробных частях вперёд идёт более
+   слабый. У целой части монотонность очевидна; если целые части равны,
+   то и дробные упорядочены так же, как слабость. Обычный Math.round этого
+   свойства не даёт и сумма у него не сходится с n.
+   n < числа блоков — план в два-три дня: тогда базового дня нет и часть
+   блоков останется без дня, это честнее, чем растянуть план. */
+function taqsim(n, keys, w) {
+  var res = {};
+  var baza = n >= keys.length ? 1 : 0;
+  keys.forEach(function (k) { res[k] = baza; });
+  var qoldiq = n - baza * keys.length;
+  if (qoldiq <= 0) return res;
+  var jami = 0;
+  keys.forEach(function (k) { jami += w[k]; });
+  var kasr = {}, berildi = 0;
+  keys.forEach(function (k) {
+    var x = jami > 0 ? qoldiq * w[k] / jami : qoldiq / keys.length;
+    var c = Math.floor(x);
+    res[k] += c; berildi += c; kasr[k] = x - c;
+  });
+  var nav = keys.slice().sort(function (a, b) {
+    if (kasr[b] !== kasr[a]) return kasr[b] - kasr[a];
+    return w[b] - w[a];
+  });
+  for (var i = 0; i < qoldiq - berildi; i++) res[nav[i]]++;
+  return res;
+}
+
+function tile(b, t) {
+  var d = document.createElement("div");
+  d.className = "tile";
+  var bb = document.createElement("b");
+  bb.className = "num";
+  bb.appendChild(document.createTextNode(b));
+  var sp = document.createElement("span");
+  sp.appendChild(document.createTextNode(t));
+  d.appendChild(bb); d.appendChild(sp);
+  return d;
+}
+
+function rejaChiz() {
+  var r = rejaTuz();
+  rejaKunlar = r.kun; rejaSana = r.imtihon;
+  rejaMuddat = r.muddat || null; rejaMuddatOtgan = !!r.muddatOtgan;
+  var sum = document.getElementById("r-sum");
+  var tbl = document.getElementById("r-table");
+  var hint = document.getElementById("r-hint");
+  sum.innerHTML = ""; tbl.innerHTML = "";
+  // Кнопка набора живёт рядом с планом и прячется у того, кто набор уже взял.
+  // Видимость обновляется здесь, а не один раз при загрузке: тариф включается
+  // ссылкой с ключом, и после включения кнопка обязана исчезнуть. И до ветки
+  // ошибки даты — иначе у человека с непонятой датой кнопка не появилась бы
+  // вовсе, хотя купить набор он может и не построив план.
+  document.getElementById("r-take").className = tarif() === "full" ? "btn sec hide" : "btn sec";
+  // Обратная видимость: предупреждение про ссылку показываем ТОЛЬКО тому,
+  // у кого набор включён. Тому, кто ещё не платил, оно ничего не объясняет
+  // и только пугает.
+  document.getElementById("r-kalit").className = tarif() === "full" ? "small" : "small hide";
+
+  if (r.xato) {
+    hint.textContent = r.xato === "otgan"
+      ? "Imtihon sanasi o'tib ketgan yoki bugungi kun — reja tuzilmadi. Kelgusi sanani tanlang."
+      : "Sanani tushunmadik — reja tuzilmadi. Kun-oy-yil tartibida yozing: 15.10.2026 yoki 15.10.26.";
+    varaqaTayyorla();   // лист тоже обязан опустеть: иначе на печать уйдёт вчерашний план
+    return;
+  }
+
+  var ish = 0, sinov = 0, daq = 0;
+  r.kun.forEach(function (k) {
+    if (k.tur === "ish") ish++;
+    if (k.tur === "mock") sinov++;
+    daq += k.daq || 0;
+  });
+  sum.appendChild(tile(r.kun.length + " kun", r.imtihon ? "imtihongacha, " + ddmm(r.imtihon) : "reja uzunligi"));
+  // Сводка считает часы, а не вопросы: вопросов у нас двадцать, и обещать
+  // больше нечем. Часы план распределяет сам и они не врут.
+  sum.appendChild(tile(Math.round(daq / 60) + " soat", "jami mashq vaqti"));
+  sum.appendChild(tile(sinov + " ta", "vaqt bilan sinov"));
+  // Срок оплаты стоит в сводке рядом с числом дней, а не в глубине таблицы:
+  // это единственная дата на странице, пропуск которой обнуляет всю подготовку.
+  if (r.muddat) sum.appendChild(tile(ddmm(r.muddat), "to'lov va ro'yxatdan o'tishning oxirgi kuni"));
+
+  var thead = document.createElement("tr");
+  ["Sana", "Kun", "Nima qilinadi", "Vaqt"].forEach(function (t) {
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode(t));
+    thead.appendChild(th);
+  });
+  tbl.appendChild(thead);
+
+  var toliq = tarif() === "full";
+  var chek = toliq ? r.kun.length : Math.min(BEPUL_KUN, r.kun.length);
+  for (var i = 0; i < chek; i++) {
+    var k = r.kun[i];
+    var tr = document.createElement("tr");
+    tr.className = k.tur;
+    var td1 = document.createElement("td"); td1.className = "d";
+    td1.appendChild(document.createTextNode(ddmm(k.sana)));
+    var td2 = document.createElement("td");
+    td2.appendChild(document.createTextNode(k.hafta));
+    var td3 = document.createElement("td");
+    td3.appendChild(document.createTextNode(k.ish));
+    var td4 = document.createElement("td"); td4.className = "n";
+    td4.appendChild(document.createTextNode(k.daq ? k.daq + " daq" : "—"));
+    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4);
+    tbl.appendChild(tr);
+  }
+
+  if (!toliq && r.kun.length > chek) {
+    var lr = document.createElement("tr");
+    lr.className = "lock";
+    var td = document.createElement("td");
+    td.colSpan = 4;
+    td.appendChild(document.createTextNode(
+      "Yana " + (r.kun.length - chek) + " kun — to'plamda. Bepul qism: birinchi " +
+      chek + " kun, ular haqiqiy va bosib chiqarsa bo'ladi."));
+    lr.appendChild(td);
+    tbl.appendChild(lr);
+    if (rejaOdam && !rejaWallSent) { rejaWallSent = true; ev("calc", { kind: "reja_wall", kun: r.kun.length }); }
+  }
+
+  var izohlar = [];
+  // Прямо в подсказке под планом сказано, почему в колонке время, а не вопросы.
+  // Иначе человек, увидевший «25 daq», решит, что мы даём материал на 25 минут.
+  izohlar.push("Kunlar savol soni bilan emas, vaqt bilan o'lchanadi: bugun bizda 20 ta savol bor va biz ko'proqni va'da qilmaymiz. Reja vaqtingizni taqsimlaydi.");
+  if (r.muddat) {
+    izohlar.push("To'lov va ro'yxatdan o'tish — " + ddmm(r.muddat) +
+      " kuniga qadar, ya'ni imtihondan kamida 12 kun oldin (VMQ № 411, Nizomga 1-ilova, SXEMA). " +
+      "Bu muddatdan keyin shu imtihonga ariza qabul qilinmaydi.");
+  }
+  if (r.muddatOtgan) {
+    izohlar.push("DIQQAT: imtihongacha 12 kundan kam qoldi. To'lov va ro'yxatdan o'tish " +
+      "imtihondan kamida 12 kun oldin yakunlanadi (VMQ № 411, Nizomga 1-ilova, SXEMA) — " +
+      "ya'ni allaqachon to'lagan bo'lsangizgina bu sanaga tayyorlanish mantiqli. " +
+      "Aks holda keyingi imtihon sanasini kiriting: imtihonlar yil davomida o'tkaziladi.");
+  }
+  if (r.kesildi) izohlar.push("Imtihongacha " + REJA_MAX + " kundan ko'p qolgan, shuning uchun reja oxirgi " + REJA_MAX + " kunga tuzildi.");
+  if (!natija) izohlar.push("Mashq yoki sinovdan o'tsangiz, reja bo'sh bloklaringizga ko'proq kun ajratadi. Hozircha bloklar teng.");
+  else izohlar.push("Reja «" + (natija.qayerdan === "sinov" ? "vaqt bilan sinov" : "20 savollik mashq") +
+                    "» natijangizga qarab tuzildi: bo'sh bloklarga ko'proq kun.");
+  hint.textContent = izohlar.join(" ");
+
+  if (rejaOdam && !rejaSent) {
+    rejaSent = true;
+    ev("calc", { kind: "reja", kun: r.kun.length, sana: r.imtihon ? 1 : 0, tarif: tarif() });
+  }
+  varaqaTayyorla();
+}
+
+document.getElementById("r-sana").addEventListener("change", function () { rejaOdam = true; rejaSent = false; rejaChiz(); });
+document.getElementById("r-sana").addEventListener("input", function () {
+  clearTimeout(rejaChiz.t);
+  rejaChiz.t = setTimeout(function () { rejaOdam = true; rejaSent = false; rejaChiz(); }, 500);
+});
+
+document.getElementById("r-print").addEventListener("click", function () {
+  varaqaTayyorla();
+  ev("calc", { kind: "reja_print", tarif: tarif() });
+  window.print();
+});
+
+document.getElementById("r-copy").addEventListener("click", function () {
+  var toliq = tarif() === "full";
+  var n = toliq ? rejaKunlar.length : Math.min(BEPUL_KUN, rejaKunlar.length);
+  var t = "Malaka imtihoniga reja" + (rejaSana ? " — imtihon " + ddmm(rejaSana) : "") + "\n";
+  for (var i = 0; i < n; i++) {
+    var k = rejaKunlar[i];
+    t += ddmm(k.sana) + " " + k.hafta + " — " + k.ish + (k.daq ? " (" + k.daq + " daq)" : "") + "\n";
+  }
+  if (!toliq && rejaKunlar.length > n) t += "... yana " + (rejaKunlar.length - n) + " kun to'plamda\n";
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(t).then(function () {
+      document.getElementById("r-hint").textContent = "Reja nusxalandi — hamkasbingizga yoki o'zingizga yuboring.";
+    }).catch(function () {});
+  }
+});
+
+/* Печатный лист собирается из тех же переменных, что нарисованы на экране.
+   Отдельного «источника правды для печати» быть не должно: именно так
+   расходятся цифра на экране и цифра в PDF. */
+function varaqaTayyorla() {
+  var b = base();
+  if (!SENTABR && elPlus7.checked) b = b * RAISE;
+  var oy = b * USTAMA;
+  // Срок оплаты стоит в шапке листа — там же, где дата экзамена. Внутри таблицы
+  // он был бы спрятан за платной стеной у того, у кого бесплатные три дня,
+  // а это единственная дата, пропуск которой обнуляет и подготовку, и деньги.
+  var muddatMatn = "";
+  if (rejaMuddat) {
+    muddatMatn = " · To'lov va ro'yxatdan o'tish: " + ddmm(rejaMuddat) + "." +
+                 rejaMuddat.getFullYear() + " gacha (imtihondan 12 kun oldin)";
+  } else if (rejaMuddatOtgan) {
+    muddatMatn = " · DIQQAT: imtihongacha 12 kundan kam qoldi — ro'yxatdan o'tish muddati o'tgan";
+  }
+  document.getElementById("v-head").textContent =
+    "Tuzilgan sana: " + ddmm(new Date()) + "." + new Date().getFullYear() +
+    (rejaSana ? " · Imtihon sanasi: " + ddmm(rejaSana) + "." + rejaSana.getFullYear() : " · Imtihon sanasi kiritilmagan") +
+    muddatMatn +
+    " · gordondr.github.io/tma-uz/ustoz-sertifikat/";
+  document.getElementById("v-oyiga").textContent = b ? fmt(oy) + " so'm" : "—";
+  document.getElementById("v-oyiga-izoh").textContent =
+    "oyiga, 15% ustama" + (sentHisob() ? " (7% oshirilgan maoshdan)" : "");
+  // Оговорка про 2027 год стоит ЗДЕСЬ, а не в подвале листа среди источников.
+  // Пункт 6 абз. 3 постановления: расходы 2026 года идут из уже выделенных
+  // МДШО средств, а с 2027-го — «budjet so'rovnomalariga asosan Davlat budjeti
+  // parametrlarida nazarda tutiladi». Сертификат действует три года, наша
+  // колонка считает двенадцать месяцев — то есть большая часть обещанного
+  // лежит за 2026 годом, и это надо читать рядом с числом, а не через страницу.
+  document.getElementById("v-ustama-izoh").textContent =
+    "Ustama — lavozim maoshining 15 foizi (6-band, 2-xatboshi). O'sha bandning 3-xatboshisi: " +
+    "«2027-yildan boshlab esa budjet qonunchiligi talablariga muvofiq taqdim etilgan budjet " +
+    "so'rovnomalariga asosan Davlat budjeti parametrlarida nazarda tutiladi» — 2027-yildan " +
+    "to'lov budjet so'rovnomalariga bog'liq, ya'ni 12 oy va uch yil — bizning hisobimiz, kafolat emas.";
+  // Подпись под суммой должна описывать ИМЕННО ту сумму, которая под ней стоит.
+  // Раньше здесь всегда стояло «0,9 × 1,5 BHM», и при выбранной скидке лист
+  // печатал 139 050 под подписью, описывающей 556 200. Лист уносят в школу,
+  // экрана рядом нет, и разойтись им нельзя.
+  //
+  // И ВТОРОЕ, ДОРОЖЕ ПЕРВОГО: подпись обязана называть ДАТУ, на которую сумма
+  // верна. Взнос привязан к БҲМ на день ПОДАЧИ ЗАЯВЛЕНИЯ (п. 4 абз. 1), а БҲМ
+  // меняется 1 сентября. Лист, распечатанный 28 августа, называл 556 200 без
+  // единого слова о дате; заявление человек подавал 3 сентября и приносил на
+  // портал на 37 800 сум меньше нужного. Ошибка шла В СТОРОНУ НЕДОПЛАТЫ —
+  // самую дорогую сторону: недоплаченный взнос не регистрирует заявление вовсе,
+  // а срок регистрации закрывается за 12 дней до экзамена. Экран это говорил
+  // полностью (#taqqos через yigimIzoh), лист — нет. Бумагу человек хранит,
+  // экран забывает, поэтому обе суммы стоят на бумаге всегда.
+  var vSkidka = chegirma ? ", " + Math.round(chegirma * 100) + "% chegirma bilan" : "";
+  var vAvg = BHM_HOZIR * YIGIM_BHM * YIDXP_ULUSH * (1 - chegirma);   // заявление до 31.08.2026
+  var vSen = BHM_SENT  * YIGIM_BHM * YIDXP_ULUSH * (1 - chegirma);   // заявление с 01.09.2026
+  var vch;
+  if (SENTABR) {
+    // После 1 сентября августовская сумма — история, но назвать её всё равно
+    // надо: человек мог распечатать лист раньше и сравнивает два листа.
+    vch = "to'lanadigan summa — 1-sentyabrdan ariza berilsa (0,9 × 1,5 BHM" + vSkidka +
+          "), BHM " + fmt(BHM_SENT) + " so'm";
+  } else if (sentHisob()) {
+    vch = "to'lanadigan summa — 1-sentyabrdan ariza berilsa (0,9 × 1,5 BHM" + vSkidka +
+          "); 31-avgustgacha ariza berilsa — " + fmt(vAvg) + " so'm";
+  } else {
+    vch = "to'lanadigan summa — 31-avgustgacha ariza berilsa (0,9 × 1,5 BHM" + vSkidka +
+          "); 1-sentyabrdan ariza berilsa — " + fmt(vSen) + " so'm";
+  }
+  document.getElementById("v-yigim-izoh").textContent = vch;
+  document.getElementById("v-yigim").textContent = fmt(yigim(sentHisob())) + " so'm";
+
+  // Отдельная строка под числами — ПРАВИЛО, а не повтор сумм: обе суммы уже
+  // стоят в подписи над ней и в блоке «Rasmiy qoidalar». Место на A4 конечно,
+  // и одно и то же число три раза стоит дороже, чем правило, которого нет.
+  //
+  // Отдельный случай, ради которого правило и написано. Человек печатает лист
+  // в августе, крупно на листе стоит августовская сумма, а срок регистрации
+  // у него — сентябрьский: подать раньше срока он может, но чаще подаёт близко
+  // к сроку. Тогда правило надо не просто назвать, а применить за него —
+  // иначе он принесёт на портал на 37 800 сум меньше, и заявление не пройдёт.
+  // Это и есть та самая ошибка в сторону недоплаты.
+  var vRule =
+    "Summa ariza berilgan kundagi BHM bo'yicha, varaqa chop etilgan kun bo'yicha emas " +
+    "(VMQ № 411, 1-ilova, 4-band): 1-sentyabrdan BHM " + fmt(BHM_HOZIR) + " → " + fmt(BHM_SENT) +
+    " so'm. Ariza va to'lov — imtihondan kamida 12 kun oldin.";
+  if (!sentHisob() && rejaMuddat && rejaMuddat >= BHM_SANA) {
+    vRule = "DIQQAT: sizning ro'yxatdan o'tish muddatingiz — " + ddmm(rejaMuddat) + "." +
+            rejaMuddat.getFullYear() + ", ya'ni 1-sentyabrdan keyin. Agar arizani o'sha " +
+            "kunlarda bersangiz, to'lov " + fmt(vSen) + " so'm bo'ladi, yuqoridagi " +
+            fmt(vAvg) + " so'm emas. " + vRule;
+  }
+  document.getElementById("v-tolov").textContent = vRule;
+  // Тот же текст коротко — в блок «Rasmiy qoidalar», где стоит сама норма.
+  // Норма там была, а ни одной суммы не было: человек читал правило и не мог
+  // сверить его с числом, ради которого лист печатал.
+  document.getElementById("v-qoida-summa").textContent =
+    ": 31-avgustgacha " + fmt(vAvg) + " so'm, 1-sentyabrdan " + fmt(vSen) + " so'm" +
+    (chegirma ? " (" + Math.round(chegirma * 100) + "% chegirma bilan)" : "");
+
+  // Второе прочтение скидки — то же, что на экране, слово в слово по смыслу.
+  // Пишется только когда скидка выбрана: без скидки второго прочтения нет.
+  var vIkki = document.getElementById("v-ikki-oqish");
+  if (chegirma) {
+    var bel = belgilangan(sentHisob());
+    var kop = bel * YIDXP_ULUSH * (1 - chegirma);        // множительное прочтение
+    var ayr = bel * YIDXP_ULUSH - bel * chegirma;        // вычитательное прочтение
+    vIkki.textContent =
+      "Chegirmani ikki xil o'qish mumkin, biz kattasini ko'rsatamiz. Baza " + fmt(bel) +
+      " so'm: ko'paytiruvchi o'qishda " + fmt(kop) + " so'm (4-band va 21-band ketma-ket), " +
+      "ayirmali o'qishda " + fmt(ayr) + " so'm. Qaysi biri YIDXP invoysida chiqishini bilmaymiz; " +
+      "yuqorida kattasi turibdi. Invoys kichikroq chiqsa — yaxshi.";
+  } else {
+    vIkki.textContent = "";
+  }
+  document.getElementById("v-ball").textContent = natija ? natija.ball + " / " + natija.jami : "—";
+
+  var vb = document.getElementById("v-blocks");
+  vb.innerHTML = "";
+  var hr = document.createElement("tr");
+  ["Blok", "Natija", "Foiz", "Kun"].forEach(function (t) {
+    var th = document.createElement("th"); th.appendChild(document.createTextNode(t)); hr.appendChild(th);
+  });
+  vb.appendChild(hr);
+  var kunlarBlok = {};
+  rejaKunlar.forEach(function (k) { if (k.blok) kunlarBlok[k.blok] = (kunlarBlok[k.blok] || 0) + 1; });
+  Object.keys(BLOKLAR).forEach(function (key) {
+    var tr = document.createElement("tr");
+    var d = natija && natija.blok ? natija.blok[key] : null;
+    // Колонка «Foiz» — то самое слово из оффера. Раньше на листе стояла только
+    // дробь, а обещан был процент.
+    [BLOKLAR[key], d ? d.ok + " / " + d.n : "—", d ? foiz(d.ok, d.n) : "—",
+     String(kunlarBlok[key] || 0)].forEach(function (t) {
+      var td = document.createElement("td"); td.appendChild(document.createTextNode(t)); tr.appendChild(td);
+    });
+    vb.appendChild(tr);
+  });
+
+  // Таблица попыток. Читается сверху вниз: последняя строка — сегодняшняя.
+  // Разница считается в процентных пунктах доли верных, потому что у машқа
+  // и у сдачи разное число вопросов, — и только между попытками, ни одна из
+  // которых не шла по уже прочитанным разборам (см. ozgarishBor).
+  // На листе показываются последние шесть: лист готовности не журнал, а место
+  // на одной странице конечно.
+  var vt = document.getElementById("v-tarix");
+  vt.innerHTML = "";
+  var tr0 = document.createElement("tr");
+  ["Sana", "Qayerdan", "Natija", "O'zgarish"].forEach(function (t) {
+    var th = document.createElement("th"); th.appendChild(document.createTextNode(t)); tr0.appendChild(th);
+  });
+  vt.appendChild(tr0);
+  var tarAll = tarixOqi();
+  var tar = tarAll.slice(Math.max(0, tarAll.length - 6));
+  if (!tar.length) {
+    var trE = document.createElement("tr");
+    var tdE = document.createElement("td");
+    tdE.colSpan = 4;
+    tdE.appendChild(document.createTextNode(
+      "Hali urinish yo'q: 2-qadamdagi mashqdan yoki 4-qadamdagi sinovdan o'ting."));
+    trE.appendChild(tdE); vt.appendChild(trE);
+  } else {
+    tar.forEach(function (it, i) {
+      var pr = i > 0 ? tar[i - 1] : null;
+      var bor = pr && ozgarishBor(pr, it);
+      var d = bor ? Math.round((it.ball / it.jami - pr.ball / pr.jami) * 1000) / 10 : null;
+      var tr = document.createElement("tr");
+      [it.sana || "—",
+       (it.qayerdan === "sinov" ? "sinov" : "mashq") + (it.korgan ? " (takror)" : ""),
+       it.ball + " / " + it.jami + " · " + foiz(it.ball, it.jami),
+       d === null ? "—" : (d > 0 ? "+" : "") + d + " p.p."].forEach(function (t) {
+        var td = document.createElement("td"); td.appendChild(document.createTextNode(t)); tr.appendChild(td);
+      });
+      vt.appendChild(tr);
+    });
+  }
+  document.getElementById("v-tarix-izoh").textContent = tar.length
+    ? "«takror» — izohlarni o'qiganingizdan keyingi urinish; farqni foiz punktida yozmaymiz."
+    : "";
+
+  varaqaReja();
+}
+
+/* План на печатном листе — КАЛЕНДАРЬ, а не строка на день.
+   Девяносто строк по определению не помещаются на A4; тринадцать строк по
+   семь клеток помещаются с запасом. В клетке стоит день, короткое имя блока
+   с номером темы и минуты; сами темы перечислены легендой под календарём,
+   поэтому из плана не пропало ничего — поменялась только раскладка. */
+function varaqaReja() {
+  var cal = document.getElementById("v-cal");
+  var leg = document.getElementById("v-legend");
+  var izoh = document.getElementById("v-reja-izoh");
+  cal.innerHTML = ""; leg.innerHTML = ""; izoh.textContent = "";
+  document.getElementById("v-reja-h").textContent = "Reja";
+
+  if (!rejaKunlar.length) {
+    izoh.textContent = "Reja tuzilmadi: 5-qadamda imtihon sanangizni kiriting " +
+      "yoki bo'sh qoldiring — u holda reja 30 kunga tuziladi.";
+    return;
+  }
+
+  var toliq = tarif() === "full";
+  var ochiq = toliq ? rejaKunlar.length : Math.min(BEPUL_KUN, rejaKunlar.length);
+  cal.className = rejaKunlar.length > 45 ? "cal dense" : "cal";
+
+  var thead = document.createElement("tr");
+  ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"].forEach(function (t) {
+    var th = document.createElement("th");
+    th.appendChild(document.createTextNode(t));
+    thead.appendChild(th);
+  });
+  cal.appendChild(thead);
+
+  // Неделя начинается с понедельника, поэтому воскресенье (getDay()===0)
+  // уходит в седьмую колонку, а не в первую.
+  function ustun(d) { return (d.getDay() + 6) % 7; }
+  var oldin = ustun(rejaKunlar[0].sana);
+  var jami = oldin + rejaKunlar.length;
+  var qator = Math.ceil(jami / 7);
+  var ishlatilgan = {};   // какие темы каждого блока реально попали в план
+
+  for (var r = 0; r < qator; r++) {
+    var tr = document.createElement("tr");
+    for (var c = 0; c < 7; c++) {
+      var pos = r * 7 + c - oldin;
+      var td = document.createElement("td");
+      if (pos < 0 || pos >= rejaKunlar.length) {
+        td.className = "bosh";
+        td.appendChild(document.createTextNode(" "));
+        tr.appendChild(td);
+        continue;
+      }
+      var k = rejaKunlar[pos];
+      var dd = document.createElement("span");
+      dd.className = "dd";
+      dd.appendChild(document.createTextNode(ddmm(k.sana)));
+      td.appendChild(dd);
+      if (pos < ochiq) {
+        td.className = k.tur;
+        var bl = document.createElement("span");
+        bl.className = "bl";
+        bl.appendChild(document.createTextNode(k.qisqa || ""));
+        td.appendChild(bl);
+        var mn = document.createElement("span");
+        mn.className = "mn";
+        mn.appendChild(document.createTextNode(k.daq ? k.daq + " daq" : "—"));
+        td.appendChild(mn);
+        if (k.blok) {
+          if (!ishlatilgan[k.blok]) ishlatilgan[k.blok] = {};
+          ishlatilgan[k.blok][k.mavzu] = 1;
+        }
+      } else {
+        td.className = "lock";
+        var lk = document.createElement("span");
+        lk.className = "bl";
+        lk.appendChild(document.createTextNode("to'plamda"));
+        td.appendChild(lk);
+      }
+      tr.appendChild(td);
+    }
+    cal.appendChild(tr);
+  }
+
+  // Легенда: только те темы, которые реально стоят в открытой части плана.
+  // Полный список тем каждого блока сюда не выписывается — это была бы
+  // страница текста ради шести строк, которые человек и так видит в клетках.
+  Object.keys(BLOKLAR).forEach(function (key) {
+    var used = ishlatilgan[key];
+    if (!used) return;
+    var mv = MAVZULAR[key] || [];
+    var nomlar = Object.keys(used).sort(function (a, b) { return a - b; })
+      .map(function (n) { return n + ") " + (mv[n - 1] || "takrorlash"); });
+    var d = document.createElement("div");
+    var b = document.createElement("b");
+    b.appendChild(document.createTextNode((QISQA[key] || key) + ": "));
+    d.appendChild(b);
+    d.appendChild(document.createTextNode(nomlar.join("; ")));
+    leg.appendChild(d);
+  });
+  izoh.textContent = (toliq
+    ? "Reja " + rejaKunlar.length + " kunga. "
+    : "Bepul qism — birinchi " + ochiq + " kun, ular haqiqiy. To'liq reja (" +
+      rejaKunlar.length + " kun) to'plamda: " + fmt(window.MVP.PRICE_FULL) + " so'm. ") +
+    "Sinov — imtihon shaklida, vaqt bilan; Daftar — faqat xatolar daftari; " +
+    "Hujjatlar — ariza va to'lovni tekshirish. Kunlar savol soni bilan emas, vaqt " +
+    "bilan o'lchanadi: bugun bizda 20 ta savol bor va biz ko'proqni va'da qilmaymiz.";
+}
+
+// Печать может быть запущена не нашей кнопкой (Ctrl+P, меню браузера) —
+// лист всё равно обязан содержать сегодняшние числа, а не вчерашние.
+if (window.matchMedia) {
+  try {
+    window.matchMedia("print").addListener(function (m) { if (m.matches) varaqaTayyorla(); });
+  } catch (e) {}
+}
+window.onbeforeprint = varaqaTayyorla;
+
+/* Кнопка «взять набор» из плана — тот же путь, что из блока цены, но событие
+   помечено местом: если платить хотят из плана, а не из прайса, оффер надо
+   строить вокруг плана.
+
+   Событие уходит ТОЛЬКО по этой кнопке. Раньше оно уходило по кнопке печати,
+   и один клик по «Bosib chiqarish» на бесплатном тарифе давал сразу два
+   события — reja_print и cta. То есть колонка «нажали кнопку заявки» считала
+   печать, а §4.6 сравнивал печать с настоящим нажатием в прайсе: сравнение
+   было заведомо в пользу плана и не значило того, что написано. */
+var ctaRejaSent = false;
+document.getElementById("r-take").addEventListener("click", function () {
+  // Второй раз то же событие не шлём: интерес отмечен один раз за сессию.
+  // И на полном тарифе не шлём вовсе — там нечего покупать.
+  if (!ctaRejaSent && tarif() !== "full") { ctaRejaSent = true; ev("cta", { where: "reja" }); }
+  document.getElementById("bank").scrollIntoView({ block: "start" });
+});
+
+xatoChiz();
+rejaChiz();
+trendChiz();
+/* ── Поделиться и FAQ ──────────────────────────────────────────────────────── */
+function share() {
+  var url = location.origin + location.pathname + "?src=share";
+  var text = "Boshlang'ich sinf o'qituvchilari uchun: sertifikat ustamasi kalkulyatori va 20 savollik bepul mashq";
+  ev("share", {});
+  if (navigator.share) {
+    navigator.share({ title: "Ustamam", text: text, url: url }).catch(function () {});
+    return;
+  }
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text + " " + url).then(function () {
+      alert("Havola nusxalandi. Hamkasbingizga yuboring.");
+    }).catch(function () {});
+  }
+}
+document.getElementById("t-share").addEventListener("click", share);
+document.getElementById("ok-share").addEventListener("click", share);
+
+/* Уезжает НОМЕР раскрытого вопроса, а не его текст. Текст — это уже не число,
+   и он ломал перечень «что уходит на сервер»: перечень должен сходиться с тем,
+   что видно во вкладке «Сеть». Номер отвечает на тот же вопрос — какой вопрос
+   открывают первым — и переводится обратно в текст по этой же странице. */
+var faqSent = false;
+document.getElementById("faqlist").addEventListener("toggle", function (e) {
+  if (!e.target.open || faqSent) return;
+  faqSent = true;
+  var box = document.getElementById("faqlist");
+  ev("faq", { n: Array.prototype.indexOf.call(box.children, e.target) + 1 });
+}, true);
+</script>
+</body>
+</html>

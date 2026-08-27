@@ -1,0 +1,1687 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Avtomaktab narxi 2026 — toʻliq hisob va shartnoma savollari</title>
+<meta name="description" content="B toifa uchun avtomaktab aslida qancha turadi: aytilgan narx ustiga imtihon, qayta topshirish, qoʻshimcha soatlar, yoqilgʻi, tibbiy maʼlumotnoma va guvohnoma yigʻimi. Meʼyor B toifa uchun kamida 69 soat haydashni talab qiladi. Hisoblagich va shartnoma imzolashdan oldingi 7 ta savol. Bepul.">
+<meta name="keywords" content="avtomaktab narxlari 2026, B toifa prava narxi, haydovchilik guvohnomasi narxi, avtomaktab shartnomasi, prava olish narxi, автошкола Ташкент цена, права категории B стоимость">
+<meta name="theme-color" content="#F3F5F3">
+<meta name="color-scheme" content="light dark">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Avtomaktab aslida qancha turadi">
+<meta property="og:description" content="Aytilgan narx ustiga nima qoʻshiladi — raqamlar bilan, meʼyor bandi koʻrsatilgan holda. Va shartnoma imzolashdan oldin beriladigan 7 ta savol.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Направление — расчётный лист, счёт-фактура. Продукт про одно: сумма, которую
+   назвали, и сумма, которую заплатишь. Поэтому язык страницы — язык сметы:
+   линованные строки, цифры справа, табличные начертания, итог отбит толстой
+   линейкой. Ничего «продающего»: рекламная страница про скрытые платежи
+   выглядела бы ровно как то, о чём она предупреждает.
+
+   Две гарнитуры с кириллицей И латиницей: Bitter (плотный брусковый — заголовки
+   и суммы, у него настоящие табличные цифры) и IBM Plex Sans (текст, интерфейс).
+   Узбекская латиница с oʻ/gʻ (U+02BB) обеими поддерживается. */
+:root{
+  --paper:#F3F5F3; --card:#FFFFFF; --ink:#14201C; --ink2:#37453F; --muted:#5A6862;
+  --rule:#D9DFDA; --rule2:#EAEFEA;
+  --green:#0F6B57; --green-bg:#E7F2EE;
+  --amber:#9C5A12; --amber-bg:#FBF0E1;
+  --bad:#A32A1E;
+  --on-green:#FFFFFF;
+  --display:Bitter,Georgia,"Times New Roman",serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+/* Тёмная тема задаётся дважды: по системе — только когда пользователь не выбрал
+   светлую руками, и по атрибуту — чтобы переключатель побеждал в обе стороны. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121714; --card:#191F1B; --ink:#E9EFEA; --ink2:#BFC9C3; --muted:#8B968F;
+    --rule:#2A322D; --rule2:#212722;
+    --green:#59C8A8; --green-bg:#10251F;
+    --amber:#E0A45C; --amber-bg:#2A2114;
+    --bad:#E2857A;
+    --on-green:#0B1512;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121714; --card:#191F1B; --ink:#E9EFEA; --ink2:#BFC9C3; --muted:#8B968F;
+  --rule:#2A322D; --rule2:#212722;
+  --green:#59C8A8; --green-bg:#10251F;
+  --amber:#E0A45C; --amber-bg:#2A2114;
+  --bad:#E2857A;
+  --on-green:#0B1512;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+.col{max-width:660px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.2;margin:0;text-wrap:balance}
+h1{font-size:clamp(28px,6vw,46px);letter-spacing:-.015em}
+h2{font-size:clamp(22px,4vw,31px);margin-bottom:12px;letter-spacing:-.01em}
+h3{font-size:18px;margin-bottom:6px}
+p{margin:0 0 15px}
+a{color:var(--green)}
+a:hover{text-decoration:none}
+strong{font-weight:600}
+.lbl{font:600 11px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1}
+
+section{border-top:1px solid var(--rule);padding:46px 0}
+section:first-of-type{border-top:0}
+header{padding:20px 0 0}
+.top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.mark{width:34px;height:34px;border-radius:8px;background:var(--green);color:var(--on-green);
+  display:grid;place-items:center;font:700 15px var(--display);flex:none}
+.top b{font:600 16px var(--body);letter-spacing:-.01em}
+.top .sub{color:var(--muted);font-size:13px}
+.spacer{flex:1 1 auto}
+.langbar{display:flex;gap:0;border:1px solid var(--rule);border-radius:9px;overflow:hidden}
+.langbar button{background:transparent;border:0;color:var(--muted);font:600 13px var(--body);
+  padding:7px 12px;cursor:pointer}
+.langbar button.on{background:var(--green);color:var(--on-green)}
+
+.hero{padding-top:36px}
+.hero .lead{font-size:18px;line-height:1.55;color:var(--ink2)}
+.btn{display:inline-block;background:var(--green);color:var(--on-green);text-decoration:none;
+  border:1px solid var(--green);font:600 16px var(--body);padding:13px 22px;border-radius:11px;
+  cursor:pointer;margin:6px 8px 0 0}
+.btn:hover{filter:brightness(1.07)}
+.btn.sec{background:transparent;color:var(--ink);border-color:var(--rule)}
+.after{color:var(--muted);font-size:13.5px;margin-top:12px}
+
+/* ── Смета ───────────────────────────────────────────────────────────────── */
+.sheet{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+  padding:6px 18px 18px;margin-top:22px}
+/* На узком экране строка сметы разложена в две полосы: пояснение занимает всю
+   ширину, а поле ввода и сумма стоят рядом снизу. Класть их в одну строку
+   с текстом нельзя — на 375px под подпись остаётся 90 пикселей, и она
+   рассыпается в столбик по одному слову. */
+.row{display:grid;grid-template-columns:1fr auto;gap:10px 14px;align-items:center;
+  padding:14px 0;border-bottom:1px solid var(--rule2)}
+.row .rl{grid-column:1 / -1;min-width:0}
+.row .rc{grid-column:1;justify-self:start;display:flex;align-items:center;gap:8px;min-width:0}
+.row .rs{grid-column:2;justify-self:end;font:600 16px var(--display);
+  font-variant-numeric:tabular-nums;white-space:nowrap}
+@media(min-width:660px){
+  .row{grid-template-columns:1fr 200px 150px;gap:4px 16px}
+  .row .rl{grid-column:1}
+  .row .rc{grid-column:2}
+  .row .rs{grid-column:3}
+}
+.row .t{font-weight:600;font-size:15.5px;display:block}
+.row .h{color:var(--muted);font-size:13px;display:block;margin-top:2px}
+.row .h a{color:var(--muted)}
+.row.off .t,.row.off .rs{color:var(--muted);font-weight:500}
+input[type=number],input[type=text],select,textarea{
+  font:500 15px var(--body);font-variant-numeric:tabular-nums;color:var(--ink);
+  background:var(--paper);border:1px solid var(--rule);border-radius:9px;padding:9px 11px;
+  width:100%;max-width:190px}
+textarea{max-width:100%;font-weight:400;line-height:1.5;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--green);outline-offset:1px}
+.two{display:flex;gap:8px;max-width:190px}
+.two input{max-width:none}
+label.chk{display:flex;align-items:center;gap:9px;font-size:14.5px;cursor:pointer}
+label.chk input{width:19px;height:19px;max-width:19px;accent-color:var(--green);margin:0;flex:none}
+
+.total{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:baseline;
+  padding:18px 0 4px;border-top:2px solid var(--ink);margin-top:6px}
+.total .tt{font:600 17px var(--body)}
+.total .tv{font:700 clamp(26px,6vw,36px) var(--display);font-variant-numeric:tabular-nums;
+  justify-self:end;white-space:nowrap;letter-spacing:-.02em}
+.extra{display:grid;grid-template-columns:1fr auto;gap:6px 14px;align-items:baseline;
+  background:var(--amber-bg);border-radius:10px;padding:13px 15px;margin-top:14px}
+.extra .et{font-weight:600;font-size:15px}
+.extra .ev{font:700 20px var(--display);color:var(--amber);font-variant-numeric:tabular-nums;
+  justify-self:end;white-space:nowrap}
+.extra .eh{grid-column:1 / -1;color:var(--ink2);font-size:13.5px;margin-top:4px}
+
+/* Полоса состава: то, что назвали, и то, что добавится. Смысл картинки один —
+   показать долю второго куска, поэтому кусков ровно два, а не восемь. */
+.bar{display:flex;height:14px;border-radius:7px;overflow:hidden;margin-top:16px;
+  background:var(--rule2)}
+.bar i{display:block;height:100%}
+.bar .b1{background:var(--green)}
+.bar .b2{background:var(--amber)}
+.barleg{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:9px;font-size:13px;color:var(--muted)}
+.barleg span{display:flex;align-items:center;gap:7px}
+.barleg i{width:10px;height:10px;border-radius:3px;flex:none}
+
+.note{background:var(--green-bg);border-left:3px solid var(--green);padding:14px 16px;
+  border-radius:0 10px 10px 0;font-size:15px;margin:20px 0}
+.note.warn{background:var(--amber-bg);border-left-color:var(--amber)}
+
+/* ── Чек-лист вопросов ───────────────────────────────────────────────────── */
+.qs{counter-reset:q;list-style:none;padding:0;margin:22px 0 0}
+.qs li{counter-increment:q;background:var(--card);border:1px solid var(--rule);
+  border-radius:13px;padding:16px 18px 16px 56px;position:relative;margin-bottom:12px}
+.qs li::before{content:counter(q);position:absolute;left:16px;top:16px;width:28px;height:28px;
+  border-radius:50%;background:var(--green-bg);color:var(--green);display:grid;place-items:center;
+  font:700 14px var(--display);font-variant-numeric:tabular-nums}
+.qs .q{font-weight:600;font-size:16.5px;display:block;margin-bottom:6px}
+.qs .ask{color:var(--ink2);font-size:15px;margin:0 0 9px}
+.qs .risk{font-size:14px;color:var(--ink2);background:var(--amber-bg);border-radius:9px;
+  padding:10px 13px;margin:0}
+.qs .risk b{color:var(--amber)}
+
+/* ── Сравнение школ ────────────────────────────────────────────────────────
+   Три школы стоят колонками только на широком экране. На 375px колонка шириной
+   в треть экрана — это поле ввода на 90 пикселей и подпись в столбик по слову,
+   поэтому там они складываются в три карточки одна под другой. */
+.cmp{display:grid;gap:14px;margin-top:20px}
+@media(min-width:760px){.cmp{grid-template-columns:repeat(3,1fr);gap:16px}}
+.cmp .sch{background:var(--card);border:1px solid var(--rule);border-radius:13px;padding:15px}
+.cmp .sch.best{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
+.cmp .sch h4{font:600 14px var(--body);margin:0 0 10px;color:var(--muted);
+  letter-spacing:.08em;text-transform:uppercase}
+.cmp .fl{margin-bottom:10px}
+.cmp .fl label{display:block;font-size:13px;color:var(--ink2);margin-bottom:3px}
+.cmp .fl input{max-width:100%}
+.cmp .out{border-top:1px solid var(--rule2);margin-top:12px;padding-top:11px}
+.cmp .out .cap{font-size:13px;color:var(--muted)}
+.cmp .out .sum{font:700 22px var(--display);font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;display:block;margin-top:2px}
+.cmp .sch.best .sum{color:var(--green)}
+.cmp .tag{display:inline-block;font:600 11px var(--body);letter-spacing:.1em;
+  text-transform:uppercase;background:var(--green-bg);color:var(--green);
+  border-radius:6px;padding:3px 7px;margin-top:8px}
+.cmpsum{background:var(--amber-bg);border-radius:11px;padding:14px 16px;margin-top:16px;
+  font-size:15px}
+.cmpsum b{font-family:var(--display);font-size:19px;color:var(--amber);
+  font-variant-numeric:tabular-nums}
+
+/* ── Журнал занятий ────────────────────────────────────────────────────────
+   Таблица занятий на 375px не помещается в четыре колонки, поэтому строка —
+   это тоже сетка: дата и кнопка удаления сверху, два поля снизу. */
+.log{margin-top:18px}
+.logrow{display:grid;grid-template-columns:auto 1fr auto;gap:8px 10px;align-items:center;
+  padding:11px 0;border-bottom:1px solid var(--rule2)}
+.logrow .d{font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted);white-space:nowrap}
+.logrow .del{grid-column:3;background:transparent;border:1px solid var(--rule);
+  border-radius:8px;color:var(--muted);font:600 13px var(--body);padding:5px 9px;cursor:pointer}
+.logrow .ins{grid-column:1 / -1;display:flex;gap:8px;flex-wrap:wrap}
+.logrow .ins label{display:flex;flex-direction:column;gap:3px;font-size:12.5px;color:var(--muted)}
+.logrow .ins input{max-width:130px}
+.logtot{display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:baseline;
+  border-top:2px solid var(--ink);padding-top:14px;margin-top:6px}
+.logtot .lt{font:600 16px var(--body)}
+.logtot .lv{font:700 24px var(--display);font-variant-numeric:tabular-nums;justify-self:end}
+.logtot .lh{grid-column:1 / -1;color:var(--ink2);font-size:13.5px;margin-top:4px}
+
+.cards{display:grid;gap:16px;margin-top:22px}
+@media(min-width:700px){.cards{grid-template-columns:1fr 1fr;gap:20px}}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:20px}
+.card.pick{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
+.price{font:700 32px var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.price small{font:400 13.5px var(--body);color:var(--muted);display:block;margin-top:2px;letter-spacing:0}
+.card ul{margin:12px 0 0;padding-left:20px;font-size:14.5px;color:var(--ink2)}
+.card li{margin-bottom:6px}
+
+form .fld{margin-bottom:16px}
+form .fld > label{display:block;font-weight:600;font-size:14.5px;margin-bottom:6px}
+form input[type=text],form textarea{max-width:100%}
+.radios{display:flex;flex-wrap:wrap;gap:8px}
+.radios label{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--rule);
+  border-radius:10px;padding:9px 13px;font-size:14.5px;cursor:pointer;background:var(--card)}
+.radios input{accent-color:var(--green);width:17px;height:17px;max-width:17px;margin:0}
+.radios label.on{border-color:var(--green);background:var(--green-bg)}
+.ok{background:var(--green-bg);border:1px solid var(--green);border-radius:12px;padding:18px;
+  font-size:15.5px}
+#copybox{margin-top:4px;font-size:14px}
+.hide{display:none}
+
+details{border-bottom:1px solid var(--rule2);padding:14px 0}
+details summary{cursor:pointer;font-weight:600;font-size:16px;list-style:none;padding-right:24px;
+  position:relative}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";position:absolute;right:2px;top:-1px;color:var(--green);
+  font:700 19px var(--display)}
+details[open] summary::after{content:"–"}
+details .a{margin:10px 0 0;color:var(--ink2);font-size:15px}
+
+.src{margin:0;padding:0;list-style:none;font-size:13.5px;color:var(--muted)}
+.src li{padding:8px 0;border-bottom:1px solid var(--rule2)}
+.src li:last-child{border-bottom:0}
+.src a{color:var(--muted)}
+
+footer{border-top:1px solid var(--rule);padding:26px 0 44px;color:var(--muted);font-size:13.5px}
+footer p{margin:0 0 10px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+<header>
+  <div class="top">
+    <div class="mark">A</div>
+    <div>
+      <b>Avtomaktab Ochiq-Narx</b>
+      <div class="sub" data-ru="настоящая цена и договор">haqiqiy narx va shartnoma</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="langbar" id="langbar"></div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="col">
+    <p class="lbl" data-ru="Ташкент · категория B · 2026">Toshkent · B toifa · 2026</p>
+    <h1 data-ru="Автошкола: сколько это стоит на самом деле">Avtomaktab aslida qancha turadi</h1>
+    <p class="lead" data-ru="Теорию по категориям A и B разрешено осваивать самостоятельно — автошкола нужна ради практики. Практики при этом норма требует не менее 69 часов, и договор на 40 часов уже ниже минимума. Счёт на этом не заканчивается: экзамен, пересдача, дополнительные часы, бензин, медсправка и сбор за удостоверение обычно называются после того, как договор подписан. Ниже — калькулятор, который складывает названную вам цену со всем остальным, и семь вопросов, которые стоит задать до подписания.">A va B toifa nazariyasini mustaqil oʻzlashtirishga ruxsat berilgan — avtomaktab amaliyot uchun kerak. Amaliyotdan esa meʼyor kamida 69 soatni talab qiladi, 40 soatlik shartnoma allaqachon minimumdan past. Hisob shu bilan tugamaydi: imtihon, qayta topshirish, qoʻshimcha soatlar, yoqilgʻi, tibbiy maʼlumotnoma va guvohnoma yigʻimi odatda shartnoma imzolangandan keyin aytiladi. Quyida — sizga aytilgan narxni qolgan hamma narsa bilan qoʻshadigan hisoblagich va imzolashdan oldin beriladigan yettita savol.</p>
+    <a class="btn" href="#hisob" data-ev="calc_top" data-ru="Посчитать полную цену">Toʻliq narxni hisoblash</a>
+    <a class="btn sec" href="#solish" data-ev="cmp_top" data-ru="Сравнить три школы">Uchta maktabni solishtirish</a>
+    <a class="btn sec" href="#savollar" data-ev="q_top" data-ru="Семь вопросов">Yettita savol</a>
+    <p class="after"><span data-ru="Бесплатно и без регистрации: калькулятор, сравнение трёх школ, семь вопросов, журнал занятий и лист для печати. Платный — только разбор вашего договора, 49 000 сум. Контакт спрашиваем в заявке. Сам расчёт считается в браузере, но три числа из него — названную вам цену, итог и разницу — мы сохраняем у себя: имени и номера в этих записях нет, но если вы оставите заявку, они окажутся связаны с ней:">Bepul va roʻyxatdan oʻtmasdan: hisoblagich, uchta avtomaktabni solishtirish, yettita savol, darslar daftari va chop etish varaqasi. Pullik qism bitta — shartnomangiz tahlili, 49 000 soʻm. Aloqa maʼlumotini arizada soʻraymiz. Hisobning oʻzi brauzerda bajariladi, lekin undan uchta raqamni — sizga aytilgan narx, jami va farq — oʻzimizda saqlaymiz: bu yozuvlarda na ism, na raqam bor, lekin ariza qoldirsangiz, ular ariza bilan bogʻlanadi:</span> <a href="#maxfiylik" data-ru="что уходит со страницы и зачем">sahifadan nima yuboriladi va nima uchun</a></p>
+  </div>
+</section>
+
+<section id="hisob">
+  <div class="col">
+    <h2 data-ru="Калькулятор полной цены">Toʻliq narx hisoblagichi</h2>
+    <p data-ru="Введите сумму, которую называют вам в автошколе, — остальное подставлено из нормы или из открытых обзоров, и у каждой строки сказано, что именно. Меняйте любую строку: цифры разных обзоров расходятся, и это нормально.">Avtomaktabda sizga aytilgan summani kiriting — qolgani meʼyordan yoki ochiq sharhlardan olingan, va har bir qatorda aynan nimadan olingani yozilgan. Istalgan qatorni oʻzgartiring: turli sharhlarning raqamlari bir-biriga toʻgʻri kelmaydi, bu tabiiy.</p>
+    <!-- Оговорка про A1 стоит ДО калькулятора, а не в FAQ. ПОЧЕМУ: человек,
+         пришедший считать смету ради скутера, по норме не должен платить
+         автошколе ничего, и калькулятор посчитал бы ему полный курс. Отправить
+         его прочь до первого поля дешевле, чем после итога. -->
+    <div class="note warn">
+      <strong data-ru="Если вам нужен скутер или мопед, автошкола не нужна — но экзамены и удостоверение платные.">Sizga skuter yoki moped kerak boʻlsa, avtomaktab shart emas — lekin imtihonlar va guvohnoma pullik.</strong>
+      <span data-ru="С 1 января 2026 года введена подкатегория A1 — мототранспорт до 25 см³ или до 0,25 кВт и до 25 км/ч. По ней дают право сдавать теоретический и практический экзамены напрямую, не проходя обязательную учебную программу: теория — 20 вопросов, порог 16, справка об окончании обучения не требуется. А у кого уже есть права A, B, C или D, тот управляет A1 вообще ничего не сдавая. Но «без автошколы» не значит «бесплатно»: A1 прямо назван в пункте 20 приложения 2 к ПКМ № 408 среди категорий, удостоверение по которым выдаётся сдавшим И теоретический, И практический экзамены, а приложение 2¹ относит A1 к экзаменам у субъектов предпринимательства. Значит платить надо за два экзамена — 2 × 10% БРВ в органе ГСБДД, то есть 82 400 сум при БРВ 412 000 и 88 000 с 1 сентября 2026 года, либо цену частного центра, если он работает в вашей области, — плюс 79% БРВ за само удостоверение, 325 480 и 347 600 соответственно. Практический экзамен на A1 принимают на двухколёсном мопеде или скутере. Итого государственная часть по A1: около 407 880 сум при БРВ 412 000 и 435 600 с 1 сентября 2026 года. Этот калькулятор считает категорию B.">2026-yil 1-yanvardan A1 kichik toifasi joriy etildi — 25 sm³ gacha yoki 0,25 kVt gacha va 25 km/soatgacha boʻlgan mototransport. U boʻyicha majburiy oʻquv dasturini oʻtamasdan turib, toʻgʻridan-toʻgʻri nazariy va amaliy imtihon topshirish huquqi beriladi: nazariya — 20 ta savol, chegara 16, oʻqishni tugatganlik haqidagi maʼlumotnoma talab qilinmaydi. A, B, C yoki D guvohnomasi bor odam esa A1 ni umuman hech narsa topshirmasdan boshqaradi. Lekin «avtomaktabsiz» degani «bepul» degani emas: A1 408-son qaror 2-ilovasining 20-bandida guvohnoma nazariy VA amaliy imtihonni topshirganlarga beriladigan toifalar qatorida toʻgʻridan-toʻgʻri nomlangan, 2¹-ilova esa A1 ni tadbirkorlik subyektlaridagi imtihonlarga kiritadi. Yaʼni ikkita imtihon uchun toʻlash kerak — DYHXX organida 2 × BHM ning 10 foizi, yaʼni BHM 412 000 da 82 400 soʻm va 2026-yil 1-sentabrdan 88 000, yoki viloyatingizda xususiy markaz ishlasa — oʻsha markazning narxi — hamda guvohnomaning oʻzi uchun BHM ning 79 foizi, mos ravishda 325 480 va 347 600. A1 boʻyicha amaliy imtihon ikki gʻildirakli moped yoki skuterda qabul qilinadi. Jami A1 boʻyicha davlat qismi: BHM 412 000 da 407 880 soʻm atrofida, 2026-yil 1-sentabrdan 435 600. Bu hisoblagich B toifani hisoblaydi.</span>
+      <a href="https://lex.uz/uz/docs/7791514" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 676 от 25.10.2025, пп. 1–2">lex.uz · 676-son qaror, 25.10.2025, 1–2-bandlar</a>
+    </div>
+  </div>
+
+  <div class="sheet">
+
+    <div class="row">
+      <div class="rl">
+        <span class="t" data-ru="Практический курс автошколы">Avtomaktabning amaliy kursi</span>
+        <span class="h" data-ru="Сумма, которую назвали вам. Обзоры дают от 2,8 до 8 млн — поэтому цифра ваша, а не наша">Sizga aytilgan summa. Sharhlarda 2,8 dan 8 milliongacha — shuning uchun raqam bizniki emas, sizniki</span>
+      </div>
+      <div class="rc"><input type="number" id="i_kurs" min="0" max="30000000" step="100000" value="7000000" inputmode="numeric"></div>
+      <div class="rs num" id="s_kurs">—</div>
+    </div>
+
+    <div class="row">
+      <div class="rl">
+        <span class="t" data-ru="Медсправка, форма 083/у">Tibbiy maʼlumotnoma, 083-shakl</span>
+        <!-- Отсюда убрано «годна год». ПОЧЕМУ: срок действия справки в источнике,
+             на который ссылается эта же строка, не назван вообще — там только цены.
+             Номер источника рядом с утверждением, которого в источнике нет, хуже
+             отсутствующей ссылки: он выглядит как проверенное, не будучи им. -->
+        <span class="h"><span data-ru="В источнике это диапазон, а не цена; в расчёт берётся верхняя граница — свою узнаете в своей поликлинике. Срок действия справки тоже спросите там: в открытых источниках мы его не нашли.">Manbada bu narx emas, oraliq; hisobga yuqori chegara olinadi — oʻzingiznikini poliklinikangizdan bilib olasiz. Maʼlumotnomaning amal qilish muddatini ham oʻsha yerdan soʻrang: ochiq manbalarda uni topmadik.</span> <a href="https://osonprava.uz/uz/blog/b-toifa-prava-narxi-2026" target="_blank" rel="noopener">osonprava.uz, 22.03.2026</a></span>
+      </div>
+      <div class="rc">
+        <select id="i_med">
+          <option value="150000" data-ru="Госполиклиника — 100 000…150 000">Davlat poliklinikasi — 100 000…150 000</option>
+          <option value="350000" data-ru="Частная клиника — 250 000…350 000">Xususiy klinika — 250 000…350 000</option>
+          <option value="0" data-ru="Уже есть">Allaqachon bor</option>
+        </select>
+      </div>
+      <div class="rs num" id="s_med">—</div>
+    </div>
+
+    <div class="row">
+      <div class="rl">
+        <span class="t" data-ru="Экзамен: теория и практика">Imtihon: nazariy va amaliy</span>
+        <!-- Строка стала выбором пути, а не галочкой «считать оба». ПОЧЕМУ: цену
+             экзамена задаёт не рынок, а то, КТО его принимает, и до 27.08.2026
+             продукт знал только один из двух путей. В органе ГСБДД ставка стоит
+             в норме и равна 10% БРВ за попытку — в тридцать шесть раз меньше
+             1 500 000. Назвать 1 500 000 «ценой экзамена» без этой оговорки
+             значит завысить смету человека из области на три миллиона. -->
+        <span class="h"><span data-ru="Цена зависит от того, кто принимает экзамен, а выбор зависит не от вас: там, где работает лицензированный частный центр, экзамены принимает только он и цену назначает сам (ПКМ № 408, приложение 2, п. 18¹ и приложение 2¹, п. 49). 1 500 000 — единственная опубликованная цена такого центра, это не ставка нормы. Там, где частного центра нет, экзамен принимает орган ГСБДД по ставке из нормы: 10% БРВ за каждый экзамен.">Narx imtihonni kim qabul qilishiga bogʻliq, tanlov esa sizga bogʻliq emas: litsenziyali xususiy markaz ishlaydigan hududda imtihonni faqat oʻsha markaz qabul qiladi va narxni oʻzi belgilaydi (408-son qaror, 2-ilova 18¹-band va 2¹-ilova 49-band). 1 500 000 — shunday markazning topilgan yagona eʼlon qilingan narxi, bu meʼyor stavkasi emas. Xususiy markaz yoʻq hududda imtihonni DYHXX organi meʼyordagi stavka boʻyicha qabul qiladi: har bir imtihon uchun BHM ning 10 foizi.</span> <a href="https://lex.uz/docs/5409456" target="_blank" rel="noopener" data-ru="lex.uz · регламент (ПКМ № 152 → ПКМ № 271), п. 10">lex.uz · reglament (152-son → 271-son qaror), 10-band</a> · <a href="https://www.spot.uz/oz/2026/01/07/drivers-license/" target="_blank" rel="noopener">spot.uz, 07.01.2026</a> <span id="h_exam"></span></span>
+      </div>
+      <div class="rc">
+        <select id="i_exam">
+          <option value="private" data-ru="Частный центр — цену назначает он сам">Xususiy markaz — narxni oʻzi belgilaydi</option>
+          <option value="gsbdd" data-ru="Орган ГСБДД — 10% БРВ за каждый">DYHXX organi — har biri BHM ning 10%</option>
+          <option value="no" data-ru="Не считать">Hisoblamayman</option>
+        </select>
+      </div>
+      <div class="rs num" id="s_exam">—</div>
+    </div>
+
+    <div class="row">
+      <div class="rl">
+        <span class="t" data-ru="Пересдача">Qayta topshirish</span>
+        <span class="h"><span data-ru="Ставка идёт по тому же пути, что выбран строкой выше: у частного центра — 1 600 000 за попытку, в органе ГСБДД — 15% БРВ. Следующая ПРАКТИЧЕСКАЯ попытка — не раньше чем через 7 дней; провалили теорию — идёте снова на следующий рабочий день (ПКМ № 408, приложение 2, п. 46 и приложение 2¹, п. 16 в редакции ПКМ № 125 от 30.03.2026). И отдельно, о чём чаще всего не знают: положительная оценка за теорию действительна два месяца. Не сдали за этот срок практику — теорию сдаёте заново, то есть платите за неё второй раз. И ещё: у частного центра платёж за каждый экзамен вносится вперёд и не возвращается независимо от результата, а неявка или опоздание без уважительной причины считаются оказанной услугой (приложение 2¹, пп. 51 и 52). Документы об уважительной причине — болезнь или другое подтверждённое обстоятельство — платёж спасают: тем же пунктом 52 он считается уплаченным и пересдача разрешается.">Stavka yuqoridagi qatorda tanlangan yoʻl boʻyicha ketadi: xususiy markazda urinish uchun 1 600 000, DYHXX organida BHM ning 15 foizi. Keyingi AMALIY urinish — 7 kundan oldin emas; nazariyani topshira olmasangiz, keyingi ish kunining oʻzida qayta topshirasiz (408-son qaror, 2-ilova 46-band va 2¹-ilova 16-band, 30.03.2026 dagi 125-son qaror tahririda). Alohida, koʻpchilik bilmaydigan narsa: nazariy imtihondagi ijobiy baho ikki oy amal qiladi. Shu muddatda amaliy imtihonni topshirmasangiz, nazariyani qaytadan topshirasiz, yaʼni uning uchun ikkinchi marta toʻlaysiz. Yana: xususiy markazda toʻlov har bir imtihon uchun oldindan amalga oshiriladi va natijadan qatʼi nazar qaytarilmaydi, uzrli sabablarsiz kelmaslik yoki kechikish esa xizmat koʻrsatilgan hisoblanadi (2¹-ilova, 51 va 52-bandlar). Uzrli sababni tasdiqlovchi hujjatlar toʻlovni saqlab qoladi: oʻsha 52-bandga koʻra toʻlov toʻlangan hisoblanadi va qayta topshirishga ruxsat beriladi.</span> <a href="https://lex.uz/uz/docs/3765833" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 408, приложение 2, пп. 46 и 47; приложение 2¹, пп. 16, 51, 52">lex.uz · 408-son qaror, 2-ilova 46 va 47-bandlar; 2¹-ilova 16, 51, 52-bandlar</a> <span id="h_retry"></span></span>
+      </div>
+      <div class="rc">
+        <select id="i_retry">
+          <option value="0" data-ru="Не закладываю">Hisobga olmayman</option>
+          <option value="1" data-ru="1 попытка">1 ta urinish</option>
+          <option value="2" data-ru="2 попытки">2 ta urinish</option>
+          <option value="3" data-ru="3 попытки">3 ta urinish</option>
+        </select>
+      </div>
+      <div class="rs num" id="s_retry">—</div>
+    </div>
+
+    <!-- Эта строка появилась после того, как выяснилось, что продукт весь свой
+         второй вопрос строил на «40 часах», а в том же п. 11¹ ПКМ № 408, четырьмя
+         абзацами ниже фразы про 80-минутную пару, стоит закрытый перечень
+         минимальных объёмов: для категории B — 69 часов практики, 216 часов
+         аудитории, 18 недель. Строка денег не прибавляет, и это намеренно:
+         недобор оплачивают не здесь, а потом — «дополнительными» часами по цене,
+         которую назовут после подписи. Показать надо не сумму, а нехватку. -->
+    <div class="row">
+      <div class="rl">
+        <span class="t" data-ru="Часов вождения в договоре">Shartnomadagi haydash soatlari</span>
+        <span class="h"><span data-ru="Впишите число из договора. Для категории B норма требует практического управления не менее 69 часов, аудиторной нагрузки не менее 216 часов и срока обучения не менее 18 недель. Это лицензионное требование, а не пожелание: договор на 40 часов — договор ниже минимума. Плюс с 1 апреля 2026 года практические занятия обязательной программы проходятся полностью, и только после этого формируется электронное свидетельство, по которому допускают к экзамену.">Shartnomadagi raqamni yozing. B toifa uchun meʼyor kamida 69 soat amaliy boshqaruvni, kamida 216 soat auditoriya yuklamasini va kamida 18 hafta oʻqish muddatini talab qiladi. Bu — tilak emas, litsenziya talabi: 40 soatlik shartnoma minimumdan past. Bundan tashqari, 2026-yil 1-apreldan majburiy dasturning amaliy mashgʻulotlari toʻliq oʻtaladi va faqat shundan keyin imtihonga qoʻyiladigan elektron guvohnoma shakllantiriladi.</span> <a href="https://lex.uz/uz/docs/3765833" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 408, приложение 3, п. 11¹ и приложение 2, п. 9³ (узбекский оригинал)">lex.uz · 408-son qaror, 3-ilova 11¹-band va 2-ilova 9³-band</a></span>
+      </div>
+      <div class="rc"><input type="number" id="i_dog_hours" min="0" max="300" step="1" value="0" inputmode="numeric" aria-label="soat"></div>
+      <div class="rs num" id="s_norm">—</div>
+    </div>
+
+    <div class="row">
+      <div class="rl">
+        <span class="t" data-ru="Дополнительные часы вождения">Qoʻshimcha amaliy soatlar</span>
+        <span class="h"><span data-ru="Публичной цены у этой строки нет: обзор пишет, что дополнительные часы покупаются по договорённости с инструктором. Спросите свою и впишите сами: часов × цена часа. Если в строке выше вышел недобор до 69 часов — впишите сюда недостающие: именно их школа продаст вам как «дополнительные», и цену назовёт уже после подписи.">Bu qatorning ochiq narxi yoʻq: sharhda qoʻshimcha soatlar instruktor bilan kelishilgan holda sotib olinishi yozilgan. Oʻzingiznikini soʻrab, oʻzingiz yozing: soat × bir soat narxi. Yuqoridagi qatorda 69 soatgacha kamomad chiqqan boʻlsa — yetishmaganini shu yerga yozing: aynan ularni avtomaktab sizga «qoʻshimcha» deb sotadi, narxini esa imzodan keyin aytadi.</span> <a href="https://osonprava.uz/uz/blog/avtomaktab-narxlari-2026" target="_blank" rel="noopener">osonprava.uz, 22.03.2026</a></span>
+      </div>
+      <div class="rc">
+        <div class="two">
+          <input type="number" id="i_hours" min="0" max="60" step="1" value="0" inputmode="numeric" aria-label="soat">
+          <input type="number" id="i_hour_v" min="0" max="1000000" step="10000" value="0" inputmode="numeric" aria-label="bir soat narxi">
+        </div>
+      </div>
+      <div class="rs num" id="s_hours">—</div>
+    </div>
+
+    <div class="row">
+      <div class="rl">
+        <span class="t" data-ru="Деньги за бензин">Yoqilgʻi puli</span>
+        <span class="h" data-ru="Публичной цены у этой строки нет — как и у дополнительных часов выше. Спросите в автошколе, за сколько занятий и по сколько, и впишите сюда сами: занятий × сумма">Bu qatorning ochiq narxi yoʻq — yuqoridagi qoʻshimcha soatlar kabi. Avtomaktabdan nechta dars uchun va qanchadan soʻralishini soʻrang va shu yerga yozing: darslar × summa</span>
+      </div>
+      <div class="rc">
+        <div class="two">
+          <input type="number" id="i_fuel_n" min="0" max="100" step="1" value="0" inputmode="numeric" aria-label="darslar">
+          <input type="number" id="i_fuel_v" min="0" max="500000" step="5000" value="0" inputmode="numeric" aria-label="summa">
+        </div>
+      </div>
+      <div class="rs num" id="s_fuel">—</div>
+    </div>
+
+    <div class="row">
+      <div class="rl">
+        <span class="t" data-ru="Сбор за удостоверение">Guvohnoma uchun yigʻim</span>
+        <!-- zapret-ok: разбор снятого утверждения, а не само утверждение —
+             ниже прямо сказано, что 1,5 БРВ были ошибкой и сколько по норме.
+             Раньше здесь стояло «госпошлина 1,5 БРВ через ЦГУ / 1,4 БРВ через
+             my.gov.uz» со ссылкой на блог. В норме нет ни слова «государственная
+             пошлина» (там «йиғим», сбор), ни деления на «через ЦГУ дороже».
+             Регламент даёт 70% БРВ за выдачу удостоверения плюс 10% БРВ за саму
+             госуслугу, а при обращении через ЕПИГУ — 90% от этого сбора, то есть
+             9%. Итого 79% БРВ. Прежние 1,5 БРВ завышали государственную часть
+             сметы почти вдвое. -->
+        <span class="h"><span data-ru="По норме это не «государственная пошлина», а сбор: 70% БРВ за выдачу удостоверения (пп. 14 и 26 регламента) плюс 9% БРВ за саму госуслугу — это 10% БРВ, из которых при обращении через ЕПИГУ взимается 90 процентов (то есть скидка 10%, а не 90%), а регламент работает только через ЕПИГУ (п. 8). Итого 79% БРВ. В Законе «О государственной пошлине» ставки за выдачу водительского удостоверения нет вообще. Скидки 50% и 75% норма ставит в пп. 8 и 10, то есть на сбор за госуслугу и на экзамен в органе ГСБДД; к плате за саму выдачу они не оговорены, и мы их туда не переносим. Отдельная ставка: удостоверение взамен утерянного — 1 БРВ целиком. И правило, которое чаще всего теряют: скидка не пропадает при переводе семьи в третью категорию Социального реестра. Те же пункты 8 и 10 говорят, что семьям, переведённым из «давлат таъминотидаги оила» или «камбағал оила» в «камбағаллик чегарасидаги оила», скидка применяется в размере ранее установленной категории, а семьям, попавшим в «камбағаллик чегарасидаги оила» как оказавшиеся в тяжёлой жизненной ситуации, — в размере, установленном для «камбағал оила», то есть 50%. Если ваша категория недавно изменилась, выбирайте здесь прежнюю, а не полную ставку, и попросите в РваИОБ сослаться на этот абзац.">Meʼyorda bu «davlat boji» emas, yigʻim: guvohnoma berilgani uchun BHM ning 70 foizi (reglamentning 14 va 26-bandlari) va davlat xizmatining oʻzi uchun BHM ning 9 foizi — bu BHM ning 10 foizi, undan ЯИДХП orqali murojaat qilinganda 90 foizi undiriladi (yaʼni chegirma 10 foiz, 90 emas), reglament esa faqat ЯИДХП orqali ishlaydi (8-band). Jami BHM ning 79 foizi. «Davlat boji toʻgʻrisida»gi qonunda haydovchilik guvohnomasi berilishi uchun stavka umuman yoʻq. 50 va 75 foizlik chegirmalarni meʼyor 8 va 10-bandlarga qoʻyadi, yaʼni davlat xizmati yigʻimiga va DYHXX organidagi imtihonga; berishning oʻzi uchun toʻlovga ular oʻrnatilmagan va biz ularni u yerga koʻchirmaymiz. Alohida stavka: yoʻqotilgan guvohnoma oʻrniga yangisi — toʻliq 1 BHM. Va koʻpincha eʼtibordan chetda qoladigan qoida: oila Ijtimoiy reestrning uchinchi toifasiga oʻtkazilganda chegirma yoʻqolmaydi. Oʻsha 8 va 10-bandlar aytadi: «davlat taʼminotidagi oila» yoki «kambagʻal oila» toifasidan «kambagʻallik chegarasidagi oila» toifasiga oʻtkazilgan oilalarga chegirma ilgari belgilangan toifasiga muvofiq miqdorda, ogʻir hayotiy vaziyatga tushgan oila sifatida «kambagʻallik chegarasidagi oila» toifasiga kiritilganlarga esa «kambagʻal oila» uchun belgilangan miqdorda, yaʼni 50 foiz qoʻllaniladi. Toifangiz yaqinda oʻzgargan boʻlsa, bu yerda toʻliq stavkani emas, ilgarigi toifangizni tanlang va RvaIOBda shu xatboshiga havola qilishni soʻrang.</span> <a href="https://lex.uz/docs/5409456" target="_blank" rel="noopener" data-ru="lex.uz · регламент (ПКМ № 152 → ПКМ № 271), пп. 8, 10, 14, 26">lex.uz · reglament (152-son → 271-son qaror), 8, 10, 14, 26-bandlar</a> <span id="h_boj"></span></span>
+      </div>
+      <div class="rc">
+        <select id="i_boj">
+          <option value="1" data-ru="Полная ставка">Toʻliq stavka</option>
+          <option value="0.5" data-ru="Скидка 50% — «камбағал оила», инвалидность I–II группы">50% chegirma — «kambagʻal oila», I–II guruh nogironligi</option>
+          <option value="0.25" data-ru="Скидка 75% — «давлат таъминотидаги оила»">75% chegirma — «davlat taʼminotidagi oila»</option>
+        </select>
+      </div>
+      <div class="rs num" id="s_boj">—</div>
+    </div>
+
+    <div class="row">
+      <div class="rl">
+        <span class="t" data-ru="Доставка пластика почтой">Plastik guvohnomani pochta orqali olish</span>
+        <span class="h" data-ru="Необязательно: можно забрать самому">Majburiy emas: oʻzingiz borib olsangiz ham boʻladi</span>
+      </div>
+      <div class="rc">
+        <label class="chk"><input type="checkbox" id="i_post"><span data-ru="Нужна">Kerak</span></label>
+      </div>
+      <div class="rs num" id="s_post">—</div>
+    </div>
+
+    <div class="total">
+      <div class="tt" data-ru="Итого до получения прав">Guvohnoma qoʻlga tekkunicha jami</div>
+      <div class="tv num" id="s_total">—</div>
+    </div>
+
+    <div class="bar"><i class="b1" id="bar1"></i><i class="b2" id="bar2"></i></div>
+    <div class="barleg">
+      <span><i class="b1" style="background:var(--green)"></i><span data-ru="Названная цена">Aytilgan narx</span></span>
+      <span><i class="b2" style="background:var(--amber)"></i><span data-ru="Всё остальное">Qolgan hammasi</span></span>
+    </div>
+
+    <div class="extra">
+      <div class="et" data-ru="Сверх названной цены">Aytilgan narxdan ortiqcha</div>
+      <div class="ev num" id="s_extra">—</div>
+      <div class="eh" id="s_note"></div>
+    </div>
+
+  </div>
+
+  <div class="col">
+    <!-- Предупреждение о недоборе часов стоит отдельным блоком, а не строкой
+         в смете. ПОЧЕМУ: в смете все строки — деньги, а это не деньги, это
+         несоответствие норме. Смешать их значило бы спрятать самое дорогое
+         среди самого мелкого. -->
+    <div class="note warn hide" id="normwarn"></div>
+    <p class="after"><span data-ru="Ставки, заданные нормой, стоят в калькуляторе долями БРВ, а не суммами: 79% БРВ за удостоверение, 10% и 15% БРВ за экзамен и пересдачу в органе ГСБДД. Сумма получается сама по значению БРВ на день, когда вы открыли страницу, — 412 000 сум с 1 августа 2025 года и 440 000 сум с 1 сентября 2026 года. Переписывать страницу 1 сентября не потребуется.">Meʼyor belgilagan stavkalar hisoblagichda summa emas, BHM ulushi sifatida turadi: guvohnoma uchun BHM ning 79 foizi, DYHXX organidagi imtihon va qayta topshirish uchun 10 va 15 foizi. Summa siz sahifani ochgan kundagi BHM qiymatidan oʻzi chiqadi — 2025-yil 1-avgustdan 412 000 soʻm va 2026-yil 1-sentabrdan 440 000 soʻm. 1-sentabrda sahifani qayta yozish kerak boʻlmaydi.</span></p>
+    <div class="note">
+      <strong data-ru="Как этим пользоваться.">Bundan qanday foydalanish kerak.</strong>
+      <span data-ru="Отнесите итог в автошколу и спросите по строкам: что из этого уже входит в вашу цену, а что нет. Ответ «входит» просите записать в договор — устная договорённость в споре не помогает. Мы не утверждаем, что какая-то школа берёт лишнее: мы показываем, из чего складывается сумма, и что стоит уточнить.">Yakuniy summani avtomaktabga olib boring va qatorlar boʻyicha soʻrang: bulardan qaysi biri narxingizga kirgan, qaysi biri yoʻq. «Kiradi» degan javobni shartnomaga yozib berishlarini soʻrang — ogʻzaki kelishuv nizoda yordam bermaydi. Biz biror avtomaktab ortiqcha pul oladi demaymiz: biz summa nimalardan tashkil topishini va nimani aniqlashtirish kerakligini koʻrsatamiz.</span>
+    </div>
+  </div>
+</section>
+
+<section id="solish">
+  <div class="col">
+    <h2 data-ru="Три автошколы рядом">Uchta avtomaktab yonma-yon</h2>
+    <p data-ru="Названные цены нельзя сравнивать между собой: в одну входит бензин, в другую нет, в одной часов больше. Впишите по каждой школе три числа — и цены станут сравнимыми. Общая часть (экзамен, медсправка, госпошлина, доставка) у всех одинаковая и берётся из калькулятора выше.">Aytilgan narxlarni bir-biri bilan solishtirib boʻlmaydi: biriga yoqilgʻi kiradi, boshqasiga yoʻq, birida soat koʻproq. Har bir avtomaktab boʻyicha uchta raqamni yozing — narxlar solishtiradigan boʻladi. Umumiy qism (imtihon, tibbiy maʼlumotnoma, davlat boji, yetkazish) hammasida bir xil va yuqoridagi hisoblagichdan olinadi.</p>
+  </div>
+
+  <!-- Три школы разложены разметкой, а не собраны скриптом. ПОЧЕМУ: на этой
+       странице оба языка лежат в data-ru прямо в HTML, и подписи, собранные
+       в JS, выпали бы из этого правила — их пришлось бы держать во втором
+       словаре, который разъезжается с первым. Скрипт здесь только считает. -->
+  <div class="cmp">
+    <div class="sch" data-s="1">
+      <h4 data-ru="Школа 1">1-avtomaktab</h4>
+      <div class="fl"><label for="c1_name" data-ru="Название (для себя)">Nomi (oʻzingiz uchun)</label>
+        <input type="text" id="c1_name" maxlength="30" placeholder="—"></div>
+      <div class="fl"><label for="c1_kurs" data-ru="Названная цена курса">Aytilgan kurs narxi</label>
+        <input type="number" id="c1_kurs" min="0" max="30000000" step="100000" value="0" inputmode="numeric"></div>
+      <div class="fl"><label for="c1_fuel" data-ru="Бензин за весь курс (0 — если входит)">Butun kurs uchun yoqilgʻi (kirsa — 0)</label>
+        <input type="number" id="c1_fuel" min="0" max="10000000" step="10000" value="0" inputmode="numeric"></div>
+      <div class="fl"><label for="c1_hours" data-ru="Дополнительные часы за весь курс (0 — если не нужны)">Butun kurs uchun qoʻshimcha soatlar (kerak boʻlmasa — 0)</label>
+        <input type="number" id="c1_hours" min="0" max="10000000" step="10000" value="0" inputmode="numeric"></div>
+      <div class="out"><span class="cap" data-ru="Полная цена">Toʻliq narx</span>
+        <span class="sum num" id="c1_out">—</span><span class="tag hide" id="c1_tag" data-ru="дешевле всего">eng arzoni</span></div>
+    </div>
+    <div class="sch" data-s="2">
+      <h4 data-ru="Школа 2">2-avtomaktab</h4>
+      <div class="fl"><label for="c2_name" data-ru="Название (для себя)">Nomi (oʻzingiz uchun)</label>
+        <input type="text" id="c2_name" maxlength="30" placeholder="—"></div>
+      <div class="fl"><label for="c2_kurs" data-ru="Названная цена курса">Aytilgan kurs narxi</label>
+        <input type="number" id="c2_kurs" min="0" max="30000000" step="100000" value="0" inputmode="numeric"></div>
+      <div class="fl"><label for="c2_fuel" data-ru="Бензин за весь курс (0 — если входит)">Butun kurs uchun yoqilgʻi (kirsa — 0)</label>
+        <input type="number" id="c2_fuel" min="0" max="10000000" step="10000" value="0" inputmode="numeric"></div>
+      <div class="fl"><label for="c2_hours" data-ru="Дополнительные часы за весь курс (0 — если не нужны)">Butun kurs uchun qoʻshimcha soatlar (kerak boʻlmasa — 0)</label>
+        <input type="number" id="c2_hours" min="0" max="10000000" step="10000" value="0" inputmode="numeric"></div>
+      <div class="out"><span class="cap" data-ru="Полная цена">Toʻliq narx</span>
+        <span class="sum num" id="c2_out">—</span><span class="tag hide" id="c2_tag" data-ru="дешевле всего">eng arzoni</span></div>
+    </div>
+    <div class="sch" data-s="3">
+      <h4 data-ru="Школа 3">3-avtomaktab</h4>
+      <div class="fl"><label for="c3_name" data-ru="Название (для себя)">Nomi (oʻzingiz uchun)</label>
+        <input type="text" id="c3_name" maxlength="30" placeholder="—"></div>
+      <div class="fl"><label for="c3_kurs" data-ru="Названная цена курса">Aytilgan kurs narxi</label>
+        <input type="number" id="c3_kurs" min="0" max="30000000" step="100000" value="0" inputmode="numeric"></div>
+      <div class="fl"><label for="c3_fuel" data-ru="Бензин за весь курс (0 — если входит)">Butun kurs uchun yoqilgʻi (kirsa — 0)</label>
+        <input type="number" id="c3_fuel" min="0" max="10000000" step="10000" value="0" inputmode="numeric"></div>
+      <div class="fl"><label for="c3_hours" data-ru="Дополнительные часы за весь курс (0 — если не нужны)">Butun kurs uchun qoʻshimcha soatlar (kerak boʻlmasa — 0)</label>
+        <input type="number" id="c3_hours" min="0" max="10000000" step="10000" value="0" inputmode="numeric"></div>
+      <div class="out"><span class="cap" data-ru="Полная цена">Toʻliq narx</span>
+        <span class="sum num" id="c3_out">—</span><span class="tag hide" id="c3_tag" data-ru="дешевле всего">eng arzoni</span></div>
+    </div>
+  </div>
+
+  <div class="cmpsum" id="cmpsum"></div>
+
+  <div class="col">
+    <p class="after" data-ru="Названия школ и введённые суммы остаются в вашем браузере: на сервер уходит только то, что вы вообще открыли сравнение, — без названий и без чисел. Список того, что уходит, — в подвале.">Avtomaktab nomlari va yozgan summalaringiz brauzeringizda qoladi: serverga faqat solishtirishni umuman ochganingiz yuboriladi — nomlarsiz va raqamlarsiz. Nima yuborilishining roʻyxati — pastda.</p>
+  </div>
+</section>
+
+<section id="savollar">
+  <div class="col">
+    <h2 data-ru="Семь вопросов до подписания договора">Shartnoma imzolashdan oldingi yetti savol</h2>
+    <p data-ru="Это не проверка автошколы на честность. Это способ заранее узнать, что написано в вашем договоре, — потому что после подписи спорить дороже. По каждому пункту сказано, чем оборачивается незаданный вопрос.">Bu avtomaktabni halollikka tekshirish emas. Bu — shartnomangizda nima yozilganini oldindan bilish usuli, chunki imzodan keyin bahslashish qimmatroq tushadi. Har bir band yonida — savol berilmasa nima boʻlishi yozilgan.</p>
+  </div>
+
+  <ol class="qs">
+    <li>
+      <span class="q" data-ru="Цена и её состав">Narx va uning tarkibi</span>
+      <p class="ask" data-ru="«Назовите итоговую сумму до получения прав и напишите в договоре, что в неё входит. Что не входит? Берёте ли вы деньги за регистрацию учебной группы в ГСБДД?»">«Guvohnoma olgunimga qadar yakuniy summa qancha? Unga nima kirishini shartnomada yozib bering. Nima kirmaydi? Oʻquv guruhini DYHXX da roʻyxatga olish uchun pul olasizmi?»</p>
+      <p class="risk"><b data-ru="Если не спросить:">Soʻramasangiz:</b> <span data-ru="формулировка «дополнительные услуги по прейскуранту» переносит цену из договора в лист, который вы не видели, и менять его школа может без вас. Про регистрацию группы спрашивать стоит отдельно: для категорий A и B её отменили — с 1 апреля 2026 года такие группы в ГСБДД не регистрируются, и платить за эту процедуру теперь не за что. Исключение норма называет сама, в скобках того же пункта: «давлат таълим муассасаларининг ўқув гуруҳлари бундан мустасно» — группы государственных образовательных учреждений из отмены выведены, у них регистрация осталась.">«qoʻshimcha xizmatlar narxnoma boʻyicha» degan ibora narxni shartnomadan siz koʻrmagan roʻyxatga koʻchiradi, va uni avtomaktab sizsiz oʻzgartira oladi. Guruhni roʻyxatga olish haqida alohida soʻrash kerak: A va B toifalari uchun u bekor qilingan — 2026-yil 1-apreldan bunday guruhlar DYHXX da roʻyxatga olinmaydi va bu tartib uchun endi toʻlaydigan narsa yoʻq. Istisnoni meʼyor oʻzi, oʻsha bandning qavsida aytadi: «давлат таълим муассасаларининг ўқув гуруҳлари бундан мустасно» — davlat taʼlim muassasalarining oʻquv guruhlari bekor qilishdan chiqarilgan, ularda roʻyxatga olish saqlanib qolgan.</span> <a href="https://lex.uz/uz/docs/3765833" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 408, приложение 2, п. 9¹">lex.uz · 408-son qaror, 2-ilova, 9¹-band</a></p>
+    </li>
+    <li>
+      <span class="q" data-ru="Часы вождения и срок обучения">Amaliy soatlar va oʻqish muddati</span>
+      <p class="ask" data-ru="«Сколько часов вождения записано в договоре и за сколько недель вы обещаете права? Часы академические или астрономические? Покажете путевые листы и книжку учёта занятий?»">«Shartnomada nechta soat haydash yozilgan va guvohnomani necha haftada vaʼda qilyapsiz? Soatlar akademikmi yoki astronomikmi? Yoʻl varaqalarini va darslar hisobi daftarchasini koʻrsatasizmi?»</p>
+      <p class="risk"><b data-ru="Если не спросить:">Soʻramasangiz:</b> <span data-ru="норма задаёт для категории B закрытый минимум: срок обучения не менее 18 недель, аудиторная нагрузка не менее 216 часов, практическое управление не менее 69 часов. Договор на 40 часов — договор ниже лицензионного минимума, и недостающие 29 часов вам продадут как «дополнительные» по цене, которую назовут после подписи. Школа, обещающая права «за два месяца», обещает то, чего норма не разрешает: общая нагрузка планируется до 20 часов в неделю, в аудитории до 4 часов в день, а у одного инструктора практика — не более 8 часов в день. Про вид часа спросить всё равно нужно: для аудитории норма задаёт пару в 80 минут, то есть академический час 40 минут, а для часов за рулём вид часа не задан вовсе. И отдельно про учёт: занятия по вождению фиксируются в путевых листах и в индивидуальной книжке учёта занятий слушателя — это документ, которым вы потом докажете недобор.">meʼyor B toifa uchun yopiq minimumni belgilaydi: oʻqish muddati kamida 18 hafta, auditoriya yuklamasi kamida 216 soat, amaliy boshqaruv kamida 69 soat. 40 soatlik shartnoma — litsenziya minimumidan past shartnoma, yetishmagan 29 soatni sizga «qoʻshimcha» deb, narxini imzodan keyin aytib sotishadi. Guvohnomani «ikki oyda» vaʼda qilayotgan avtomaktab meʼyor ruxsat bermagan narsani vaʼda qilyapti: umumiy yuklama haftasiga 20 soatgacha, auditoriyada kuniga 4 soatgacha rejalashtiriladi, bitta instruktorda esa amaliyot kuniga 8 soatdan oshmaydi. Soat turini baribir soʻrash kerak: auditoriya uchun meʼyor 80 daqiqalik juftlikni belgilaydi, yaʼni akademik soat 40 daqiqa, rul ortidagi soatlar uchun esa turi umuman belgilanmagan. Hisob haqida alohida: haydash mashgʻulotlari yoʻl varaqalarida va tinglovchining darslar hisobi daftarchasida qayd etiladi — kamomadni keyin shu hujjat bilan isbotlaysiz.</span> <a href="https://lex.uz/uz/docs/3765833" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 408, приложение 3, пп. 10, 11¹, 13 (узбекский оригинал)">lex.uz · 408-son qaror, 3-ilova, 10, 11¹, 13-bandlar</a></p>
+    </li>
+    <li>
+      <span class="q" data-ru="Бензин и площадка">Yoqilgʻi va poligon</span>
+      <p class="ask" data-ru="«Бензин чей? Просят ли деньги за топливо на каждом занятии? Занятия на площадке входят в цену?»">«Yoqilgʻi kimning hisobidan? Har bir dars uchun alohida pul soʻraladimi? Poligondagi mashgʻulotlar narxga kiradimi?»</p>
+      <p class="risk"><b data-ru="Если не спросить:">Soʻramasangiz:</b> <span data-ru="публичной цены у этой статьи нет — как и у дополнительных часов из вопроса 2. Отраслевой обзор прямо предупреждает: инструктор может просить деньги за топливо на каждом занятии, поэтому договор стоит читать внимательно.">bu moddaning ochiq narxi yoʻq — 2-savoldagi qoʻshimcha soatlar kabi. Soha sharhi toʻgʻridan-toʻgʻri ogohlantiradi: instruktor har bir dars uchun yoqilgʻi puli soʻrashi mumkin, shuning uchun shartnomani diqqat bilan oʻqing.</span></p>
+    </li>
+    <li>
+      <span class="q" data-ru="Перенос, болезнь, «сгоревшее» занятие">Koʻchirish, kasallik, «yonib ketgan» dars</span>
+      <p class="ask" data-ru="«За сколько часов можно перенести занятие? Что будет, если я заболею? Перенос платный?»">«Darsni necha soat oldin koʻchirish mumkin? Kasal boʻlsam nima boʻladi? Koʻchirish pullikmi?»</p>
+      <p class="risk"><b data-ru="Если не спросить:">Soʻramasangiz:</b> <span data-ru="без такого условия пропущенное занятие просто исчезает, и его придётся оплатить второй раз как дополнительный час.">bunday shart boʻlmasa, oʻtkazib yuborilgan dars shunchaki yoʻqoladi va uni qoʻshimcha soat sifatida ikkinchi marta toʻlashga toʻgʻri keladi.</span></p>
+    </li>
+    <li>
+      <span class="q" data-ru="Расторжение и возврат">Bekor qilish va pulni qaytarish</span>
+      <p class="ask" data-ru="«Если я прекращу после N занятий — по какой формуле считается возврат за неиспользованные часы?»">«N ta darsdan keyin toʻxtatsam — ishlatilmagan soatlar uchun pul qaysi formula boʻyicha qaytariladi?»</p>
+      <p class="risk"><b data-ru="Если не спросить:">Soʻramasangiz:</b> <span data-ru="пункт «оплата возврату не подлежит» — самый дорогой пункт договора. Увидеть его нужно до подписи, а не после.">«toʻlangan pul qaytarilmaydi» degan band — shartnomaning eng qimmat bandi. Uni imzodan oldin koʻrish kerak, keyin emas.</span></p>
+    </li>
+    <li>
+      <span class="q" data-ru="Ответственность самой автошколы">Avtomaktabning oʻz javobgarligi</span>
+      <p class="ask" data-ru="«Что я получу, если занятие отменит школа или не приедет инструктор? Компенсируются ли часы?»">«Darsni avtomaktab bekor qilsa yoki instruktor kelmasa, men nima olaman? Soatlar qoplanadimi?»</p>
+      <p class="risk"><b data-ru="Если не спросить:">Soʻramasangiz:</b> <span data-ru="в договоре могут быть перечислены только обязанности ученика. Тогда срыв расписания — ваша проблема и ваши деньги, а курс растягивается за пределы 2,5–3,5 месяцев, которые называют обзоры: 2,5 месяца в одном, 3–3,5 в другом.">shartnomada faqat oʻquvchining majburiyatlari yozilgan boʻlishi mumkin. Unda jadvalning buzilishi — sizning muammoyingiz va sizning pulingiz, kurs esa sharhlar aytadigan 2,5–3,5 oydan uzayib ketadi: bir sharhda 2,5 oy, boshqasida 3–3,5 oy.</span></p>
+    </li>
+    <li>
+      <span class="q" data-ru="Экзамен, пересдача и споры">Imtihon, qayta topshirish va nizolar</span>
+      <p class="ask" data-ru="«Кто в нашей области принимает экзамен — частный центр или орган ГСБДД? Сопровождение входит в цену? Сколько стоит помощь при пересдаче? На чём я буду учиться и на чём сдавать — практический экзамен принимают на механической коробке, кроме A1 и A? Есть ли в договоре пункт про отзывы и про то, где решается спор?»">«Bizning viloyatda imtihonni kim qabul qiladi — xususiy markazmi yoki DYHXX organimi? Hamrohlik narxga kiradimi? Qayta topshirishda yordam qancha turadi? Men nimada oʻrganaman va nimada topshiraman — amaliy imtihon mexanik uzatmalar qutisida qabul qilinadi, A1 va A bundan mustasno? Shartnomada sharhlar haqida va nizo qayerda hal qilinishi haqida band bormi?»</p>
+      <p class="risk"><b data-ru="Если не спросить:">Soʻramasangiz:</b> <span data-ru="экзамен платится не автошколе, и его цена зависит от того, кто его принимает. В органе ГСБДД ставка стоит в норме: 10% БРВ за экзамен и 15% за каждую пересдачу. У частного центра цену назначает сам центр — по обзору это 1 500 000 и 1 600 000, то есть примерно в тридцать шесть раз больше. Выбирать вам не дадут: там, где работает лицензированный частный центр, экзамены принимает только он. Поэтому вопрос не «сколько стоит экзамен», а «кто его у нас принимает» — от этого зависит около трёх миллионов сметы. И ещё: положительная оценка за теорию действительна два месяца, не сдали за это время практику — теорию сдаёте и оплачиваете заново. И ещё одно, о чём не пишут в договорах: практический экзамен принимают на автомобиле с МЕХАНИЧЕСКОЙ коробкой передач — кроме подкатегории A1 и категории A, для которых норма делает прямое исключение (ПКМ № 408, приложение 2 к Положению о лицензировании, п. 11, абз. 2 в редакции ПКМ № 125 от 30.03.2026; то же требование без исключения — приложение 2¹, п. 40, оно старше подкатегории A1). Если вы идёте на B и школа катает вас на автомате, переучиваться придётся за свои: это отдельные часы и отдельные деньги. Пункт, запрещающий оставлять отзывы, стоит просить исключить до подписи.">imtihon avtomaktabga toʻlanmaydi va uning narxi uni kim qabul qilishiga bogʻliq. DYHXX organida stavka meʼyorda turadi: imtihon uchun BHM ning 10 foizi, har bir qayta topshirish uchun 15 foizi. Xususiy markazda narxni markazning oʻzi belgilaydi — sharhga koʻra bu 1 500 000 va 1 600 000, yaʼni taxminan oʻttiz olti barobar koʻp. Tanlash imkoni berilmaydi: litsenziyali xususiy markaz ishlaydigan hududda imtihonni faqat oʻsha qabul qiladi. Shuning uchun savol «imtihon qancha turadi» emas, «bizda uni kim qabul qiladi» — hisobning uch millionchasi shunga bogʻliq. Yana: nazariy imtihondagi ijobiy baho ikki oy amal qiladi, shu muddatda amaliyotni topshirmasangiz — nazariyani qaytadan topshirasiz va qaytadan toʻlaysiz. Yana bir narsa, shartnomalarda yozilmaydi: amaliy imtihon MEXANIK uzatmalar qutisi boʻlgan avtomobilda qabul qilinadi — A1 kichik toifasi va A toifasi bundan mustasno, ular uchun meʼyor toʻgʻridan-toʻgʻri istisno qiladi (408-son qaror, litsenziyalash nizomiga 2-ilova, 11-band, 2-xatboshi, 30.03.2026 dagi 125-son qaror tahririda; mustasnosiz oʻshanday talab 2¹-ilovaning 40-bandida, u A1 dan eskiroq). B ga borayotgan boʻlsangiz va avtomaktab sizni avtomatda oʻrgatayotgan boʻlsa, qayta oʻrganish oʻz hisobingizdan: bu alohida soat va alohida pul. Sharh qoldirishni taqiqlaydigan bandni esa imzodan oldin olib tashlashni soʻrash kerak.</span> <a href="https://lex.uz/uz/docs/3765833" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 408, приложение 2, пп. 18¹ и 47; приложение 2 к Положению о лицензировании, п. 11">lex.uz · 408-son qaror, 2-ilova, 18¹ va 47-bandlar; litsenziyalash nizomiga 2-ilova, 11-band</a></p>
+    </li>
+  </ol>
+
+  <p><button class="btn sec" id="copyq" type="button" data-ru="Скопировать список вопросов">Savollar roʻyxatidan nusxa olish</button></p>
+  <textarea id="copybox" class="hide" rows="8" readonly aria-hidden="true"></textarea>
+</section>
+
+<section id="varaqa">
+  <div class="col">
+    <h2 data-ru="Лист, с которым идут в автошколу">Avtomaktabga olib boriladigan varaqa</h2>
+    <p data-ru="У стойки администратор говорит быстро, а вы уходите с тем, что запомнили. Лист печатается на один лист А4: ваш расчёт по строкам, семь вопросов с пустыми линейками под ответы, место для даты и для имени того, кто ответил, и таблица трёх школ, если вы её заполнили. Дальше это ваша запись: что записано на бумаге, вы потом не забудете и сможете сверить со счётом.">Stoyka oldida administrator tez gapiradi, siz esa yodingizda qolgani bilan chiqib ketasiz. Varaqa bitta A4 varagʻiga chiqadi: qatorlar boʻyicha hisobingiz, javob uchun boʻsh chiziqlari bilan yettita savol, sana va kim javob bergani uchun joy va toʻldirgan boʻlsangiz — uchta avtomaktab jadvali. Keyingisi sizning yozuvingiz: qogʻozga tushgan narsani keyin unutmaysiz va hisob bilan solishtira olasiz.</p>
+    <p><a class="btn" href="varaqa.html" target="_blank" rel="noopener" id="varaqabtn" data-ru="Открыть лист для печати">Chop etish uchun varaqani ochish</a></p>
+    <p class="after" data-ru="Лист собирается на вашем устройстве из того, что вы ввели выше, и не отправляет никуда ничего — в нём нет ни одного сетевого запроса. Печать и сохранение в PDF — обычной кнопкой браузера.">Varaqa siz yuqorida kiritgan maʼlumotlardan qurilmangizda yigʻiladi va hech qayerga hech narsa yubormaydi — unda birorta ham tarmoq soʻrovi yoʻq. Chop etish va PDF ga saqlash — brauzerning odatdagi tugmasi bilan.</p>
+  </div>
+</section>
+
+<section id="daftar">
+  <div class="col">
+    <h2 data-ru="Журнал занятий">Darslar daftari</h2>
+    <p data-ru="Деньги за бензин просят наличными и по чуть-чуть — двадцать-тридцать раз за два с половиной месяца. Никто не считает, и в этом весь смысл. Одно нажатие после занятия: сколько попросили за топливо и сколько за дополнительный час. Внизу — сумма, которой нет ни в одном договоре.">Yoqilgʻi puli naqd va ozdan-ozdan soʻraladi — ikki yarim oyda yigirma-oʻttiz marta. Hech kim sanamaydi, gap ham shunda. Darsdan keyin bir marta bosasiz: yoqilgʻiga qancha va qoʻshimcha soatga qancha soʻrashdi. Pastda — birorta shartnomada yoʻq summa.</p>
+    <p><button class="btn sec" type="button" id="logadd" data-ru="Добавить занятие">Dars qoʻshish</button></p>
+  </div>
+
+  <div class="sheet log" id="logbox">
+    <div id="logrows"></div>
+
+    <!-- Образец строки журнала лежит разметкой и клонируется скриптом.
+         ПОЧЕМУ так, а не строкой внутри JS: подписи полей обязаны жить в data-ru
+         вместе со всеми остальными подписями страницы. Собранные в скрипте, они
+         оказались бы во втором словаре — а второй словарь всегда разъезжается
+         с первым, и разъезд видит только та половина аудитории, что читает
+         на другом языке. -->
+    <div class="hide" id="logtpl">
+      <div class="logrow">
+        <span class="d num"></span>
+        <button class="del" type="button" data-ru="Убрать">Olib tashlash</button>
+        <span class="ins">
+          <label><span data-ru="Бензин, сум">Yoqilgʻi, soʻm</span>
+            <input type="number" data-k="f" min="0" max="1000000" step="5000" value="0" inputmode="numeric"></label>
+          <label><span data-ru="Доп. час, сум">Qoʻshimcha soat, soʻm</span>
+            <input type="number" data-k="h" min="0" max="2000000" step="10000" value="0" inputmode="numeric"></label>
+        </span>
+      </div>
+    </div>
+    <div class="logtot">
+      <div class="lt" data-ru="Сверх договора за всё время">Shartnomadan tashqari, butun davr uchun</div>
+      <div class="lv num" id="logsum">—</div>
+      <div class="lh" id="loghint"></div>
+    </div>
+  </div>
+
+  <div class="col">
+    <p class="after" data-ru="Журнал целиком лежит в памяти вашего браузера и на сервер не уходит — ни даты, ни суммы. Уходит только то, что вы вообще открыли журнал. Очистить его можно кнопкой ниже; он же пропадёт, если вы очистите данные сайта в браузере, поэтому важные суммы переписывайте на лист.">Daftar butunlay brauzeringiz xotirasida turadi va serverga yuborilmaydi — na sanalar, na summalar. Faqat daftarni umuman ochganingiz yuboriladi. Uni quyidagi tugma bilan tozalash mumkin; brauzerda sayt maʼlumotlarini tozalasangiz ham yoʻqoladi, shuning uchun muhim summalarni varaqaga koʻchirib qoʻying.</p>
+    <p><button class="btn sec" type="button" id="logclear" data-ru="Очистить журнал">Daftarni tozalash</button></p>
+  </div>
+</section>
+
+<section id="yangilik">
+  <div class="col">
+    <h2 data-ru="Что изменилось в 2026 году">2026-yilda nima oʻzgardi</h2>
+    <p data-ru="Пять изменений, из-за которых старые расчёты в интернете больше не сходятся.">Beshta oʻzgarish, ular tufayli internetdagi eski hisoblar endi toʻgʻri kelmaydi.</p>
+  </div>
+  <ul class="src" style="font-size:15px;color:var(--ink2);margin-top:18px">
+    <li><strong data-ru="1 апреля 2026 — теорию можно осваивать самостоятельно, а группы A и B больше не регистрируют.">2026-yil 1-aprel — nazariyani mustaqil oʻzlashtirsa boʻladi, A va B guruhlari esa endi roʻyxatga olinmaydi.</strong>
+      <span data-ru="В само постановление о подготовке водителей это внесено постановлением № 125 от 30.03.2026 и действует с 1 апреля 2026 года — раньше об этом писали новости по постановлению № 676, и мы сами ставили здесь дату 1 февраля. Три пункта сразу: учебные группы категорий A и B в ГСБДД не регистрируются, кроме групп государственных образовательных учреждений — их норма прямо вывела из отмены оговоркой в скобках «давлат таълим муассасаларининг ўқув гуруҳлари бундан мустасно» (п. 9¹); теоретическую часть кандидат может освоить сам (п. 9²); практические занятия обязательной программы проходятся ПОЛНОСТЬЮ, и по положительной оценке навыков формируется электронное свидетельство, которое и есть основание для допуска к экзаменам (п. 9³). Все три — в приложении 2 к постановлению, а не в приложении 3: в приложении 3 пункт 9 тоже есть, но он про переподготовку на категорию «C». Русского текста у ПКМ № 408 на lex.uz нет вовсе — адрес /ru/docs/3765833 отдаёт тот же узбекский документ.">Haydovchilarni tayyorlash toʻgʻrisidagi qarorning oʻziga bu 2026-yil 30-martdagi 125-son qaror bilan kiritilgan va 1-apreldan amal qiladi — ilgari bu haqda 676-son qarorga tayangan yangiliklar yozgan edi, biz ham shu yerda 1-fevral sanasini qoʻygan edik. Bir yoʻla uchta band: A va B toifadagi oʻquv guruhlari DYHXX da roʻyxatga olinmaydi, davlat taʼlim muassasalarining guruhlari bundan mustasno — ularni meʼyor «давлат таълим муассасаларининг ўқув гуруҳлари бундан мустасно» degan qavs bilan bekor qilishdan chiqargan (9¹-band); nazariy qismni talabgor mustaqil oʻzlashtirishi mumkin (9²-band); majburiy dasturning amaliy mashgʻulotlari TOʻLIQ oʻtaladi va koʻnikmalarga ijobiy baho berilganda imtihonga qoʻyish asosi boʻlgan elektron guvohnoma shakllantiriladi (9³-band). Uchalasi ham 2-ILOVADA, 3-ilovada emas. 408-son qarorning lex.uz dagi ruscha matni umuman yoʻq — oʻzbekcha asl matnda.</span>
+      <a href="https://lex.uz/uz/docs/3765833" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 408, приложение 2, пп. 9¹–9³">lex.uz · 408-son qaror, 2-ilova, 9¹–9³-bandlar</a> ·
+      <a href="https://lex.uz/uz/docs/8107338" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 125 от 30.03.2026">lex.uz · 125-son qaror, 30.03.2026</a></li>
+    <li><strong data-ru="1 января 2026 — появилась подкатегория A1, и по ней автошкола не нужна.">2026-yil 1-yanvar — A1 kichik toifasi paydo boʻldi va u boʻyicha avtomaktab kerak emas.</strong>
+      <span data-ru="Мототранспорт до 25 см³ или до 0,25 кВт и до 25 км/ч: право сдавать экзамены напрямую, не проходя обязательную учебную программу; теория — 20 вопросов, порог 16; справка об окончании обучения не требуется. У кого уже есть A, B, C или D — управляет A1 вообще без сдачи.">25 sm³ gacha yoki 0,25 kVt gacha va 25 km/soatgacha mototransport: majburiy oʻquv dasturini oʻtamasdan imtihon topshirish huquqi; nazariya — 20 ta savol, chegara 16; oʻqishni tugatganlik maʼlumotnomasi talab qilinmaydi. A, B, C yoki D bori esa A1 ni umuman topshirmasdan boshqaradi.</span>
+      <a href="https://lex.uz/uz/docs/7791514" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 676 от 25.10.2025, пп. 1–2">lex.uz · 676-son qaror, 25.10.2025, 1–2-bandlar</a></li>
+    <li><strong data-ru="2 февраля 2026 — у сборов появились льготы 50% и 75%.">2026-yil 2-fevral — yigʻimlarga 50 va 75 foizlik chegirmalar joriy etildi.</strong>
+      <span data-ru="Членам семей категории «камбағал оила» Социального реестра и лицам с инвалидностью I и II группы — скидка 50% от установленных сборов, членам семей категории «давлат таъминотидаги оила» — 75%. Скидка стоит в пп. 8 и 10 регламента, то есть на сбор за госуслугу и на экзаменационные платежи в органе ГСБДД. Ни одна страница про цену прав, которую мы видели, об этом не пишет.">Ijtimoiy reyestrning «kambagʻal oila» toifasidagi oila aʼzolariga va I va II guruh nogironligi boʻlgan shaxslarga — belgilangan yigʻimlardan 50 foiz chegirma, «davlat taʼminotidagi oila» toifasidagilarga — 75 foiz. Chegirma reglamentning 8 va 10-bandlarida turadi, yaʼni davlat xizmati yigʻimiga va DYHXX organidagi imtihon toʻlovlariga. Biz koʻrgan birorta «prava narxi» sahifasi bu haqda yozmaydi.</span>
+      <a href="https://lex.uz/docs/5409456" target="_blank" rel="noopener" data-ru="lex.uz · регламент, пп. 8 и 10 (в редакции ПКМ № 35 от 29.01.2026)">lex.uz · reglament, 8 va 10-bandlar (29.01.2026 dagi 35-son qaror tahririda)</a></li>
+    <li><strong data-ru="6 января 2026 — частные экзаменационные центры подняли цену на 50%.">2026-yil 6-yanvar — xususiy imtihon markazlari narxni 50% ga koʻtardi.</strong>
+      <span data-ru="Было 1 000 000 за попытку и 1 200 000 за пересдачу, стало 1 500 000 и 1 600 000. Важно, чего в новостях не написали: это цена частного центра, и назначает её сам центр (ПКМ № 408, приложение 2¹, п. 49). В органе ГСБДД ставка другая и стоит в норме — 10% БРВ за экзамен и 15% за пересдачу. Но выбора у вас нет: там, где работает лицензированный частный центр, экзамены принимает только он (приложение 2, п. 18¹).">Ilgari urinish uchun 1 000 000 va qayta topshirish uchun 1 200 000 edi, endi 1 500 000 va 1 600 000. Yangiliklar yozmagan muhim narsa: bu — xususiy markazning narxi va uni markazning oʻzi belgilaydi (408-son qaror, 2¹-ilova, 49-band). DYHXX organida stavka boshqacha va meʼyorda turadi — imtihon uchun BHM ning 10 foizi, qayta topshirish uchun 15 foizi. Lekin tanlov sizda emas: litsenziyali xususiy markaz ishlaydigan hududda imtihonni faqat oʻsha qabul qiladi (2-ilova, 18¹-band).</span>
+      <a href="https://lex.uz/docs/5409456" target="_blank" rel="noopener" data-ru="lex.uz · регламент, п. 10">lex.uz · reglament, 10-band</a> ·
+      <a href="https://www.spot.uz/oz/2026/01/07/drivers-license/" target="_blank" rel="noopener">spot.uz, 07.01.2026</a></li>
+    <li><strong data-ru="1 сентября 2026 — БРВ становится 440 000.">2026-yil 1-sentabr — BHM 440 000 boʻladi.</strong>
+      <span data-ru="БРВ — 412 000 сум с 1 августа 2025 года (УП-91 от 02.06.2025) и 440 000 сум с 1 сентября 2026 года (УП-115 от 23.06.2026). Все государственные ставки заданы долями БРВ, поэтому пересчитываются сами: сбор за удостоверение 79% БРВ — это 325 480 и 347 600 сум, экзамен в органе ГСБДД 10% — 41 200 и 44 000, пересдача 15% — 61 800 и 66 000. Калькулятор выше берёт значение по дате, в которую вы открыли страницу.">BHM — 2025-yil 1-avgustdan 412 000 soʻm (02.06.2025 dagi PF-91) va 2026-yil 1-sentabrdan 440 000 soʻm (23.06.2026 dagi PF-115). Barcha davlat stavkalari BHM ulushi sifatida berilgan, shuning uchun oʻzi qayta hisoblanadi: guvohnoma yigʻimi BHM ning 79 foizi — 325 480 va 347 600 soʻm, DYHXX organidagi imtihon 10 foiz — 41 200 va 44 000, qayta topshirish 15 foiz — 61 800 va 66 000. Yuqoridagi hisoblagich siz sahifani ochgan sanadagi qiymatni oladi.</span>
+      <a href="https://lex.uz/ru/docs/7553336" target="_blank" rel="noopener" data-ru="lex.uz · УП-91 от 02.06.2025">lex.uz · PF-91, 02.06.2025</a> ·
+      <a href="https://lex.uz/ru/docs/8283680" target="_blank" rel="noopener" data-ru="lex.uz · УП-115 от 23.06.2026">lex.uz · PF-115, 23.06.2026</a></li>
+  </ul>
+</section>
+
+<section id="ariza">
+  <div class="col">
+    <h2 data-ru="Что бесплатно и за что платят">Nima bepul va nima uchun pul toʻlanadi</h2>
+    <p data-ru="Граница проходит по одному признаку: всё, что страница может посчитать из ваших же цифр, бесплатно и останется бесплатным. Калькулятор, сравнение трёх школ, семь вопросов, журнал занятий и лист для печати — это машинная работа, она ничего нам не стоит. Платят за единственное, чего машина не сделает: за то, что человек прочитает ваш договор — конкретный, ваш, со всеми его пунктами — и напишет, что в нём есть, чего в нём нет и какими словами просить недостающее.">Chegara bitta belgi boʻyicha oʻtadi: sahifa sizning raqamlaringizdan hisoblab bera oladigan hamma narsa bepul va bepulligicha qoladi. Hisoblagich, uchta avtomaktabni solishtirish, yettita savol, darslar daftari va chop etish varaqasi — bu mashina ishi, u bizga hech narsaga tushmaydi. Pul faqat bitta narsa uchun toʻlanadi, uni mashina qilmaydi: odam sizning shartnomangizni — aynan sizning, hamma bandlari bilan — oʻqib chiqib, unda nima borligini, nima yoʻqligini va yetishmaganini qanday soʻrashni yozib beradi.</p>
+  </div>
+
+  <div class="cards">
+    <div class="card pick">
+      <h3 data-ru="Пакет по договору">Shartnoma paketi</h3>
+      <div class="price"><span class="num" id="pk_price">49 000</span> <span data-ru="сум">soʻm</span><small data-ru="фото договора → два документа за 2 рабочих дня">shartnoma surati → 2 ish kuni ichida ikkita hujjat</small></div>
+      <ul>
+        <li><strong data-ru="Документ 1. Разбор по семи пунктам">1-hujjat. Yettita band boʻyicha tahlil</strong> <span data-ru="— по каждому цитата из вашего договора и что она означает на практике. Пункты, которых в договоре нет, названы отдельно: чаще всего дороже всего обходится именно отсутствующий.">— har biri boʻyicha shartnomangizdan iqtibos va u amalda nimani anglatishi. Shartnomada boʻlmagan bandlar alohida koʻrsatiladi: koʻpincha eng qimmatga tushadigani aynan yoʻq band boʻladi.</span></li>
+        <li><strong data-ru="В том же документе — текст того, что просить дописать">Oʻsha hujjatda — qoʻshishni soʻraydigan matn</strong> <span data-ru="— готовые формулировки под ваши недостающие пункты, слово в слово, чтобы не придумывать их у стойки. Это не третий файл: они стоят внутри разбора, рядом с тем пунктом, которого не хватает.">— yetishmayotgan bandlaringiz uchun tayyor iboralar, soʻzma-soʻz, stoyka oldida oʻylab oʻtirmaslik uchun. Bu uchinchi fayl emas: ular tahlilning ichida, yetishmayotgan band yonida turadi.</span></li>
+        <li><strong data-ru="Документ 2. Заполненный лист расчёта">2-hujjat. Toʻldirilgan hisob varaqasi</strong> <span data-ru="— тот же лист, что печатается выше, но собранный по настоящим числам из вашего договора, с пометкой по каждой строке: входит она в вашу цену или нет.">— yuqorida chop etiladigan oʻsha varaqa, lekin shartnomangizdagi haqiqiy raqamlar boʻyicha yigʻilgan va har bir qatorida belgisi bor: u narxingizga kiradimi yoki yoʻqmi.</span></li>
+        <li><strong data-ru="Не документ, а право: один вопрос вдогонку">Hujjat emas, huquq: bitta qoʻshimcha savol</strong> <span data-ru="— в течение 14 дней после разбора: если в школе ответили не то, что вы ожидали, спросите ещё раз без доплаты. Отвечает человек в переписке, поэтому третьим файлом это не приходит — документов по-прежнему два.">— tahlildan keyingi 14 kun ichida: avtomaktabda kutganingizdan boshqa javob berishsa, qoʻshimcha toʻlovsiz yana soʻrang. Javobni odam yozishmada beradi, shuning uchun bu uchinchi fayl boʻlib kelmaydi — hujjat baribir ikkita.</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 data-ru="Почему столько">Nega shuncha</h3>
+      <p style="font-size:14.5px;color:var(--ink2);margin-top:10px" data-ru="Цена объясняется не нашими трудозатратами, а тем, что вы и так собираетесь потратить.">Narx bizning mehnatimiz bilan emas, siz baribir sarflamoqchi boʻlgan pul bilan tushuntiriladi.</p>
+      <ul>
+        <li data-ru="Полный цикл категории B со сдачей в частном экзаменационном центре — 10–11 млн сум. Пакет — меньше половины процента от этой суммы.">B toifaning xususiy imtihon markazida topshirilgan toʻliq tsikli — 10–11 million soʻm. Paket — shu summaning yarim foizidan ham kami.</li>
+        <li data-ru="29 недостающих часов вождения, если в договоре стоит 40 вместо 69, — это цена, которую назовут после подписи. Пакет — способ увидеть эту строку до неё.">Shartnomada 69 oʻrniga 40 tursa, yetishmayotgan 29 soat — imzodan keyin aytiladigan narx. Paket — shu qatorni imzodan oldin koʻrish usuli.</li>
+        <li><span data-ru="В прайсе адвокатской фирмы правовая экспертиза одного документа — 100 000–150 000 сум, устная консультация до 30 минут — 200 000, письменная на одну страницу — 400 000.">Advokatlik firmasi narxnomasida bitta hujjatning huquqiy ekspertizasi — 100 000–150 000 soʻm, ofisdagi 30 daqiqagacha ogʻzaki maslahat — 200 000, bir sahifalik yozma maslahat — 400 000.</span> <a href="https://realprotection.uz/price" target="_blank" rel="noopener">realprotection.uz</a> <span data-ru="(прайс снят 26.08.2026; даты публикации страница не показывает). Мы делаем не то же самое и дешевле: не экспертизу и не юридическую услугу, а разбор по семи пунктам своими словами.">(narxnoma 26.08.2026 da olingan; sahifada eʼlon sanasi koʻrsatilmagan). Biz aynan shuni qilmaymiz va arzonroq turamiz: ekspertiza ham, yuridik xizmat ham emas, yettita band boʻyicha oddiy tilda tahlil.</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="note warn">
+      <strong data-ru="Чего мы не делаем.">Biz nima qilmaymiz.</strong>
+      <span data-ru="Это не юридическая услуга и не экспертиза. Мы читаем текст вашего договора и объясняем, что он означает и о чём стоит спросить, — решение остаётся за вами. Мы не даём оценок конкретным автошколам и не обещаем, что школа согласится что-то изменить.">Bu yuridik xizmat ham, ekspertiza ham emas. Biz shartnomangiz matnini oʻqib, u nimani anglatishini va nima soʻrash kerakligini tushuntiramiz — qaror sizniki boʻlib qoladi. Biz aniq avtomaktablarga baho bermaymiz va avtomaktab biror narsani oʻzgartirishga rozi boʻlishini vaʼda qilmaymiz.</span>
+    </div>
+  </div>
+
+  <form id="lead" autocomplete="off">
+    <div class="fld">
+      <label for="f_contact" data-ru="Как с вами связаться">Siz bilan qanday bogʻlanamiz</label>
+      <input type="text" id="f_contact" maxlength="120" placeholder="@username, +998…" required>
+    </div>
+    <div class="fld">
+      <label data-ru="Что нужно">Nima kerak</label>
+      <!-- Значение «redline» осталось прежним, хотя тариф теперь один и называется
+           пакетом. ПОЧЕМУ: порог в PROVERKA.md §2 записан ДО посева и считает
+           заявки по значениям want; переименовать их сейчас значило бы поменять
+           правило подсчёта после того, как оно записано. Меняется подпись,
+           не машинное значение. -->
+      <div class="radios" id="f_want">
+        <label><input type="radio" name="want" value="redline" required><span data-ru="Пакет по договору — договор уже на руках">Shartnoma paketi — shartnoma qoʻlimda</span></label>
+        <label><input type="radio" name="want" value="choose_only"><span data-ru="Пока только выбираю школу">Hozircha faqat avtomaktab tanlayapman</span></label>
+      </div>
+    </div>
+    <div class="fld">
+      <label data-ru="Сколько это для вас стоит">Bu siz uchun qancha turadi</label>
+      <!-- Вариант выше нашей цены стоит здесь намеренно. Поднять цену после
+           посева дороже, чем начать выше, а узнать это можно только спросив:
+           если 79 000 выбирают заметно чаще нуля, значит 49 000 — не потолок.
+           Отмеченным заранее по-прежнему не стоит ничего. -->
+      <div class="radios" id="f_price">
+        <label><input type="radio" name="price" value="29000" required><span class="num">29 000</span></label>
+        <label><input type="radio" name="price" value="49000"><span class="num">49 000</span></label>
+        <label><input type="radio" name="price" value="79000"><span class="num">79 000</span></label>
+        <label><input type="radio" name="price" value="other"><span data-ru="Своя цена">Oʻz narxim</span></label>
+        <input type="number" id="f_price_other" class="hide" min="0" max="1000000" step="1000" placeholder="soʻm" inputmode="numeric" aria-label="narx">
+      </div>
+      <p class="after" style="margin-top:8px"><span data-ru="Ни один вариант не отмечен заранее — ни здесь, ни выше. Ваш выбор и есть то, что мы измеряем, поэтому выбрать его должны вы.">Bu yerda ham, yuqorida ham hech bir variant oldindan belgilanmagan. Biz oʻlchaydigan narsa — aynan sizning tanlovingiz, shuning uchun uni oʻzingiz tanlashingiz kerak.</span></p>
+    </div>
+    <div class="fld">
+      <label for="f_note" data-ru="Что важно знать (необязательно)">Nimani bilish muhim (majburiy emas)</label>
+      <textarea id="f_note" rows="3" maxlength="600" placeholder=""></textarea>
+    </div>
+    <button class="btn" type="submit" id="f_send" data-ru="Оставить заявку">Ariza qoldirish</button>
+    <p class="after hide" id="f_err" style="color:var(--bad)"></p>
+    <p class="after" id="f_hint" data-ru="Оплаты на странице нет — это заявка, она ни к чему вас не обязывает: если после переписки разбор вам нужен, договоримся о деталях и цене — 49 000 сум, — и отказаться можно на любом шаге. Нажимая «Оставить заявку», вы соглашаетесь, что мы сохраним оставленный контакт, текст заявки, ваш расчёт — три числа из калькулятора выше — и язык, на котором вы читаете страницу, чтобы ответить вам на нём же, и используем всё это только для того, чтобы связаться с вами по этому обращению. Заявка идёт в два места, и оба названы: сначала в нашу базу (Supabase, серверы за пределами Узбекистана), потом владельцу в Telegram — иначе ответить вам было бы нечем. Для рассылок не используем, удаляем по первой просьбе — напишите тем же контактом.">Sahifada toʻlov yoʻq — bu ariza, u sizni hech narsaga majburlamaydi: yozishmadan keyin tahlil kerak boʻlsa, 49 000 soʻmlik hisobni qoʻlda yuboramiz va undan voz kechish mumkin. «Ariza qoldirish» tugmasini bosish orqali siz qoldirgan aloqangizni, ariza matnini, hisobingizni — yuqoridagi hisoblagichdan uchta raqamni — va sahifani qaysi tilda oʻqiyotganingizni, oʻsha tilda javob berishimiz uchun, saqlashimizga va bularning hammasidan faqat shu murojaat yuzasidan siz bilan bogʻlanish uchun foydalanishimizga rozilik bildirasiz. Ariza ikki joyga boradi va ikkalasi ham aytilgan: avval bizning bazamizga (Supabase, serverlar Oʻzbekistondan tashqarida), keyin egasiga Telegram orqali — aks holda sizga javob berib boʻlmasdi. Tarqatmalar uchun ishlatmaymiz, birinchi soʻrovingizga koʻra oʻchiramiz — shu aloqa orqali yozing.</p>
+  </form>
+
+  <div class="ok hide" id="f_ok">
+    <strong data-ru="Заявка принята.">Ariza qabul qilindi.</strong>
+    <span data-ru="Мы свяжемся с вами по оставленному контакту. Если ответа долго нет — напишите ещё раз, значит контакт не разобрали.">Qoldirgan aloqangiz orqali bogʻlanamiz. Javob uzoq boʻlmasa — yana bir marta yozing, demak aloqa maʼlumoti oʻqilmagan.</span>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="col">
+    <h2 data-ru="Частые вопросы">Koʻp beriladigan savollar</h2>
+
+    <details data-q="theory">
+      <summary data-ru="Правда, что теперь можно вообще не ходить в автошколу?">Endi avtomaktabga umuman bormasa ham boʻladimi?</summary>
+      <p class="a" data-ru="Для категорий A и B теоретическую часть разрешено осваивать самостоятельно — это пункт 9² приложения 2 к ПКМ № 408, введённый ПКМ № 125 от 30.03.2026 и действующий с 1 апреля 2026 года. Практика не просто остаётся, а стала жёстче: соседний пункт 9³ того же документа требует, чтобы кандидат прошёл практические занятия обязательной программы ПОЛНОСТЬЮ, и только после положительной оценки навыков школа формирует электронное свидетельство — оно и есть основание для допуска к экзаменам. Полный объём для категории B — не менее 69 часов практического управления (п. 11¹). То есть от автошколы вы не отказываетесь, вы платите ей только за практику, но за практику в полном объёме.">A va B toifalar uchun nazariy qismni mustaqil oʻzlashtirishga ruxsat berilgan — bu 408-son qarorning 2-ilovasidagi 9²-band, u 30.03.2026 dagi 125-son qaror bilan kiritilgan va 2026-yil 1-apreldan amal qiladi. Amaliyot esa shunchaki qolgani yoʻq, qattiqroq boʻldi: oʻsha hujjatning qoʻshni 9³-bandi talabgor majburiy dasturning amaliy mashgʻulotlarini TOʻLIQ oʻtashini talab qiladi va faqat koʻnikmalarga ijobiy baho berilgandan keyin avtomaktab elektron guvohnoma shakllantiradi — imtihonga qoʻyish asosi ham shu. B toifa uchun toʻliq hajm — kamida 69 soat amaliy boshqaruv (11¹-band). Yaʼni siz avtomaktabdan voz kechmaysiz, unga faqat amaliyot uchun toʻlaysiz, lekin toʻliq hajmdagi amaliyot uchun.</p>
+    </details>
+
+    <details data-q="hours">
+      <summary data-ru="Сколько часов вождения мне обязаны дать?">Menga necha soat haydash berishlari shart?</summary>
+      <p class="a" data-ru="Для категории B — не менее 69 часов практического управления, не менее 216 часов аудиторной нагрузки и срок обучения не менее 18 недель. Это закрытый перечень из пункта 11¹ приложения 3 к ПКМ № 408; он введён ПКМ № 393 от 20.07.2022 и с тех пор не менялся. По другим категориям там же: A — 9 недель / 180 / 20; C — 22 недели / 264 / 69; B+C — 24 недели / 288 / 72; переподготовка на C — 7 недель / 140 / 20, на D — 10 / 200 / 60, на BE, CE — 7 / 140 / 20, на DE — 6 / 120 / 26. Это не рекомендация: соблюдение учебных планов — лицензионное требование, за нарушение которого лицензию проверяют и приостанавливают. Если в вашем договоре стоит 40 часов, вам не хватает 29 — и продадут их вам как «дополнительные» уже после подписи.">B toifa uchun — kamida 69 soat amaliy boshqaruv, kamida 216 soat auditoriya yuklamasi va kamida 18 hafta oʻqish muddati. Bu — 408-son qarorning 3-ilovasidagi 11¹-banddan olingan yopiq roʻyxat; u 20.07.2022 dagi 393-son qaror bilan kiritilgan va oʻshandan beri oʻzgarmagan. Boshqa toifalar boʻyicha oʻsha yerda: A — 9 hafta / 180 / 20; C — 22 hafta / 264 / 69; B+C — 24 hafta / 288 / 72; C ga qayta tayyorlash — 7 hafta / 140 / 20, D ga — 10 / 200 / 60, BE va CE ga — 7 / 140 / 20, DE ga — 6 / 120 / 26. Bu tavsiya emas: oʻquv rejalariga rioya qilish — litsenziya talabi, uni buzganlik uchun litsenziya tekshiriladi va toʻxtatiladi. Shartnomangizda 40 soat tursa, sizga 29 soat yetmayapti — va ularni sizga imzodan keyin «qoʻshimcha» deb sotishadi.</p>
+    </details>
+
+    <!-- zapret-ok: вопрос назван старым числом нарочно — его и ищут поиском,
+         а ответ первой же фразой говорит, что число неверно и почему. -->
+    <!-- bhm-ok: абзац объясняет число, которое мы убрали или исправили. Оно уже неверно и 1 сентября не устареет — в этом весь смысл текста. -->
+<details data-q="boj">
+      <summary data-ru="Сколько на самом деле стоит удостоверение — 618 000 или меньше?">Guvohnoma aslida qancha turadi — 618 000 mi yoki kamroqmi?</summary>
+      <p class="a" data-ru="Меньше. Мы сами держали здесь 618 000 и были неправы: 1,5 БРВ мы взяли из блога, а норма даёт другое. Плату задаёт Административный регламент, изложенный в новой редакции пунктом 2 приложения к ПКМ № 152 от 12.04.2023 (действует в составе ПКМ № 271 от 04.05.2021). Пункт 14, а также пункт 26: за выдачу национального водительского удостоверения взимается сбор в размере 70 процентов БРВ. Пункт 8: за саму госуслугу — 10 процентов БРВ, а при обращении через ЕПИГУ взимается 90 процентов от этого сбора; регламент по пункту 1 работает именно через ЕПИГУ. Итого 79 процентов БРВ: 325 480 сум до 31 августа 2026 года и 347 600 сум с 1 сентября. Слова «государственная пошлина» в регламенте нет вовсе — там «йиғим», сбор; и в Законе «О государственной пошлине» ставки за выдачу водительского удостоверения нет ни одной. Деления «через ЦГУ дороже, через my.gov.uz дешевле» норма тоже не знает: скидка ЕПИГУ — это 90 процентов от сбора в 10 процентов БРВ, а не 1,4 против 1,5 БРВ. Отдельная ставка: удостоверение взамен утерянного — 1 БРВ целиком, то есть 412 000 и 440 000.">Kamroq. Biz oʻzimiz shu yerda 618 000 ni ushlab turgan edik va notoʻgʻri edik: 1,5 BHM ni blogdan olgan edik, meʼyor esa boshqa narsa deydi. Toʻlovni 12.04.2023 dagi 152-son qaror ilovasining 2-bandi bilan yangi tahrirda bayon etilgan Maʼmuriy reglament belgilaydi (04.05.2021 dagi 271-son qaror tarkibida amal qiladi). 14-band va shuningdek 26-band: milliy haydovchilik guvohnomasini berish uchun BHM ning 70 foizi miqdorida yigʻim undiriladi. 8-band: davlat xizmatining oʻzi uchun — BHM ning 10 foizi, ЯИДХП orqali murojaat qilinganda esa shu yigʻimning 90 foizi undiriladi; reglament 1-bandga koʻra aynan ЯИДХП orqali ishlaydi. Jami BHM ning 79 foizi: 2026-yil 31-avgustgacha 325 480 soʻm va 1-sentabrdan 347 600 soʻm. Reglamentda «davlat boji» degan soʻz umuman yoʻq — u yerda «yigʻim»; «Davlat boji toʻgʻrisida»gi qonunda ham haydovchilik guvohnomasi berilishi uchun birorta stavka yoʻq. «DXM orqali qimmat, my.gov.uz orqali arzon» degan boʻlinishni ham meʼyor bilmaydi: ЯИДХП chegirmasi — bu BHM ning 10 foizidagi yigʻimdan 90 foiz, 1,5 BHM ga qarshi 1,4 BHM emas. Alohida stavka: yoʻqotilgan guvohnoma oʻrniga yangisi — toʻliq 1 BHM, yaʼni 412 000 va 440 000.</p>
+    </details>
+
+    <details data-q="lgota">
+      <summary data-ru="Есть ли льготы по государственным сборам?">Davlat yigʻimlari boʻyicha chegirmalar bormi?</summary>
+      <p class="a" data-ru="Да, и о них не пишет ни одна страница про цену прав, которую мы видели. Членам семей категории «камбағал оила» Социального реестра и лицам с инвалидностью I и II группы — скидка 50 процентов от установленных сборов; членам семей категории «давлат таъминотидаги оила» — 75 процентов. Это редакция ПКМ № 35 от 29.01.2026, действует со 2 февраля 2026 года. Важно, где именно стоит скидка: в пунктах 8 и 10 регламента, то есть на сбор за госуслугу и на экзаменационные платежи в органе ГСБДД. К плате за саму выдачу удостоверения (пункт 14, 70 процентов БРВ) скидка в тексте не оговорена, и мы её туда не переносим — спросите об этом в ЦГУ или на ЕПИГУ при оплате. В калькуляторе выше скидка применяется ровно к тем двум строкам, к которым её ставит норма. И отдельное правило из тех же пунктов, которое чаще всего теряют: при переводе семьи в третью категорию Социального реестра скидка не пропадает. Семьям, переведённым из «давлат таъминотидаги оила» или «камбағал оила» в «камбағаллик чегарасидаги оила», она применяется в размере ранее установленной категории; семьям, попавшим в «камбағаллик чегарасидаги оила» как оказавшиеся в тяжёлой жизненной ситуации, — в размере, установленном для «камбағал оила», то есть 50 процентов. Если ваша категория недавно изменилась, выбирайте в калькуляторе прежнюю, а не полную ставку.">Ha, va biz koʻrgan birorta «prava narxi» sahifasi ular haqda yozmaydi. Ijtimoiy reyestrning «kambagʻal oila» toifasidagi oila aʼzolariga va I va II guruh nogironligi boʻlgan shaxslarga — belgilangan yigʻimlardan 50 foiz chegirma; «davlat taʼminotidagi oila» toifasidagilarga — 75 foiz. Bu 29.01.2026 dagi 35-son qaror tahriri, 2026-yil 2-fevraldan amal qiladi. Chegirma aynan qayerda turgani muhim: reglamentning 8 va 10-bandlarida, yaʼni davlat xizmati yigʻimida va DYHXX organidagi imtihon toʻlovlarida. Guvohnomani berishning oʻzi uchun toʻlovga (14-band, BHM ning 70 foizi) chegirma matnda oʻrnatilmagan va biz uni u yerga koʻchirmaymiz — toʻlov paytida DXM da yoki ЯИДХП da soʻrang. Yuqoridagi hisoblagichda chegirma meʼyor qoʻygan aynan shu ikki qatorga qoʻllanadi. Oʻsha bandlardagi koʻpincha eʼtibordan chetda qoladigan alohida qoida: oila Ijtimoiy reestrning uchinchi toifasiga oʻtkazilganda chegirma yoʻqolmaydi. «Davlat taʼminotidagi oila» yoki «kambagʻal oila» toifasidan «kambagʻallik chegarasidagi oila» toifasiga oʻtkazilgan oilalarga u ilgari belgilangan toifasiga muvofiq miqdorda; ogʻir hayotiy vaziyatga tushgan oila sifatida «kambagʻallik chegarasidagi oila» toifasiga kiritilganlarga esa «kambagʻal oila» uchun belgilangan miqdorda, yaʼni 50 foiz qoʻllaniladi. Toifangiz yaqinda oʻzgargan boʻlsa, hisoblagichda toʻliq stavkani emas, ilgarigi toifangizni tanlang.</p>
+    </details>
+
+    <details data-q="exam2">
+      <summary data-ru="Почему у вас экзамен то 41 200, то 1 500 000?">Nega sizda imtihon goh 41 200, goh 1 500 000?</summary>
+      <p class="a" data-ru="Потому что путей два, и цена зависит от того, кто принимает экзамен. Регламент, пункт 10: если экзамен сдаётся в органе ГСБДД, за теоретический экзамен взимается 10 процентов БРВ, за каждый повторный — 15 процентов; за практический то же самое. Следующий абзац того же пункта: если экзамен сдаётся у субъекта предпринимательства, размер платы устанавливает сам субъект. То же в ПКМ № 408, приложение 2¹, пункт 49. Но выбирать вам не дадут: приложение 2, пункт 18¹ — на территориях, где действуют лицензированные частные экзаменационные центры, экзамены проводятся ТОЛЬКО ими. То есть 41 200 сум — реальная цена там, где частного центра нет, и недоступная опция там, где он есть. Разница между путями — 2 917 600 сум за два экзамена с первой попытки при БРВ 412 000 и 2 912 000 с 1 сентября 2026 года, плюс около полутора миллионов за каждую пересдачу. Строго говоря, режимов оплаты три, а не два: соседний пункт 50 приложения 2¹ говорит, что если экзамены идут на объектах субъекта предпринимательства по пункту 41 — то есть когда автоматизированный автодром неисправен дольше семи дней и практику принимают по Низому приложения 2, — плату устанавливает МВД по согласованию с Минфином, и она не равна ни ставке нормы, ни цене центра. Случай редкий, но если вам называют третье число, оно может быть законным. Спросите в своей автошколе, кто принимает экзамен именно у вас, и выберите этот путь в калькуляторе.">Chunki yoʻl ikkita va narx imtihonni kim qabul qilishiga bogʻliq. Reglament, 10-band: imtihon DYHXX organida topshirilsa, nazariy imtihon uchun BHM ning 10 foizi, har bir qayta topshirish uchun 15 foizi undiriladi; amaliy imtihon uchun ham shunday. Oʻsha bandning keyingi xatboshisi: imtihon tadbirkorlik subyektida topshirilsa, toʻlov miqdorini subyektning oʻzi belgilaydi. 408-son qarorning 2¹-ilovasidagi 49-bandda ham shunday. Lekin tanlash imkoni berilmaydi: 2-ilova, 18¹-band — litsenziyali xususiy imtihon markazlari faoliyat yuritayotgan hududlarda imtihonlarni FAQAT ular oʻtkazadi. Yaʼni 41 200 soʻm — xususiy markaz yoʻq joyda haqiqiy narx, u bor joyda esa mavjud boʻlmagan variant. Yoʻllar orasidagi farq — birinchi urinishdan ikkita imtihon uchun BHM 412 000 da 2 917 600 soʻm, 2026-yil 1-sentabrdan 2 912 000 soʻm, hamda har bir qayta topshirish uchun bir yarim millionga yaqin. Aniqrogʻi, toʻlov tartibi ikkita emas, uchta: 2¹-ilovaning qoʻshni 50-bandi aytadiki, imtihonlar 41-bandga muvofiq tadbirkorlik subyektining obyektlarida oʻtkazilsa — yaʼni avtomatlashtirilgan avtodrom yetti kundan koʻproq nosoz boʻlib, amaliyot 2-ilova Nizomi boʻyicha qabul qilinsa — toʻlov miqdorini Ichki ishlar vazirligi Moliya vazirligi bilan kelishgan holda belgilaydi, va u na meʼyor stavkasiga, na markaz narxiga teng. Holat kam uchraydi, lekin sizga uchinchi raqam aytilsa, u qonuniy boʻlishi mumkin. Avtomaktabingizdan aynan sizda imtihonni kim qabul qilishini soʻrang va hisoblagichda shu yoʻlni tanlang.</p>
+    </details>
+
+    <details data-q="twomonths">
+      <summary data-ru="Сдал теорию — сколько у меня времени на практику?">Nazariyani topshirdim — amaliyot uchun qancha vaqtim bor?</summary>
+      <p class="a" data-ru="Два месяца. ПКМ № 408, приложение 2, пункт 47: полученная на теоретических экзаменах положительная оценка действительна в течение двух месяцев; если претендент не сможет в этот срок сдать практические экзамены, он направляется сдавать теорию повторно. То же в регламенте, пункт 12 «б». Отдельно и точно: семидневный интервал — только для ПРАКТИКИ. Пункт 46 того же приложения 2 в редакции ПКМ № 125 от 30.03.2026 говорит дословно, что повторные практические экзамены проводятся не ранее чем через семь дней после предыдущих, а теоретические — на следующий рабочий день; то же в приложении 2¹, пункт 16. Регламент в пункте 12 «б» называет для повторной теории семь календарных дней — это более ранняя редакция, и на месте вам могут сослаться на неё. Считайте сами: практических заходов в два месяца влезает примерно восемь, теоретических — существенно больше, и число пересдач теории регламент прямо не ограничивает. Цена просрочки — теория заново, то есть по ценам частного центра ещё 1 500 000 сум, больше, чем вся государственная часть сметы.">Ikki oy. 408-son qaror, 2-ilova, 47-band: nazariy imtihonlarda olingan ijobiy baho ikki oy davomida amal qiladi; talabgor shu muddatda amaliy imtihonlarni topshira olmasa, u nazariy imtihonlarni qaytadan topshirishga yuboriladi. Reglamentning 12 «b» bandida ham shunday. Alohida va aniq: yetti kunlik oraliq faqat AMALIYOT uchun. Oʻsha 2-ilovaning 46-bandi 30.03.2026 dagi 125-son qaror tahririda soʻzma-soʻz aytadi: takroriy amaliy imtihonlar oldingisidan kamida yetti kun oʻtgach, nazariy imtihonlar esa keyingi ish kuni oʻtkaziladi; 2¹-ilova 16-bandda ham shunday. Reglamentning 12 «b» bandi takroriy nazariya uchun yetti kalendar kun deydi — bu oldingi tahrir, va joyida sizga oʻshanga havola qilishlari mumkin. Oʻzingiz hisoblang: ikki oyga amaliy urinishlardan taxminan sakkiztasi sigʻadi, nazariylardan esa ancha koʻp, va reglament nazariyani qayta topshirish sonini cheklamaydi. Muddatni oʻtkazib yuborish narxi — nazariya qaytadan, yaʼni xususiy markaz narxlari boʻyicha yana 1 500 000 soʻm, hisobning butun davlat qismidan koʻproq.</p>
+    </details>
+
+    <details data-q="spread">
+      <summary data-ru="Почему у вас курс 7 млн, а в другом месте пишут 3 млн?">Nega sizda kurs 7 million, boshqa joyda esa 3 million deyilgan?</summary>
+      <p class="a" data-ru="Потому что открытые обзоры расходятся между собой, и мы не стали выбирать удобную цифру. Один обзор того же портала даёт по Ташкенту 2,8–4 млн, другой — 5–8 млн со средним около 7 млн. Разброс объясняется тем, что в одну цену включают только часы вождения, а в другую — сопровождение до экзамена. Поэтому в калькуляторе стоит ваша цифра, а не наша: подставьте ту, что назвали вам.">Chunki ochiq sharhlar bir-biriga toʻgʻri kelmaydi, biz esa qulay raqamni tanlamadik. Oʻsha portalning bir sharhi Toshkent boʻyicha 2,8–4 million, boshqasi 5–8 million, oʻrtacha 7 million deydi. Farq shundan: bir narxga faqat haydash soatlari kiritiladi, boshqasiga imtihongacha hamrohlik ham qoʻshiladi. Shuning uchun hisoblagichda bizning emas, sizning raqamingiz turadi: sizga aytilganini kiriting.</p>
+    </details>
+
+    <details data-q="school">
+      <summary data-ru="Можете сказать, какая автошкола хорошая?">Qaysi avtomaktab yaxshi ekanini ayta olasizmi?</summary>
+      <p class="a" data-ru="Нет. Публичного рейтинга школ мы не строим и оценок «надёжная / ненадёжная» не даём — у нас нет данных, на которых такой рейтинг можно было бы построить честно. Официальной статистики процента сдачи по школам в открытом доступе мы не нашли; если кто-то показывает вам такой процент, спросите источник. Что мы делаем вместо этого: даём список вопросов, по которым школы становятся сравнимыми между собой.">Yoʻq. Biz avtomaktablarning ommaviy reytingini tuzmaymiz va «ishonchli / ishonchsiz» degan baho bermaymiz — bunday reytingni halol tuzish uchun maʼlumot yoʻq. Avtomaktablar kesimida imtihondan oʻtish foizi boʻyicha rasmiy statistikani ochiq manbalarda topmadik; kimdir sizga bunday foizni koʻrsatsa, manbasini soʻrang. Buning oʻrniga biz avtomaktablarni bir-biri bilan solishtirish mumkin boʻladigan savollar roʻyxatini beramiz.</p>
+    </details>
+
+    <details data-q="fuel">
+      <summary data-ru="Почему в калькуляторе бензин по нулям?">Nega hisoblagichda yoqilgʻi nol turibdi?</summary>
+      <p class="a" data-ru="Потому что публичной цены у этой строки нет ни у одной школы, а выдумывать её мы не будем. Отраслевой обзор пишет только, что инструктор может просить деньги за топливо на каждом занятии. Сколько именно — узнаёте вы, спросив, и вписываете сами: число занятий и сумму за занятие.">Chunki bu qatorning ochiq narxi birorta avtomaktabda yoʻq, oʻylab chiqarmaymiz esa. Soha sharhi faqat shuni yozadi: instruktor har bir dars uchun yoqilgʻi puli soʻrashi mumkin. Aniq qancha ekanini soʻrab siz bilib olasiz va oʻzingiz yozasiz: darslar soni va bir dars uchun summa.</p>
+    </details>
+
+    <details data-q="pay">
+      <summary data-ru="Что происходит после заявки?">Arizadan keyin nima boʻladi?</summary>
+      <p class="a" data-ru="Мы пишем вам на оставленный контакт и договариваемся, как передать фотографии договора. Дальше — счёт: если разбор вам нужен, мы выставляем его вручную в той же переписке, на 49 000 сум. Сумма одна для всех и не зависит от того, какой вариант цены вы отметили в заявке: там мы спрашивали, сколько это стоит для вас, а не назначали цену. Разбор делается после оплаты и возвращается в течение 2 рабочих дней с того момента, когда у нас есть и оплата, и фотографии. Если не успеваем — пишем об этом сами и называем новый срок, а не молчим. Вместе со счётом приходит текст условий: что входит, какой срок, в каком случае деньги возвращаются и что происходит с фотографиями — они остаются в переписке, на сайт их загружать некуда: мы храним их 14 дней, пока действует право на вопрос вдогонку, и удаляем раньше по первой просьбе. Если вам нужен документ для отчётности — скажите об этом до оплаты: мы ответим, что можем дать, а чего не можем, и если не можем — счёт не выставляем. Онлайн-оплаты на странице нет: пока вы не оплатили счёт, заявка ничего не списывает и ни к чему вас не обязывает — от счёта можно отказаться.">Qoldirgan aloqangizga yozamiz va shartnoma suratlarini qanday yuborishni kelishamiz. Keyingisi — hisob: tahlil kerak boʻlsa, biz uni oʻsha yozishmada qoʻlda yuboramiz, 49 000 soʻmga. Summa hamma uchun bitta va arizada qaysi narx variantini belgilaganingizga bogʻliq emas: u yerda biz narx belgilamadik, bu siz uchun qancha turishini soʻradik. Tahlil toʻlovdan keyin qilinadi va toʻlov ham, suratlar ham bizda boʻlgan paytdan boshlab 2 ish kuni ichida qaytadi. Ulgurmasak — jim qolmay, oʻzimiz yozamiz va yangi muddatni aytamiz. Hisob bilan birga shartlar matni keladi: nima kiradi, muddat qancha, pul qaysi holatda qaytariladi va suratlar bilan nima boʻladi — ular yozishmada qoladi, saytga yuklanmaydi: qoʻshimcha savol huquqi amal qiladigan 14 kun davomida saqlaymiz va birinchi soʻrovingizga koʻra ertaroq oʻchiramiz. Hisobot uchun hujjat kerak boʻlsa — buni toʻlovdan oldin ayting: nima bera olishimizni va nimani bera olmasligimizni aytamiz, bera olmasak — hisobni yubormaymiz. Sahifada onlayn toʻlov yoʻq: hisobni toʻlamaguningizcha ariza hech narsani yechmaydi va sizni hech narsaga majburlamaydi — hisobdan voz kechish mumkin.</p>
+    </details>
+
+    <details data-q="free">
+      <summary data-ru="Что здесь бесплатно, а за что просят деньги?">Bu yerda nima bepul va nima uchun pul soʻraladi?</summary>
+      <p class="a" data-ru="Бесплатно всё, что страница считает сама из ваших чисел: калькулятор полной цены, сравнение трёх школ, семь вопросов со списком в буфер, журнал занятий и лист для печати. Ни одна из этих вещей никогда не станет платной — они не стоят нам ничего. Платный только разбор вашего договора: его читает человек, а не программа, и это единственное, за что мы просим деньги.">Sahifa sizning raqamlaringizdan oʻzi hisoblaydigan hamma narsa bepul: toʻliq narx hisoblagichi, uchta avtomaktabni solishtirish, yettita savol va roʻyxatdan nusxa olish, darslar daftari va chop etish varaqasi. Bularning birortasi hech qachon pullik boʻlmaydi — ular bizga hech narsaga tushmaydi. Pullik faqat shartnomangiz tahlili: uni dastur emas, odam oʻqiydi, va biz faqat shuning uchun pul soʻraymiz.</p>
+    </details>
+
+    <details data-q="local">
+      <summary data-ru="Записи журнала занятий и названия школ кто-то видит?">Darslar daftaridagi yozuvlar va avtomaktab nomlarini kimdir koʻradimi?</summary>
+      <p class="a" data-ru="Нет. Журнал занятий, названия школ и все суммы из сравнения лежат в памяти вашего браузера и на сервер не уходят. Мы записываем только то, что вы открывали инструмент, — одно слово, без ваших чисел. Лист для печати не делает вообще ни одного сетевого запроса: он собирается на вашем устройстве. Полный список того, что уходит со страницы, — в подвале.">Yoʻq. Darslar daftari, avtomaktab nomlari va solishtirishdagi barcha summalar brauzeringiz xotirasida turadi va serverga yuborilmaydi. Biz faqat asbobni ochganingizni yozamiz — bitta soʻz, raqamlaringizsiz. Chop etish varaqasi esa umuman birorta tarmoq soʻrovi qilmaydi: u qurilmangizda yigʻiladi. Sahifadan nima yuborilishining toʻliq roʻyxati — pastda.</p>
+    </details>
+
+    <details data-q="price">
+      <summary data-ru="Почему 49 000, а не дешевле?">Nega 49 000, arzonroq emas?</summary>
+      <p class="a" data-ru="Потому что за этой суммой стоит час чужого времени: кто-то должен прочитать ваш договор целиком и написать по нему текст. Для сравнения: в прайсе адвокатской фирмы правовая экспертиза одного документа — 100 000–150 000 сум, устная консультация до 30 минут — 200 000, письменная на страницу — 400 000 (realprotection.uz, прайс снят 26.08.2026). Мы делаем не то же самое: не экспертизу и не юридическую услугу. И ещё одно сравнение: полный цикл прав категории B со сдачей в частном экзаменационном центре — 10–11 млн сум; 29 недостающих часов вождения, если в договоре стоит 40 вместо нормативных 69, — цена, которую школа назовёт уже после подписи.">Chunki bu summa ortida boshqa odamning vaqti turadi: kimdir shartnomangizni boshdan-oxir oʻqib, u boʻyicha matn yozishi kerak. Solishtirish uchun: advokatlik firmasi narxnomasida bitta hujjatning huquqiy ekspertizasi — 100 000–150 000 soʻm, 30 daqiqagacha ogʻzaki maslahat — 200 000, bir sahifalik yozma maslahat — 400 000 (realprotection.uz, narxnoma 26.08.2026 da olingan). Biz aynan shuni qilmaymiz: bu ekspertiza ham, yuridik xizmat ham emas. Yana bir solishtirish: B toifa guvohnomasining xususiy imtihon markazida topshirilgan toʻliq tsikli — 10–11 million soʻm; shartnomada meʼyordagi 69 oʻrniga 40 tursa, yetishmayotgan 29 soat — imzodan keyin aytiladigan narx.</p>
+    </details>
+
+    <details data-q="src">
+      <summary data-ru="Откуда взяты цифры">Raqamlar qayerdan olingan</summary>
+      <div class="a">
+        <ul class="src">
+          <li><strong data-ru="Первоисточники (норма). Ниже них — обзоры, там, где нормы нет.">Birlamchi manbalar (meʼyor). Ulardan pastda — meʼyor boʻlmagan joydagi sharhlar.</strong></li>
+          <li><span data-ru="Экзамен в органе ГСБДД: 10% БРВ за каждый, 15% за каждую пересдачу. У частного центра плату устанавливает сам центр">DYHXX organidagi imtihon: har biri uchun BHM ning 10 foizi, har bir qayta topshirish uchun 15 foizi. Xususiy markazda toʻlovni markazning oʻzi belgilaydi</span> · <a href="https://lex.uz/docs/5409456" target="_blank" rel="noopener" data-ru="lex.uz · Административный регламент (ПКМ № 152 от 12.04.2023 → ПКМ № 271 от 04.05.2021), п. 10; редакция от 06.05.2026">lex.uz · Maʼmuriy reglament (12.04.2023 dagi 152-son → 04.05.2021 dagi 271-son qaror), 10-band; 06.05.2026 tahriri</a></li>
+          <li><span data-ru="Сбор за удостоверение: 70% БРВ за выдачу (пп. 14, 26) плюс 10% БРВ за госуслугу, из которых при обращении через ЕПИГУ взимается 90 процентов (п. 8) — итого 79% БРВ. Взамен утерянного — 1 БРВ. Льготы 50% и 75% — пп. 8 и 10 в редакции ПКМ № 35 от 29.01.2026">Guvohnoma yigʻimi: berish uchun BHM ning 70 foizi (14, 26-bandlar) va davlat xizmati uchun BHM ning 10 foizi, undan ЯИДХП orqali murojaat qilinganda 90 foizi undiriladi (8-band) — jami BHM ning 79 foizi. Yoʻqotilgani oʻrniga — 1 BHM. 50 va 75 foizlik chegirmalar — 29.01.2026 dagi 35-son qaror tahriridagi 8 va 10-bandlar</span> · <a href="https://lex.uz/docs/5409456" target="_blank" rel="noopener" data-ru="lex.uz · тот же регламент, пп. 8, 14, 26">lex.uz · oʻsha reglament, 8, 14, 26-bandlar</a></li>
+          <li><span data-ru="Ставки за выдачу водительского удостоверения в законе о госпошлине НЕТ вообще — проверено сплошным поиском по приложению «Размеры ставок государственной пошлины»">«Davlat boji toʻgʻrisida»gi qonunda haydovchilik guvohnomasi berilishi uchun stavka UMUMAN yoʻq — «Davlat boji stavkalari miqdorlari» ilovasi boʻyicha butun matn qidiruvi bilan tekshirilgan</span> · <a href="https://lex.uz/ru/docs/4680955" target="_blank" rel="noopener" data-ru="lex.uz · ЗРУ-600 от 06.01.2020, редакция от 14.08.2026">lex.uz · OʻRQ-600, 06.01.2020, 14.08.2026 tahriri</a></li>
+          <li><span data-ru="Минимальные объёмы обучения категории B: 18 недель, 216 часов аудитории, 69 часов практического управления. Учебная пара в аудитории — 80 минут; для часов за рулём вид часа норма не задаёт. Нагрузка до 20 часов в неделю, в аудитории до 4 часов в день, у одного инструктора практика до 8 часов в день. Занятия по вождению фиксируются в путевых листах и в индивидуальной книжке учёта занятий">B toifasini oʻqitishning eng kam hajmlari: 18 hafta, 216 soat auditoriya, 69 soat amaliy boshqaruv. Auditoriyadagi oʻquv juftligi — 80 daqiqa; rul ortidagi soatlar uchun meʼyor soat turini belgilamaydi. Yuklama haftasiga 20 soatgacha, auditoriyada kuniga 4 soatgacha, bitta instruktorda amaliyot kuniga 8 soatgacha. Haydash mashgʻulotlari yoʻl varaqalarida va darslar hisobining shaxsiy daftarchasida qayd etiladi</span> · <a href="https://lex.uz/uz/docs/3765833" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 408 от 31.05.2018, приложение 3, пп. 10, 11¹, 13 — узбекский оригинал">lex.uz · 408-son qaror, 31.05.2018, 3-ilova, 10, 11¹, 13-bandlar — oʻzbekcha asl matn</a></li>
+          <li><span data-ru="Самостоятельная теория для A и B, полный объём практики и электронное свидетельство, отмена регистрации групп A и B (кроме групп государственных образовательных учреждений — они из отмены выведены оговоркой в самом п. 9¹) — с 01.04.2026. Это приложение 2, а не 3; русского текста у ПКМ № 408 на lex.uz нет вовсе">A va B uchun mustaqil nazariya, amaliyotning toʻliq hajmi va elektron guvohnoma, A va B guruhlarini roʻyxatga olishning bekor qilinishi (davlat taʼlim muassasalarining guruhlari bundan mustasno — ular 9¹-bandning oʻz qavsi bilan chiqarilgan) — 01.04.2026 dan. Bu 2-ilova, 3-ilova emas; 408-son qarorning ruscha matni lex.uz da umuman yoʻq</span> · <a href="https://lex.uz/uz/docs/3765833" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 408, приложение 2, пп. 9¹–9³">lex.uz · 408-son qaror, 2-ilova, 9¹–9³-bandlar</a> · <a href="https://lex.uz/uz/docs/8107338" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 125 от 30.03.2026">lex.uz · 125-son qaror, 30.03.2026</a></li>
+          <li><span data-ru="Теория действительна два месяца; там, где работает лицензированный частный экзаменационный центр, экзамены принимает только он; плату за экзамен частный центр устанавливает сам">Nazariya ikki oy amal qiladi; litsenziyali xususiy imtihon markazi ishlaydigan hududda imtihonni faqat oʻsha qabul qiladi; imtihon toʻlovini xususiy markaz oʻzi belgilaydi</span> · <a href="https://lex.uz/uz/docs/3765833" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 408, приложение 2, пп. 18¹ и 47; приложение 2¹, п. 49">lex.uz · 408-son qaror, 2-ilova, 18¹ va 47-bandlar; 2¹-ilova, 49-band</a></li>
+          <li><span data-ru="Подкатегория A1 с 01.01.2026: сдача экзаменов без обязательной учебной программы; держатель A, B, C или D управляет A1 без сдачи">A1 kichik toifasi 01.01.2026 dan: majburiy oʻquv dasturisiz imtihon topshirish; A, B, C yoki D egasi A1 ni topshirmasdan boshqaradi</span> · <a href="https://lex.uz/uz/docs/7791514" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 676 от 25.10.2025, пп. 1–2">lex.uz · 676-son qaror, 25.10.2025, 1–2-bandlar</a></li>
+          <li><span data-ru="БРВ: 412 000 сум с 1 августа 2025 года — УП-91; 440 000 сум с 1 сентября 2026 года — УП-115">BHM: 2025-yil 1-avgustdan 412 000 soʻm — PF-91; 2026-yil 1-sentabrdan 440 000 soʻm — PF-115</span> · <a href="https://lex.uz/ru/docs/7553336" target="_blank" rel="noopener" data-ru="lex.uz · УП-91 от 02.06.2025, раздел II, п. 3(б)">lex.uz · PF-91, 02.06.2025, II boʻlim, 3(b)-band</a> · <a href="https://lex.uz/ru/docs/8283680" target="_blank" rel="noopener" data-ru="lex.uz · УП-115 от 23.06.2026, раздел II, п. 3(б)">lex.uz · PF-115, 23.06.2026, II boʻlim, 3(b)-band</a></li>
+          <li><strong data-ru="Обзоры — там, где ставки в норме нет.">Sharhlar — meʼyorda stavka boʻlmagan joyda.</strong></li>
+          <li><span data-ru="Цена частного экзаменационного центра, с 06.01.2026 — 1 500 000 и 1 600 000. Норма её не задаёт: центр назначает плату сам">Xususiy imtihon markazining narxi, 06.01.2026 dan — 1 500 000 va 1 600 000. Meʼyor uni belgilamaydi: markaz toʻlovni oʻzi tayinlaydi</span> · <a href="https://www.spot.uz/oz/2026/01/07/drivers-license/" target="_blank" rel="noopener">spot.uz, 07.01.2026</a></li>
+          <li><span data-ru="Полная цена категории B, медсправка (100 000–150 000 и 250 000–350 000), доставка пластика">B toifaning toʻliq narxi, tibbiy maʼlumotnoma (100 000–150 000 va 250 000–350 000), plastikni yetkazish</span> · <a href="https://osonprava.uz/uz/blog/b-toifa-prava-narxi-2026" target="_blank" rel="noopener">osonprava.uz, 22.03.2026</a></li>
+          <li><span data-ru="Цены автошкол по категориям, предупреждение про бензин и дополнительные часы по договорённости с инструктором">Toifalar boʻyicha avtomaktab narxlari, yoqilgʻi haqidagi ogohlantirish va instruktor bilan kelishiladigan qoʻshimcha soatlar</span> · <a href="https://osonprava.uz/uz/blog/avtomaktab-narxlari-2026" target="_blank" rel="noopener">osonprava.uz, 22.03.2026</a></li>
+          <li><span data-ru="Порядок получения прав — как пересказ. Про перерыв между попытками обзор даёт плоское «7 дней»; норма (ПКМ № 408, прил. 2) различает практику и теорию, и верное правило стоит выше">Guvohnoma olish tartibi — qayta hikoya sifatida. Urinishlar orasidagi tanaffus haqida sharh tekis «7 kun» deydi; meʼyor (408-son qaror, 2-ilova) amaliyot bilan nazariyani ajratadi, toʻgʻri qoida yuqorida</span> · <a href="https://www.osonprava.uz/uz/blog/prava-olish-tartibi-2026" target="_blank" rel="noopener">osonprava.uz, 22.03.2026</a></li>
+          <li><span data-ru="Цены на юридические услуги, с которыми сравнивается наша: правовая экспертиза документа 100 000–150 000, консультация до 30 минут 200 000, письменная консультация на страницу 400 000">Bizning narximiz solishtiriladigan yuridik xizmat narxlari: hujjatning huquqiy ekspertizasi 100 000–150 000, 30 daqiqagacha maslahat 200 000, bir sahifalik yozma maslahat 400 000</span> · <a href="https://realprotection.uz/price" target="_blank" rel="noopener">realprotection.uz</a> <span data-ru="(снято 26.08.2026, даты публикации страница не показывает)">(26.08.2026 da olingan, sahifada eʼlon sanasi koʻrsatilmagan)</span></li>
+          <li><span data-ru="Новости об изменениях 2026 года — как пересказ; сама норма выше">2026-yildagi oʻzgarishlar haqidagi yangiliklar — qayta hikoya sifatida; meʼyorning oʻzi yuqorida</span> · <a href="https://www.gazeta.uz/oz/2026/01/28/february/" target="_blank" rel="noopener">gazeta.uz, 28.01.2026</a> · <a href="https://kun.uz/news/2025/10/27/haydovchilik-guvohnomasini-olish-uchun-nazariy-darslarda-qatnashish-ixtiyoriy-boladi" target="_blank" rel="noopener">kun.uz, 27.10.2025</a></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="col">
+    <p data-ru="Avtomaktab Ochiq-Narx — калькулятор и чек-лист для того, кто выбирает автошколу. Не юридическая услуга, не экспертиза, не оценка конкретных автошкол. Цифры взяты из открытых источников, каждый со ссылкой и датой; проверяйте их перед оплатой — они меняются.">Avtomaktab Ochiq-Narx — avtomaktab tanlayotgan odam uchun hisoblagich va savollar roʻyxati. Yuridik xizmat emas, ekspertiza emas, aniq avtomaktablarga baho emas. Raqamlar ochiq manbalardan olingan, har biri havola va sana bilan; toʻlashdan oldin tekshiring — ular oʻzgarib turadi.</p>
+    <p id="maxfiylik"><strong data-ru="Что уходит со страницы.">Sahifadan nima yuboriladi.</strong> <span data-ru="Эта страница — проверка спроса, и мы считаем, доходят ли люди до пользы. Поэтому на наш сервер уходят: открытие страницы, а с ним язык, на котором вы читаете, метка канала из ссылки (часть «?src=» в адресе) и адрес страницы, с которой вы пришли, — первые 80 символов, столько же, сколько видит любой сайт в интернете; при изменении калькулятора, не чаще раза в 6 секунд, — три числа: названная вам цена, итог и разница между ними; копирование списка вопросов; какой вопрос вы раскрыли в FAQ; клик по кнопкам-переходам вверху страницы и первое касание формы заявки; название инструмента, который вы открыли, — сравнение школ, журнал занятий или лист для печати: одно слово, без ваших чисел. Что не уходит никогда: названия школ и суммы из сравнения, все записи журнала занятий и всё, что попадает в лист для печати, — они лежат только в памяти вашего браузера, и сам лист печати не делает ни одного сетевого запроса. Рядом с каждой записью лежит случайная строка из памяти вашего браузера — она склеивает шаги одного браузера. Ни имени, ни номера в самих записях нет, но обезличенными мы их не называем: если вы оставите заявку, эта же строка уйдёт вместе с контактом, и тогда весь след этого браузера окажется связан с вашим контактом одной строкой. Нужно это ровно для одного — понять, из какого канала пришёл человек, оставивший заявку; без такой связи проверять каналы нечем. Пока заявки нет, связывать записи не с чем. Контакт появляется только в заявке и только если вы нажали кнопку; вместе с ним уходит ваш расчёт — те же три числа — и язык, на котором вы читаете страницу, чтобы ответить вам на нём же. Заявка приходит владельцу в Telegram — иначе ответить вам было бы нечем, а значит контакт и текст заявки проходят через серверы Telegram. Попросите удалить — удалим и заявку, и связанные с ней записи, и напишем, что удалили. Если не хотите отправлять и это, просто не оставляйте заявку: калькулятор и список вопросов работают без неё. И ещё одно, что уходит до всякого вашего действия: шрифты страница берёт с серверов Google — fonts.googleapis.com и fonts.gstatic.com, — поэтому самый первый запрос при каждой загрузке идёт туда. Никаких ваших данных мы Google не передаём, но сам факт открытия страницы он видит.">Bu sahifa — talabni tekshirish, biz odamlar foydagacha yetadimi-yoʻqmi shuni sanaymiz. Shuning uchun serverimizga quyidagilar yuboriladi: sahifa ochilgani, u bilan birga oʻqiyotgan tilingiz, havoladagi kanal belgisi (manzildagi «?src=» qismi) va siz kelgan sahifaning manzili — birinchi 80 belgi, internetdagi har qanday sayt koʻradigan narsaning oʻzi; hisoblagich oʻzgarganda, 6 soniyada bir martadan koʻp emas, — uchta raqam: sizga aytilgan narx, jami va ular orasidagi farq; savollar roʻyxatidan nusxa olingani; FAQ da qaysi savolni ochganingiz; sahifa yuqorisidagi oʻtish tugmalariga bosilgani va ariza formasiga birinchi marta tegilgani; siz ochgan asbobning nomi — avtomaktablarni solishtirish, darslar daftari yoki chop etish varaqasi: bitta soʻz, raqamlaringizsiz. Hech qachon yuborilmaydigan narsalar: solishtirishdagi avtomaktab nomlari va summalar, darslar daftaridagi barcha yozuvlar va chop etish varaqasiga tushadigan hamma narsa — bular faqat brauzeringiz xotirasida turadi, varaqaning oʻzi esa birorta tarmoq soʻrovi qilmaydi. Har bir yozuv yonida brauzeringiz xotirasidagi tasodifiy satr turadi — u bitta brauzerning qadamlarini bogʻlaydi. Yozuvlarning oʻzida na ism, na raqam bor, lekin biz ularni «shaxsga bogʻlanmagan» deb atamaymiz: ariza qoldirsangiz, oʻsha satr aloqa maʼlumotingiz bilan birga yuboriladi va shunda bu brauzerning butun izi aloqangiz bilan bitta satr orqali bogʻlanadi. Bu faqat bitta narsa uchun kerak — ariza qoldirgan odam qaysi kanaldan kelganini bilish uchun; bunday bogʻlanishsiz kanallarni tekshirib boʻlmaydi. Ariza boʻlmasa, yozuvlarni bogʻlaydigan narsaning oʻzi yoʻq. Aloqa maʼlumoti faqat arizada va faqat siz tugmani bosgan boʻlsangiz paydo boʻladi; u bilan birga hisobingiz — oʻsha uchta raqam — va sahifani qaysi tilda oʻqiyotganingiz yuboriladi, oʻsha tilda javob berishimiz uchun. Ariza egasiga Telegram orqali keladi — boshqacha javob berib boʻlmasdi, demak aloqangiz va ariza matni Telegram serverlaridan oʻtadi. Oʻchirishni soʻrasangiz — arizani ham, u bilan bogʻliq yozuvlarni ham oʻchiramiz va oʻchirganimizni yozamiz. Buni ham yubormoqchi boʻlmasangiz, shunchaki ariza qoldirmang: hisoblagich ham, savollar roʻyxati ham usiz ishlaydi. Va yana bitta narsa, u siz hech nima qilmasingizdan oldin yuboriladi: shriftlarni sahifa Google serverlaridan oladi — fonts.googleapis.com va fonts.gstatic.com, — shuning uchun har bir yuklanishdagi eng birinchi soʻrov oʻsha yerga ketadi. Maʼlumotlaringizni Google ga bermaymiz, lekin sahifa ochilgani faktini u koʻradi.</span></p>
+    <p><span data-ru="Тема оформления:">Mavzu:</span> <a href="#" id="themebtn" data-ru="переключить светлую и тёмную">yorugʻ va qorongʻini almashtirish</a></p>
+  </div>
+</footer>
+
+</div>
+
+<script src="config.js"></script>
+<script>
+"use strict";
+
+/* ── Замер ────────────────────────────────────────────────────────────────
+   Пишем не напрямую в базу, а через общую функцию mvp: анонимный ключ
+   PostgREST отозван, и config.js публичный. Ни одно событие не должно ронять
+   страницу — весь замер обёрнут в catch и не блокирует интерфейс. */
+var API = window.MVP_API, PROD = window.MVP_PRODUCT;
+var PRICES = window.MVP_PRICES || { redline: 29000, redline_plus: 49000 };
+var SKEY = "mvp_sess";
+
+var SESS = (function () {
+  // Одна случайная строка на браузер. Она склеивает шаги одного человека
+  // и ничего не утверждает про личность — в отчётах это «сессии», не «люди».
+  try {
+    var v = localStorage.getItem(SKEY);
+    if (!v) { v = Math.random().toString(36).slice(2, 10) + Date.now().toString(36); localStorage.setItem(SKEY, v); }
+    return v;
+  } catch (e) { return "nols" + Date.now().toString(36); }
+})();
+
+var QS = new URLSearchParams(location.search);
+var SOURCE = (QS.get("src") || "").slice(0, 40) || null;
+
+// Ограничитель: посев идёт в чаты, и один любопытный с открытой вкладкой
+// не должен перекосить воронку. Считаем по типам событий.
+//
+// Счётчик лежит в localStorage рядом с sess, а не в памяти. ПОЧЕМУ: в памяти он
+// обнулялся при каждой перезагрузке, и три открытия одной вкладкой давали три
+// события open — «потолок на сессию» был написан в README, но не работал.
+// Потолок обязан жить ровно столько же, сколько живёт сессия, иначе он не потолок.
+var CAP = { open: 1, calc: 12, cta: 12, faq: 20, share: 6, lead: 3 };
+var CAPK = "avtomaktab_caps";
+var seen = (function () {
+  try {
+    var raw = JSON.parse(localStorage.getItem(CAPK) || "{}");
+    return (raw && typeof raw === "object") ? raw : {};
+  } catch (e) { return {}; }
+})();
+function ev(name, meta) {
+  seen[name] = (seen[name] || 0) + 1;
+  try { localStorage.setItem(CAPK, JSON.stringify(seen)); } catch (e) {}
+  if (seen[name] > (CAP[name] || 5)) return;
+  try {
+    fetch(API + "/ev", {
+      method: "POST", keepalive: true,
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ product: PROD, sess: SESS, event: name, meta: meta || {}, source: SOURCE })
+    }).catch(function () {});
+  } catch (e) {}
+}
+
+/* ── Язык ─────────────────────────────────────────────────────────────────
+   Узбекская латиница основная: и продукт, и запросы («avtomaktab narxlari»,
+   «B toifa prava narxi») узбекоязычные. Русский — вторым, потому что часть
+   ташкентской аудитории читает по-русски.
+
+   Оба языка лежат в самой разметке: узбекский текстом, русский в data-ru.
+   Так на странице не бывает пустых мест, если скрипт не выполнился, и не
+   бывает ключа, который есть в одном словаре и потерян в другом. */
+var LK = "avtomaktab_lang";
+var lang = (function () {
+  try { var v = localStorage.getItem(LK); if (v === "ru" || v === "uz") return v; } catch (e) {}
+  var p = QS.get("lang");
+  if (p === "ru" || p === "uz") return p;
+  return (navigator.language || "").indexOf("ru") === 0 ? "ru" : "uz";
+})();
+
+// Словарь пересобирается при каждом переключении, а не один раз на старте.
+// ПОЧЕМУ: строки журнала занятий появляются после загрузки — клонированием
+// скрытого образца. Если бы список узлов снимался один раз, новые строки
+// остались бы на узбекском у русскоязычного читателя. Узбекский оригинал
+// запоминается ровно один раз на узел (uzt уже стоит — не трогаем), иначе
+// при переключении на русский он затёрся бы русским текстом.
+function i18nScan() {
+  [].slice.call(document.querySelectorAll("[data-ru]")).forEach(function (n) {
+    if (n.dataset.uzt === undefined) n.dataset.uzt = n.innerHTML;
+  });
+}
+i18nScan();
+
+var TITLE = {
+  uz: "Avtomaktab narxi 2026 — toʻliq hisob va shartnoma savollari",
+  ru: "Цена автошколы 2026 — полный расчёт и вопросы по договору"
+};
+
+function applyLang() {
+  i18nScan();
+  [].slice.call(document.querySelectorAll("[data-ru]")).forEach(function (n) {
+    n.innerHTML = lang === "ru" ? n.dataset.ru : n.dataset.uzt;
+  });
+  document.documentElement.lang = lang;
+  document.title = TITLE[lang];
+  var bar = document.getElementById("langbar");
+  bar.innerHTML = [["uz", "Oʻz"], ["ru", "Ру"]].map(function (p) {
+    return '<button type="button" data-l="' + p[0] + '" class="' + (p[0] === lang ? "on" : "") + '">' + p[1] + "</button>";
+  }).join("");
+  [].slice.call(bar.querySelectorAll("button")).forEach(function (b) {
+    b.onclick = function () {
+      lang = b.dataset.l;
+      try { localStorage.setItem(LK, lang); } catch (e) {}
+      // Пересчитать надо всё, что печатает числа словами («сум» / «soʻm»),
+      // иначе после переключения половина страницы остаётся на прежнем языке.
+      applyLang(); calc(); cmpCalc(); logRender();
+    };
+  });
+  document.getElementById("f_note").placeholder = lang === "ru"
+    ? "Например: какая школа, когда планируете платить"
+    : "Masalan: qaysi avtomaktab, qachon toʻlamoqchisiz";
+}
+
+/* ── Тема ─────────────────────────────────────────────────────────────────
+   По умолчанию — системная. Ручной выбор запоминается и побеждает систему
+   в обе стороны: атрибут data-theme перекрывает и медиазапрос. */
+var TK = "avtomaktab_theme";
+try { var t0 = localStorage.getItem(TK); if (t0) document.documentElement.dataset.theme = t0; } catch (e) {}
+document.getElementById("themebtn").onclick = function (e) {
+  e.preventDefault();
+  var cur = document.documentElement.dataset.theme;
+  var sysDark = window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches;
+  var next = cur ? (cur === "dark" ? "light" : "dark") : (sysDark ? "light" : "dark");
+  document.documentElement.dataset.theme = next;
+  try { localStorage.setItem(TK, next); } catch (e2) {}
+};
+
+/* ── Числа ────────────────────────────────────────────────────────────── */
+// Неразрывный пробел, а не обычный: «7 000 000 soʻm» не должно переноситься
+// посреди суммы — в узкой колонке на 375px это выглядит как две разные цифры.
+var NB = " ";
+function fmt(n) {
+  n = Math.round(n);
+  var s = String(Math.abs(n)), out = "";
+  for (var i = s.length; i > 0; i -= 3) out = s.slice(Math.max(0, i - 3), i) + (out ? NB + out : "");
+  return (n < 0 ? "−" : "") + out;
+}
+function money(n) { return fmt(n) + NB + (lang === "ru" ? "сум" : "soʻm"); }
+function val(id, dflt) {
+  var el = document.getElementById(id);
+  var v = parseFloat(el.value);
+  if (!isFinite(v) || v < 0) v = dflt || 0;
+  var max = parseFloat(el.max);
+  if (isFinite(max) && v > max) v = max;
+  return v;
+}
+
+/* ── Ставки ────────────────────────────────────────────────────────────────
+   Все числа с источником и датой — они же перечислены на странице в разделе
+   «Raqamlar qayerdan olingan». Менять их можно только вместе со ссылкой. */
+// Ставки, которые задаёт норма, стоят долями БРВ, а не суммами в сумах.
+// ПОЧЕМУ так: сумма — это производная от БРВ и от даты, и записанная числом
+// она устаревает 1 сентября сама, без всякой правки. Доля не устаревает.
+// Источник — Административный регламент, изложенный в новой редакции пунктом 2
+// приложения к ПКМ № 152 от 12.04.2023 (действует в составе ПКМ № 271
+// от 04.05.2021), https://lex.uz/docs/5409456, редакция от 06.05.2026.
+var K_VYDACHA = 0.70;  // п. 14 и п. 26: выдача национального удостоверения
+var K_USLUGA  = 0.09;  // п. 8: сбор за госуслугу 10% БРВ, через ЕПИГУ — 90% от него
+var K_EXAM    = 0.10;  // п. 10: один экзамен в органе ГСБДД
+var K_RETRY   = 0.15;  // п. 10: каждая пересдача в органе ГСБДД
+var K_DUBLIKAT = 1.00; // п. 26 абз. 2: удостоверение взамен утерянного
+
+// Частный экзаменационный центр цену назначает сам — ПКМ № 408, приложение 2¹,
+// п. 49. Приложения 4 у ПКМ № 408 нет вовсе: приложения к самому постановлению
+// это 1, 2, 2¹, 3, 6 и 7, а «4-ИЛОВА» внутри документа — образец специального
+// сертификата, приложение к Низому приложения 2¹. Эти два числа не норма, а единственная опубликованная цена, которую мы
+// нашли. Держать их рядом со ставками нормы можно только с этой пометкой.
+var EXAM_PRIVATE  = 1500000;   // spot.uz 07.01.2026, действует с 06.01.2026
+var RETRY_PRIVATE = 1600000;   // тот же источник
+
+// Минимальные объёмы по категории B — ПКМ № 408, приложение 3, п. 11¹,
+// введён ПКМ № 393 от 20.07.2022 и с тех пор не менялся.
+var MIN_PRACT_B = 69;   // часов практического управления
+var MIN_AUD_B   = 216;  // часов аудиторной нагрузки
+var MIN_WEEKS_B = 18;   // недель срока обучения
+// Цены дополнительного часа вождения здесь нет и быть не может. ПОЧЕМУ: обзор,
+// на который мы ссылались, говорит, что часы докупаются «instruktor bilan
+// kelishilgan holda» — по договорённости, без прайса; а число 200 000 в том же
+// обзоре стоит у часа на симуляторе и у средней цены медсправки, не у часа
+// с инструктором. Умножать выдуманную ставку на введённые часы — врать ровно
+// в том месте, ради которого страницу и открывают. Цену часа вводит человек.
+var POST      = 25000;     // доставка пластика почтой, osonprava.uz 22.03.2026
+var REF_LOW   = 10000000;  // ориентир полной цены по обзорам, нижняя граница
+var REF_HIGH  = 11000000;  // верхняя граница
+
+/* БРВ живёт не одним числом «сейчас», а списком датированных значений, у каждого
+   свой акт. ПОЧЕМУ так, а не константой с ручной правкой 1 сентября: страница
+   статическая, и слово «сейчас» в тот день начинает врать само по себе. Список
+   не устаревает — он просто перестаёт быть последним, и следующая строка
+   добавляется, а не заменяет предыдущую: расчёт по августовской дате должен
+   остаться воспроизводимым и в октябре. */
+var BHM = [
+  { from: new Date(2025, 7, 1).getTime(), v: 412000,
+    ru: "УП-91 от 02.06.2025", uz: "PF-91, 02.06.2025",
+    since_ru: "с 1 августа 2025", since_uz: "2025-yil 1-avgustdan",
+    url: "https://lex.uz/ru/docs/7553336" },
+  { from: new Date(2026, 8, 1).getTime(), v: 440000,
+    ru: "УП-115 от 23.06.2026", uz: "PF-115, 23.06.2026",
+    since_ru: "с 1 сентября 2026", since_uz: "2026-yil 1-sentabrdan",
+    url: "https://lex.uz/ru/docs/8283680" }
+];
+function bhmRec() {
+  var now = Date.now(), r = BHM[0];
+  for (var i = 0; i < BHM.length; i++) if (now >= BHM[i].from) r = BHM[i];
+  return r;
+}
+function bhm() { return bhmRec().v; }
+
+/* Все восемь сумм собираются в одном месте. ПОЧЕМУ это не украшение: раньше
+   та же арифметика стояла трижды — в calc(), в common() для сравнения школ
+   и в saveSheet() для листа печати. Смена ставки требовала трёх одинаковых
+   правок, и ровно так продукт и разъезжается сам с собой. */
+function parts() {
+  var b    = bhm();
+  // Скидку норма ставит в пп. 8 и 10 регламента — на сбор за госуслугу и на
+  // экзаменационные платежи в органе ГСБДД. К плате за саму выдачу (п. 14,
+  // 70% БРВ) она не оговорена, поэтому на эти 70% не применяется.
+  var disc = parseFloat(document.getElementById("i_boj").value);
+  if (!(disc > 0 && disc <= 1)) disc = 1;
+  var path = document.getElementById("i_exam").value;
+  var examOne  = path === "private" ? EXAM_PRIVATE  : Math.round(b * K_EXAM  * disc);
+  var retryOne = path === "private" ? RETRY_PRIVATE : Math.round(b * K_RETRY * disc);
+
+  var p = {
+    b: b, path: path, disc: disc, examOne: examOne, retryOne: retryOne,
+    kurs:  val("i_kurs", 0),
+    med:   parseFloat(document.getElementById("i_med").value) || 0,
+    exam:  path === "no" ? 0 : examOne * 2,
+    // Выбравший «Не считаю экзамен» не выбирал ни один из путей, значит ставки
+    // пересдачи у него нет тоже. Раньше пересдачи здесь считались по ставке
+    // ГСБДД, и человек получал в смете деньги, которых сам не заказывал.
+    retry: path === "no" ? 0 : (parseInt(document.getElementById("i_retry").value, 10) || 0) * retryOne,
+    hours: val("i_hours", 0) * val("i_hour_v", 0),
+    fuel:  val("i_fuel_n", 0) * val("i_fuel_v", 0),
+    boj:   Math.round(b * K_VYDACHA) + Math.round(b * K_USLUGA * disc),
+    post:  document.getElementById("i_post").checked ? POST : 0,
+    dog:   val("i_dog_hours", 0)
+  };
+  p.total = p.kurs + p.med + p.exam + p.retry + p.hours + p.fuel + p.boj + p.post;
+  p.extra = p.total - p.kurs;
+  p.lack  = p.dog > 0 ? Math.max(0, MIN_PRACT_B - p.dog) : 0;
+  return p;
+}
+
+function calc() {
+  var p = parts();
+
+  var rows = [["s_kurs", p.kurs], ["s_med", p.med], ["s_exam", p.exam], ["s_retry", p.retry],
+              ["s_hours", p.hours], ["s_fuel", p.fuel], ["s_boj", p.boj], ["s_post", p.post]];
+  rows.forEach(function (r) {
+    var el = document.getElementById(r[0]);
+    el.textContent = r[1] ? fmt(r[1]) : "—";
+    // Нулевую строку глушим цветом, а не прячем: человек должен видеть, что
+    // статья существует и он сам поставил по ней ноль.
+    el.closest(".row").classList.toggle("off", !r[1]);
+  });
+
+  document.getElementById("s_total").textContent = money(p.total);
+  document.getElementById("s_extra").textContent = money(p.extra);
+
+  var share = p.total > 0 ? Math.max(0, Math.min(100, p.kurs / p.total * 100)) : 0;
+  document.getElementById("bar1").style.width = share + "%";
+  document.getElementById("bar2").style.width = (100 - share) + "%";
+
+  // ── Часы вождения против нормы ────────────────────────────────────────────
+  // Строка не суммируется: недобор оплачивают позже и по другой цене. Показываем
+  // не деньги, а нехватку, и глушим строку, пока человек ничего не ввёл.
+  var sn = document.getElementById("s_norm"), nw = document.getElementById("normwarn");
+  var soat = lang === "ru" ? " ч" : " soat";
+  sn.textContent = p.dog > 0 ? (p.lack ? "−" + p.lack + soat : "OK") : "—";
+  sn.closest(".row").classList.toggle("off", !p.dog);
+  nw.classList.toggle("hide", !p.lack);
+  if (p.lack) {
+    nw.textContent = lang === "ru"
+      ? "В договоре " + p.dog + " часов вождения, а норма для категории B требует не менее " + MIN_PRACT_B +
+        ". Не хватает " + p.lack + " часов. Это не мелочь и не спор о словах: соблюдение учебных планов — лицензионное требование, а с 1 апреля 2026 года практические занятия обязательной программы проходятся полностью, и только после этого школа формирует электронное свидетельство, по которому вас допускают к экзамену. Недостающие часы вам продадут как «дополнительные» по цене, которую назовут уже после подписи. Спросите до неё — и попросите записать в договор число не меньше " + MIN_PRACT_B + "."
+      : "Shartnomada " + p.dog + " soat haydash bor, B toifa uchun meʼyor esa kamida " + MIN_PRACT_B +
+        " ni talab qiladi. " + p.lack + " soat yetishmayapti. Bu mayda gap ham, soʻz ustidagi bahs ham emas: oʻquv rejalariga rioya qilish — litsenziya talabi, 2026-yil 1-apreldan esa majburiy dasturning amaliy mashgʻulotlari toʻliq oʻtaladi va faqat shundan keyin avtomaktab sizni imtihonga qoʻyadigan elektron guvohnomani shakllantiradi. Yetishmagan soatlarni sizga «qoʻshimcha» deb, narxini imzodan keyin aytib sotishadi. Imzodan oldin soʻrang va shartnomaga " + MIN_PRACT_B + " dan kam boʻlmagan raqamni yozib berishlarini talab qiling.";
+  }
+
+  // ── Подписи со ставками ───────────────────────────────────────────────────
+  var r = bhmRec();
+  var base = lang === "ru"
+    ? "1 БРВ = " + fmt(r.v) + " сум " + r.since_ru + " (" + r.ru + ")"
+    : "1 BHM = " + fmt(r.v) + " soʻm " + r.since_uz + " (" + r.uz + ")";
+  document.getElementById("h_boj").textContent = lang === "ru"
+    ? "= " + fmt(p.boj) + " сум. " + base + ". Взамен утерянного — " + fmt(Math.round(r.v * K_DUBLIKAT)) + "."
+    : "= " + fmt(p.boj) + " soʻm. " + base + ". Yoʻqotilgani oʻrniga — " + fmt(Math.round(r.v * K_DUBLIKAT)) + ".";
+  document.getElementById("h_exam").textContent = p.path === "no" ? "" : (lang === "ru"
+    ? "= " + fmt(p.examOne) + " сум за экзамен. " + base + "."
+    : "= bir imtihon uchun " + fmt(p.examOne) + " soʻm. " + base + ".");
+  document.getElementById("h_retry").textContent = p.path === "no" ? "" : (lang === "ru"
+    ? "= " + fmt(p.retryOne) + " сум за попытку."
+    : "= bir urinish uchun " + fmt(p.retryOne) + " soʻm.");
+
+  // Итог сравнивается с ориентиром из обзоров — но только когда основание то же.
+  // Обзоры считают экзамен по частному центру; при пути через орган ГСБДД итог
+  // законно ниже ориентира в разы, и фраза «проверьте, не забыли ли строку»
+  // была бы прямым враньём.
+  var note;
+  // Три состояния селектора, а не два: «не считаю» — это не «через ГСБДД».
+  // Приписывать человеку выбор, которого он не делал, нельзя даже ради
+  // красивого объяснения заниженного итога.
+  if (p.path === "no") {
+    note = lang === "ru"
+      ? "Экзамен и пересдачи в этот итог не включены — вы выбрали «Не считаю экзамен». Ориентир открытых обзоров (10–11 млн сум) посчитан вместе с экзаменом по цене частного центра, поэтому сравнивать с ним ваш итог нельзя. Кто принимает экзамен именно у вас, надо спросить в автошколе: там, где работает лицензированный частный центр, экзамены принимает только он."
+      : "Imtihon va qayta topshirishlar bu yakunga kirmagan — siz «Imtihonni hisoblamayman» ni tanladingiz. Ochiq sharhlardagi mezon (10–11 million soʻm) imtihonni xususiy markaz narxi boʻyicha qoʻshib hisoblagan, shuning uchun sizning yakuningizni u bilan solishtirib boʻlmaydi. Imtihonni aynan sizda kim qabul qilishini avtomaktabdan soʻrash kerak: litsenziyali xususiy markaz ishlaydigan hududda imtihonni faqat oʻsha qabul qiladi.";
+  } else if (p.path !== "private") {
+    note = lang === "ru"
+      ? "Ориентир открытых обзоров (10–11 млн сум) посчитан по цене частного экзаменационного центра. Вы выбрали экзамен в органе ГСБДД, поэтому сравнивать эти два итога нельзя — и именно поэтому у вас выходит меньше."
+      : "Ochiq sharhlardagi mezon (10–11 million soʻm) xususiy imtihon markazi narxi boʻyicha hisoblangan. Siz DYHXX organidagi imtihonni tanladingiz, shuning uchun bu ikki yakunni solishtirib boʻlmaydi — sizda kamroq chiqishining sababi ham shu.";
+  } else if (p.total > REF_HIGH) {
+    note = lang === "ru"
+      ? "Открытые обзоры дают на полный цикл 10–11 млн сум. У вас выходит больше на " + money(p.total - REF_HIGH) + " — стоит разобрать по строкам, из-за какой именно разница."
+      : "Ochiq sharhlar toʻliq tsikl uchun 10–11 million soʻm beradi. Sizda " + money(p.total - REF_HIGH) + " ga koʻp chiqyapti — farq aynan qaysi qatordan ekanini koʻrib chiqish kerak.";
+  } else if (p.total < REF_LOW) {
+    note = lang === "ru"
+      ? "Это ниже ориентира обзоров (10–11 млн). Проверьте, не остались ли ненулевыми только те строки, которые вы уже знаете: чаще всего забывают про бензин и дополнительные часы."
+      : "Bu sharhlardagi mezondan (10–11 mln) past. Faqat oʻzingiz biladigan qatorlar hisobga olinmaganini tekshiring: koʻpincha yoqilgʻi va qoʻshimcha soatlar unutiladi.";
+  } else {
+    note = lang === "ru"
+      ? "Это попадает в ориентир открытых обзоров: 10–11 млн сум за полный цикл категории B."
+      : "Bu ochiq sharhlar mezoniga tushadi: B toifa toʻliq tsikli uchun 10–11 million soʻm.";
+  }
+  document.getElementById("s_note").textContent = note;
+  return { total: p.total, extra: p.extra, kurs: p.kurs };
+}
+
+// Событие calc шлём с задержкой: пока человек набирает «7000000», иначе
+// улетело бы семь событий подряд и воронка стала бы враньём.
+var calcTimer = null, calcLast = 0;
+function calcChanged() {
+  var r = calc();
+  // Сравнение считает общую часть из этих же полей, а лист печати собирает всё
+  // вместе, поэтому обе вещи пересчитываются здесь же, а не по своему событию.
+  cmpCalc();
+  clearTimeout(calcTimer);
+  calcTimer = setTimeout(function () {
+    var now = Date.now();
+    if (now - calcLast < 6000) return;
+    calcLast = now;
+    ev("calc", { total: r.total, extra: r.extra, kurs: r.kurs });
+  }, 900);
+}
+["i_kurs", "i_med", "i_exam", "i_retry", "i_dog_hours", "i_hours", "i_hour_v", "i_fuel_n", "i_fuel_v", "i_boj", "i_post"]
+  .forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener("input", calcChanged);
+    el.addEventListener("change", calcChanged);
+  });
+
+/* ── Чек-лист: копирование ─────────────────────────────────────────────────
+   Список вопросов нужен не на экране, а в кармане у входа в автошколу.
+   Поэтому его можно унести текстом — и это же самый честный сигнал пользы:
+   человек копирует то, чем собирается пользоваться. */
+document.getElementById("copyq").onclick = function () {
+  var head = lang === "ru"
+    ? "Вопросы автошколе до подписания договора:"
+    : "Shartnoma imzolashdan oldin avtomaktabga savollar:";
+  var items = [].slice.call(document.querySelectorAll(".qs li")).map(function (li, i) {
+    return (i + 1) + ". " + li.querySelector(".q").textContent.trim() + "\n   " + li.querySelector(".ask").textContent.trim();
+  });
+  // К адресу дописываем метку канала: список уносят, чтобы переслать знакомому,
+  // и без метки эти переходы приедут в отчёт без источника — а в posts.md
+  // пересылка описана как отдельный канал share.
+  //
+  // Режем и по «?», и по «#», а не по одному «?». ПОЧЕМУ: якорь стоит в адресе
+  // после пути, поэтому split по «?» его не срезает, и заход без строки запроса
+  // плюс клик по кнопке «#savollar» давал в буфере «…/index.html#savollar?src=share».
+  // У получателя такой адрес кладёт весь хвост в hash, location.search остаётся
+  // пустым, SOURCE = null — и канал share выглядел бы мёртвым ровно там, где он
+  // живее всего: на органике и на второй пересылке подряд.
+  var txt = head + "\n\n" + items.join("\n\n") + "\n\n" + location.href.split(/[?#]/)[0] + "?src=share";
+  var done = function () {
+    var b = document.getElementById("copyq");
+    var old = b.textContent;
+    b.textContent = lang === "ru" ? "Скопировано" : "Nusxa olindi";
+    setTimeout(function () { b.textContent = old; }, 2000);
+    ev("share", { what: "questions" });
+  };
+  // Вебвью внутри мессенджеров ведут себя двумя разными способами: у одних
+  // clipboard API нет вовсе, у других он есть, но отказывает по разрешениям —
+  // и тогда обещание отклоняется молча. Оба случая ведут в один и тот же
+  // запасной путь, иначе кнопка выглядит нажатой и не делает ничего.
+  var legacy = function () {
+    var ta = document.createElement("textarea");
+    ta.value = txt; ta.style.position = "fixed"; ta.style.opacity = "0";
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand("copy"); } catch (e) {}
+    document.body.removeChild(ta);
+    if (ok) { done(); }
+    else {
+      // Скопировать нечем — показываем текст, чтобы человек унёс его руками.
+      var box = document.getElementById("copybox");
+      box.value = txt; box.classList.remove("hide"); box.select();
+      ev("share", { what: "questions_manual" });
+    }
+  };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(txt).then(done, legacy);
+  } else { legacy(); }
+};
+
+/* ── FAQ и переходы ───────────────────────────────────────────────────── */
+[].slice.call(document.querySelectorAll("details")).forEach(function (d) {
+  d.addEventListener("toggle", function () { if (d.open) ev("faq", { q: d.dataset.q }); });
+});
+[].slice.call(document.querySelectorAll("[data-ev]")).forEach(function (a) {
+  a.addEventListener("click", function () { ev("cta", { where: a.dataset.ev }); });
+});
+
+/* ── Заявка ───────────────────────────────────────────────────────────── */
+function radioWire(boxId, onChange) {
+  var box = document.getElementById(boxId);
+  box.addEventListener("change", function () {
+    [].slice.call(box.querySelectorAll("label")).forEach(function (l) {
+      var r = l.querySelector("input");
+      l.classList.toggle("on", !!(r && r.checked));
+    });
+    if (onChange) onChange();
+  });
+}
+radioWire("f_want");
+radioWire("f_price", function () {
+  var other = document.querySelector('#f_price input[value="other"]').checked;
+  document.getElementById("f_price_other").classList.toggle("hide", !other);
+  if (other) document.getElementById("f_price_other").focus();
+});
+
+// Начало заполнения формы — это и есть намерение, и его надо отличать от отправки:
+// без этого шага в воронке не видно, сколько человек до формы дошло и передумало.
+// Слушаем focusin и input на самой форме, а не focus на одном поле: focusin
+// всплывает, поэтому засчитается любое поле, с которого человек начал.
+var ctaSent = false;
+function formTouched() {
+  if (ctaSent) return;
+  ctaSent = true;
+  ev("cta", { where: "form" });
+}
+var leadForm = document.getElementById("lead");
+leadForm.addEventListener("focusin", formTouched);
+leadForm.addEventListener("input", formTouched);
+
+leadForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  var btn = document.getElementById("f_send");
+  var err = document.getElementById("f_err");
+  function stop(ru, uz, el) {
+    err.textContent = lang === "ru" ? ru : uz;
+    err.classList.remove("hide");
+    if (el && el.scrollIntoView) el.scrollIntoView({ block: "center" });
+  }
+  var contact = document.getElementById("f_contact").value.trim();
+  if (!contact) return stop("Оставьте контакт, иначе ответить некуда.",
+                            "Aloqa maʼlumotini qoldiring, aks holda javob berib boʻlmaydi.",
+                            document.getElementById("f_contact"));
+  // Пустую строку отбивали, а «ab» проходило: заявка попадала в порог, но
+  // ответить по ней было некуда — то есть замер считал то, чего нет.
+  // Пять символов — это самое короткое, чем реально пользуются: имя
+  // в телеграме от пяти знаков, номер длиннее. Верхнюю границу держит
+  // maxlength у поля.
+  if (contact.length < 5) return stop("Контакт слишком короткий: оставьте номер или имя в телеграме — по такому ответить некуда.",
+                            "Aloqa juda qisqa: raqam yoki Telegramdagi ismni qoldiring — bunga javob berib boʻlmaydi.",
+                            document.getElementById("f_contact"));
+
+  // Ничего не выбрано заранее, и подставлять значение за человека нельзя.
+  // ПОЧЕМУ: выбранный тариф и названная цена — это и есть измеряемая величина.
+  // С подстановкой «платёжное намерение» превращается в «оставил контакт»,
+  // и порог в PROVERKA.md начинает считать не то, что обещает.
+  var wantEl  = document.querySelector('#f_want input:checked');
+  var priceEl = document.querySelector('#f_price input:checked');
+  if (!wantEl)  return stop("Выберите, что нужно.", "Nima kerakligini tanlang.",
+                            document.getElementById("f_want"));
+  if (!priceEl) return stop("Выберите, сколько это для вас стоит.",
+                            "Bu siz uchun qancha turishini tanlang.",
+                            document.getElementById("f_price"));
+
+  var want = wantEl.value;
+  var pv = priceEl.value;
+  var price = pv === "other" ? val("f_price_other", 0) : parseInt(pv, 10);
+  if (pv === "other" && !(price > 0)) return stop("Впишите свою цену числом.",
+                            "Oʻz narxingizni raqam bilan yozing.",
+                            document.getElementById("f_price_other"));
+  err.classList.add("hide");
+
+  var r = calc();
+  var note = document.getElementById("f_note").value.trim();
+  // К заявке прикладываем расчёт: без него непонятно, с какой суммой в голове
+  // человек согласился платить, а это половина смысла теста.
+  //
+  // Расчёт стоит ПЕРВЫМ, а не после текста. ПОЧЕМУ: тело режется до 600
+  // символов, а в поле заметки помещается ровно 600 — значит при длинной
+  // заметке хвост с числами отрезался целиком и молча. Согласие у кнопки
+  // обещает, что расчёт сохраняется; обещание не должно зависеть от того,
+  // сколько человек написал в свободном поле.
+  var full = "hisob: " + r.total + ", ortiqcha: " + r.extra + ", kurs: " + r.kurs +
+    ", lang: " + lang + (note ? " · " + note : "");
+
+  btn.disabled = true;
+  fetch(API + "/lead", {
+    method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify({
+      product: PROD, sess: SESS, source: SOURCE,
+      contact: contact, want: want, price_pick: price, note: full.slice(0, 600)
+    })
+  }).then(function (res) { return res.json().catch(function () { return { ok: res.ok }; }); })
+    .then(function (out) {
+      if (out && out.ok) {
+        ev("lead", { want: want, price: price, total: r.total });
+        leadForm.classList.add("hide");
+        document.getElementById("f_ok").classList.remove("hide");
+        document.getElementById("f_ok").scrollIntoView({ block: "center" });
+      } else { throw new Error("no"); }
+    })
+    .catch(function () {
+      // Ошибка пишется в отдельную строку, а не поверх подсказки под кнопкой:
+      // там лежит согласие на обработку контакта, и стирать его нельзя.
+      btn.disabled = false;
+      var err = document.getElementById("f_err");
+      err.textContent = lang === "ru"
+        ? "Не удалось отправить. Проверьте связь и попробуйте ещё раз."
+        : "Yuborib boʻlmadi. Aloqani tekshirib, yana urinib koʻring.";
+      err.classList.remove("hide");
+    });
+});
+
+/* ── Сравнение трёх школ ───────────────────────────────────────────────────
+   Зачем оно вообще: названные цены школ несравнимы между собой. В одной цене
+   бензин, в другой нет; где-то часов больше, где-то меньше. Человек видит
+   5 500 000 и 7 000 000 и выбирает первое, а платит в итоге больше. Сравнение
+   складывает к каждой названной цене то, что именно у ЭТОЙ школы придётся
+   доплатить, и добавляет общую часть — экзамен, медсправку, госпошлину,
+   доставку, — которая одинакова везде, потому что платится не школе.
+
+   Ни одно число отсюда не уходит на сервер: ни названия школ, ни суммы.
+   Уходит только событие «инструмент открыт» — и ровно так написано и под
+   таблицей, и в подвале. */
+function common() {
+  // Общая часть: всё, что платится не автошколе и потому одинаково для всех.
+  // Считается тем же parts(), что и смета, — иначе сравнение школ жило бы
+  // по своей копии ставок и расходилось с калькулятором на той же странице.
+  var p = parts();
+  return p.med + p.exam + p.retry + p.boj + p.post;
+}
+
+function cmpRead() {
+  var base = common(), out = [];
+  for (var i = 1; i <= 3; i++) {
+    var kurs  = val("c" + i + "_kurs", 0);
+    var fuel  = val("c" + i + "_fuel", 0);
+    var hours = val("c" + i + "_hours", 0);
+    out.push({
+      i: i,
+      name: (document.getElementById("c" + i + "_name").value || "").trim().slice(0, 30),
+      kurs: kurs, fuel: fuel, hours: hours,
+      // Школа без названной цены в сравнении не участвует: ноль — это «я сюда
+      // ещё не ходил», а не «здесь бесплатно». Иначе пустая колонка всегда
+      // выигрывала бы как самая дешёвая.
+      total: kurs > 0 ? kurs + fuel + hours + base : 0
+    });
+  }
+  return out;
+}
+
+function cmpCalc() {
+  var rows = cmpRead();
+  var live = rows.filter(function (r) { return r.total > 0; });
+  var min = 0, max = 0;
+  live.forEach(function (r) {
+    if (!min || r.total < min) min = r.total;
+    if (r.total > max) max = r.total;
+  });
+  rows.forEach(function (r) {
+    var out = document.getElementById("c" + r.i + "_out");
+    var tag = document.getElementById("c" + r.i + "_tag");
+    var box = document.querySelector('.cmp .sch[data-s="' + r.i + '"]');
+    out.textContent = r.total ? money(r.total) : "—";
+    var best = live.length > 1 && r.total > 0 && r.total === min;
+    box.classList.toggle("best", best);
+    tag.classList.toggle("hide", !best);
+  });
+
+  var sum = document.getElementById("cmpsum");
+  if (live.length < 2) {
+    sum.textContent = lang === "ru"
+      ? "Впишите названную цену хотя бы двух школ — тогда появится разница. Пока их меньше двух, сравнивать нечего."
+      : "Kamida ikkita avtomaktabning aytilgan narxini yozing — shunda farq chiqadi. Ikkitadan kam boʻlsa, solishtiradigan narsa yoʻq.";
+  } else {
+    // Главная строка всего раздела: разница между самой дешёвой и самой дорогой
+    // по ПОЛНОЙ цене — и отдельно замечание, если по названной цене порядок
+    // получается обратный. Ради этого случая раздел и сделан.
+    var cheapNamed = live.slice().sort(function (a, b) { return a.kurs - b.kurs; })[0];
+    var cheapFull  = live.slice().sort(function (a, b) { return a.total - b.total; })[0];
+    var flip = cheapNamed.i !== cheapFull.i;
+    var nm = function (r) {
+      return r.name || (lang === "ru" ? "школа " + r.i : r.i + "-avtomaktab");
+    };
+    sum.innerHTML = "";
+    var p1 = document.createElement("div");
+    p1.appendChild(document.createTextNode(lang === "ru"
+      ? "Разница между самой дешёвой и самой дорогой по полной цене: "
+      : "Toʻliq narx boʻyicha eng arzon va eng qimmat orasidagi farq: "));
+    var b = document.createElement("b");
+    b.textContent = money(max - min);
+    p1.appendChild(b);
+    sum.appendChild(p1);
+    if (flip) {
+      var p2 = document.createElement("div");
+      p2.style.marginTop = "8px";
+      p2.textContent = lang === "ru"
+        ? "Обратите внимание: дешевле всего назвали цену в «" + nm(cheapNamed) +
+          "», а по полной цене дешевле выходит «" + nm(cheapFull) + "»."
+        : "Eʼtibor bering: eng arzon narxni «" + nm(cheapNamed) +
+          "» aytdi, toʻliq narx boʻyicha esa «" + nm(cheapFull) + "» arzonroq chiqyapti.";
+      sum.appendChild(p2);
+    }
+  }
+  cmpSave(rows);
+  saveSheet();
+  return rows;
+}
+
+/* Введённые школы переживают перезагрузку. ПОЧЕМУ это обязательно, а не удобство:
+   цены в трёх школах собирают не за один присест — в одну сходили сегодня,
+   в другую в субботу. Если бы таблица обнулялась при закрытии вкладки, ею
+   нельзя было бы пользоваться по назначению вообще. Плюс лист печати берёт
+   школы из своей записи: без восстановления полей на листе печатались бы
+   школы, которых на странице уже не видно. */
+var CMP_KEY = "avtomaktab_cmp";
+function cmpSave(rows) {
+  try {
+    localStorage.setItem(CMP_KEY, JSON.stringify(rows.map(function (r) {
+      return { name: r.name, kurs: r.kurs, fuel: r.fuel, hours: r.hours };
+    })));
+  } catch (e) {}
+}
+function cmpRestore() {
+  var a;
+  try { a = JSON.parse(localStorage.getItem(CMP_KEY) || "[]"); } catch (e) { return; }
+  if (!Array.isArray(a)) return;
+  a.slice(0, 3).forEach(function (r, i) {
+    if (!r) return;
+    var n = i + 1;
+    document.getElementById("c" + n + "_name").value  = String(r.name || "").slice(0, 30);
+    document.getElementById("c" + n + "_kurs").value  = +r.kurs  || 0;
+    document.getElementById("c" + n + "_fuel").value  = +r.fuel  || 0;
+    document.getElementById("c" + n + "_hours").value = +r.hours || 0;
+  });
+}
+
+// Текст в узлы сравнения кладётся через textContent и createElement, а не
+// сборкой HTML-строки. ПОЧЕМУ: название школы человек вводит сам, и кавычка
+// или угловая скобка в нём не должны попадать в разметку — ровно тот класс
+// ошибки, что описан в Р-31 про «Тойхона "Зарафшон"».
+
+// Событие называется cta, а не «tool». ПОЧЕМУ: список разрешённых имён событий
+// зашит в общей функции mvp (open, calc, cta, lead, share, faq), она одна на
+// четыре продукта и правится не здесь. Незнакомое имя она отвергает четырёхсотым,
+// то есть «инструмент открыт» просто не записалось бы — а в подвале страницы
+// было бы написано, что записывается. Поэтому имя взято из разрешённых, а что
+// именно открыли, лежит в meta.where с приставкой tool_: по ней воронка
+// в PROVERKA.md §4 отделяет инструменты от переходов к форме одной строкой SQL.
+var cmpTouched = false;
+["name", "kurs", "fuel", "hours"].forEach(function (k) {
+  for (var i = 1; i <= 3; i++) {
+    (function (id) {
+      var el = document.getElementById(id);
+      var h = function () {
+        if (!cmpTouched) { cmpTouched = true; ev("cta", { where: "tool_compare" }); }
+        cmpCalc();
+      };
+      el.addEventListener("input", h);
+      el.addEventListener("change", h);
+    })("c" + i + "_" + k);
+  }
+});
+
+/* ── Журнал занятий ────────────────────────────────────────────────────────
+   Механика переплаты описана в отраслевом обзоре так: деньги за топливо могут
+   просить на каждом занятии, а дополнительные часы покупаются по договорённости
+   с инструктором. И то и другое — наличными, помалу и много раз за 2,5 месяца.
+   Считать это некому: в договоре этих строк нет по определению.
+
+   Журнал живёт в localStorage и никуда не уходит. Это не про приватность ради
+   красивого слова: если бы записи уезжали на сервер, у нас появилась бы база
+   «кто сколько заплатил мимо кассы своей автошколе» — то есть данные о третьих
+   лицах, которых мы не спрашивали. */
+var LOG_KEY = "avtomaktab_daftar";
+var LOG_MAX = 200;
+
+function logLoad() {
+  try {
+    var a = JSON.parse(localStorage.getItem(LOG_KEY) || "[]");
+    return Array.isArray(a) ? a.slice(0, LOG_MAX) : [];
+  } catch (e) { return []; }
+}
+function logSave(a) {
+  try { localStorage.setItem(LOG_KEY, JSON.stringify(a.slice(0, LOG_MAX))); } catch (e) {}
+}
+function logTotals(a) {
+  var f = 0, h = 0;
+  a.forEach(function (r) { f += (+r.f || 0); h += (+r.h || 0); });
+  return { n: a.length, fuel: f, hours: h, sum: f + h };
+}
+
+function logRender() {
+  var a = logLoad();
+  var box = document.getElementById("logrows");
+  box.innerHTML = "";
+  var tpl = document.querySelector("#logtpl .logrow");
+  a.forEach(function (r, idx) {
+    var node = tpl.cloneNode(true);
+    node.querySelector(".d").textContent = r.d || "";
+    [].slice.call(node.querySelectorAll("input")).forEach(function (inp) {
+      var k = inp.dataset.k;
+      inp.value = +r[k] || 0;
+      inp.addEventListener("input", function () {
+        var cur = logLoad();
+        if (!cur[idx]) return;
+        var v = parseFloat(inp.value);
+        var mx = parseFloat(inp.max);
+        if (!isFinite(v) || v < 0) v = 0;
+        if (isFinite(mx) && v > mx) v = mx;
+        cur[idx][k] = v;
+        logSave(cur);
+        logRender();
+      });
+    });
+    node.querySelector(".del").addEventListener("click", function () {
+      var cur = logLoad();
+      cur.splice(idx, 1);
+      logSave(cur);
+      logRender();
+    });
+    box.appendChild(node);
+  });
+
+  var t = logTotals(a);
+  document.getElementById("logsum").textContent = t.sum ? money(t.sum) : "—";
+  var hint = document.getElementById("loghint");
+  if (!a.length) {
+    hint.textContent = lang === "ru"
+      ? "Пока пусто. Нажмите «Добавить занятие» после первого занятия — дата подставится сама."
+      : "Hozircha boʻsh. Birinchi darsdan keyin «Dars qoʻshish» ni bosing — sana oʻzi qoʻyiladi.";
+  } else {
+    hint.textContent = lang === "ru"
+      ? "Занятий записано: " + t.n + ". Бензин — " + money(t.fuel) + ", дополнительные часы — " + money(t.hours) + ". Эта сумма попадёт в лист для печати."
+      : "Yozilgan darslar: " + t.n + ". Yoqilgʻi — " + money(t.fuel) + ", qoʻshimcha soatlar — " + money(t.hours) + ". Bu summa chop etish varaqasiga tushadi.";
+  }
+  applyLang();
+  saveSheet();
+}
+
+document.getElementById("logadd").onclick = function () {
+  var a = logLoad();
+  if (a.length >= LOG_MAX) return;
+  var d = new Date();
+  var two = function (n) { return (n < 10 ? "0" : "") + n; };
+  a.push({ d: two(d.getDate()) + "." + two(d.getMonth() + 1) + "." + d.getFullYear(), f: 0, h: 0 });
+  logSave(a);
+  if (a.length === 1) ev("cta", { where: "tool_log" });
+  logRender();
+};
+document.getElementById("logclear").onclick = function () {
+  // Спрашивать подтверждение через confirm() нельзя: в вебвью мессенджеров он
+  // не гарантирован (то же, что ловили у To'y). Поэтому кнопка требует второго
+  // нажатия и сама говорит об этом.
+  var b = this;
+  if (b.dataset.armed === "1") {
+    logSave([]);
+    b.dataset.armed = "";
+    logRender();
+    return;
+  }
+  b.dataset.armed = "1";
+  var old = b.textContent;
+  b.textContent = lang === "ru" ? "Нажмите ещё раз — сотрёт всё" : "Yana bosing — hammasi oʻchadi";
+  setTimeout(function () { b.dataset.armed = ""; b.textContent = old; }, 4000);
+};
+
+/* ── Лист для печати ───────────────────────────────────────────────────────
+   Всё, что нужно листу, кладётся в localStorage при каждом изменении. Сам лист
+   (varaqa.html) — отдельная страница без единого сетевого запроса: она читает
+   эту запись и рисует А4. Передавать через адресную строку нельзя — там были бы
+   названия школ и суммы, а класть личные данные в URL мы не будем. */
+var SHEET_KEY = "avtomaktab_varaqa";
+function saveSheet() {
+  try {
+    var k = document.getElementById("i_kurs");
+    if (!k) return;
+    var p = parts();
+    var r = {
+      kurs: p.kurs, med: p.med, exam: p.exam, retry: p.retry,
+      hours: p.hours, fuel: p.fuel, boj: p.boj, post: p.post,
+      // Лист печати обязан унести с собой то, чего в сумме нет: путь экзамена,
+      // часы по договору и недобор до нормы. Без них человек у стойки не сможет
+      // повторить разговор, ради которого лист и печатается.
+      total: p.total, extra: p.extra,
+      dog: p.dog, lack: p.lack, path: p.path, min: MIN_PRACT_B
+    };
+    localStorage.setItem(SHEET_KEY, JSON.stringify({
+      v: 1, lang: lang, at: Date.now(),
+      calc: r,
+      cmp: cmpRead().map(function (c) {
+        return { name: c.name, kurs: c.kurs, fuel: c.fuel, hours: c.hours, total: c.total };
+      }),
+      log: logTotals(logLoad())
+    }));
+  } catch (e) {}
+}
+document.getElementById("varaqabtn").addEventListener("click", function () {
+  saveSheet();
+  ev("cta", { where: "tool_varaqa" });
+});
+
+/* ── Цена в карточке — из одного места ─────────────────────────────────────
+   Раньше window.MVP_PRICES объявлялась и не использовалась ни разу, а число
+   49 000 стояло в карточке текстом. Две копии одной цены — это ровно тот
+   разъезд, ради которого в проекте появился claims.pl. Теперь карточка
+   печатает то же число, что уедет в price_pick. */
+(function () {
+  var el = document.getElementById("pk_price");
+  var p = PRICES.paket || PRICES.redline_plus || 49000;
+  if (el) el.textContent = fmt(p);
+})();
+
+/* ── Старт ────────────────────────────────────────────────────────────── */
+applyLang();
+calc();
+cmpRestore();
+cmpCalc();
+logRender();
+ev("open", { lang: lang, ref: (document.referrer || "").slice(0, 80) });
+</script>
+</body>
+</html>

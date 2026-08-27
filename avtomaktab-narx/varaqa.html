@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="uz">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Avtomaktabga olib boriladigan varaqa</title>
+<meta name="robots" content="noindex">
+<meta name="color-scheme" content="light dark">
+<style>
+/* Лист, а не страница. Всё направление одно: это должно печататься на один
+   лист А4 и заполняться ручкой у стойки. Отсюда линейки под ответы, поля для
+   даты и имени отвечавшего, отсутствие всякого оформления в печати.
+
+   На этой странице НЕТ ни одного сетевого запроса. Ни fetch, ни картинок,
+   ни шрифтов с чужого домена: сюда попадают названия автошкол и суммы, которые
+   человек ввёл про себя, и они не должны никуда уходить даже случайно —
+   загрузка шрифта с чужого домена уже была бы обращением наружу. Поэтому
+   гарнитуры только системные. */
+:root{
+  --paper:#FFFFFF; --ink:#14201C; --ink2:#3A4741; --muted:#5F6D66;
+  --rule:#CBD3CD; --rule2:#E6EBE6; --green:#0F6B57; --amber:#8A4F10;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#121714; --ink:#E9EFEA; --ink2:#C2CCC6; --muted:#8E9992;
+    --rule:#333B35; --rule2:#242B26; --green:#59C8A8; --amber:#E0A45C;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121714; --ink:#E9EFEA; --ink2:#C2CCC6; --muted:#8E9992;
+  --rule:#333B35; --rule2:#242B26; --green:#59C8A8; --amber:#E0A45C;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-size:15px;line-height:1.5}
+.sheet{max-width:760px;margin:0 auto;padding:22px 18px 60px}
+.num{font-variant-numeric:tabular-nums}
+h1{font-size:21px;margin:0 0 4px;line-height:1.25;font-family:Georgia,"Times New Roman",serif}
+h2{font-size:15px;margin:22px 0 8px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+p{margin:0 0 10px}
+.sub{color:var(--muted);font-size:13px;margin-bottom:14px}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}
+.b{border:1px solid var(--rule);background:transparent;color:var(--ink);border-radius:9px;
+  padding:9px 15px;font:600 14px inherit;cursor:pointer;text-decoration:none;display:inline-block}
+.b.pr{background:var(--green);border-color:var(--green);color:#fff}
+:root[data-theme="dark"] .b.pr{color:#0B1512}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .b.pr{color:#0B1512}}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--rule2);vertical-align:top}
+th{font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+td.v{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums;font-weight:600}
+tr.tot td{border-top:2px solid var(--ink);border-bottom:0;font-weight:700;font-size:15.5px;padding-top:10px}
+tr.off td{color:var(--muted);font-weight:400}
+.ex{background:transparent;border:1px solid var(--amber);border-radius:9px;padding:9px 11px;
+  margin-top:10px;font-size:14px;color:var(--ink2)}
+.ex b{color:var(--amber);font-variant-numeric:tabular-nums}
+ol.q{padding-left:18px;margin:0}
+ol.q li{margin-bottom:13px;font-size:14px}
+ol.q .t{font-weight:600;display:block}
+ol.q .ask{color:var(--ink2);display:block;margin-bottom:6px}
+.line{border-bottom:1px solid var(--rule);height:17px;margin-top:4px}
+.who{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;font-size:13px;color:var(--muted)}
+.who span{flex:1 1 190px}
+.who i{display:block;border-bottom:1px solid var(--rule);height:19px;font-style:normal}
+.foot{margin-top:26px;padding-top:12px;border-top:1px solid var(--rule2);
+  font-size:11.5px;color:var(--muted)}
+.empty{border:1px dashed var(--rule);border-radius:11px;padding:14px;color:var(--ink2);font-size:14px}
+.hide{display:none}
+
+/* Печать: лист обязан выйти на один А4 и не тратить краску на интерфейс. */
+@media print{
+  :root{--paper:#fff;--ink:#000;--ink2:#222;--muted:#555;--rule:#888;--rule2:#ccc;
+        --green:#000;--amber:#000}
+  body{font-size:11.5pt;line-height:1.35}
+  .sheet{max-width:none;padding:0}
+  .noprint{display:none !important}
+  h2{margin:12px 0 5px}
+  ol.q li{margin-bottom:9px}
+  .line{height:15px}
+  @page{margin:14mm}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<div class="noprint bar">
+  <button class="b pr" type="button" id="print" data-ru="Печать или PDF">Chop etish yoki PDF</button>
+  <a class="b" href="index.html" data-ru="Назад к расчёту">Hisobga qaytish</a>
+  <button class="b" type="button" id="lng">Ру</button>
+</div>
+
+<h1 data-ru="Лист для разговора в автошколе">Avtomaktabdagi suhbat uchun varaqa</h1>
+<p class="sub"><span data-ru="Заполнено:">Toʻldirildi:</span> <span id="date" class="num">—</span> ·
+  <span data-ru="Все суммы — в сумах. Этот лист собран на вашем устройстве и ничего не отправляет. Сам расчёт на соседней странице отправляет три числа: цену курса, итог и разницу.">Barcha summalar — soʻmda. Bu varaqa qurilmangizda yigʻilgan va hech narsa yubormaydi. Hisobning oʻzi qoʻshni sahifada uchta sonni yuboradi: kurs narxi, jami va farq.</span></p>
+
+<div class="empty noprint hide" id="empty" data-ru="Расчёт пуст: вы ещё ничего не вводили. Лист напечатается с пустыми строками — это тоже годится, тогда цифры впишете ручкой. Чтобы лист собрался сам, вернитесь на страницу расчёта и заполните калькулятор.">Hisob boʻsh: siz hali hech narsa kiritmagansiz. Varaqa boʻsh qatorlar bilan chiqadi — bu ham boʻladi, raqamlarni ruchka bilan yozasiz. Varaqa oʻzi toʻlishi uchun hisob sahifasiga qaytib, hisoblagichni toʻldiring.</div>
+
+<h2 data-ru="1. Полная цена по вашему расчёту">1. Sizning hisobingiz boʻyicha toʻliq narx</h2>
+<table>
+  <thead><tr>
+    <th data-ru="Статья">Modda</th>
+    <th data-ru="Сумма">Summa</th>
+    <th data-ru="Входит в цену школы?">Maktab narxiga kiradimi?</th>
+  </tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+<div class="ex"><span data-ru="Сверх названной цены:">Aytilgan narxdan ortiqcha:</span>
+  <b id="extra" class="num">—</b></div>
+
+<!-- Часы вождения печатаются отдельной строкой, а не строкой сметы: это
+     не деньги, а соответствие норме. Ради этой строки лист чаще всего
+     и относят к стойке. -->
+<div class="ex hide" id="normline"></div>
+
+<h2 data-ru="2. Семь вопросов и ответы школы">2. Yettita savol va maktabning javoblari</h2>
+<ol class="q">
+  <li><span class="t" data-ru="Цена и её состав">Narx va uning tarkibi</span>
+    <span class="ask" data-ru="Итоговая сумма до получения прав? Что в неё входит, что нет? Запишете это в договор? Берёте ли деньги за регистрацию группы в ГСБДД — для A и B её отменили?">Guvohnoma olgunimga qadar yakuniy summa? Unga nima kiradi, nima kirmaydi? Buni shartnomaga yozasizmi? Guruhni DYHXX da roʻyxatga olish uchun pul olasizmi — A va B uchun bu bekor qilingan-ku?</span>
+    <span class="line"></span></li>
+  <li><span class="t" data-ru="Часы вождения: сколько и какие">Amaliy soatlar: nechta va qanaqa</span>
+    <span class="ask" data-ru="Сколько часов вождения в договоре? Норма для B — не менее 69, аудитории не менее 216, срок не менее 18 недель. Академические часы или астрономические? Покажете путевые листы и книжку учёта занятий?">Shartnomada nechta soat haydash bor? B uchun meʼyor — kamida 69, auditoriya kamida 216, muddat kamida 18 hafta. Soatlar akademikmi yoki astronomikmi? Yoʻl varaqalari va darslar hisobi daftarchasini koʻrsatasizmi?</span>
+    <span class="line"></span></li>
+  <li><span class="t" data-ru="Бензин и площадка">Yoqilgʻi va poligon</span>
+    <span class="ask" data-ru="Бензин чей? Просят ли деньги за топливо на занятиях? Площадка входит?">Yoqilgʻi kimning hisobidan? Darslarda yoqilgʻi puli soʻraladimi? Poligon kiradimi?</span>
+    <span class="line"></span></li>
+  <li><span class="t" data-ru="Перенос, болезнь, пропуск">Koʻchirish, kasallik, dars qoldirish</span>
+    <span class="ask" data-ru="За сколько часов можно перенести? Что будет при болезни? Перенос платный?">Necha soat oldin koʻchirish mumkin? Kasal boʻlsam nima boʻladi? Koʻchirish pullikmi?</span>
+    <span class="line"></span></li>
+  <li><span class="t" data-ru="Расторжение и возврат">Bekor qilish va pulni qaytarish</span>
+    <span class="ask" data-ru="Если прекращу после N занятий — по какой формуле считается возврат?">N ta darsdan keyin toʻxtatsam — pul qaysi formula boʻyicha qaytariladi?</span>
+    <span class="line"></span></li>
+  <li><span class="t" data-ru="Ответственность школы">Maktabning javobgarligi</span>
+    <span class="ask" data-ru="Что будет, если занятие отменит школа или не приедет инструктор? Часы компенсируются?">Darsni maktab bekor qilsa yoki instruktor kelmasa nima boʻladi? Soatlar qoplanadimi?</span>
+    <span class="line"></span></li>
+  <li><span class="t" data-ru="Экзамен, пересдача, споры">Imtihon, qayta topshirish, nizolar</span>
+    <span class="ask" data-ru="Кто у нас принимает экзамен — частный центр или орган ГСБДД? Сопровождение входит? Помните: теория действительна два месяца. Где решается спор?">Bizda imtihonni kim qabul qiladi — xususiy markazmi yoki DYHXX organimi? Hamrohlik kiradimi? Esda tuting: nazariya ikki oy amal qiladi. Nizo qayerda hal qilinadi?</span>
+    <span class="line"></span></li>
+  <li><span class="t" data-ru="Коробка передач на экзамене">Imtihondagi uzatmalar qutisi</span>
+    <span class="ask" data-ru="Практический экзамен принимают на механической коробке — кроме A1 и A: для них норма делает прямое исключение (ПКМ № 408, прил. 2 к Положению о лицензировании, п. 11, абз. 2 в ред. ПКМ № 125 от 30.03.2026; без исключения то же в прил. 2¹, п. 40). На чём я буду учиться и на чём сдавать? Если учусь на автомате — сколько стоит переучиться?">Amaliy imtihon mexanik uzatmalar qutisida qabul qilinadi — A1 va A bundan mustasno: ular uchun meʼyor toʻgʻridan-toʻgʻri istisno qiladi (408-son qaror, litsenziyalash nizomiga 2-ilova, 11-band, 2-xatboshi, 30.03.2026 dagi 125-son qaror tahririda; mustasnosiz oʻshanday talab 2¹-ilova 40-bandida). Men nimada oʻrganaman va nimada topshiraman? Avtomatda oʻrgansam — qayta oʻrganish qancha turadi?</span>
+    <span class="line"></span></li>
+  <li><span class="t" data-ru="Пропуск экзамена">Imtihonni oʻtkazib yuborish</span>
+    <span class="ask" data-ru="Экзаменационный платёж вносится вперёд и не возвращается; неявка без уважительной причины = услуга оказана, но справка платёж спасает (прил. 2¹, пп. 51–52). Какие документы центр примет как уважительную причину и куда их нести?">Imtihon toʻlovi oldindan toʻlanadi va qaytarilmaydi; uzrli sababsiz kelmaslik xizmat koʻrsatilgan hisoblanadi, lekin maʼlumotnoma toʻlovni saqlab qoladi (2¹-ilova, 51–52-bandlar). Markaz qanday hujjatlarni uzrli sabab deb qabul qiladi va ularni qayerga olib borish kerak?</span>
+    <span class="line"></span></li>
+</ol>
+
+<div class="who">
+  <span><span data-ru="Кто отвечал (имя, должность)">Kim javob berdi (ism, lavozim)</span><i></i></span>
+  <span><span data-ru="Дата разговора">Suhbat sanasi</span><i></i></span>
+  <span><span data-ru="Название автошколы">Avtomaktab nomi</span><i></i></span>
+</div>
+
+<div id="cmpwrap" class="hide">
+  <h2 data-ru="3. Три школы рядом">3. Uchta avtomaktab yonma-yon</h2>
+  <table>
+    <thead><tr>
+      <th data-ru="Школа">Avtomaktab</th>
+      <th data-ru="Названная цена">Aytilgan narx</th>
+      <th data-ru="Полная цена">Toʻliq narx</th>
+    </tr></thead>
+    <tbody id="cmprows"></tbody>
+  </table>
+</div>
+
+<div id="logwrap" class="hide">
+  <h2 data-ru="4. Журнал занятий">4. Darslar daftari</h2>
+  <table>
+    <tbody id="logrows"></tbody>
+  </table>
+</div>
+
+<div class="foot">
+  <p data-ru="Это не документ и не приложение к договору — это ваша запись разговора. Юридической силы у неё нет; она нужна, чтобы вы не забыли ответы и могли сверить их со счётом. Мы не оказываем юридических услуг и не проводим экспертизу.">Bu hujjat ham, shartnomaga ilova ham emas — bu sizning suhbat yozuvingiz. Uning yuridik kuchi yoʻq; u javoblarni unutmasligingiz va keyin hisob bilan solishtira olishingiz uchun kerak. Biz yuridik xizmat koʻrsatmaymiz va ekspertiza qilmaymiz.</p>
+  <p data-ru="Ставки в расчёте — из открытых источников со ссылками и датами, они перечислены на странице расчёта. Проверяйте их перед оплатой: они меняются.">Hisobdagi stavkalar — havola va sanasi koʻrsatilgan ochiq manbalardan, ular hisob sahifasida sanab oʻtilgan. Toʻlashdan oldin tekshiring: ular oʻzgarib turadi.</p>
+</div>
+
+</div>
+
+<script>
+"use strict";
+
+/* Лист собирается из записи, которую страница расчёта кладёт в localStorage.
+   Через адресную строку это передавать нельзя: там были бы названия школ
+   и суммы, а личные данные в URL не кладут — они попадают в историю браузера,
+   в реферер и в логи любого сервера, куда потом уйдёт переход.
+
+   Здесь нет ни одного fetch и ни одной внешней ссылки на ресурс: страница
+   обещает «никуда ничего не отправляет», и это должно быть правдой не по
+   намерению, а по составу файла. */
+
+var SHEET_KEY = "avtomaktab_varaqa";
+var LK = "avtomaktab_lang";
+var TK = "avtomaktab_theme";
+
+try { var t0 = localStorage.getItem(TK); if (t0) document.documentElement.dataset.theme = t0; } catch (e) {}
+
+var data = null;
+try { data = JSON.parse(localStorage.getItem(SHEET_KEY) || "null"); } catch (e) { data = null; }
+
+var lang = (function () {
+  if (data && (data.lang === "ru" || data.lang === "uz")) return data.lang;
+  try { var v = localStorage.getItem(LK); if (v === "ru" || v === "uz") return v; } catch (e) {}
+  return (navigator.language || "").indexOf("ru") === 0 ? "ru" : "uz";
+})();
+
+var TITLE = {
+  uz: "Avtomaktabga olib boriladigan varaqa",
+  ru: "Лист для разговора в автошколе"
+};
+
+function i18nScan() {
+  [].slice.call(document.querySelectorAll("[data-ru]")).forEach(function (n) {
+    if (n.dataset.uzt === undefined) n.dataset.uzt = n.innerHTML;
+  });
+}
+function applyLang() {
+  i18nScan();
+  [].slice.call(document.querySelectorAll("[data-ru]")).forEach(function (n) {
+    n.innerHTML = lang === "ru" ? n.dataset.ru : n.dataset.uzt;
+  });
+  document.documentElement.lang = lang;
+  document.title = TITLE[lang];
+  document.getElementById("lng").textContent = lang === "ru" ? "Oʻz" : "Ру";
+}
+
+var NB = " ";
+function fmt(n) {
+  n = Math.round(+n || 0);
+  var s = String(Math.abs(n)), out = "";
+  for (var i = s.length; i > 0; i -= 3) out = s.slice(Math.max(0, i - 3), i) + (out ? NB + out : "");
+  return (n < 0 ? "−" : "") + out;
+}
+
+/* Подписи строк сметы лежат здесь, а не в разметке: строк восемь, и каждая
+   рисуется одинаково. Оба языка стоят рядом в одном месте — так ключ не может
+   потеряться в одном из словарей, а именно этим опасны параллельные словари. */
+var ROWS = [
+  ["kurs",  "Практический курс автошколы",       "Avtomaktabning amaliy kursi",          "school"],
+  ["hours", "Дополнительные часы вождения",       "Qoʻshimcha amaliy soatlar",            "school"],
+  ["fuel",  "Деньги за бензин",                   "Yoqilgʻi puli",                        "school"],
+  ["med",   "Медсправка 083",                     "Tibbiy maʼlumotnoma, 083-shakl",       "no"],
+  ["exam",  "Экзамен: теория и практика",         "Imtihon: nazariy va amaliy",           "no"],
+  ["retry", "Пересдача",                          "Qayta topshirish",                     "no"],
+  ["boj",   "Сбор за удостоверение (79% БРВ)",    "Guvohnoma uchun yigʻim (BHM ning 79%)", "no"],
+  ["post",  "Доставка пластика почтой",           "Plastik guvohnomani pochta orqali olish", "no"]
+];
+var ASK = { ru: "спросить", uz: "soʻrash kerak" };
+var NOT = { ru: "нет, платится не школе", uz: "yoʻq, maktabga toʻlanmaydi" };
+
+function render() {
+  var c = (data && data.calc) || {};
+  var body = document.getElementById("rows");
+  body.innerHTML = "";
+  ROWS.forEach(function (r) {
+    var v = +c[r[0]] || 0;
+    var tr = document.createElement("tr");
+    if (!v) tr.className = "off";
+    var td1 = document.createElement("td");
+    td1.textContent = lang === "ru" ? r[1] : r[2];
+    var td2 = document.createElement("td");
+    td2.className = "v";
+    td2.textContent = v ? fmt(v) : "—";
+    var td3 = document.createElement("td");
+    // Третья колонка — не наш ответ, а то, что человек должен выяснить у стойки.
+    // Для строк, которые платятся не автошколе, ответ известен заранее, и делать
+    // вид, что это тоже вопрос, было бы враньём про смысл колонки.
+    td3.textContent = r[3] === "school" ? ASK[lang] : NOT[lang];
+    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+    body.appendChild(tr);
+  });
+  var tr = document.createElement("tr");
+  tr.className = "tot";
+  var t1 = document.createElement("td");
+  t1.textContent = lang === "ru" ? "Итого до получения прав" : "Guvohnoma qoʻlga tekkunicha jami";
+  var t2 = document.createElement("td");
+  t2.className = "v";
+  t2.textContent = c.total ? fmt(c.total) : "—";
+  var t3 = document.createElement("td");
+  tr.appendChild(t1); tr.appendChild(t2); tr.appendChild(t3);
+  body.appendChild(tr);
+
+  document.getElementById("extra").textContent = c.extra ? fmt(c.extra) : "—";
+
+  // Часы по договору против минимума нормы. Печатается только если человек
+  // вписал число: пустая строка «0 из 69» выглядела бы как обвинение школы,
+  // которого мы не делали.
+  var nl = document.getElementById("normline");
+  var min = +c.min || 69;
+  nl.classList.toggle("hide", !(c.dog > 0));
+  if (c.dog > 0) {
+    nl.textContent = lang === "ru"
+      ? (c.lack
+         ? "Часов вождения в договоре: " + c.dog + " при минимуме " + min + " по норме. Не хватает " + c.lack + " — спросите, чем их добирают и почём."
+         : "Часов вождения в договоре: " + c.dog + ". Минимум по норме — " + min + ", он соблюдён.")
+      : (c.lack
+         ? "Shartnomadagi haydash soatlari: " + c.dog + ", meʼyor boʻyicha minimum esa " + min + ". " + c.lack + " soat yetishmayapti — ular qanday va qanchaga qoplanishini soʻrang."
+         : "Shartnomadagi haydash soatlari: " + c.dog + ". Meʼyor boʻyicha minimum " + min + ", u bajarilgan.");
+  }
+
+  document.getElementById("empty").classList.toggle("hide", !!(c && c.total));
+
+  var d = new Date(data && data.at ? data.at : Date.now());
+  var two = function (n) { return (n < 10 ? "0" : "") + n; };
+  document.getElementById("date").textContent =
+    two(d.getDate()) + "." + two(d.getMonth() + 1) + "." + d.getFullYear();
+
+  // Сравнение печатается только если школ хотя бы две: одна строка «сравнения»
+  // на листе выглядит как ошибка и занимает место, которого на А4 нет.
+  var cmp = ((data && data.cmp) || []).filter(function (s) { return s && s.total > 0; });
+  document.getElementById("cmpwrap").classList.toggle("hide", cmp.length < 2);
+  var cb = document.getElementById("cmprows");
+  cb.innerHTML = "";
+  cmp.forEach(function (s, i) {
+    var row = document.createElement("tr");
+    var a = document.createElement("td");
+    a.textContent = s.name || (lang === "ru" ? "школа " + (i + 1) : (i + 1) + "-avtomaktab");
+    var b = document.createElement("td");
+    b.className = "v"; b.textContent = fmt(s.kurs);
+    var cc = document.createElement("td");
+    cc.className = "v"; cc.textContent = fmt(s.total);
+    row.appendChild(a); row.appendChild(b); row.appendChild(cc);
+    cb.appendChild(row);
+  });
+
+  var lg = (data && data.log) || null;
+  document.getElementById("logwrap").classList.toggle("hide", !(lg && lg.sum > 0));
+  var lb = document.getElementById("logrows");
+  lb.innerHTML = "";
+  if (lg && lg.sum > 0) {
+    [[lang === "ru" ? "Занятий записано" : "Yozilgan darslar", String(lg.n)],
+     [lang === "ru" ? "Бензин, всего" : "Yoqilgʻi, jami", fmt(lg.fuel)],
+     [lang === "ru" ? "Дополнительные часы, всего" : "Qoʻshimcha soatlar, jami", fmt(lg.hours)],
+     [lang === "ru" ? "Сверх договора, всего" : "Shartnomadan tashqari, jami", fmt(lg.sum)]
+    ].forEach(function (p) {
+      var row = document.createElement("tr");
+      var a = document.createElement("td"); a.textContent = p[0];
+      var b = document.createElement("td"); b.className = "v"; b.textContent = p[1];
+      row.appendChild(a); row.appendChild(b);
+      lb.appendChild(row);
+    });
+  }
+}
+
+document.getElementById("print").onclick = function () { window.print(); };
+document.getElementById("lng").onclick = function () {
+  lang = lang === "ru" ? "uz" : "ru";
+  try { localStorage.setItem(LK, lang); } catch (e) {}
+  applyLang();
+  render();
+};
+
+applyLang();
+render();
+</script>
+</body>
+</html>
