@@ -95,10 +95,20 @@ header{padding:22px 0 26px}
 .tile{background:var(--acc-bg);border-radius:12px;padding:13px 14px}
 .tile b{display:block;font-family:var(--display);font-size:23px;line-height:1.1}
 .tile span{display:block;font-size:12.5px;color:var(--muted);margin-top:5px}
+/* День недели стоит второй строкой в клетке даты, а не своей колонкой:
+   четыре колонки требовали min-width:460px, а на телефоне 375 px под таблицу
+   остаётся 338 — колонка «время» и часть «что делается» уезжали за край,
+   и строки резались посреди слова. Это страница, которая отвечает на «я не вижу,
+   что покупаю»; резать её на телефоне — отвечать наполовину. Та же правка
+   в app/index.html, у той же таблицы. */
 .tw{overflow-x:auto;margin-top:16px;border:1px solid var(--line);border-radius:12px}
-table.plan{border-collapse:collapse;width:100%;min-width:460px;font-size:14.5px}
+table.plan{border-collapse:collapse;width:100%;font-size:14.5px}
 table.plan th,table.plan td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line2);
   vertical-align:top}
+table.plan td.d .hf{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+@media(max-width:430px){
+  table.plan th,table.plan td{padding:9px 8px}
+}
 table.plan th{font:600 10.5px var(--body);letter-spacing:.14em;text-transform:uppercase;
   color:var(--muted);background:var(--line2)}
 table.plan tr:last-child td{border-bottom:0}
@@ -112,6 +122,14 @@ table.plan tr.muddat td{background:#FBF2E6;color:#8A5A1F;font-weight:600}
 }
 :root[data-theme="dark"] table.plan tr.muddat td{background:#2E2411;color:#E8C489}
 table.cal{border-collapse:collapse;width:100%;min-width:520px;font-size:11.5px;table-layout:fixed}
+/* Подпись про горизонтальную прокрутку — только на экранах, где календарь
+   в 520 px действительно не помещается. На широком экране её нет: подсказка
+   про жест, которого не требуется, — такая же неправда, как её отсутствие там,
+   где он требуется. 560 px — ширина, ниже которой рамка уже календаря;
+   замерено в браузере 28.08.2026: при окне 556 px рамка 518 против 520
+   у календаря, при 600 px — 562, то есть прокрутки уже нет. */
+.surish{display:none}
+@media(max-width:560px){ .surish{display:block;margin-top:8px} }
 table.cal th{font:600 10px var(--body);letter-spacing:.1em;text-transform:uppercase;
   color:var(--muted);background:var(--line2);padding:6px 4px;text-align:center;
   border:1px solid var(--line)}
@@ -212,7 +230,16 @@ footer{border-top:1px solid var(--line);padding:26px 0 40px;font-size:13.5px;col
   toʻrt varaqdan oshardi, taqvimda esa oʻn uch-oʻn toʻrt qator boʻladi.
   Yoʻqotilgan narsa yoʻq — katakda blok va mavzu raqami turadi, mavzular roʻyxati
   esa pastda.</p>
+  <!-- Календарь — семь колонок, и уже он на телефоне шире экрана: 520 px
+       против 338. Сузить его нельзя, не сделав нечитаемым, поэтому он
+       по-прежнему ездит вбок внутри своей рамки — но теперь об этом сказано.
+       Раньше не было сказано ничего: на телефоне у каждой недели молча
+       пропадали два последних дня, и человек, пришедший СМОТРЕТЬ товар,
+       видел обрезанный товар и не знал, что его можно домотать.
+       Подпись показывается только там, где прокрутка действительно есть. -->
   <div class="tw"><table class="cal" id="cal"></table></div>
+  <p class="small surish">Taqvim ekranga sigʻmaydi — uni barmoq bilan
+  yon tomonga suring: hafta yakshanba bilan tugaydi.</p>
   <p class="small" style="margin-top:12px"><strong>Nechta varaq boʻlishini
   oʻlchadik va aytamiz.</strong> 31 kungacha boʻlgan reja bitta A4 ga sigʻadi;
   32 kun va undan uzuni ikkinchi varaqqa chiqadi, eng uzun 90 kunlik reja esa
@@ -439,13 +466,16 @@ function sana(d) { return ddmm(d) + "." + d.getFullYear(); }
 
   var tbl = document.getElementById("tbl");
   var thead = el("tr");
-  ["Sana", "Kun", "Nima qilinadi", "Vaqt"].forEach(function (t) { thead.appendChild(el("th", null, t)); });
+  // Колонок три: день недели — вторая строка в клетке даты. Тот же порядок,
+  // что в приложении, иначе образец и товар выглядели бы по-разному.
+  ["Sana", "Nima qilinadi", "Vaqt"].forEach(function (t) { thead.appendChild(el("th", null, t)); });
   tbl.appendChild(thead);
 
   r.kun.forEach(function (k) {
     var tr = el("tr", k.muddat ? k.tur + " muddat" : k.tur);
-    tr.appendChild(el("td", "d", ddmm(k.sana)));
-    tr.appendChild(el("td", null, k.hafta));
+    var td1 = el("td", "d", ddmm(k.sana));
+    td1.appendChild(el("span", "hf", k.hafta));
+    tr.appendChild(td1);
     tr.appendChild(el("td", null, k.ish));
     tr.appendChild(el("td", "n", k.daq ? k.daq + " daq" : "—"));
     tbl.appendChild(tr);

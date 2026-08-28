@@ -2,7 +2,7 @@
 // UZ — машинный черновик, на вычитку носителю. Номера норм проверить с инженером (см. TODO-NORMS.md).
 // Формат: секция → пункты {id, ru, uz, how: как проверить, tool: что нужно}
 const CHECKLIST = [
-{ id: "docs", icon: "📑", ru: "До осмотра: документы", uz: "Koʻrikdan oldin: hujjatlar", items: [
+{ id: "docs", act: true, icon: "📑", ru: "До осмотра: документы", uz: "Koʻrikdan oldin: hujjatlar", items: [
  { id: "d1", ru: "Возьмите: паспорт, договор (ДДУ/КП), план квартиры из договора", uz: "Pasport, shartnoma va kvartira rejasini oling", how: "План нужен, чтобы сверять метраж и перегородки", how_uz: "Reja metrajni va toʻsiqlarni solishtirish uchun kerak", tool: "папка документов" },
  { id: "d2", ru: "Уточните заранее: дом введён в эксплуатацию (акт ввода)", uz: "Uy foydalanishga topshirilganini oldindan aniqlang", how: "Без ввода приёмка преждевременна — спросите номер/дату акта", how_uz: "Foydalanishga topshirilmagan boʻlsa, qabul qilish erta — dalolatnoma raqami va sanasini soʻrang", tool: "" },
  { id: "d3", ru: "Осмотр — только при дневном свете; заложите 1,5–2 часа", uz: "Koʻrikni kunduzi oʻtkazing, 1,5–2 soat ajrating", how: "Вечером дефекты стен/окон не видны", how_uz: "Kechqurun devor va deraza nuqsonlari koʻrinmaydi", tool: "" },
@@ -47,7 +47,7 @@ const CHECKLIST = [
  { id: "v1", ru: "Тяга в вентканалах кухни и санузла (лист бумаги прилипает к решётке при закрытых окнах — приоткройте одно окно)", uz: "Oshxona va sanuzelda shamollatish tortadi (qogʻoz sinovi)", how: "Нет тяги/обратная тяга = дефект, влажность и плесень позже", how_uz: "Tortish yoʻq yoki teskari tortish = nuqson, keyinchalik namlik va mogʻor", tool: "лист бумаги" },
  { id: "v2", ru: "Решётки установлены, каналы не замусорены строительным мусором", uz: "Panjaralar oʻrnatilgan, kanallar toza", how: "Посветите фонариком в канал", how_uz: "Kanalga fonar bilan yorugʻlik tushiring", tool: "фонарик" },
 ]},
-{ id: "final", icon: "✍️", ru: "Финал: фиксация и подписание", uz: "Yakun: hujjatlashtirish", items: [
+{ id: "final", act: true, icon: "✍️", ru: "Финал: фиксация и подписание", uz: "Yakun: hujjatlashtirish", items: [
  { id: "f1", ru: "Каждый дефект: стикер на место + фото общего плана и крупно (с масштабом — монета/рулетка)", uz: "Har bir nuqson: stiker + umumiy va yaqin plan foto", how: "Фото сразу нумеруйте по комнатам — пригодится для акта", how_uz: "Suratlarni darrov xonalar boʻyicha raqamlang — dalolatnoma uchun asqotadi", tool: "камера" },
  { id: "f2", ru: "Все замечания — письменно в акт осмотра/приложение к акту приёма-передачи, с подписью представителя застройщика", uz: "Barcha kamchiliklar yozma ravishda dalolatnomaga kiritiladi", how: "Формулировка: «Квартиру принимаю после устранения замечаний по приложению №1» — если решили не принимать сейчас", how_uz: "Ibora: «Kvartirani ... bandlar boʻyicha eʼtirozlar bartaraf etilgandan keyin qabul qilaman»", tool: "" },
  { id: "f3", ru: "Зафиксируйте срок устранения (по закону — 20 дней со дня требования; впишите конкретную дату) и способ связи", uz: "Bartaraf etish muddatini yozib qoʻying", how: "Без даты застройщик тянет; дата в документе = точка отсчёта претензии", how_uz: "Sanasiz quruvchi choʻzadi; hujjatdagi sana = pretenziya muddatining boshlanish nuqtasi", tool: "" },

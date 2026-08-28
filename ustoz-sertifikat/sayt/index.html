@@ -113,6 +113,14 @@ header{padding:24px 0 0}
 /* Таблицы — главная ценность страницы: человек ищет цифру, а не абзац.
    Прокрутка у каждой своя, страница целиком вбок не ездит никогда. */
 .tw{overflow-x:auto;margin-top:20px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+/* Подпись про горизонтальную прокрутку таблиц. Показывается только на экранах,
+   где таблица в 520 px действительно не помещается в рамку: подсказка про жест,
+   которого не требуется, — такая же неправда, как её отсутствие там, где он
+   требуется. Замерено в браузере 28.08.2026: на 375 px рамка 333 против 520
+   у таблицы, то есть за краем оставались две колонки из пяти и ни одного
+   признака, что таблицу можно домотать. */
+.surish{display:none}
+@media(max-width:560px){ .surish{display:block;margin-top:8px} }
 table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px}
 th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line2);vertical-align:top}
 th{font:600 10.5px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
@@ -216,6 +224,7 @@ footer li{margin-bottom:7px}
       </tbody>
     </table>
   </div>
+  <p class="after surish">Jadval ekranga sigʻmaydi — uni barmoq bilan yon tomonga suring.</p>
   <div class="col">
     <p class="after">Maoshlar — infoedu.uz, 08.02.2026 (01.09.2026 gacha boʻlgan holat).
       7 foizlik oshirish — PF-115, 23.06.2026, I boʻlim, 2-band (BHM ning yangi
@@ -272,6 +281,7 @@ footer li{margin-bottom:7px}
       </tbody>
     </table>
   </div>
+  <p class="after surish">Jadval ekranga sigʻmaydi — uni barmoq bilan yon tomonga suring.</p>
   <div class="col">
     <div class="note warn">
       <strong>Farq — 37 800 soʻm, va u bitta kunga bogʻliq.</strong> Sana bu yerda
@@ -300,6 +310,7 @@ footer li{margin-bottom:7px}
       </tbody>
     </table>
   </div>
+  <p class="after surish">Jadval ekranga sigʻmaydi — uni barmoq bilan yon tomonga suring.</p>
   <div class="col">
     <p class="after"><strong>Bu jadvaldagi chegirmali summalar — ikkita mumkin boʻlgan
       oʻqishning kattasi, va biz buni yashirmaymiz.</strong> 4-band chegirmani
@@ -387,6 +398,7 @@ footer li{margin-bottom:7px}
       </tbody>
     </table>
   </div>
+  <p class="after surish">Jadval ekranga sigʻmaydi — uni barmoq bilan yon tomonga suring.</p>
   <div class="col">
     <!-- Ссылка на первоисточник, а не на газету: шкала стоит в акте дословно. -->
     <p class="after">Shkala — <strong>VMQ № 411, 1-ilova, 5-band</strong>, soʻzma-soʻz:
@@ -509,6 +521,7 @@ footer li{margin-bottom:7px}
       </tbody>
     </table>
   </div>
+  <p class="after surish">Jadval ekranga sigʻmaydi — uni barmoq bilan yon tomonga suring.</p>
   <div class="col">
     <div class="note">
       <strong>Hozircha toʻlov qabul qilinmayapti.</strong> Toʻplamdagi savollar banki
@@ -569,8 +582,11 @@ footer li{margin-bottom:7px}
       <!-- Ссылка на образец стоит внутри карточки цены, а не отдельным разделом:
            вопрос «а что я, собственно, куплю» возникает у человека ровно на
            числе 99 000, и ответ должен лежать в одном нажатии от него. -->
-      <p class="after"><strong><a href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/obrazec.html?lang=uz">Toʻliq
-        rejaning namunasi — boshidan oxirigacha</a>.</strong> Roʻyxatdan oʻtmasdan
+      <!-- В новой вкладке — как обе такие же ссылки в приложении. Человек уходит
+           смотреть образец из карточки цены, то есть из точки решения; вернуть
+           его сюда должно закрытие вкладки, а не поиск «назад». -->
+      <p class="after"><strong><a href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/obrazec.html?lang=uz" target="_blank" rel="noopener">Toʻliq
+        rejaning namunasi — boshidan oxirigacha (yangi oynada)</a>.</strong> Roʻyxatdan oʻtmasdan
         va toʻlovsiz: oʻylab topilgan oʻqituvchi uchun tuzilgan, lekin xuddi shu
         kod bilan — har bir kuni, taqvimi va mavzular roʻyxati. Hech narsa
         kesilmagan. Savollar banki namunada yoʻq, chunki u hali yozilmagan.</p>

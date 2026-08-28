@@ -129,10 +129,17 @@ header{padding:22px 0 0}
 .mark svg{width:22px;height:22px;display:block}
 .top b{font:700 16px var(--body);letter-spacing:-.01em;display:block}
 .top span{color:var(--muted);font-size:13px}
+.tilbtn{margin-left:auto;flex:none;align-self:center;font:600 13px var(--body);
+  color:var(--acc);text-decoration:none;border:1px solid var(--line);
+  border-radius:8px;padding:7px 10px;line-height:1.15;text-align:center}
+.tilbtn:hover{border-color:var(--acc)}
 .hero{position:relative;padding:30px 0 40px;
   background:repeating-linear-gradient(to bottom,transparent 0 33px,var(--line2) 33px 34px)}
 .hero:before{content:"";position:absolute;left:-2px;top:0;bottom:0;width:2px;background:var(--red);opacity:.5}
 .hero .lead{font-size:clamp(16.5px,3.4vw,19px);color:var(--ink2);max-width:36em}
+.hero-num{margin:18px 0 16px;padding:13px 15px;background:var(--acc-bg);
+  border-radius:12px;font-size:15px;color:var(--ink);max-width:36em;line-height:1.5}
+.hero-num b{font-family:var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
 .tag{display:inline-block;background:var(--acc-bg);color:var(--acc);font:600 12.5px var(--body);
   padding:5px 11px;border-radius:999px;margin-bottom:14px}
 
@@ -160,6 +167,7 @@ textarea{min-height:80px;resize:vertical}
 .row-check input{margin-top:3px;flex:none;width:17px;height:17px;accent-color:var(--acc)}
 
 .out{margin-top:20px;border-top:1px dashed var(--line);padding-top:18px}
+.chegirma-blok{margin-top:22px;border-top:1px dashed var(--line);padding-top:18px}
 .big{font-family:var(--display);font-weight:700;font-size:clamp(32px,9vw,52px);line-height:1.05;
   color:var(--acc);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
 .big small{font-family:var(--body);font-size:15px;font-weight:600;color:var(--ink2);
@@ -262,12 +270,26 @@ footer li{margin-bottom:6px}
 .timer.warn{color:var(--red)}
 .mock-note{font-size:13.5px;color:var(--muted);margin-top:10px}
 
-/* План. Таблица со своей горизонтальной прокруткой: на 320 px даты и задание
-   не помещаются рядом, а вся страница ездить вбок не должна ни при каких. */
+/* План. Таблица со своей горизонтальной прокруткой: вся страница ездить вбок
+   не должна ни при каких.
+
+   ДЕНЬ НЕДЕЛИ ПЕРЕЕХАЛ ПОД ДАТУ, И ВОТ ЗАЧЕМ. Четыре колонки требовали
+   min-width:460px, а на телефоне 375 px под таблицу остаётся 296: две трети
+   колонки «что делается» и вся колонка «время» уезжали за край, строки резались
+   посреди слова, и никакой подсказки, что таблицу можно двигать пальцем,
+   на экране не было. Замерено в браузере 28.08.2026: видимо 144 px из 239.
+   Это бесплатный показ того самого плана, за который просят деньги, — то есть
+   резалось ровно то, что продаёт. Дата и день недели — одна величина и живут
+   в одной клетке; трёх колонок хватает без прокрутки. Прокрутку у .tw
+   оставляем: она страхует узкие экраны и длинные строки. */
 .tw{overflow-x:auto;margin-top:16px;border:1px solid var(--line);border-radius:12px}
-table.plan{border-collapse:collapse;width:100%;min-width:460px;font-size:14.5px}
+table.plan{border-collapse:collapse;width:100%;font-size:14.5px}
 table.plan th,table.plan td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line2);
   vertical-align:top}
+table.plan td.d .hf{display:block;font-weight:400;font-size:12.5px;color:var(--muted)}
+@media(max-width:430px){
+  table.plan th,table.plan td{padding:9px 8px}
+}
 table.plan th{font:600 10.5px var(--body);letter-spacing:.14em;text-transform:uppercase;
   color:var(--muted);background:var(--line2)}
 table.plan tr:last-child td{border-bottom:0}
@@ -374,6 +396,14 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
       <b>Ustamam</b>
       <span>Boshlangʻich sinf oʻqituvchilari uchun mashq</span>
     </span>
+    <!-- ПЕРЕКЛЮЧАТЕЛЬ ЯЗЫКА В ШАПКЕ. Ссылку в учительский чат кидают всем
+         подряд, и русскоязычная коллега, открыв приложение, не находила
+         никакого способа переключиться: русский текст на странице есть,
+         но показывается только тому, кто пришёл с «?lang=ru».
+         Подпись честно говорит, что уводит на другую СТРАНИЦУ, а не
+         переключает эту: банка вопросов на русском у нас нет, и обещать
+         перевод приложения было бы неправдой. -->
+    <a class="tilbtn" href="sayt/ru.html?lang=ru" hreflang="ru">Русская страница</a>
   </div>
 </header>
 
@@ -396,6 +426,27 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
 <div class="hero">
   <span class="tag">VMQ № 411, 29.07.2026</span>
   <h1>B+ sertifikat maoshingizga har oy qancha qoʻshadi?</h1>
+
+  <!-- ДВА ЧИСЛА И ОДНО ДЕЙСТВИЕ НА ПЕРВОМ ЭКРАНЕ.
+       Человек приходит с одной мыслью: «за экзамен просят половину зарплаты,
+       и деньги не вернут». Страница обещала посчитать, сколько ДОБАВЯТ,
+       а сколько ОТДАТЬ — называла только на девятом экране, внутри длинного
+       абзаца и лишь после выбора оклада. Ответ приходилось собирать самому
+       из двух мест, разнесённых на шесть экранов. Теперь «отдать» стоит
+       рядом с «15 процентов каждый месяц» — на первом же экране.
+       И там же появляется то, чего на первом экране не было вовсе:
+       кнопка. Нажать было нечего — ни поля, ни «посчитать».
+       Стоит ПЕРЕД абзацем-лидом, а не после него, и сам лид при этом
+       не тронут ни на слово. Лид занимает 290 px: за ним оба числа
+       уезжали за нижний край телефона — то есть не решали ровно ту
+       задачу, ради которой заведены. Сначала ответ на вопрос заголовка,
+       потом рассказ о том, что ещё есть на странице.
+       Сумма НЕ ЗАШИТА В РАЗМЕТКУ: 1 сентября БҲМ становится 440 000, и
+       написанное руками число начало бы врать в самом видном месте страницы.
+       Её считает тот же yigim(), что и плитку в калькуляторе, а подпись
+       называет дату, с которой сумма верна. -->
+  <p class="hero-num" id="hero-num"></p>
+  <button class="btn" id="hero-cta" type="button">Ustamamni hisoblash — 1 daqiqa</button>
   <p class="lead">2026/2027 oʻquv yilidan boshlab B+ va undan yuqori darajadagi milliy
   sertifikatga ega boshlangʻich sinf oʻqituvchisiga <strong>har oy lavozim maoshining
   15 foizi</strong> miqdorida ustama toʻlanadi. Maoshingizni tanlang — bu necha soʻm
@@ -434,9 +485,69 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
         2026-yil 1-sentyabrdan byudjet xodimlari maoshi 7 foizga oshadi (PF-115, 23.06.2026).
         Belgilansa, tanlangan summa 7 foizga oshirib hisoblanadi — bu bizning hisobimiz,
         toifalar boʻyicha yangi rasmiy jadval hali eʼlon qilinmagan.
+        <strong>Katakcha imtihon toʻlovini ham oʻzgartiradi:</strong> maosh ham, BHM ham
+        1-sentyabrdan oshadi, shuning uchun belgilansa toʻlov ham oʻsha kundagi
+        BHM (440 000 soʻm) boʻyicha koʻrsatiladi — bitta ekranda avgust bilan
+        sentyabr aralashib ketmasligi uchun.
       </label>
     </div>
 
+    <div class="out" id="out">
+      <div class="big num" id="oyiga">— <small>oyiga, 15% ustama</small></div>
+      <div class="grid2">
+        <!-- ПЛИТКА «СКОЛЬКО ОТДАТЬ» СТОИТ ПЕРВОЙ И ЗАПОЛНЕНА ВСЕГДА, ДАЖЕ
+             БЕЗ ОКЛАДА. Взнос от оклада не зависит — он считается от БҲМ, —
+             а показывался только внутри абзаца #taqqos, то есть после выбора
+             категории и ниже двух экранов пояснений. Решение «отдавать ли
+             ползарплаты» принимают, положив рядом три числа: отдать, вернётся,
+             окупится. Теперь они лежат рядом. -->
+        <div class="tile"><b class="num" id="tolov">—</b><span>imtihon uchun toʻlanadigan summa — bir marta, qaytarilmaydi</span></div>
+        <div class="tile"><b class="num" id="yiliga">—</b><span>12 oyda (sertifikat amal qilgan davrda)</span></div>
+        <div class="tile"><b class="num" id="qoplash">—</b><span>imtihon yigʻimi shuncha vaqtda qoplanadi</span></div>
+      </div>
+      <!-- Оговорка про 2027 год стоит вплотную к плиткам, а не в подвале
+           «Источники». Решение принимают по колонке «12 oyda» и по плитке
+           окупаемости; оговорка, лежащая через два экрана, до решения
+           не доходит. Текст нормы приведён дословно — п. 6 абз. 3. -->
+      <p class="small" style="margin-top:14px"><strong>2027-yildan — budjet soʻrovnomalariga
+      bogʻliq.</strong> Qarorning 6-bandi uchinchi xatboshisi: 2026-yilgi xarajatlar
+      Maktabgacha va maktab taʼlimi vazirligiga ajratilgan mablagʻlar doirasida
+      moliyalashtiriladi, «2027-yildan boshlab esa budjet qonunchiligi talablariga muvofiq
+      taqdim etilgan budjet soʻrovnomalariga asosan Davlat budjeti parametrlarida nazarda
+      tutiladi». Sertifikat uch yil amal qiladi, biz esa yuqorida 12 oyni sanaymiz — bu
+      hisob, kafolat emas: 2027-yildan keyingi toʻlovlar budjet jarayoniga bogʻliq.</p>
+      <p class="small" style="margin-top:14px" id="yiliga-izoh"></p>
+      <p class="small" style="margin-top:14px" id="taqqos"></p>
+      <!-- МОСТИК В МАШҚ (U-72). Стоит ВНУТРИ #out, то есть под самими числами,
+           а не под карточкой: решение идти дальше человек принимает в ту секунду,
+           когда увидел свою надбавку. Раньше из калькулятора в тренировку не вело
+           ничего — войти в неё можно было только скроллом, — а доля «калькулятор →
+           тест» и есть цифра, по которой читается вердикт продукта (PROVERKA §4.1).
+           Событий кнопка не шлёт ни одного: шаги воронки уже считаются по
+           calc{kind:"ustama"} и calc{kind:"test_done"}, а новое число сделало бы
+           перечень «что уходит на сервер» в разделе «Xatolar daftari» неправдой.
+           Блок показывается только когда сумма посчитана: текст называет её вслух,
+           а под тремя прочерками он читался бы как поломка. -->
+      <div class="korpu hide" id="k-mashq">
+        <p class="small" id="k-mashq-izoh"></p>
+        <button class="btn wide" id="k-mashq-btn" type="button">Hozir tekshiraman — 20 ta savol</button>
+      </div>
+    </div>
+    <!-- ВОПРОС О СКИДКЕ СТОИТ ПОСЛЕ СУММЫ, А НЕ ДО НЕЁ.
+         Раньше «есть ли у вас скидка — малообеспеченная семья, инвалидность
+         I–II группы» стояло на два экрана ВЫШЕ первого упоминания о том, что
+         за экзамен вообще надо платить. Это скидка на платёж, о котором ещё
+         не сообщили: кнопка отвечала на вопрос, которого у человека не
+         возникло, — и спрашивала при этом про бедность и инвалидность.
+         Вопрос интимный, и задавать его можно только после того, как названо,
+         на что скидка и сколько это в сумах. Теперь над чипами стоят и плитка
+         «toʻlanadigan summa», и абзац #taqqos, а вопрос — под ними. Текст
+         самой нормы не тронут: он переехал целиком, слово в слово. -->
+    <div class="chegirma-blok">
+    <p class="small" style="margin:0"><strong>Yuqoridagi toʻlov summasi hamma uchun
+      bir xil emas.</strong> Qaror uni Ijtimoiy reyestrdagi oilalarga va I–II guruh
+      nogironligi boʻlgan shaxslarga kamaytiradi. Savol imtihon toʻlovi haqida,
+      ustama haqida emas: chegirmani tanlasangiz, yuqoridagi summa qayta hisoblanadi.</p>
     <!-- Скидки п. 4 стоят В КАЛЬКУЛЯТОРЕ, а не сноской внизу страницы.
          Для члена семьи из Соцреестра это 278 100 вместо 556 200 — экономия
          в 2,8 раза больше цены нашего же набора, и это самое дорогое, что
@@ -470,40 +581,6 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
       qilmaymiz — shuning uchun kalkulyator <strong>kattasini</strong> hisoblaydi:
       pulni kam rejalashtirgandan koʻra ortiqcha rejalashtirgan xavfsizroq.
       Invoys kichikroq chiqsa — yaxshi.</p>
-
-    <div class="out" id="out">
-      <div class="big num" id="oyiga">— <small>oyiga, 15% ustama</small></div>
-      <div class="grid2">
-        <div class="tile"><b class="num" id="yiliga">—</b><span>12 oyda (sertifikat amal qilgan davrda)</span></div>
-        <div class="tile"><b class="num" id="qoplash">—</b><span>imtihon yigʻimi shuncha vaqtda qoplanadi</span></div>
-      </div>
-      <!-- Оговорка про 2027 год стоит вплотную к плиткам, а не в подвале
-           «Источники». Решение принимают по колонке «12 oyda» и по плитке
-           окупаемости; оговорка, лежащая через два экрана, до решения
-           не доходит. Текст нормы приведён дословно — п. 6 абз. 3. -->
-      <p class="small" style="margin-top:14px"><strong>2027-yildan — budjet soʻrovnomalariga
-      bogʻliq.</strong> Qarorning 6-bandi uchinchi xatboshisi: 2026-yilgi xarajatlar
-      Maktabgacha va maktab taʼlimi vazirligiga ajratilgan mablagʻlar doirasida
-      moliyalashtiriladi, «2027-yildan boshlab esa budjet qonunchiligi talablariga muvofiq
-      taqdim etilgan budjet soʻrovnomalariga asosan Davlat budjeti parametrlarida nazarda
-      tutiladi». Sertifikat uch yil amal qiladi, biz esa yuqorida 12 oyni sanaymiz — bu
-      hisob, kafolat emas: 2027-yildan keyingi toʻlovlar budjet jarayoniga bogʻliq.</p>
-      <p class="small" style="margin-top:14px" id="yiliga-izoh"></p>
-      <p class="small" style="margin-top:14px" id="taqqos"></p>
-      <!-- МОСТИК В МАШҚ (U-72). Стоит ВНУТРИ #out, то есть под самими числами,
-           а не под карточкой: решение идти дальше человек принимает в ту секунду,
-           когда увидел свою надбавку. Раньше из калькулятора в тренировку не вело
-           ничего — войти в неё можно было только скроллом, — а доля «калькулятор →
-           тест» и есть цифра, по которой читается вердикт продукта (PROVERKA §4.1).
-           Событий кнопка не шлёт ни одного: шаги воронки уже считаются по
-           calc{kind:"ustama"} и calc{kind:"test_done"}, а новое число сделало бы
-           перечень «что уходит на сервер» в разделе «Xatolar daftari» неправдой.
-           Блок показывается только когда сумма посчитана: текст называет её вслух,
-           а под тремя прочерками он читался бы как поломка. -->
-      <div class="korpu hide" id="k-mashq">
-        <p class="small" id="k-mashq-izoh"></p>
-        <button class="btn wide" id="k-mashq-btn" type="button">Hozir tekshiraman — 20 ta savol</button>
-      </div>
     </div>
   </div>
 
@@ -594,8 +671,10 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
          и с телом запросов на живом прогоне через перехват window.fetch. Текст
          вопроса FAQ и referrer из отправки убраны — иначе перечень «только числа»
          был бы неправдой, а проверить его человеку стоит одной вкладки «Сеть». -->
-    <p class="small" style="margin-top:14px"><strong>Daftarning oʻzi shu brauzerda saqlanadi
-      va serverga yuborilmaydi</strong> — qaysi savolda xato qilganingiz bizga koʻrinmaydi.
+    <p class="small" style="margin-top:14px"><strong>Daftar, kalkulyatordagi tanlovlaringiz
+      va reja sozlamalari shu brauzerda saqlanadi va serverga yuborilmaydi</strong> —
+      qaysi savolda xato qilganingiz bizga koʻrinmaydi. Sahifani yopib qaytsangiz,
+      tanlagan maoshingiz ham, rejangiz ham joyida turadi; brauzer tozalansa — oʻchadi.
       Serverga qadam nomi va raqamlar ketadi, va biz ularni toʻliq sanab oʻtamiz:
       kalkulyatorga kiritgan maosh summangiz va undan chiqqan oylik ustama; maoshni
       qoʻlda yozdingizmi yoki toifadan tanladingizmi; mashq va sinov natijangiz
@@ -702,8 +781,16 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
          у подавляющего большинства план строился до дня, которого никто не
          назначал. Теперь спрашиваем прямо, и оба ответа ведут к настоящему плану:
          с датой — до дня, без даты — на выбранный человеком срок.
-         Молчаливых тридцати дней не осталось ни в одной ветке: при ответе «Ha»
-         и пустом поле план не строится вовсе, а подсказка просит дату. -->
+         Молчаливых тридцати дней не осталось ни в одной ветке: срок назван
+         чипом и виден.
+         Ответ «Ha» при пустом поле план НЕ СТИРАЕТ. Раньше стирал: таблица
+         на тридцать дней исчезала, блок сжимался вдвое, и на её месте
+         оставалось поле даты, которое нечем заполнить — расписание для
+         начальных классов не опубликовано, страница сама это здесь и пишет.
+         Человек нажимал первую из двух кнопок и терял единственное осязаемое,
+         что страница ему успела дать. Теперь план остаётся тем же, поле даты
+         встаёт рядом с ним, а подсказка под планом называет ровно то, чего
+         в нём без даты нет, — рубеж оплаты. -->
     <label>Imtihon sanangiz maʼlummi?</label>
     <div class="chips" id="r-bor"></div>
 
@@ -737,7 +824,15 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
       <button class="btn" id="r-print" type="button">Bosib chiqarish yoki PDF qilib saqlash</button>
       <button class="btn sec" id="r-copy" type="button">Matn sifatida nusxalash</button>
       <button class="btn sec hide" id="r-take" type="button">Toʻliq rejani olish — toʻplam</button>
-      <a class="btn sec" href="obrazec.html">Toʻliq rejaning namunasi</a>
+      <!-- Открывается в НОВОЙ вкладке. Ссылка стоит рядом с обрезанным планом,
+           то есть в самой середине работы: человек уходит посмотреть образец
+           и возвращается «назад». Возврат перезапускал скрипт — выбранный оклад,
+           введённая сумма и прогресс тренировки стирались, а прокрутка падала
+           в начало страницы длиной пятнадцать тысяч пикселей. Десять минут
+           работы обнулялись одним нажатием, которое сама страница и предложила.
+           Подпись на кнопке говорит, что откроется отдельное окно: иначе
+           человек ищет «назад» и не находит своей страницы. -->
+      <a class="btn sec" href="obrazec.html" target="_blank" rel="noopener">Toʻliq rejaning namunasi (yangi oynada)</a>
     </div>
     <!-- Ссылка на образец стоит РЯДОМ С ОБРЕЗАННЫМ ПЛАНОМ, а не только в блоке
          цены. Здесь человек упирается в «yana N kun — toʻplamda» и именно здесь
@@ -912,8 +1007,17 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
         varaqdan oshardi. Bepulda birinchi uch kuni koʻrinadi va
         ular haqiqiy — 5-qadamda hoziroq sinab koʻring. Toʻplam shu rejaning qolgan
         kunlarini ochadi, boshqa hech narsani emas.
-        <strong><a href="obrazec.html">Toʻliq reja namunasi — boshidan oxirigacha,
-        hoziroq va toʻlovsiz</a>:</strong> oʻylab topilgan oʻqituvchi uchun tuzilgan,
+        <!-- ВТОРАЯ ССЫЛКА НА ОБРАЗЕЦ, И ОНА ТОЖЕ В НОВОЙ ВКЛАДКЕ. Первая
+             (рядом с обрезанным планом) была переведена на target="_blank"
+             отдельным кругом, а эта осталась обычной — то есть починили
+             половину мест. Эта хуже первой: она стоит внутри оффера, между
+             описанием товара и ценой, — уходя отсюда, человек уходит ровно
+             из точки решения. Подпись говорит про новое окно теми же словами,
+             что и первая: иначе человек ищет «назад» и не понимает, почему
+             две одинаковые ссылки ведут себя по-разному. -->
+        <strong><a href="obrazec.html" target="_blank" rel="noopener">Toʻliq reja
+        namunasi — boshidan oxirigacha, hoziroq va toʻlovsiz (yangi oynada)</a>:</strong>
+        oʻylab topilgan oʻqituvchi uchun tuzilgan,
         lekin xuddi shu kod bilan va hech narsa kesilmagan.</li>
       <li><strong>2. Toʻliq savollar banki — hali yozilmoqda, bugun yoʻq.</strong>
         Besh blok va oʻqitish metodikasi boʻyicha, har bir savolga izoh: nega toʻgʻri va
@@ -1554,6 +1658,8 @@ TOIFA.forEach(function (t, i) {
     elOklad.value = "";
     paint();
     calc("toifa");
+    kalkYoz();
+    javobKorsat();
   });
   elToifa.appendChild(b);
 });
@@ -1586,6 +1692,8 @@ CHEGIRMA.forEach(function (c, i) {
     }
     calc(0);
     varaqaTayyorla();
+    kalkYoz();
+    javobKorsat();
   });
   elChegirma.appendChild(cb);
 });
@@ -1628,10 +1736,64 @@ function ikkiOqishYoz() {
     " = " + fmt(b * YIDXP_ULUSH - b * c) + " soʻm.";
 }
 
+/* ВЗНОС ПОКАЗЫВАЕТСЯ ДО ВСЯКОГО ВЫБОРА — И НА ПЕРВОМ ЭКРАНЕ ТОЖЕ.
+   Он не зависит от оклада: считается от БҲМ, а не от зарплаты. Раньше это
+   число жило только внутри абзаца #taqqos, то есть появлялось после выбора
+   категории и на шесть экранов ниже заголовка. Человек приходит сюда с
+   мыслью «просят половину зарплаты и не вернут» — и до девятого экрана
+   не получал ни подтверждения, ни опровержения.
+   Обе поверхности (плитка в калькуляторе и строка на первом экране) считают
+   его ОДНИМ вызовом yigim(): разойтись им теперь нечем. Скидка и галочка
+   «+7%» их обе перерисовывают, потому что calc() зовёт эту функцию первой. */
+function tolovYoz() {
+  var sent = sentHisob();
+  var summa = fmt(yigim(sent)) + " soʻm";
+  var t = document.getElementById("tolov");
+  if (t) t.textContent = summa;
+
+  var hn = document.getElementById("hero-num");
+  if (!hn) return;
+  var qachon = sent
+    ? "1-sentyabrdan BHM " + fmt(BHM_SENT) + " soʻm boʻyicha"
+    : "bugungi BHM " + fmt(BHM_HOZIR) + " soʻm boʻyicha; 1-sentyabrdan koʻproq";
+  hn.innerHTML = "";
+  hn.appendChild(document.createTextNode("Imtihon uchun bir marta — "));
+  var b1 = document.createElement("b");
+  b1.appendChild(document.createTextNode(summa));
+  hn.appendChild(b1);
+  hn.appendChild(document.createTextNode(", qaytarilmaydi (" + qachon +
+    "). Sertifikat B+ boʻlsa, har oy lavozim maoshingizning "));
+  var b2 = document.createElement("b");
+  b2.appendChild(document.createTextNode("15 foizi"));
+  hn.appendChild(b2);
+  hn.appendChild(document.createTextNode(" qaytadi. Oʻzingizniki necha soʻm — pastda."));
+}
+
+/* ОТКЛИК НА НАЖАТИЕ. Плашка оклада стояла на первом-втором экране, а число —
+   на два экрана ниже: человек нажимал свой оклад, и на экране не менялось
+   ничего, кроме жирности текста в самой плашке. Самый естественный вывод —
+   «не сработало» или «это просто справочник», и дальше он листал вслепую.
+   Порядок блоков переставлен (результат стоит сразу под полем), но на узком
+   телефоне последняя плашка всё равно может оказаться у нижнего края.
+   Поэтому если результата на экране не видно — довозим до него.
+   Условие несимметричное: если верх результата уже в верхних трёх пятых
+   экрана, страницу не трогаем — дёргать её под рукой хуже, чем не двигать. */
+function javobKorsat() {
+  var el = document.getElementById("out");
+  if (!el || !el.getBoundingClientRect) return;
+  var r = el.getBoundingClientRect();
+  var h = window.innerHeight || document.documentElement.clientHeight || 0;
+  if (!h) return;
+  if (r.top >= 0 && r.top <= h * 0.6) return;
+  try { el.scrollIntoView({ behavior: "smooth", block: "start" }); }
+  catch (e) { el.scrollIntoView(); }
+}
+
 function calc(how) {
   var b = base();
   var out = document.getElementById("oyiga");
   ikkiOqishYoz();
+  tolovYoz();
   if (!b || b < 100000) {
     out.innerHTML = "";
     out.appendChild(document.createTextNode("—"));
@@ -1719,14 +1881,72 @@ function calc(how) {
     }
   }
 }
+/* ПАМЯТЬ КАЛЬКУЛЯТОРА.
+   Ни перезагрузка, ни «назад» не сохраняли ничего: выбранный оклад, введённая
+   руками сумма и выбранная скидка стирались, а прокрутка падала в начало
+   страницы длиной пятнадцать тысяч пикселей. Учительница читает на перемене,
+   урывками; любое переключение приложения обнуляло десять минут работы, и
+   вернуться туда, где была, значило снова пролистать десять экранов.
+   Хранится это в том же localStorage, где уже живут тетрадь ошибок, последний
+   результат и тариф, — на сервер отсюда не уходит ничего, и перечень
+   «что уходит на сервер» в разделе «Xatolar daftari» остаётся верным.
+   Абзац о том, что в браузере лежит теперь не только тетрадь, дописан там же:
+   обещание «сохранится» надо давать вслух, иначе оно выглядит слежкой. */
+var KALK_LS = "ustoz_kalk";
+function kalkYoz() {
+  try {
+    ls(KALK_LS, JSON.stringify({
+      t: picked,
+      o: String(elOklad.value || ""),
+      p: elPlus7.checked ? 1 : 0,
+      c: chegirma
+    }));
+  } catch (e) {}
+}
+function kalkOqi() {
+  var d = null;
+  try { d = JSON.parse(ls(KALK_LS) || "null"); } catch (e) { d = null; }
+  if (!d || typeof d !== "object") return;
+  // Введённое руками сильнее выбранной плашки — ровно так же, как в base().
+  if (typeof d.o === "string" && d.o) elOklad.value = d.o;
+  else if (typeof d.t === "number" && d.t >= 0 && d.t < TOIFA.length) picked = d.t;
+  // После 1 сентября галочки на странице уже нет: повышение учтено в плашках,
+  // и восстанавливать её значило бы посчитать 7 процентов дважды.
+  if (!SENTABR && d.p) elPlus7.checked = true;
+  if (d.c === 0.5 || d.c === 0.75) {
+    chegirma = d.c;
+    for (var i = 0; i < CHEGIRMA.length; i++) {
+      if (elChegirma.children[i]) {
+        elChegirma.children[i].setAttribute("aria-pressed", CHEGIRMA[i].v === chegirma ? "true" : "false");
+      }
+    }
+  }
+  paint();
+}
+
 elOklad.addEventListener("input", function () {
   picked = -1;
   paint();
   clearTimeout(elOklad.t);
-  elOklad.t = setTimeout(function () { calc("qolda"); }, 700);
+  elOklad.t = setTimeout(function () { calc("qolda"); kalkYoz(); }, 700);
 });
-elPlus7.addEventListener("change", function () { calc(0); });
+elPlus7.addEventListener("change", function () { calc(0); kalkYoz(); javobKorsat(); });
+kalkOqi();
 calc(0);
+
+/* Единственное действие на первом экране. Довозит до калькулятора и ставит
+   фокус на первую плашку оклада — то есть на то, что человек и так нажал бы
+   первым. Событий не шлёт: шаг воронки уже считается по calc{kind:"ustama"},
+   а новое поле сделало бы перечень «что уходит на сервер» неправдой. */
+(function () {
+  var hc = document.getElementById("hero-cta");
+  if (!hc) return;
+  hc.addEventListener("click", function () {
+    document.getElementById("kalk").scrollIntoView({ block: "start" });
+    var c = elToifa.firstChild;
+    if (c && c.focus) { try { c.focus({ preventScroll: true }); } catch (e) {} }
+  });
+})();
 
 /* Кнопка мостика НЕ ЗАПУСКАЕТ машқ сама. Над кнопкой «Mashqni boshlash» стоит
    оговорка о том, что это не экзаменационные вопросы и официальный банк закрыт;
@@ -2607,6 +2827,14 @@ var rejaMuddat = null, rejaMuddatOtgan = false;
    не получаются ничем, кроме нажатия на чип. */
 var sanaBor = false;
 var rejaUfq = 30;
+/* «Ha, maʼlum» нажали, а даты ещё не ввели. Это НЕ ошибка и не тупик:
+   расписание для начальных классов не опубликовано, даты у человека может
+   не быть вовсе — а раньше это нажатие стирало уже показанную таблицу
+   на 30 дней и оставляло пустое поле, которое нечем заполнить. Человек
+   нажимал первую из двух кнопок и терял единственное осязаемое, что
+   страница ему дала. Теперь план остаётся, а флаг говорит подписи под ним,
+   что план построен на срок, а не до дня. */
+var sanaKutilmoqda = false;
 var UFQ = [{ k: "1 oy", v: 30 }, { k: "2 oy", v: 60 }, { k: "3 oy", v: 90 }];
 
 // kun0() и ddmm() тоже в reja.js: их зовёт и образец.
@@ -2655,6 +2883,7 @@ function ogirlik() {
    obrazec.html. Пока он стоял здесь, образец пришлось бы считать вторым
    кодом, и «что человек получит за 99 000» имело бы два ответа. */
 function rejaTuz() {
+  sanaKutilmoqda = false;
   // Человек сказал «даты нет» — строим на выбранный им горизонт и ни на что
   // другое. Поле даты в этой ветке спрятано и очищено, спрашивать его нечего.
   if (!sanaBor) return rejaQur(new Date(), null, Object.keys(BLOKLAR), ogirlik(), rejaUfq);
@@ -2664,7 +2893,17 @@ function rejaTuz() {
   // именно так товар «план до дня экзамена» превращался в план до выдуманного
   // дня. «Прошедшая» разбирается внутри rejaQur(): там же, где считаются дни.
   if (holat.tushunarsiz) return { kun: [], imtihon: null, kesildi: false, xato: "tushunarsiz" };
-  if (holat.bosh) return { kun: [], imtihon: null, kesildi: false, xato: "sanasiz" };
+  // ПУСТОЕ ПОЛЕ ПРИ ОТВЕТЕ «Ha» БОЛЬШЕ НЕ ОБНУЛЯЕТ ПЛАН.
+  // Раньше здесь возвращалась пустая раскладка с ошибкой «sanasiz»: таблица
+  // на 30 дней исчезала, блок сжимался вдвое, вместо плана оставалось поле
+  // даты — а на том же экране страница сама писала, что расписание не
+  // опубликовано. Нажатие заведомо вело в тупик и наказывало за любопытство.
+  // Теперь план остаётся тем же, что и был, поле даты стоит рядом, а подпись
+  // под планом называет, чего в нём пока нет (рубежа оплаты).
+  if (holat.bosh) {
+    sanaKutilmoqda = true;
+    return rejaQur(new Date(), null, Object.keys(BLOKLAR), ogirlik(), rejaUfq);
+  }
   return rejaQur(new Date(), holat.sana, Object.keys(BLOKLAR), ogirlik(), rejaUfq);
 }
 
@@ -2699,15 +2938,23 @@ function rejaChiz() {
   // и только пугает.
   document.getElementById("r-kalit").className = tarif() === "full" ? "small" : "small hide";
 
+  /* СРОК ПЛАНА ПРЯЧЕТСЯ ТОЛЬКО ТОГДА, КОГДА ЕГО ЗАМЕНИЛА ДАТА.
+     Раньше он прятался по нажатию «Ha, maʼlum» — то есть до того, как дата
+     появилась, — и человек оставался с пустым полем и без плана. Считается
+     здесь, а не в borChiz(): дату вводят и стирают в поле, а не чипом,
+     и видимость обязана следовать за содержимым поля. */
+  var sanaTolgan = !!String(document.getElementById("r-sana").value || "").trim();
+  document.getElementById("r-ufq-blok").className = (sanaBor && sanaTolgan) ? "hide" : "";
+
   if (r.xato) {
-    // Три разных ответа, а не один. «Дата не введена» появилась вместе с вопросом
-    // «известна ли дата»: человек, ответивший «Ha», обещал дату — и пока её нет,
-    // план не строится, вместо него стоит просьба. Раньше на этом месте молча
-    // возникали тридцать дней, и человек об этом не узнавал.
+    // Сюда попадают ровно два случая, и оба — настоящие тупики: набранная
+    // дата не разобрана, или она уже прошла. Пустое поле третьим случаем
+    // БОЛЬШЕ НЕ ЯВЛЯЕТСЯ: оно план не обнуляет, а строит его на выбранный
+    // срок — см. rejaTuz(). Молча подставленных тридцати дней при этом
+    // не возникает: срок назван чипом, а подпись под планом говорит,
+    // что план построен на срок, а не до дня экзамена.
     hint.textContent = r.xato === "otgan"
       ? "Imtihon sanasi oʻtib ketgan yoki bugungi kun — reja tuzilmadi. Kelgusi sanani tanlang."
-      : r.xato === "sanasiz"
-      ? "Imtihon sanasini kiriting — reja oʻsha kungacha tuziladi. Sana hali maʼlum boʻlmasa, yuqorida «Yoʻq» ni tanlang: u holda reja siz koʻrsatgan muddatga tuziladi."
       : "Sanani tushunmadik — reja tuzilmadi. Kun-oy-yil tartibida yozing: 15.10.2026 yoki 15.10.26.";
     varaqaTayyorla();   // лист тоже обязан опустеть: иначе на печать уйдёт вчерашний план
     return;
@@ -2732,8 +2979,11 @@ function rejaChiz() {
   // это единственная дата на странице, пропуск которой обнуляет всю подготовку.
   if (r.muddat) sum.appendChild(tile(ddmm(r.muddat), "toʻlov va roʻyxatdan oʻtishning oxirgi kuni"));
 
+  // Колонок три, а не четыре: день недели стоит второй строкой в клетке даты.
+  // Причина — в комментарии к table.plan: четвёртая колонка уводила «что
+  // делается» и «время» за край телефона, и строки резались посреди слова.
   var thead = document.createElement("tr");
-  ["Sana", "Kun", "Nima qilinadi", "Vaqt"].forEach(function (t) {
+  ["Sana", "Nima qilinadi", "Vaqt"].forEach(function (t) {
     var th = document.createElement("th");
     th.appendChild(document.createTextNode(t));
     thead.appendChild(th);
@@ -2748,13 +2998,14 @@ function rejaChiz() {
     tr.className = k.tur;
     var td1 = document.createElement("td"); td1.className = "d";
     td1.appendChild(document.createTextNode(ddmm(k.sana)));
-    var td2 = document.createElement("td");
-    td2.appendChild(document.createTextNode(k.hafta));
+    var hf = document.createElement("span"); hf.className = "hf";
+    hf.appendChild(document.createTextNode(k.hafta));
+    td1.appendChild(hf);
     var td3 = document.createElement("td");
     td3.appendChild(document.createTextNode(k.ish));
     var td4 = document.createElement("td"); td4.className = "n";
     td4.appendChild(document.createTextNode(k.daq ? k.daq + " daq" : "—"));
-    tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3); tr.appendChild(td4);
+    tr.appendChild(td1); tr.appendChild(td3); tr.appendChild(td4);
     tbl.appendChild(tr);
   }
 
@@ -2762,7 +3013,7 @@ function rejaChiz() {
     var lr = document.createElement("tr");
     lr.className = "lock";
     var td = document.createElement("td");
-    td.colSpan = 4;
+    td.colSpan = 3;
     td.appendChild(document.createTextNode(
       "Yana " + (r.kun.length - chek) + " kun — toʻplamda. Bepul qism: birinchi " +
       chek + " kun, ular haqiqiy va bosib chiqarsa boʻladi."));
@@ -2772,6 +3023,13 @@ function rejaChiz() {
   }
 
   var izohlar = [];
+  if (sanaKutilmoqda) {
+    izohlar.push("«Ha, maʼlum» tanlandi, lekin sana hali kiritilmagan — shuning uchun " +
+      "yuqoridagi reja siz tanlagan muddatga tuzilgan va u haqiqiy: jadval yoʻqolmadi. " +
+      "Toʻlov va roʻyxatdan oʻtishning oxirgi kunini (imtihondan kamida 12 kun oldin, " +
+      "VMQ № 411, Nizomga 1-ilova, SXEMA) sanasiz hisoblab boʻlmaydi — sanani kiriting, " +
+      "reja oʻsha kungacha qayta tuziladi va bu muddat ham chiqadi.");
+  }
   // Прямо в подсказке под планом сказано, почему в колонке время, а не вопросы.
   // Иначе человек, увидевший «25 daq», решит, что мы даём материал на 25 минут.
   izohlar.push("Kunlar savol soni bilan emas, vaqt bilan oʻlchanadi: bugun bizda 20 ta savol bor va biz koʻproqni vaʼda qilmaymiz. Reja vaqtingizni taqsimlaydi.");
@@ -2801,7 +3059,9 @@ function rejaChiz() {
   // дня экзамена мы не знаем, а значит рубеж оплаты — единственная дата,
   // пропуск которой обнуляет и подготовку, и деньги, — не считается ни из чего.
   // Промолчать об этом значит продать план, который человек примет за полный.
-  if (!r.imtihon) {
+  // Когда человек уже нажал «Ha» и ждёт дату, то же самое сказано выше —
+  // одной мыслью, а не двумя абзацами подряд.
+  if (!r.imtihon && !sanaKutilmoqda) {
     izohlar.push("Imtihon sanasi belgilanmagan, shuning uchun reja siz tanlagan " +
       r.kun.length + " kunga tuzildi — imtihon kunigacha emas. Boshlangʻich sinf " +
       "oʻqituvchilari uchun jadval hali eʼlon qilinmagan; eʼlon qilingach sanani " +
@@ -2851,7 +3111,7 @@ function rejaChiz() {
       k[i].setAttribute("aria-pressed", (i === 0) === sanaBor ? "true" : "false");
     }
     document.getElementById("r-sana-blok").className = sanaBor ? "" : "hide";
-    document.getElementById("r-ufq-blok").className = sanaBor ? "hide" : "";
+    // Видимость блока сроков считает rejaChiz() — она знает, есть ли дата.
   }
   function ufqChiz() {
     var k = elUfq.children;
@@ -2870,6 +3130,7 @@ function rejaChiz() {
       borChiz();
       rejaOdam = true; rejaSent = false;
       rejaChiz();
+      rejaYoz();
     });
     elBor.appendChild(b);
   });
@@ -2887,6 +3148,7 @@ function rejaChiz() {
       ufqChiz();
       rejaOdam = true; rejaSent = false;
       rejaChiz();
+      rejaYoz();
     });
     elUfq.appendChild(b);
   });
@@ -2910,6 +3172,18 @@ function rejaChiz() {
     borChiz();
     return true;
   }
+  /* ПАМЯТЬ ПЛАНА — по той же причине, что и память калькулятора: человек
+     читает урывками, и «назад» или сворачивание приложения обнуляли ответ
+     про дату, введённую дату и выбранный срок. На сервер отсюда не уходит
+     ничего: событие reja шлёт только число дней и признак «дата введена». */
+  (function () {
+    var d = null;
+    try { d = JSON.parse(ls("ustoz_reja") || "null"); } catch (e) { d = null; }
+    if (!d || typeof d !== "object") return;
+    if (d.u === 30 || d.u === 60 || d.u === 90) rejaUfq = d.u;
+    if (typeof d.s === "string" && d.s) document.getElementById("r-sana").value = d.s;
+    sanaBor = !!d.b;
+  })();
   borChiz(); ufqChiz();
   sanaTiklash();
   // Если браузер вернул страницу из bfcache, скрипт заново не исполняется —
@@ -2920,10 +3194,19 @@ function rejaChiz() {
   });
 })();
 
-document.getElementById("r-sana").addEventListener("change", function () { rejaOdam = true; rejaSent = false; rejaChiz(); });
+function rejaYoz() {
+  try {
+    ls("ustoz_reja", JSON.stringify({
+      b: sanaBor ? 1 : 0,
+      s: String(document.getElementById("r-sana").value || ""),
+      u: rejaUfq
+    }));
+  } catch (e) {}
+}
+document.getElementById("r-sana").addEventListener("change", function () { rejaOdam = true; rejaSent = false; rejaChiz(); rejaYoz(); });
 document.getElementById("r-sana").addEventListener("input", function () {
   clearTimeout(rejaChiz.t);
-  rejaChiz.t = setTimeout(function () { rejaOdam = true; rejaSent = false; rejaChiz(); }, 500);
+  rejaChiz.t = setTimeout(function () { rejaOdam = true; rejaSent = false; rejaChiz(); rejaYoz(); }, 500);
 });
 
 document.getElementById("r-print").addEventListener("click", function () {

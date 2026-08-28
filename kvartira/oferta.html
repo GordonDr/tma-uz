@@ -58,6 +58,16 @@ body{background:var(--paper);color:var(--ink);
 .langbar button{border:0;background:transparent;color:var(--muted);cursor:pointer;
   font:600 11.5px Manrope,system-ui,sans-serif;padding:5px 10px;border-radius:16px}
 .langbar button.on{background:var(--amber-ink);color:#fff}
+/* Дорога обратно. Из этой страницы не вело НИ ОДНОЙ ссылки: ни в чек-лист,
+   ни куда-либо ещё. Внутри мини-аппа Telegram браузерной кнопки «назад» нет,
+   и человек, открывший оферту из образца (там ссылка идёт в той же вкладке),
+   упирался в тупик — выйти можно было только закрыв приложение целиком,
+   то есть потеряв осмотр. Ссылка одна на обе языковые версии и стоит выше
+   секций: две копии — это два места, где правка доходит до половины.
+   Отступ справа — под фиксированный переключатель языка. */
+.back{display:inline-flex;align-items:center;gap:6px;margin:14px 90px 0 0;padding:9px 13px;
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  font:600 13px Manrope,system-ui,sans-serif;color:var(--ink2);text-decoration:none}
 
 h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.25;letter-spacing:-.01em}
 .top{padding:26px 0 6px}
@@ -97,6 +107,8 @@ a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:2px}
 <body>
 <div class="langbar" id="langbar"></div>
 <div class="wrap">
+
+<a class="back" id="back" href="index.html">← Вернуться к чек-листу</a>
 
 <section id="ru">
 <div class="top">
@@ -621,6 +633,21 @@ function apply() {
   document.title = lang === "uz"
     ? "Kvartira Qabul — oferta va maʼlumotlarni qayta ishlash"
     : "Kvartira Qabul — оферта и обработка данных";
+  /* Дорога обратно переключается вместе со страницей и несёт язык в адресе:
+     чек-лист читает его из ?lang= выше всего остального (Z-03), и без этого
+     человек, читавший узбекскую оферту, возвращался бы в русский чек-лист.
+
+     Сначала пробуем шаг назад по истории, и только потом адрес. Разница
+     не косметическая: человек приходит сюда из образца или из чек-листа
+     в той же вкладке, и history.back() возвращает ту страницу живой —
+     с раскрытым разделом, отметками на экране и местом прокрутки. Переход
+     по адресу перезагрузил бы чек-лист с начала. Адрес остаётся для тех,
+     кто открыл оферту холодной ссылкой из бота или с сайта: истории
+     у них нет, и ссылка на чек-лист там как раз то, что нужно. */
+  const back = document.getElementById("back");
+  back.textContent = lang === "uz" ? "← Cheklistga qaytish" : "← Вернуться к чек-листу";
+  back.setAttribute("href", "index.html?lang=" + lang);
+  back.onclick = (e) => { if (history.length > 1) { e.preventDefault(); history.back(); } };
   const bar = document.getElementById("langbar");
   bar.innerHTML = [["ru", "Ру"], ["uz", "Oʻz"]]
     .map(([k, t]) => `<button data-l="${k}" class="${k === lang ? "on" : ""}">${t}</button>`).join("");

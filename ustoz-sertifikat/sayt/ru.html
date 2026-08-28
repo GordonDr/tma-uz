@@ -104,6 +104,14 @@ header{padding:24px 0 0}
 .after{color:var(--muted);font-size:13.5px;margin-top:12px}
 
 .tw{overflow-x:auto;margin-top:20px;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+/* Подпись про горизонтальную прокрутку таблиц. Показывается только на экранах,
+   где таблица в 520 px действительно не помещается в рамку: подсказка про жест,
+   которого не требуется, — такая же неправда, как её отсутствие там, где он
+   требуется. Замерено в браузере 28.08.2026: на 375 px рамка 333 против 520
+   у таблицы, то есть за краем оставались две колонки из пяти и ни одного
+   признака, что таблицу можно домотать. */
+.surish{display:none}
+@media(max-width:560px){ .surish{display:block;margin-top:8px} }
 table{border-collapse:collapse;width:100%;min-width:520px;font-size:14.5px}
 th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--line2);vertical-align:top}
 th{font:600 10.5px var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);
@@ -220,6 +228,7 @@ footer li{margin-bottom:7px}
       </tbody>
     </table>
   </div>
+  <p class="after surish">Таблица шире экрана — двигайте её пальцем вбок.</p>
   <div class="col">
     <p class="after">Оклады — infoedu.uz, 08.02.2026 (состояние до 01.09.2026).
       Повышение на 7% — УП-115 от 23.06.2026, <strong>раздел I</strong>, пункт 2
@@ -279,6 +288,7 @@ footer li{margin-bottom:7px}
       </tbody>
     </table>
   </div>
+  <p class="after surish">Таблица шире экрана — двигайте её пальцем вбок.</p>
   <div class="col">
     <div class="note warn">
       <strong>Разница — 37 800 сум, и она зависит от одного дня.</strong> День здесь —
@@ -307,6 +317,7 @@ footer li{margin-bottom:7px}
       </tbody>
     </table>
   </div>
+  <p class="after surish">Таблица шире экрана — двигайте её пальцем вбок.</p>
   <div class="col">
     <p class="after"><strong>Суммы со скидкой в этой таблице — большее из двух возможных
       прочтений, и мы это не прячем.</strong> Пункт 4 задаёт скидку «в размере 50 процентов
@@ -391,6 +402,7 @@ footer li{margin-bottom:7px}
       </tbody>
     </table>
   </div>
+  <p class="after surish">Таблица шире экрана — двигайте её пальцем вбок.</p>
   <div class="col">
     <!-- Ссылка на первоисточник, а не на газету. Шкала стоит в акте дословно
          (приложение 1, пункт 5), мы её оттуда и взяли — занижать собственную
@@ -515,6 +527,7 @@ footer li{margin-bottom:7px}
       </tbody>
     </table>
   </div>
+  <p class="after surish">Таблица шире экрана — двигайте её пальцем вбок.</p>
   <div class="col">
     <div class="note">
       <strong>Оплату пока не принимаем.</strong> Банк вопросов из набора пишется и не
@@ -577,8 +590,11 @@ footer li{margin-bottom:7px}
       <!-- Ссылка на образец стоит внутри карточки цены, а не отдельным разделом:
            вопрос «а что я, собственно, куплю» возникает у человека ровно на
            числе 99 000, и ответ должен лежать в одном нажатии от него. -->
-      <p class="after"><strong><a href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/obrazec.html?lang=ru">Образец
-        полного плана — целиком, от первого дня до последнего</a>.</strong>
+      <!-- В новой вкладке — как та же ссылка на узбекской странице и обе такие же
+           в приложении. Человек уходит смотреть образец из карточки цены, то есть
+           из точки решения; вернуть его сюда должно закрытие вкладки, а не «назад». -->
+      <p class="after"><strong><a href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/obrazec.html?lang=ru" target="_blank" rel="noopener">Образец
+        полного плана — целиком, от первого дня до последнего (в новой вкладке)</a>.</strong>
         Без регистрации и без оплаты: он построен для выдуманного учителя, но тем же
         кодом — каждый день, календарь и список тем, ничего не обрезано. Банка вопросов
         в образце нет, потому что он ещё не написан. Страница образца — на узбекском.</p>

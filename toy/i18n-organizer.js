@@ -36,6 +36,23 @@ const T_ORG = {
     errNetHint:"Проверьте интернет и попробуйте ещё раз. Введённое не потеряется.",
     retry:"Повторить",
     errAccess:"Ошибка доступа",
+    errSave:"Не удалось сохранить. Проверьте связь и попробуйте ещё раз — введённое сохранено.",
+    dlgOk:"Понятно",
+    dlgYes:"Да",
+
+    /* Первый экран: что это вообще такое. До 28.08 здесь стояло многоточие,
+       а поверх него сразу выезжал лист согласия — человек соглашался на
+       обработку данных приложения, о котором не знал ничего. */
+    bootTitle:"Toʻy-Daftar",
+    bootSub:"Кабинет тоя. Вносите семьи, рассылаете приглашение ссылкой — ответы приходят сами, и вы видите точное число гостей для тойханы.",
+
+    /* Кабинет открыли не из бота: это не «нет связи», а другое место.
+       Раньше и то и другое показывалось как «Проверьте интернет», и кнопка
+       «Повторить» не помогала никогда — выхода со страницы не было вовсе. */
+    noTgTitle:"Кабинет открывается через бота",
+    noTgHint:"Эта ссылка работает внутри Telegram: кабинет узнаёт вас по вашему аккаунту, пароля здесь нет. Откройте бота — он вернёт вас сюда одной кнопкой.",
+    noTgBtn:"Открыть бота в Telegram",
+    noTgSample:"Пока не открывая бота — посмотреть готовый той на выдуманной семье",
     tierFree:"Бесплатный", tierPremium:"Premium", tierFull:"Полный",
 
     /* вкладки */
@@ -54,12 +71,13 @@ const T_ORG = {
     swNew:"＋ Новый той",
 
     /* новый той */
-    newTitle:"Новый той", newSub:"Заполните один раз — приглашения соберутся сами",
+    newTitle:"Новый той", newSub:"Заполните один раз. Дальше вносите семьи, рассылаете ссылку — и видите, сколько человек назвать тойхоне",
     newCouple:"Чей той", newCouplePh:"Азиз & Нилуфар",
     newTimePh:"18:00", newVenuePh:"Toʻyxona «Zarafshon»", newAddrPh:"Ташкент, Чиланзар, ул. …",
     newMap:"Ссылка на карту (необязательно)", newMapPh:"https://yandex.uz/maps/…",
     newGreet:"Текст приглашения",
     newSubmit:"Создать той",
+    newSaving:"Создаём…",
     newNote:"Дальше вы вносите семьи и рассылаете ссылки. Дату, зал и текст можно менять когда угодно — у тех, кому уже отправили, приглашение обновится само.",
     footOferta:"Условия и обработка данных",
 
@@ -67,7 +85,11 @@ const T_ORG = {
     newOccasion:"Что за событие", newLang:"Язык приглашения",
     newPreviewBtn:"👁️ Посмотреть, как увидит гость",
     newPreviewNote:"Так выглядит приглашение. Можно посмотреть до того, как что-то заполнять.",
-    newPrice:"Приглашения и ответы — бесплатно, семей сколько угодно · Premium 49 000 сум за той: счёт для зала и рассадка · Полный 149 000 сум. Разово, не подписка.",
+    /* «Счёт для зала» человек читает как выставленный счёт, а не как подсчёт
+       гостей, — то есть единственное место, где продукт называет его задачу,
+       называло её словом с обратным смыслом. А «Полный за 149 000» стоял
+       вообще без описания: втрое дороже и ни слова за что. */
+    newPrice:"Приглашения и ответы — бесплатно, семей сколько угодно. Premium, 49 000 сум за той: точное число гостей картинкой для тойханы, рассадка по столам, шесть закрытых оформлений, второй хозяин тоя. Полный, 149 000 сум: всё то же и книга подарков с пожеланиями гостей. Разово, не подписка.",
 
     /* гости */
     gAddTitle:"Добавить семью", gName:"Название", gNamePh:"Семья Каримовых",
@@ -315,6 +337,17 @@ const T_ORG = {
     errNetHint:"Internetni tekshiring va qayta urinib koʻring. Kiritilganlar yoʻqolmaydi.",
     retry:"Qayta urinish",
     errAccess:"Kirishda xatolik",
+    errSave:"Saqlab boʻlmadi. Aloqani tekshiring va qayta urinib koʻring — kiritilganlar saqlanib qoldi.",
+    dlgOk:"Tushunarli",
+    dlgYes:"Ha",
+
+    bootTitle:"Toʻy-Daftar",
+    bootSub:"Toʻy kabineti. Oilalarni kiritasiz, taklifnomani havola qilib yuborasiz — javoblar oʻzi keladi va toʻyxona uchun mehmonlarning aniq soni koʻrinadi.",
+
+    noTgTitle:"Kabinet bot orqali ochiladi",
+    noTgHint:"Bu havola Telegram ichida ishlaydi: kabinet sizni akkauntingiz orqali taniydi, bu yerda parol yoʻq. Botni oching — u sizni bitta tugma bilan shu yerga qaytaradi.",
+    noTgBtn:"Telegramda botni ochish",
+    noTgSample:"Botni ochmasdan turib — tayyor toʻyni oʻylab topilgan oilada koʻrish",
     tierFree:"Bepul", tierPremium:"Premium", tierFull:"Toʻliq",
 
     tabGuests:"👪 Mehmonlar", tabSeating:"💺 Joylashtirish", tabZal:"📊 Toʻyxona uchun",
@@ -329,12 +362,13 @@ const T_ORG = {
     swNote:"Nikoh toʻyi, beshik toʻy, sunnat toʻy, yubiley — har bir tadbirning oʻz mehmonlar roʻyxati va oʻz stol taqsimoti boʻladi.",
     swNew:"＋ Yangi toʻy",
 
-    newTitle:"Yangi toʻy", newSub:"Bir marta toʻldiring — taklifnomalar oʻzi tayyor boʻladi",
+    newTitle:"Yangi toʻy", newSub:"Bir marta toʻldiring. Keyin oilalarni kiritasiz, havola yuborasiz — va toʻyxonaga necha kishi deyishni koʻrasiz",
     newCouple:"Kimning toʻyi", newCouplePh:"Aziz & Nilufar",
     newTimePh:"18:00", newVenuePh:"Toʻyxona «Zarafshon»", newAddrPh:"Toshkent, Chilonzor, … koʻchasi",
     newMap:"Xarita havolasi (majburiy emas)", newMapPh:"https://yandex.uz/maps/…",
     newGreet:"Taklifnoma matni",
     newSubmit:"Toʻy yaratish",
+    newSaving:"Yaratilmoqda…",
     newNote:"Keyin oilalarni kiritasiz va havolalarni yuborasiz. Sana, toʻyxona va matnni istagan paytda oʻzgartirsangiz boʻladi — allaqachon yuborilganlarda taklifnoma oʻzi yangilanadi.",
     footOferta:"Shartlar va maʼlumotlarni qayta ishlash",
 
@@ -342,7 +376,7 @@ const T_ORG = {
     newOccasion:"Qanday tadbir", newLang:"Taklifnoma tili",
     newPreviewBtn:"👁️ Mehmon qanday koʻrishini koʻrish",
     newPreviewNote:"Taklifnoma shunday koʻrinadi. Hech narsa toʻldirmasdan oldin koʻrsangiz boʻladi.",
-    newPrice:"Taklifnomalar va javoblar — bepul, istagancha oila · Premium bitta toʻy uchun 49 000 soʻm: toʻyxona uchun hisob va stollar · Toʻliq 149 000 soʻm. Bir martalik, obuna emas.",
+    newPrice:"Taklifnomalar va javoblar — bepul, istagancha oila. Premium, bitta toʻy uchun 49 000 soʻm: toʻyxona uchun mehmonlarning aniq soni rasm boʻlib, stollar boʻyicha joylashtirish, oltita yopiq bezak, toʻyning ikkinchi egasi. Toʻliq, 149 000 soʻm: shularning hammasi va mehmonlar tilaklari bilan sovgʻalar daftari. Bir martalik, obuna emas.",
 
     gAddTitle:"Oila qoʻshish", gName:"Nomi", gNamePh:"Karimovlar oilasi",
     gCount:"Necha kishi", gSide:"Qaysi tomondan", gSideKuyov:"kuyov tomondan", gSideKelin:"kelin tomondan",

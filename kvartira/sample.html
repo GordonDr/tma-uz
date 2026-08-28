@@ -123,6 +123,13 @@ td.norm{font-size:11px;color:#3d4954;line-height:1.45}
 .langbar button.on{background:var(--amber-ink);color:#fff}
 .langnote{background:var(--amber-bg);border:1px solid var(--amber);border-radius:12px;
   padding:12px 15px;margin:12px 0;font-size:14px;line-height:1.55;color:var(--ink2)}
+/* Дорога обратно. Единственным выходом вперёд была кнопка в бота, а «назад»
+   в браузере возвращало в начало чек-листа — то есть человек, ушедший
+   посмотреть, за что платит, терял своё место в осмотре. Ссылка ведёт туда же,
+   откуда он пришёл, и несёт язык: соседние страницы читают его из адреса. */
+.back{display:inline-flex;align-items:center;gap:6px;margin:14px 0 0;padding:9px 13px;
+  background:var(--card);border:1px solid var(--line);border-radius:11px;
+  font:600 13px Manrope,system-ui,sans-serif;color:var(--ink2);text-decoration:none}
 
 @media (max-width:520px){ .sheet{padding:20px 16px} .sheet .rows div{grid-template-columns:1fr;gap:1px} }
 </style>
@@ -131,6 +138,7 @@ td.norm{font-size:11px;color:#3d4954;line-height:1.45}
 <div class="langbar" id="langbar"></div>
 <div class="wrap">
 
+<a class="back" href="index.html" id="back" data-uz="← Cheklistga qaytish">← Вернуться к чек-листу</a>
 
 <div class="top">
   <div class="eyebrow" data-uz="Namuna · maʼlumotlar oʻylab topilgan">Образец · данные вымышленные</div>
@@ -359,6 +367,11 @@ td.norm{font-size:11px;color:#3d4954;line-height:1.45}
   <a href="oferta.html">Условия оказания услуг и обработка данных</a>
 </div>
 
+<!-- Вторая дорога обратно: страница длиной около пяти тысяч пикселей, и тот,
+     кто дочитал её до конца, стоит в квартире дальше всего от своего места
+     в чек-листе. Первая ссылка осталась наверху. -->
+<a class="back" href="index.html" data-uz="← Cheklistga qaytish">← Вернуться к чек-листу</a>
+
 </div>
 
 <div class="cta"><div class="inner">
@@ -402,12 +415,13 @@ function applyLang(){
   document.documentElement.lang=lang;
   document.title = lang==="uz" ? "Kvartira Qabul — hujjat namunasi" : "Kvartira Qabul — образец документа";
   document.getElementById("buy").href="https://t.me/"+bot+"?start=sample";
-  /* Оферта читает язык из адреса. Ссылка в подвале стояла голой, и с узбекского
-     образца открывался русский договор. */
+  /* Оферта и чек-лист читают язык из адреса. Ссылка в подвале стояла голой,
+     и с узбекского образца открывался русский договор; та же беда была бы
+     у дороги обратно в чек-лист. */
   document.querySelectorAll("a[href]").forEach(a=>{
-    const h=a.getAttribute("href")||"";
-    if(!/^oferta\.html(\?|$)/.test(h)) return;
-    a.setAttribute("href","oferta.html?lang="+lang);
+    const h=(a.getAttribute("href")||"").replace(/\?.*$/,"");
+    if(!/^(oferta|index)\.html$/.test(h)) return;
+    a.setAttribute("href",h+"?lang="+lang);
   });
   const bar=document.getElementById("langbar");
   bar.innerHTML=[["ru","Ру"],["uz","Oʻz"]]

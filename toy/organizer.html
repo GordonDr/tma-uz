@@ -208,6 +208,13 @@ button.b.sec{background:transparent;color:var(--ink);border:1px solid var(--line
   font:600 11.5px Manrope,system-ui,sans-serif;padding:5px 10px;border-radius:16px;letter-spacing:.02em}
 .seg button.on{background:var(--deep);color:#fff}
 .seg.one button{padding:5px 9px;font-size:13px;line-height:1}
+/* Пока висит лист согласия, переключатели языка и темы обязаны работать.
+   Лист лежит на z-index:90 во весь экран, планка — на 50, и палец узбекоязычного
+   человека, тянувшийся к «Oʻz» первым же жестом, попадал в невидимую подложку.
+   Кнопки при этом выглядели живыми: первое впечатление о продукте — «тут
+   кнопки не нажимаются». Поднимаем планку только на время листа: остальные
+   слои (просмотр картинки, документ по столам) как были. */
+body.gate .topbar{z-index:95}
 </style>
 </head>
 <body>
@@ -215,7 +222,16 @@ button.b.sec{background:transparent;color:var(--ink);border:1px solid var(--line
   <div class="seg" id="langseg"></div>
   <div class="seg one"><button id="themebtn" aria-label="theme">◐</button></div>
 </div>
-<div class="wrap" id="app"><div class="card">…</div></div>
+<!-- Первый экран называет продукт и задачу ДО того, как выедет лист согласия.
+     Раньше здесь стояло многоточие: человек соглашался на обработку данных
+     приложения, о котором на экране не было сказано ни слова, — ни имени
+     (оно жило только во вкладке браузера, а её на телефоне не видно),
+     ни строчки о том, что здесь считают гостей. renderIntro() ниже
+     перерисует этот же блок на выбранном языке. -->
+<div class="wrap" id="app">
+  <div class="top" style="color:var(--gold)"><h1 style="color:var(--ink)">Toʻy-Daftar</h1>
+    <div class="meta" id="bootsub">Кабинет тоя. Вносите семьи, рассылаете приглашение ссылкой — ответы приходят сами, и вы видите точное число гостей для тойханы.</div></div>
+</div>
 <!-- Ссылка на условия постоянно на экране, а не только в листе согласия:
      организатор вводит имена чужих семей и должен иметь возможность перечитать. -->
 <div class="wrap" style="padding-bottom:22px">
@@ -273,18 +289,51 @@ let lang = (()=>{
   try{ const v=localStorage.getItem(LANG_KEY); if(v==="ru"||v==="uz") return v; }catch(e){}
   return (tg?.initDataUnsafe?.user?.language_code === "uz") ? "uz" : "ru"; })();
 const L = () => (window.T_ORG ? T_ORG[lang] : {});
+/* Адрес документа с языком кабинета. obrazec.html и oferta.html держат каждый
+   свой ключ языка и, пока он пуст, берут язык телефона: кабинет по-узбекски
+   открывал русский образец на русском телефоне и узбекскую оферту на русском
+   кабинете. Оба документа читают ?lang= выше своего хранилища — доносим. */
+const docHref = name => `${name}?lang=${lang}`;
 // Подпись под ссылкой на условия живёт в разметке, а не в render(): переводим отдельно.
 const footLang = () => { const a=document.getElementById("footOferta");
-  if(a && L().footOferta) a.textContent = L().footOferta; };
+  if(!a) return;
+  if(L().footOferta) a.textContent = L().footOferta;
+  a.href = docHref("oferta.html"); };
 footLang();
+/* Какой экран сейчас на месте #app. Раньше переключатель языка знал только
+   две ветки — «той открыт» и «всё остальное», и «всё остальное» означало
+   renderNew(). Отсюда две поломки сразу:
+   · с экрана ошибки тап по «Oʻz» открывал форму нового тоя. Человек, которому
+     минуту назад сказали «нет связи», видел работающее приложение — то есть
+     сообщение об ошибке было неправдой, а починила его кнопка языка;
+   · из наполовину заполненной формы тап по «Oʻz» рисовал форму заново
+     и стирал имена, дату, зал и текст приглашения.
+   Теперь экран перерисовывается сам собой, а форма восстанавливается
+   из черновика (draftSave/draftLoad). */
+let screenNow = "intro";
+let gateRepaint = null;   // пока висит лист согласия — его перерисовка
+function renderScreen(){
+  if(gateRepaint){ gateRepaint(); renderIntro(); return; }
+  if(screenNow==="notg")   return renderNoTg();
+  if(screenNow==="neterr") return renderNetErr();
+  if(screenNow==="intro")  return renderIntro();
+  // Проверяем экран, а не S.ev: у человека с уже созданным тоем «＋ Новый той»
+  // при смене языка выбрасывало обратно в старый той вместе с набранным.
+  if(screenNow==="new")    return renderNew();
+  if(S.ev) return render();
+  renderNew();
+}
 function renderLangSeg(){
   const seg=document.getElementById("langseg");
   seg.innerHTML = [["ru","Ру"],["uz","Oʻz"]].map(([k,t])=>
     `<button data-l="${k}" class="${k===lang?"on":""}">${t}</button>`).join("");
   seg.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    if(b.dataset.l===lang) return;
+    // Черновик снимаем ДО перерисовки: после неё полей уже нет.
+    if(screenNow==="new") draftSave();
     lang=b.dataset.l; try{ localStorage.setItem(LANG_KEY,lang); }catch(e){} footLang();
     document.documentElement.lang = lang==="uz" ? "uz" : "ru";
-    haptic("light"); renderLangSeg(); S.ev ? render() : renderNew();
+    haptic("light"); renderLangSeg(); renderScreen();
   });
 }
 
@@ -379,13 +428,79 @@ const CONSENT_TXT={
    Android-клиентов не показываются вовсе — человек жмёт «Удалить» и не понимает,
    почему ничего не произошло. Поэтому везде нативные попапы Telegram, а там, где
    нужно число, — свой степпер: текстового ввода в Telegram-попапах нет. */
-function say(msg){
-  if(tg?.showAlert) tg.showAlert(String(msg)); else alert(msg);
+/* Попап Telegram появился в версии 6.2, а showAlert на клиенте 6.0 не просто
+   молчит — он БРОСАЕТ WebAppMethodUnsupported. Дальше по коду это выглядело
+   ровно как «кнопка не работает»: сообщения нет, исключение улетело в консоль,
+   на экране ничего. Поэтому у say() есть свой лист — тот же, что у степпера,
+   он точно рисуется везде. Тихо падать сообщению об ошибке нельзя: это
+   единственное, чем продукт объясняет человеку, что произошло. */
+function sayFallback(msg){
+  const t=L();
+  const ov=document.createElement("div"); ov.className="sheet-ov"; ov.style.zIndex=99;
+  ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">
+    <div style="font-size:15px;line-height:1.5;margin:2px 0 14px;color:var(--ink)">${esc(msg)}</div>
+    <button class="ok" id="sayok">${esc(t.dlgOk||"OK")}</button></div>`;
+  document.body.appendChild(ov);
+  ov.querySelector("#sayok").onclick=()=>ov.remove();
+  ov.onclick=(e)=>{ if(e.target===ov) ov.remove(); };
 }
+function say(msg){
+  try{
+    if(tg?.showAlert && tg?.isVersionAtLeast?.("6.2")){ tg.showAlert(String(msg)); return; }
+  }catch(e){}
+  sayFallback(String(msg));
+}
+/* Ссылки с target="_blank" внутри мини-приложения Telegram не открываются
+   ничем: новой вкладки во встроенном браузере нет. Так молчала ссылка
+   «Условия и обработка данных» — и в подвале, и прямо в листе согласия,
+   то есть человека просили согласиться и тут же не давали прочитать с чем.
+   Открываем через openLink, адрес приводим к абсолютному: у относительного
+   нет схемы, и часть клиентов его отбрасывает. */
+function openDoc(href){
+  let u = href;
+  try{ u = new URL(href, location.href).href; }catch(e){}
+  // Запасной путь берём на себя, а не отдаём библиотеке: на клиенте ниже 6.1
+  // openLink внутри зовёт window.open, тот во встроенном браузере возвращает null,
+  // и падение остаётся невидимым — ровно то «нажал и ничего» с кнопки предпросмотра.
+  if(tg?.openLink && tg?.isVersionAtLeast?.("6.1")){ try{ tg.openLink(u); return; }catch(e){} }
+  //
+  // ВНИМАНИЕ. Здесь нужен именно нативный window.open. Объявление верхнего
+  // уровня `function open(...)` в обычном скрипте затирает его глобальной
+  // привязкой, и тогда эта строка зовёт не браузер, а чужую функцию: ссылка
+  // молча не открывается, а если у самозванца есть возвращаемое значение —
+  // проверка `if(!w)` считает, что всё получилось. Именно так и было, пока
+  // загрузчик тоя назывался open(); он теперь openEvent(). Не заводить в этом
+  // файле функций с именами свойств window (open, close, print, find, focus).
+  let w=null; try{ w = window.open(u,"_blank","noopener"); }catch(e){}
+  if(!w) location.href = u;
+}
+document.addEventListener("click", e=>{
+  const a = e.target?.closest?.('a[target="_blank"]');
+  if(!a) return;
+  const h = a.getAttribute("href") || "";
+  if(!h || h.charAt(0)==="#") return;
+  e.preventDefault(); openDoc(h);
+}, true);
 function ask(msg){
   return new Promise(res=>{
-    if(tg?.showConfirm) tg.showConfirm(String(msg), ok=>res(!!ok));
-    else res(confirm(msg));
+    try{
+      if(tg?.showConfirm && tg?.isVersionAtLeast?.("6.2")){
+        tg.showConfirm(String(msg), ok=>res(!!ok)); return;
+      }
+    }catch(e){}
+    // showConfirm на клиенте ниже 6.2 бросает исключение — обещание не разрешалось
+    // никогда, и вызвавшая кнопка навсегда замирала без единого следа на экране.
+    const t=L();
+    const ov=document.createElement("div"); ov.className="sheet-ov"; ov.style.zIndex=99;
+    ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">
+      <div style="font-size:15px;line-height:1.5;margin:2px 0 14px;color:var(--ink)">${esc(msg)}</div>
+      <button class="ok" id="askyes">${esc(t.dlgYes||"OK")}</button>
+      <button class="more" id="askno" type="button" style="background:none;border:0;width:100%;cursor:pointer">${esc(t.cancel||"")}</button></div>`;
+    document.body.appendChild(ov);
+    const done=v=>{ ov.remove(); res(v); };
+    ov.querySelector("#askyes").onclick=()=>done(true);
+    ov.querySelector("#askno").onclick=()=>done(false);
+    ov.onclick=(e)=>{ if(e.target===ov) done(false); };
   });
 }
 function askCount(title, sub, value, max){
@@ -417,45 +532,99 @@ function consentGate(){
   return new Promise(res=>{
     let seen=false; try{ seen=localStorage.getItem("td_consent")==="1"; }catch(e){}
     if(seen) return res();
-    const t=CONSENT_TXT[lang]||CONSENT_TXT.ru;
     const ov=document.createElement("div"); ov.className="sheet-ov";
-    ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">
-      <h2>${t.h}</h2><div class="sub">${t.sub}</div>
-      <ul>${t.li.map(x=>`<li>${x}</li>`).join("")}</ul>
-      <button class="ok" id="cok">${t.ok}</button>
-      <a class="more" href="oferta.html" target="_blank" rel="noopener">${t.more}</a></div>`;
-    document.body.appendChild(ov);
-    ov.querySelector("#cok").onclick=()=>{
-      try{ localStorage.setItem("td_consent","1"); }catch(e){}
-      ov.remove(); haptic("light"); res();
+    // Лист живёт на выбранном языке и перерисовывается вместе с кнопкой «Oʻz»:
+    // до этого переключатель был недоступен под подложкой, а после подъёма
+    // планки он менял бы язык кабинета, а лист оставлял бы русским.
+    const paint=()=>{
+      const t=CONSENT_TXT[lang]||CONSENT_TXT.ru;
+      ov.innerHTML=`<div class="sheet" role="dialog" aria-modal="true">
+        <h2>${t.h}</h2><div class="sub">${t.sub}</div>
+        <ul>${t.li.map(x=>`<li>${x}</li>`).join("")}</ul>
+        <button class="ok" id="cok">${t.ok}</button>
+        <a class="more" href="${docHref("oferta.html")}" target="_blank" rel="noopener">${t.more}</a></div>`;
+      ov.querySelector("#cok").onclick=()=>{
+        try{ localStorage.setItem("td_consent","1"); }catch(e){}
+        gateRepaint=null; document.body.classList.remove("gate");
+        ov.remove(); haptic("light"); res();
+      };
     };
+    gateRepaint=paint; document.body.classList.add("gate"); paint();
+    document.body.appendChild(ov);
   });
 }
+/* Первый экран: имя продукта и задача. Висит, пока идёт запрос, и остаётся
+   под листом согласия — чтобы человек соглашался, уже зная, куда пришёл. */
+function renderIntro(){
+  const t=L();
+  screenNow="intro";
+  $("#app").innerHTML=`<div class="top" style="color:var(--gold)">${ORN}
+    <h1 style="color:var(--ink)">${esc(t.bootTitle||"Toʻy-Daftar")}</h1>
+    <div class="meta">${esc(t.bootSub||"")}</div></div>`;
+}
+/* Кабинет открыли по пересланной ссылке, мимо бота. Это НЕ «нет связи»:
+   сервер ответил, и ответил быстро, — просто мини-приложение не получило
+   от Telegram подписанных данных о том, кто пришёл.
+
+   Раньше обе беды показывались одним экраном «Нет связи с сервером.
+   Проверьте интернет», и кнопка «Повторить» на нём не помогала никогда:
+   интернет был ни при чём, повтор давал ровно тот же ответ. Пути дальше
+   не было вообще — имя бота на странице не упоминалось. Поэтому здесь
+   не «Повторить», а единственная кнопка, которая действительно выводит:
+   бот, который вернёт сюда же с подписью. И ссылка на образец рядом —
+   чтобы человек, ещё не готовый открывать бота, увидел, что покупает. */
+function renderNoTg(){
+  const t=L();
+  screenNow="notg";
+  const bot=(window.TOY_BOT||"toy_daftar_bot");
+  $("#app").innerHTML=`<div class="top" style="color:var(--gold)">${ORN}
+    <h1 style="color:var(--ink)">${esc(t.bootTitle||"Toʻy-Daftar")}</h1>
+    <div class="meta">${esc(t.bootSub||"")}</div></div>
+    <div class="card"><b>${esc(t.noTgTitle||"")}</b>
+      <div class="note" style="margin:0 0 12px">${esc(t.noTgHint||"")}</div>
+      <button class="b" id="tobot">${esc(t.noTgBtn||"")}</button>
+      <div class="note" style="text-align:center;margin-top:12px">
+        <a href="${docHref("obrazec.html")}" target="_blank" rel="noopener" style="color:var(--gold)">${esc(t.noTgSample||"")}</a></div>
+    </div>`;
+  $("#tobot").onclick=()=>{
+    haptic("medium");
+    const url=`https://t.me/${bot}`;
+    if(tg?.openTelegramLink && tg?.isVersionAtLeast?.("6.1")){ try{ tg.openTelegramLink(url); return; }catch(e){} }
+    location.href=url;
+  };
+}
+/* Настоящая поломка связи: запрос не дошёл или сервер ответил чем-то, чего мы
+   не понимаем. Здесь «Повторить» имеет смысл — и обещание «введённое
+   не потеряется» теперь правда: черновик формы лежит в localStorage. */
+function renderNetErr(){
+  const t=L();
+  screenNow="neterr";
+  $("#app").innerHTML=`<div class="card"><b>${esc(t.errNet||"Нет связи")}</b>
+    <div class="note" style="margin:6px 0 12px">${esc(t.errNetHint||"")}</div>
+    <button class="b" id="retry">${esc(t.retry||"Повторить")}</button></div>`;
+  $("#retry").onclick=()=>boot();
+}
 async function boot(){
+  renderIntro();
+  // Три разных исхода — три разных экрана, потому что действия у них разные:
+  // «тоёв нет» → форма, «открыли мимо бота» → бот, «связь оборвалась» → повтор.
+  // До этого все три сводились к одному «Проверьте интернет», и два из трёх
+  // человек оттуда не выбирался никак. Сервер отвечает {error} со статусом 403,
+  // не бросая исключение, поэтому одного try/catch мало.
+  let r=null, netFail=false;
+  try { r = await call("my"); } catch(e){ netFail=true; }
+  if(netFail || !r) return renderNetErr();
+  // «auth» — единственная ошибка, у которой есть свой выход. Проверяем её до
+  // согласия: спрашивать разрешение на обработку данных у человека, который
+  // всё равно ничего не введёт, незачем.
+  if(r.error==="auth") return renderNoTg();
+  if(r.error) return renderNetErr();
   await consentGate();
-  let events;
-  // Пустой экран без объяснения читается как «мои тои пропали». Отличаем
-  // «тоёв нет» от «не дозвонились» — это два разных сообщения и два разных действия.
-  // Сервер отвечает {error} со статусом 403, не бросая исключение, поэтому одного
-  // try/catch мало: без этой проверки экран оставался с многоточием навсегда.
-  try {
-    const r = await call("my");
-    if (!r || r.error) throw new Error(r?.error || "no_response");
-    events = r.events;
-  }
-  catch(e){
-    const t=L();
-    $("#app").innerHTML=`<div class="card"><b>${t.errNet||"Нет связи"}</b>
-      <div class="note" style="margin:6px 0 12px">${t.errNetHint||"Проверьте интернет и попробуйте ещё раз."}</div>
-      <button class="b" id="retry">${t.retry||"Повторить"}</button></div>`;
-    $("#retry").onclick=()=>boot();
-    return;
-  }
-  S.all = events || [];
+  S.all = r.events || [];
   if(!S.all.length) return renderNew();
   const last = Number(localStorage.getItem("td_last_event")||0);
   const pick = S.all.find(e=>e.id===last) || S.all[0];
-  await open(pick.id);
+  await openEvent(pick.id);
 }
 function switchEvent(){
   const t=L(), tierName={free:t.tierFree,premium:t.tierPremium,full:t.tierFull};
@@ -467,10 +636,33 @@ function switchEvent(){
     <div>${rows}</div>
     <button class="b" id="newev" style="margin-top:6px">${t.swNew}</button></div>`;
   $("#newev").onclick=()=>renderNew();
-  document.querySelectorAll(".pickev").forEach(b=>b.onclick=()=>{S.tab="guests";open(Number(b.dataset.id));});
+  document.querySelectorAll(".pickev").forEach(b=>b.onclick=()=>{S.tab="guests";openEvent(Number(b.dataset.id));});
 }
+/* ── Черновик нового тоя ─────────────────────────────────────────────────────
+   Свадебную форму не заполняют за один присест: дату смотрят в переписке,
+   адрес зала спрашивают у мамы. До этого любое переключение — язык, «назад»,
+   перезагрузка — стирало всё введённое без предупреждения. Причём экран
+   ошибки в тот же момент обещал буквально обратное: «Введённое не потеряется».
+   Обещание, на которое человек полагается, обязано быть правдой.
+
+   Черновик — только про НЕсозданный той. Как только той создан, он живёт
+   на сервере, и черновик стирается: иначе следующий «＋ Новый той» открылся бы
+   с чужими именами. */
+const DRAFT_KEY="td_new_draft";
+const DRAFT_FIELDS=["couple","occ","ilang","date","time","venue","addr","map","greet"];
+function draftSave(){
+  const d={}; let any=false;
+  DRAFT_FIELDS.forEach(k=>{ const el=$("#"+k); if(el){ d[k]=el.value; if(el.value) any=true; } });
+  try{ any ? localStorage.setItem(DRAFT_KEY, JSON.stringify(d)) : localStorage.removeItem(DRAFT_KEY); }catch(e){}
+}
+function draftLoad(){
+  try{ const v=JSON.parse(localStorage.getItem(DRAFT_KEY)||"null"); return (v && typeof v==="object") ? v : null; }
+  catch(e){ return null; }
+}
+function draftClear(){ try{ localStorage.removeItem(DRAFT_KEY); }catch(e){} }
 function renderNew(){
   const t=L();
+  screenNow="new";
   // Повод и язык спрашиваем сразу: от повода зависит подставляемый текст и тема,
   // а язык приглашения — это не язык кабинета, и путать их нельзя.
   const occ = (window.TOY_OCCASIONS||[]);
@@ -502,7 +694,16 @@ function renderNew(){
     const o=(window.toyOccasion? toyOccasion($("#occ").value) : null);
     if(o) $("#greet").value = o.greeting[$("#ilang").value] || "";
   };
-  $("#occ").onchange=fillGreet; $("#ilang").onchange=fillGreet; fillGreet();
+  // Порядок важен: сперва повод и язык из черновика, потом подстановка текста,
+  // потом остальные поля — иначе fillGreet затрёт сохранённый текст приглашения.
+  const dr = draftLoad();
+  if(dr){ ["occ","ilang"].forEach(k=>{ const el=$("#"+k); if(el && dr[k]) el.value=dr[k]; }); }
+  fillGreet();
+  if(dr){ DRAFT_FIELDS.forEach(k=>{ const el=$("#"+k); if(el && dr[k]) el.value=dr[k]; }); }
+  $("#occ").onchange=()=>{fillGreet();draftSave();};
+  $("#ilang").onchange=()=>{fillGreet();draftSave();};
+  DRAFT_FIELDS.forEach(k=>{ const el=$("#"+k);
+    if(el && el.tagName!=="SELECT") el.oninput=draftSave; });
   // Шаг 52: в превью уходит то, что человек уже ввёл. Смотреть на чужих «Aziz & Nilufar»
   // после того, как вписал свои имена, — это ровно тот момент, когда закрывают вкладку.
   $("#peek").onclick=()=>{
@@ -512,21 +713,44 @@ function renderNew(){
     put("couple",$("#couple").value); put("venue",$("#venue").value);
     put("addr",$("#addr").value);     put("date",$("#date").value);
     put("time",$("#time").value);     put("greet",$("#greet").value);
-    const url=`invite.html?${q}`;
-    tg?.openLink ? tg.openLink(url) : window.open(url,"_blank");
+    // Первая и самая заметная кнопка приложения, и ровно она обещает «можно
+    // посмотреть до того, как что-то заполнять». Открываем тем же путём, что
+    // и остальные ссылки: во встроенном браузере Telegram новой вкладки нет,
+    // а window.open там отдаёт null — человек получал ровно ничего.
+    openDoc(`invite.html?${q}`);
   };
   $("#save").onclick = async () => {
     const couple = $("#couple").value.trim(); if(!couple) return say(t.newErrNames);
     haptic("medium");
+    // Главное действие экрана молчало: сервер отвечал {error}, поле event
+    // приходило пустым, и `if(event)` тихо не срабатывал — ни ошибки, ни успеха,
+    // экран тот же. Человек жал ещё раз, ещё раз и решал, что всё сломано.
+    // Теперь кнопка показывает, что запрос ушёл, и обязательно говорит, чем он кончился.
+    const btn=$("#save"); if(btn.disabled) return;
+    const wasText=btn.textContent;
+    btn.disabled=true; btn.textContent=t.newSaving||wasText;
     const o=(window.toyOccasion? toyOccasion($("#occ").value) : null);
-    const {event} = await call("event_save",{event:{couple,event_date:$("#date").value,event_time:$("#time").value,
-      venue_name:$("#venue").value,venue_addr:$("#addr").value,map_url:$("#map").value,greeting:$("#greet").value,
-      occasion:$("#occ").value, lang:$("#ilang").value, theme:(o?o.theme:"zar")}});
-    if(event) open(event.id);
+    let r=null;
+    try{
+      r = await call("event_save",{event:{couple,event_date:$("#date").value,event_time:$("#time").value,
+        venue_name:$("#venue").value,venue_addr:$("#addr").value,map_url:$("#map").value,greeting:$("#greet").value,
+        occasion:$("#occ").value, lang:$("#ilang").value, theme:(o?o.theme:"zar")}});
+    }catch(e){}
+    if(r && r.event){ draftClear(); return openEvent(r.event.id); }
+    btn.disabled=false; btn.textContent=wasText;
+    // Черновик уже лежит в localStorage, поэтому «введённое сохранено» — правда.
+    if(r && r.error==="auth") return renderNoTg();
+    say(t.errSave||t.errNet);
   };
 }
-async function open(id){
-  const d = await call("event_get",{event_id:id});
+async function openEvent(id){
+  // Сюда приходят и сразу после создания тоя, и с первого экрана. Молчаливого
+  // выхода быть не должно ни в одной ветке: до правки оборванная связь роняла
+  // необработанное исключение и оставляла человека на предыдущем экране.
+  let d=null;
+  try{ d = await call("event_get",{event_id:id}); }catch(e){}
+  if(!d) return renderNetErr();
+  if(d.error==="auth") return renderNoTg();
   if(d.error) return say(L().errAccess);
   S.ev=d.event; localStorage.setItem("td_last_event", String(id)); S.fams=d.families; S.tables=d.tables; S.gifts=d.gifts; S.wishes=d.wishes||0; S.inviteBase=d.invite_base; S.inviteLink=d.invite_link||`${d.invite_base}?t={token}`; S.venueHint=d.venue_hint||50;
   // Цена места по умолчанию — с сервера, оттуда же её берёт сводка бота (TD-37).
@@ -662,6 +886,7 @@ function mahDate(){
   return toyDateLong(S.ev && S.ev.event_date, lang, { shiftDays: -7 });
 }
 function render(){
+  screenNow="event";
   const t=L(), c=counts();
   const tierName={free:t.tierFree,premium:t.tierPremium,full:t.tierFull}[S.ev.tier];
   const dl=daysLeft(), names=(S.ev.couple||"").split(/&|\bи\b|\bva\b/);
@@ -1507,7 +1732,7 @@ function tabSeating(){
   if(S.ev.tier==="free"){
     $("#tab").innerHTML=`<div class="lock"><b>${t.sLockTitle}</b>
       <p>${t.sLockText}</p>
-      <p><a href="obrazec.html">${t.lockSample}</a></p>
+      <p><a href="${docHref("obrazec.html")}">${t.lockSample}</a></p>
       <button class="b gold" id="buyP">${t.payPremium}</button></div>`;
     $("#buyP").onclick=()=>pay("premium"); return;
   }
@@ -1577,7 +1802,7 @@ function tabZal(){
       <div class="note" style="margin-top:4px">${t.zProgText(answered,S.fams.length)}</div></div>
     <div class="lock"><b>${t.zLockTitle}</b>
       <p>${t.zLockText}</p>
-      <p><a href="obrazec.html">${t.lockSample}</a></p>
+      <p><a href="${docHref("obrazec.html")}">${t.lockSample}</a></p>
       <button class="b gold" id="buyP">${t.payPremium}</button></div>`;
     $("#buyP").onclick=()=>pay("premium");
     return;
@@ -1975,7 +2200,7 @@ function tabGifts(){
     $("#tab").innerHTML=`<div class="lock"><b>${t.fLockTitle}</b>
       <p>${t.fLockText}</p>
       <p>${S.wishes?t.wLockHave(S.wishes):t.wLockNone}</p>
-      <p><a href="obrazec.html">${t.lockSample}</a></p>
+      <p><a href="${docHref("obrazec.html")}">${t.lockSample}</a></p>
       <button class="b gold" id="buyF">${t.payFull}</button></div>`;
     $("#buyF").onclick=()=>pay("full"); return;
   }

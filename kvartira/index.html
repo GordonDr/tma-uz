@@ -63,6 +63,8 @@ h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-
   padding:16px;margin:12px 0 10px;display:grid;grid-template-columns:1fr 84px;gap:12px;align-items:center}
 .hero h1{font-size:21px;font-weight:600}
 .hero .sub{color:var(--muted);font-size:13px;margin-top:4px}
+.ringwrap{width:84px}
+.ringcap{margin-top:6px;font-size:10.5px;line-height:1.25;color:var(--ink2);text-align:center}
 .ring{position:relative;width:84px;height:84px}
 .ring svg{transform:rotate(-90deg)}
 .ring .val{position:absolute;inset:0;display:grid;place-items:center;font-family:"IBM Plex Mono",monospace;font-size:17px;font-weight:500}
@@ -72,10 +74,22 @@ h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-
 .lang button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
 
 /* ---------- bag ---------- */
-.bag{background:var(--amber-bg);border:1px solid var(--amber);border-radius:16px;padding:13px 15px;margin:10px 0}
-.bag h3{font-size:14px;font-weight:600;color:var(--amber-ink);display:flex;align-items:center;gap:7px;margin-bottom:8px}
-.bag .items{display:flex;flex-wrap:wrap;gap:6px}
+.bag{background:var(--amber-bg);border:1px solid var(--amber);border-radius:16px;padding:11px 15px;margin:10px 0}
+.bag summary{font:600 14px Rubik,system-ui,sans-serif;color:var(--amber-ink);cursor:pointer;
+  list-style:none;display:flex;align-items:center;gap:7px;padding:2px 0;min-height:26px}
+.bag summary::-webkit-details-marker{display:none}
+.bag summary:after{content:"▼";margin-left:auto;font-size:11px;transition:transform .2s}
+.bag[open] summary:after{transform:rotate(180deg)}
+.bag .bagn{font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:400;opacity:.8}
+.bag .items{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
 .bag .it{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:5px 9px;font-size:12.5px;font-weight:500}
+
+/* ---------- вход в сверку метража ---------- */
+.arlink{display:block;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);
+  border-left:3px solid var(--amber);border-radius:12px;padding:12px 14px;margin:10px 0;
+  font:500 13.5px Manrope,system-ui,sans-serif;color:var(--ink);cursor:pointer;line-height:1.4}
+.arlink b{font-weight:700}
+.arlink:active{transform:translateY(1px)}
 
 /* ---------- warn ---------- */
 .warn{display:flex;gap:10px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--bad);
@@ -124,9 +138,12 @@ h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-
 .ar-hint{display:block;margin-top:4px;font-size:11.5px;font-weight:600;opacity:.85}
 .ar-note{margin-top:8px;font-size:11px;color:var(--muted);line-height:1.4}
 .item.exp .how{display:block}
-/* отметка «здесь дефект» — мост от бесплатного чек-листа к платному акту */
-.flag{border:1px solid var(--line);background:transparent;color:var(--muted);font:600 11px Rubik,sans-serif;
-  padding:3px 9px;border-radius:20px;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
+/* отметка «здесь дефект» — мост от бесплатного чек-листа к платному акту.
+   Кнопка была 107×22 px при шрифте 11 px. В неё промахивается человек,
+   который стоит, держит телефон одной рукой, а во второй — фонарик
+   или договор. 30 px по высоте — минимум, в который попадают стоя. */
+.flag{border:1px solid var(--line);background:transparent;color:var(--ink2);font:600 12px Rubik,sans-serif;
+  padding:7px 12px;border-radius:20px;cursor:pointer;display:inline-flex;align-items:center;gap:4px}
 .flag.on{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
 .item.bad{background:var(--bad-bg)}
 .item.bad .txt{color:var(--ink)}
@@ -140,8 +157,8 @@ h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-
 .found .list div:before{content:"·";position:absolute;left:3px}
 .meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px;align-items:center}
 .chip{font-size:11.5px;font-weight:600;padding:3px 8px;border-radius:7px;background:var(--amber-bg);color:var(--amber-ink)}
-.hint{font-size:11.5px;font-weight:600;color:var(--muted);background:none;border:1px solid var(--line);
-  border-radius:7px;padding:3px 8px;cursor:pointer;font-family:inherit}
+.hint{font-size:12px;font-weight:600;color:var(--ink2);background:none;border:1px solid var(--line);
+  border-radius:8px;padding:7px 11px;cursor:pointer;font-family:inherit}
 
 /* ---------- done state ---------- */
 .done{background:var(--ok-bg);border:1px solid var(--ok);border-radius:16px;padding:16px;margin:10px 0;text-align:center;display:none}
@@ -157,7 +174,11 @@ h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-
   font:700 15.5px Rubik,sans-serif;letter-spacing:.01em;cursor:pointer;box-shadow:0 6px 18px rgba(217,131,36,.32);
   display:flex;align-items:center;justify-content:center;gap:8px}
 .buy:active{transform:translateY(1px)}
-.cta .note{text-align:center;font-size:11px;color:var(--muted);margin-top:7px;line-height:1.35}
+/* Цена — самая важная строка на экране — была набрана 11 px цветом --muted
+   по белому: контраст около 3,5:1, а читают её на телефоне при дневном свете
+   в пустой квартире. --ink2 даёт больше 7:1 при том же виде подписи. */
+.cta .note{text-align:center;font-size:12.5px;color:var(--ink2);margin-top:7px;line-height:1.4}
+.cta .note a{color:var(--ink2)}
 /* Полоса «нет сети». Показывается только классом на body, чтобы состояние жило
    в одном месте, а не в пяти обработчиках. Цвет — янтарный, а не красный:
    это не поломка, чек-лист работает, ограничена только отправка. */
@@ -242,7 +263,10 @@ body.offline .offbar{display:block}
    и блок «кто это делает». */
 #sheet{display:none}
 @media print{
-  body{background:#fff;color:#000;background-image:none;padding:0}
+  /* !important — из-за fitCta(): отступ под липкой полосой заказа ставится
+     инлайновым стилем, а инлайн сильнее правила отсюда. Без него на бумагу
+     уезжали лишние ~30 мм пустоты в хвосте — иногда отдельной страницей. */
+  body{background:#fff;color:#000;background-image:none;padding:0 !important}
   /* !important нужен обоим правилам: без него у второго специфичность и так
      выше (id против класса), а с ним побеждает #sheet — иначе на бумагу
      ушёл бы пустой лист. Проверяется только печатью, то есть глазами. */
@@ -287,7 +311,13 @@ body.offline .offbar{display:block}
 .sheet li b{color:var(--ink)}
 .sheet .ok{width:100%;border:0;border-radius:14px;padding:15px;background:var(--amber-ink);
   color:#fff;font:600 15.5px Manrope,system-ui,sans-serif;cursor:pointer}
-.sheet .more{display:block;text-align:center;margin-top:11px;font-size:13px;color:var(--muted)}
+/* Выход из листа — такая же кнопка во всю ширину, а не крестик в углу:
+   человек держит телефон одной рукой и жмёт большим пальцем. */
+.sheet .no{width:100%;border:1px solid var(--line);border-radius:14px;padding:13px;margin-top:9px;
+  background:transparent;color:var(--ink2);font:600 14px Manrope,system-ui,sans-serif;cursor:pointer}
+.sheet .keep{background:var(--line2);border-radius:11px;padding:10px 12px;margin:0 0 14px;
+  font-size:12.5px;line-height:1.45;color:var(--ink2)}
+.sheet .more{display:block;text-align:center;margin-top:11px;font-size:13px;color:var(--ink2)}
 @media (prefers-reduced-motion:reduce){.sheet{animation:none}}
 </style>
 <body>
@@ -299,25 +329,44 @@ body.offline .offbar{display:block}
       <div class="sub" id="t-sub">Пройдите по пунктам во время осмотра</div>
       <div class="lang"><button id="lru">RU</button><button id="luz">UZ</button></div>
     </div>
-    <div class="ring">
-      <svg width="84" height="84" viewBox="0 0 84 84">
-        <circle cx="42" cy="42" r="35" fill="none" stroke="var(--line2)" stroke-width="7"/>
-        <circle id="arc" cx="42" cy="42" r="35" fill="none" stroke="var(--ok)" stroke-width="7"
-          stroke-linecap="round" stroke-dasharray="220" stroke-dashoffset="220" style="transition:stroke-dashoffset .4s"/>
-      </svg>
-      <div class="val"><span id="pct">0</span><span style="font-size:11px;color:var(--muted)">%</span></div>
+    <!-- Кружок стоял без единого слова подписи. «0 %» на странице про приёмку
+         квартиры человек читает как оценку квартиры, а не как «прочитано 0
+         из 48»: ему обещали, что тут посчитают. Подпись под кружком называет,
+         чего это проценты, теми же словами, что и счётчики разделов. -->
+    <div class="ringwrap">
+      <div class="ring">
+        <svg width="84" height="84" viewBox="0 0 84 84" aria-hidden="true">
+          <circle cx="42" cy="42" r="35" fill="none" stroke="var(--line2)" stroke-width="7"/>
+          <circle id="arc" cx="42" cy="42" r="35" fill="none" stroke="var(--ok)" stroke-width="7"
+            stroke-linecap="round" stroke-dasharray="220" stroke-dashoffset="220" style="transition:stroke-dashoffset .4s"/>
+        </svg>
+        <div class="val"><span id="pct">0</span><span style="font-size:11px;color:var(--muted)">%</span></div>
+      </div>
+      <!-- Число подставляет update() из длины чек-листа, а не разметка:
+           вписанное здесь «48» разъехалось бы с данными молча. -->
+      <div class="ringcap" id="ringcap"></div>
     </div>
   </div>
 
-  <div class="bag">
-    <h3>🎒 <span id="t-bag">Возьмите с собой</span></h3>
+  <!-- Сумка свёрнута. Двенадцать плашек с вещами, которые надо было взять
+       из дома, занимали второй экран у человека, который уже стоит в квартире
+       и взять их не может. Дома накануне список нужен целиком — поэтому он
+       не удалён, а лежит под одной строкой. -->
+  <details class="bag" id="bagBox">
+    <summary>🎒 <span id="t-bag">Возьмите с собой</span> <span class="bagn" id="bagN"></span></summary>
     <div class="items" id="bagItems"></div>
-  </div>
+  </details>
 
   <div class="warn">
     <span style="font-size:17px;line-height:1">⚠️</span>
     <div id="t-warn"><b>Не подписывайте акт приёма-передачи, пока замечания не вписаны в документ.</b> Каждый дефект — стикер на месте и два фото: общий план и крупно.</div>
   </div>
+
+  <!-- Единственное на странице, что переводится прямо в деньги, лежало шестым
+       пунктом из шести внутри свёрнутого третьего раздела. Случайно на него
+       не наткнуться, а ради него человек и берёт рулетку. Здесь — одна строка,
+       которая раскрывает раздел и подводит к самому калькулятору. -->
+  <button class="arlink" id="arlink"></button>
 
   <div class="found" id="found"></div>
   <div id="list"></div>
@@ -344,7 +393,7 @@ body.offline .offbar{display:block}
   <div class="offbar" id="t-offbar">Сети нет. Чек-лист работает, отметки сохраняются — они уйдут в бот, когда связь появится.</div>
   <button class="buy" id="buy"><span>📄</span><span id="t-buy">Акт + претензия — 99 000 сум</span></button>
   <div class="note"><span id="t-note">Фото дефектов → готовые документы за 24 часа</span><br>
-    <a href="sample.html" id="t-sample" style="color:var(--muted);text-decoration:underline;text-underline-offset:2px">Посмотреть образец акта</a></div>
+    <a href="sample.html" id="t-sample" style="text-decoration:underline;text-underline-offset:2px">Посмотреть образец акта</a></div>
 </div></div>
 
 <script>
@@ -395,7 +444,44 @@ let done = new Set(JSON.parse(store.get(LS) || "[]"));
 // Пункты, где человек нашёл дефект. Это мост от бесплатного чек-листа к платному акту:
 // список уходит в бот вместе с заказом, и владельцу не приходится вытаскивать его перепиской.
 let bad = new Set(JSON.parse(store.get(LSB) || "[]"));
-let openSec = null;
+/* Уборка за прежней версией. Кнопка «⚠ здесь дефект» стояла у всех сорока
+   восьми пунктов, включая десять, которые не про квартиру, а указания самому
+   человеку: «возьмите паспорт», «не подписывайте акт до конца осмотра».
+   Кнопки там больше нет (у зон act:true она не рисуется), но у тех, кто успел
+   её нажать, отметка лежит на телефоне и переживает обновление страницы.
+   Без этой уборки лист замечаний по-прежнему выносил бы «Возьмите: паспорт,
+   договор» в перечень претензий к застройщику, а липкая полоса считала бы
+   это замечание в цену. Снимаем один раз, молча и до первой отрисовки. */
+(function(){
+  const before = bad.size;
+  CHECKLIST.forEach(s => { if(s.act) s.items.forEach(i => bad.delete(i.id)); });
+  if(bad.size !== before) store.set(LSB, JSON.stringify([...bad]));
+})();
+/* Какой раздел раскрыт — и по умолчанию, и после перезагрузки.
+
+   По умолчанию раскрывался нулевой, «До осмотра: документы»: пять пунктов
+   «возьмите / уточните заранее / заложите 1,5–2 часа». Вместе со списком вещей
+   из дома это занимало полтора экрана, и первый раздел про саму квартиру
+   лежал примерно на 1458-м пикселе, свёрнутый. Человек открывает ссылку
+   не дома накануне, а стоя в квартире за два часа до ключей — так её и
+   присылают. Раскрываем первый раздел, который про квартиру.
+
+   Место тоже переживает перезагрузку. За два часа осмотра телефон перезагрузит
+   страницу сам — от потери сети, от переключения в Telegram, от входящего
+   звонка, — и человек возвращался в начало, к «возьмите паспорт», с заново
+   свёрнутыми разделами: галочки хранились, место — нет. */
+const LSO = "kq_open_v1";
+const FIRST_ROOM = Math.max(0, CHECKLIST.findIndex(s => !s.act));
+let openSec = (() => {
+  // Пустое хранилище читается отдельно, а не через Number(): Number(null)
+  // и Number("") — это ноль, то есть ровно тот раздел «до осмотра», от которого
+  // мы и уходим. Первый заход выглядел бы как сохранённый выбор.
+  const raw = store.get(LSO);
+  if(raw === null || raw === "") return FIRST_ROOM;
+  const v = Number(raw);
+  return Number.isInteger(v) && v >= -1 && v < CHECKLIST.length ? v : FIRST_ROOM;
+})();
+const saveOpen = () => store.set(LSO, String(openSec));
 
 /* Цена задаётся одним числом в config.js, но слово «сум» в узбекском тексте
    пишется «soʻm». Отдельной константы в конфиге нет намеренно: два числа
@@ -407,6 +493,32 @@ let PRICE_RU = String(CONFIG.PRICE_LABEL);
 let PRICE_UZ = PRICE_RU.replace(/сум/i, "soʻm");
 const TXT={
  ru:{title:"Приёмка квартиры",sub:"Пройдите по пунктам во время осмотра",bag:"Возьмите с собой",
+   ringCap:(d,n)=>`пройдено ${d} из ${n} пунктов`,
+   bagN:n=>`${n} ${plural(n,"вещь","вещи","вещей")}`,
+   arLink:"📐 <b>Метраж не совпал с договором?</b> Посчитать разницу в деньгах",
+   /* Экран подтверждения перед уходом в бота. Нажатие на липкую полосу уносило
+      всю вкладку на t.me: чек-лист исчезал с экрана без единого слова о том,
+      за что человек платит, а «назад» возвращало его в начало страницы.
+      Всё это — стоя в квартире, где интернета нет, рядом с торопящим
+      представителем застройщика. */
+   cfT:"Что вы заказываете",
+   cfSub:"Одним экраном — прежде чем уйти в бота.",
+   cfWhat:"<b>Акт осмотра</b> с вашими замечаниями и ссылками на нормы и <b>претензия застройщику</b> — два документа одним PDF.",
+   cfN:n=>`Ваших отметок в списке: <b>${n}</b>. Переносить их вручную не придётся.`,
+   /* Та же строка для случая «сети нет». «Переносить вручную не придётся» —
+      это обещание про отправку, а отправить без сети нечего: список лежит
+      в очереди на телефоне и уходит, когда чек-лист открыт со связью.
+      Между этими двумя минутами человек уже в боте и разговаривает с владельцем,
+      у которого списка ещё нет. Обещать в этот момент то же самое — значит
+      обещать за механику, которой тут не работает. */
+   cfNOff:n=>`Ваших отметок в списке: <b>${n}</b>. Сейчас они только на телефоне: уйдут к нам сами, когда вы откроете чек-лист со связью. Не дожидаясь — нажмите «Скопировать текст» под листом замечаний и вставьте боту: копирование работает и без сети.`,
+   cfNone:"Замечаний вы пока не отметили. Заказать можно и так, но обычно сначала проходят чек-лист.",
+   get cfPrice(){ return `Цена — <b>${PRICE_RU}</b>. Готово за 24 часа с момента, когда вы пришлёте фото.` },
+   cfKeep:"Чек-лист останется на этом телефоне. Отметки сохранены, вернётесь — окажетесь на том же разделе.",
+   cfOff:"Сети сейчас нет. Бот откроется, когда связь появится, — отметки уже лежат на телефоне.",
+   cfGo:"Открыть бота",
+   cfNo:"Не сейчас, вернуться к чек-листу",
+   cfSample:"Сначала посмотреть образец акта",
    warn:"<b>Не подписывайте акт приёма-передачи, пока замечания не вписаны в документ.</b> Каждый дефект — стикер на месте и два фото: общий план и крупно.",
    get buy(){ return `Акт + претензия — ${PRICE_RU}` },note:"Фото дефектов → готовые документы за 24 часа",
    offbar:"Сети нет — так и должно быть в новостройке. Чек-лист работает, отметки сохраняются на телефоне и уйдут в бот, когда связь появится.",
@@ -487,6 +599,21 @@ const TXT={
      "<li>Сфотографируйте недостаток и сохраните переписку: скрытый характер недостатка доказывать придётся вам.</li></ol>"+
      "<p>Чек-лист выше пригодится и вам: отметьте найденное — и лист замечаний даст готовую формулировку для извещения. Числовой допуск в узбекских нормах есть не для всякого дефекта: где он есть, лист назовёт пункт и цифру, где нет — так и скажет.</p>"},
  uz:{title:"Kvartirani qabul qilish",sub:"Koʻrik davomida bandlarni belgilang",bag:"Oʻzingiz bilan oling",
+   ringCap:(d,n)=>`${n} banddan ${d} tekshirildi`,
+   bagN:n=>`${n} ta narsa`,
+   arLink:"📐 <b>Maydon shartnomaga mos kelmadimi?</b> Farqni pulda hisoblang",
+   cfT:"Siz nima buyurtma qilyapsiz",
+   cfSub:"Botga oʻtishdan oldin — bitta ekranda.",
+   cfWhat:"Sizning kamchiliklaringiz va meʼyorlarga havolalar bilan <b>koʻrik dalolatnomasi</b> hamda <b>quruvchiga pretenziya</b> — bitta PDF ichida ikkita hujjat.",
+   cfN:n=>`Roʻyxatdagi belgilaringiz: <b>${n}</b>. Ularni qoʻlda koʻchirish shart emas.`,
+   cfNOff:n=>`Roʻyxatdagi belgilaringiz: <b>${n}</b>. Hozir ular faqat telefonda: cheklistni aloqa bilan ochganingizda oʻzi bizga yuboriladi. Kutmasdan — kamchiliklar roʻyxati ostidagi «Matnni nusxalash» tugmasini bosing va botga joylashtiring: nusxalash internetsiz ham ishlaydi.`,
+   cfNone:"Hali kamchilik belgilamadingiz. Shundayam buyurtma qilsa boʻladi, lekin odatda avval cheklist toʻldiriladi.",
+   get cfPrice(){ return `Narxi — <b>${PRICE_UZ}</b>. Siz suratlarni yuborgan paytdan 24 soatda tayyor.` },
+   cfKeep:"Cheklist shu telefonda qoladi. Belgilar saqlangan, qaytsangiz — oʻsha boʻlimda boʻlasiz.",
+   cfOff:"Hozir internet yoʻq. Aloqa paydo boʻlganda bot ochiladi — belgilar telefonda turibdi.",
+   cfGo:"Botni ochish",
+   cfNo:"Hozir emas, cheklistga qaytish",
+   cfSample:"Avval dalolatnoma namunasini koʻrish",
    warn:"<b>Kamchiliklar hujjatga yozilmaguncha qabul dalolatnomasini imzolamang.</b> Har bir nuqson — joyiga stiker va ikkita surat: umumiy va yaqin plan.",
    get buy(){ return `Dalolatnoma + pretenziya — ${PRICE_UZ}` },note:"Nuqson suratlari → 24 soatda tayyor hujjatlar",
    offbar:"Internet yoʻq — yangi binoda bu odatiy hol. Roʻyxat ishlayapti, belgilar telefonda saqlanadi va aloqa paydo boʻlganda botga yuboriladi.",
@@ -611,6 +738,13 @@ async function flushOutbox(){
 }
 addEventListener("online", flushOutbox);
 setTimeout(flushOutbox, 1500);   // и при обычном открытии: сеть могла появиться между заходами
+/* И при возврате во вкладку. Обычный путь такой: человек отметил дефекты
+   в квартире без сети, свернул мини-апп, ушёл к лифту, вернулся к нему уже
+   на улице. Вкладка при этом не перезагружается и события «online» может
+   не быть вовсе — navigator.onLine на телефоне часто врёт и в подвале
+   считает себя подключённым. Возврат к видимости — единственный момент,
+   про который точно известно, что человек здесь и, скорее всего, уже в сети. */
+addEventListener("visibilitychange", () => { if(!document.hidden) flushOutbox(); });
 
 /* Названия инструментов — короткий словарь, а не поле в каждом пункте: разных
    значений всего четырнадцать, и держать перевод в 58 местах значило бы
@@ -658,8 +792,34 @@ function renderStatic(){
   stampLang();
   document.getElementById("lru").classList.toggle("on",lang==="ru");
   document.getElementById("luz").classList.toggle("on",lang==="uz");
-  document.getElementById("bagItems").innerHTML=bagList().map(x=>`<span class="it">${x}</span>`).join("");
+  const bl=bagList();
+  document.getElementById("bagItems").innerHTML=bl.map(x=>`<span class="it">${x}</span>`).join("");
+  document.getElementById("bagN").textContent=t.bagN(bl.length);
+  document.getElementById("arlink").innerHTML=t.arLink;
 }
+/* Вход в сверку метража. Раскрывает раздел, где лежит калькулятор, и подводит
+   к нему прокруткой — а не дублирует поля вторым экземпляром: два места
+   для одних и тех же цифр разъезжаются на первой же правке. */
+function openArea(){
+  const si=CHECKLIST.findIndex(s=>s.items.some(i=>i.id===AREA_ID));
+  if(si<0) return;
+  openSec=si; saveOpen(); haptic("light"); renderList();
+  const el=document.querySelector(`.item[data-id="${AREA_ID}"] .area`);
+  if(!el) return;
+  // Поправка на липкий блок отмеченного: он висит на top:0 и накрыл бы верх
+  // калькулятора — то есть подписи «площадь по договору» и «замерили».
+  const fb=document.getElementById("found");
+  const off=(fb.classList.contains("show") ? fb.getBoundingClientRect().height : 0) + 16;
+  const y=Math.max(0, el.getBoundingClientRect().top+window.scrollY-off);
+  const was=window.scrollY;
+  window.scrollTo({top:y,behavior:"smooth"});
+  // Плавную прокрутку понимают не все Android-WebView: если через полсекунды
+  // страница не сдвинулась, прыгаем без анимации. Тот же приём, что у «собрать
+  // лист замечаний», и по той же причине — кнопка, не делающая ничего, читается
+  // как сломанный продукт.
+  setTimeout(()=>{ if(Math.abs(window.scrollY-was)<2) window.scrollTo(0,y); }, 500);
+}
+document.getElementById("arlink").onclick=openArea;
 /* ── Сверка метража с договором (G-02) ───────────────────────────────────────
    Это единственный пункт чек-листа, у которого есть прямая денежная цена.
    Все остальные дефекты — «застройщик должен устранить», а недостающие
@@ -733,7 +893,7 @@ function wireArea(row, si){
       // предварительного листа, с цифрами из этих самых полей. Без него человек
       // считал разницу в деньгах, а в листе замечаний она появлялась только
       // после следующей отметки галочкой — то есть чаще всего никогда.
-      areaTimer = setTimeout(()=>{ openSec = si; renderList(); update(); syncDefects(); }, 900);
+      areaTimer = setTimeout(()=>{ openSec = si; saveOpen(); renderList(); update(); syncDefects(); }, 900);
     };
   });
 }
@@ -744,7 +904,7 @@ function renderList(){
   CHECKLIST.forEach((sec,si)=>{
     const d=sec.items.filter(i=>done.has(i.id)).length, all=sec.items.length;
     const el=document.createElement("div");
-    el.className="sec"+(d===all?" done":"")+(openSec===si||(openSec===null&&si===0)?" open":"");
+    el.className="sec"+(d===all?" done":"")+(openSec===si?" open":"");
     el.innerHTML=`
       <div class="head">
         <div class="ic">${sec.icon}</div>
@@ -758,7 +918,7 @@ function renderList(){
           <div>
             <div class="txt">${lang==="ru"?it.ru:it.uz}</div>
             <div class="meta">
-              <button class="flag${bad.has(it.id)?" on":""}">${bad.has(it.id)?"⚠ "+t.flagOn:"⚠ "+t.flag}</button>
+              ${sec.act?"":`<button class="flag${bad.has(it.id)?" on":""}">${bad.has(it.id)?"⚠ "+t.flagOn:"⚠ "+t.flag}</button>`}
               ${it.how?`<button class="hint">💡 ${t.how}</button>`:""}
               ${it.tool?`<span class="chip">🎒 ${toolName(it.tool)}</span>`:""}
             </div>
@@ -766,20 +926,20 @@ function renderList(){
             ${it.id===AREA_ID?areaBox(t):""}
           </div>
         </div>`).join("")}</div>`;
-    el.querySelector(".head").onclick=()=>{ openSec = el.classList.contains("open")?-1:si; haptic("light"); renderList(); };
+    el.querySelector(".head").onclick=()=>{ openSec = el.classList.contains("open")?-1:si; saveOpen(); haptic("light"); renderList(); };
     el.querySelectorAll(".item").forEach(row=>{
       const id=row.dataset.id;
       const toggle=()=>{ done.has(id)?done.delete(id):done.add(id);
-        store.set(LS,JSON.stringify([...done])); haptic("medium"); openSec=si; renderList(); update(); };
+        store.set(LS,JSON.stringify([...done])); haptic("medium"); openSec=si; saveOpen(); renderList(); update(); };
       row.querySelector(".box").onclick=toggle;
       row.querySelector(".txt").onclick=toggle;
       const hint=row.querySelector(".hint");
       if(hint) hint.onclick=e=>{ e.stopPropagation(); row.classList.toggle("exp"); };
       // Отметить дефект = сразу отметить пункт пройденным: человек его проверил, просто результат плохой.
-      row.querySelector(".flag").onclick=e=>{ e.stopPropagation();
+      (row.querySelector(".flag")||{}).onclick=e=>{ e.stopPropagation();
         if(bad.has(id)){ bad.delete(id); } else { bad.add(id); done.add(id); }
         store.set(LSB,JSON.stringify([...bad])); store.set(LS,JSON.stringify([...done]));
-        haptic("medium"); openSec=si; renderList(); update(); syncDefects();
+        haptic("medium"); openSec=si; saveOpen(); renderList(); update(); syncDefects();
       };
       if(id===AREA_ID) wireArea(row, si);
     });
@@ -857,10 +1017,37 @@ function renderFound(){
        прокрутка, а не намерение прокрутить. */
     setTimeout(()=>{ if(Math.abs(window.scrollY-was)<2) window.scrollTo(0,y); }, 500); };
 }
+/* Отступ снизу под липкой полосой заказа. В стилях он стоял числом — 108 px, —
+   а сама полоса меряется содержимым: цена приезжает с сервера и может стать
+   длиннее, узбекская подпись занимает на строку больше русской, а в квартире
+   без сети над кнопкой разворачивается ещё и полоса «интернета нет» на три
+   строки. Тогда полоса вырастает примерно до 190 px и накрывает конец страницы
+   — подвал со ссылкой «Условия и обработка данных». Ссылка не просто плохо
+   видна: полоса лежит выше по z-index и перехватывает нажатие, то есть
+   единственная дорога к полному раскрытию данных с чек-листа переставала
+   открываться ровно в том состоянии, ради которого продукт и делался.
+   Меряем, а не угадываем: источник числа один — сама полоса. */
+function fitCta(){
+  const h = document.querySelector(".cta").offsetHeight;
+  if(h) document.body.style.paddingBottom = (h + 14) + "px";
+}
+addEventListener("resize", fitCta);
+addEventListener("online",  fitCta);
+addEventListener("offline", fitCta);
+// Шрифты свои, но приезжают асинхронно: до их подстановки строки под кнопкой
+// меряются системным шрифтом и переносятся иначе. Меряем ещё раз, когда
+// подстановка случилась; не случилась — остаётся первый замер.
+document.fonts?.ready?.then?.(fitCta);
 function update(){
   const d=done.size, pct=Math.round(100*d/total);
   document.getElementById("pct").textContent=pct;
   document.getElementById("arc").style.strokeDashoffset = 220 - 220*d/total;
+  document.getElementById("ringcap").textContent=TXT[lang].ringCap(d,total);
+  // Дорогу к калькулятору убираем, как только по нему посчитано: человек уже
+  // знает, где он лежит, а недостача метража с этой минуты видна в блоке
+  // отмеченного и в листе замечаний. Строка, которая своё отработала,
+  // на первом экране — такой же мусор, как список вещей из дома.
+  document.getElementById("arlink").style.display = areaCalc() ? "none" : "block";
   const doneBox=document.getElementById("doneBox");
   doneBox.classList.toggle("show", d===total);
   renderFound();
@@ -870,6 +1057,9 @@ function update(){
   const t=TXT[lang], n=markedList().length;
   document.getElementById("t-buy").textContent = n ? t.buyBad(n) : t.buy;
   document.getElementById("t-note").textContent = n ? t.noteBad : t.note;
+  // После того, как подписи под кнопкой уже переписаны: высота полосы зависит
+  // от них, и померенная до — это высота прошлого состояния.
+  fitCta();
   trackProgress(d);
   if(d===total && !store.get("kq_done_sent")){
     store.set("kq_done_sent","1"); track("checklist_done",{done_items:[...done]});
@@ -904,16 +1094,65 @@ const setLang=(v)=>{lang=v;store.set("kq_lang",lang);document.documentElement.la
   track("lang_set",{lang:v,was:urlLang||null});renderStatic();renderList();update();};
 document.getElementById("lru").onclick=()=>setLang("ru");
 document.getElementById("luz").onclick=()=>setLang("uz");
-document.getElementById("buy").onclick=()=>{
-  haptic("medium");
-  // Отправляем список синхронно перед уходом в бот, чтобы владелец увидел его в карточке заказа.
-  const ar=areaCalc();
+/* ── Что вы заказываете ──────────────────────────────────────────────────────
+   Нажатие на липкую полосу уносило всю вкладку на t.me: чек-лист исчезал
+   с экрана, и человек не видел ни того, за что платит, ни подтверждения,
+   ни дороги обратно. «Назад» возвращало его на самый верх страницы, к «возьмите
+   паспорт». Всё это происходит в квартире, где интернета нет, рядом с торопящим
+   представителем застройщика — то есть уйти со страницы в эту секунду значит
+   потерять её.
+
+   Экран между нажатием и уходом называет ровно три вещи: что это за документы,
+   сколько отметок уедет вместе с заказом и сколько это стоит. И говорит, что
+   чек-лист остаётся здесь. Уход в бота — отдельным нажатием, а не побочным
+   действием прокрутки к цене.
+
+   act_view пишется при открытии этого экрана, а не при уходе: раньше событие
+   означало «нажал полосу», теперь — «увидел, что покупает». Полоса та же,
+   нажатие то же, воронка не сдвинулась. */
+let cfOv = null;
+function closeConfirm(){ if(cfOv){ cfOv.remove(); cfOv = null; tg?.BackButton?.hide?.(); } }
+function openConfirm(){
+  if(cfOv) return;
+  const t = TXT[lang], n = markedList().length;
+  const ar = areaCalc();
+  // Список уезжает к владельцу в тот момент, когда человек открыл предложение,
+  // а не когда ушёл: до бота он может и не дойти, а отметки нужны в карточке.
   if(bad.size||ar) track("defect_marked",{n:bad.size, defects:badList(), done_items:[...done], area:ar});
   track("act_view",{n_defects:bad.size, area_diff:ar?ar.diff:null});
-  const url=`https://t.me/${CONFIG.BOT_USERNAME}?start=buy_from_tma`;
-  tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url);
-  setTimeout(()=>tg?.close?.(), 150);
-};
+  cfOv = document.createElement("div"); cfOv.className = "sheet-ov";
+  cfOv.innerHTML = `<div class="sheet" role="dialog" aria-modal="true" aria-label="${esc(t.cfT)}">
+    <h2>${t.cfT}</h2><div class="sub">${t.cfSub}</div>
+    <ul>
+      <li>${t.cfWhat}</li>
+      <li>${n ? (online() ? t.cfN(n) : t.cfNOff(n)) : t.cfNone}</li>
+      <li>${t.cfPrice}</li>
+    </ul>
+    <div class="keep">${online() ? t.cfKeep : t.cfOff}</div>
+    <button class="ok" id="cfgo">${t.cfGo}</button>
+    <button class="no" id="cfno">${t.cfNo}</button>
+    <a class="more" href="sample.html">${t.cfSample}</a></div>`;
+  document.body.appendChild(cfOv);
+  stampLang(cfOv);
+  // Закрыть можно всем, чем человек пробует закрыть лист: кнопкой, фоном,
+  // Escape и системным «назад». Экран, из которого нет выхода, — это ровно
+  // та ошибка, которую он и чинит.
+  cfOv.onclick = e => { if(e.target === cfOv) closeConfirm(); };
+  cfOv.querySelector("#cfno").onclick = () => { haptic("light"); closeConfirm(); };
+  cfOv.querySelector("#cfgo").onclick = () => {
+    haptic("medium");
+    const url = `https://t.me/${CONFIG.BOT_USERNAME}?start=buy_from_tma`;
+    tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url);
+    // Без сети мини-апп не закрываем. Закрытие — единственное необратимое
+    // действие на странице: бот всё равно не ответит, пока связи нет,
+    // а чек-лист человек потеряет насовсем, стоя в пустой квартире.
+    if(online()) setTimeout(()=>tg?.close?.(), 150);
+  };
+  tg?.BackButton?.show?.();
+}
+addEventListener("keydown", e => { if(e.key === "Escape") closeConfirm(); });
+tg?.onEvent?.("backButtonClicked", () => { closeConfirm(); tg?.BackButton?.hide?.(); });
+document.getElementById("buy").onclick=()=>{ haptic("medium"); openConfirm(); };
 /* ── Предварительный лист замечаний (KQ-38) ──────────────────────────────────
 
    ДЫРА, КОТОРУЮ ЭТО ЗАКРЫВАЕТ. Момент покупки — минуты между «отметил семь
@@ -976,10 +1215,16 @@ function prelimRows(){
     sec.items.forEach(it => {
       if(!bad.has(it.id)) return;
       const ids = ITEM_DEFECTS[it.id] || [];
-      // Пункт без формулировок — это не молчание. Пункты «до осмотра» и «финал»
-      // описывают порядок действий, а не состояние квартиры, и человек всё равно
-      // может отметить их как дефект. Тогда лист называет отмеченное его же
-      // словами и честно говорит, что готовой строки для акта нет.
+      // Пункт без формулировок — это не молчание: в зонах осмотра такие есть
+      // (для 29 позиций каталога числового норматива в узбекских документах
+      // просто нет), и лист называет отмеченное словами самого пункта.
+      //
+      // Зоны «до осмотра» и «финал» сюда больше не попадают вовсе: у них
+      // act:true, и кнопка «здесь дефект» там не рисуется. Дефекта в «возьмите
+      // паспорт» или «не подписывайте акт до конца осмотра» не бывает, а десять
+      // таких пунктов из сорока восьми давали лист, где «строк подобрано: 1,
+      // и ещё 5 пунктов без готовой формулировки» — читалось как будто продукт
+      // не умеет формулировать пятую часть собственного чек-листа.
       const found = ids.map(id => DEF_BY_ID[id]).filter(Boolean);
       if(!found.length){ rows.push({ zone, own: (lang==="ru"?it.ru:it.uz) }); return; }
       found.forEach(d => {
@@ -1108,22 +1353,29 @@ function buildSheet(rows){
    Показывается один раз. До него мы собирали события, не сказав человеку ни слова,
    а оферту из чек-листа вообще нельзя было открыть. Событие consent_given —
    доказательство информированности, а не галочка ради галочки. */
+/* Список был на семь абзацев, и один из них — про запрос за шрифтами,
+   которого больше нет. Человек открывает эту страницу не дома накануне,
+   а стоя в подъезде за два часа до ключей: он не читает, он ищет глазами
+   кнопку. Согласие, которое гарантированно пролистывают, не защищает
+   никого — оно только тратит те самые первые секунды.
+
+   Осталось три строки, и в них — всё, что человек согласием решает:
+   что уходит, к чему это привязано, как стереть. Абзац про шрифты убран
+   целиком, а не сокращён: он рассказывал о запросе, которого страница
+   не делает, — то есть был не раскрытием, а отчётом о прошлой правке.
+   Подробности заказа (ФИО, телефон, реквизиты) спрашиваются в боте
+   в тот момент, когда человек решил заказать, и живут в оферте по ссылке
+   под кнопкой; здесь они опережают решение на два часа. */
 const CONSENT_TXT={
-  ru:{ h:"Прежде чем начать", sub:"Коротко и без юридического языка.",
-       li:["Чек-лист <b>бесплатный</b>. Галочки хранятся в вашем телефоне и никуда не уходят.",
-           "Что <b>уходит к нам</b>: что вы открыли чек-лист, дошли до конца, нажали «оформить» — и <b>какие пункты вы отметили как дефекты</b>. Отмеченное сохраняем, чтобы не переспрашивать при заказе. Всё это привязано к вашему Telegram-ID, а не обезличено.",
-           "Метраж, если посчитаете, уходит вместе с замечаниями: он нужен для отдельного абзаца акта.",
-           "Если закажете акт — попросим ФИО, телефон и реквизиты договора. Только чтобы претензия была именной. Можно отказаться.",
-           "Стереть всё о себе — команда <b>/delete</b> в боте, в любой момент.",
-           "И то, что уходит до всякого вашего действия: <b>ничего постороннего</b>. Раньше первым запросом каждой загрузки страница ходила за шрифтами на серверы Google (fonts.googleapis.com, fonts.gstatic.com) — теперь шрифты лежат здесь же, и этого запроса нет. Из внешнего при загрузке остаётся только код мини-аппа с telegram.org."],
+  ru:{ h:"Прежде чем начать", sub:"Три строки, потом сразу чек-лист.",
+       li:["Чек-лист <b>бесплатный</b>. Галочки хранятся в вашем телефоне.",
+           "Что <b>уходит к нам</b>: <b>какие пункты вы отметили дефектами</b>, метраж, если посчитаете, и то, докуда вы дошли. Это привязано к вашему Telegram-ID. Сохраняем, чтобы не переспрашивать при заказе.",
+           "Стереть всё о себе — команда <b>/delete</b> в боте, в любой момент."],
        ok:"Понятно, начать", more:"Условия и обработка данных" },
-  uz:{ h:"Boshlashdan oldin", sub:"Qisqa va yuridik tilsiz.",
-       li:["Cheklist <b>bepul</b>. Belgilar telefoningizda saqlanadi va hech qayerga yuborilmaydi.",
-           "Bizga <b>nima boradi</b>: cheklistni ochganingiz, oxirigacha borganingiz, «rasmiylashtirish» tugmasini bosganingiz — va <b>qaysi bandlarni nuqson deb belgilaganingiz</b>. Belgilanganini saqlaymiz, buyurtmada qayta soʻramaslik uchun. Bularning bari Telegram-IDʼingizga bogʻlangan, yaʼni shaxssizlantirilmagan.",
-           "Maydonni hisoblasangiz, u ham eʼtirozlar bilan birga boradi: dalolatnomaning alohida bandi uchun kerak.",
-           "Dalolatnoma buyurtma qilsangiz — F.I.Sh., telefon va shartnoma rekvizitlarini soʻraymiz. Faqat pretenziya ismli boʻlishi uchun. Rad etish mumkin.",
-           "Oʻzingiz haqingizdagi hamma narsani oʻchirish — botdagi <b>/delete</b> buyrugʻi, istalgan vaqtda.",
-           "Va siz hech nima qilmasingizdan oldin yuboriladigan narsa: <b>begona hech narsa</b>. Ilgari har bir yuklanishdagi eng birinchi soʻrov shriftlar uchun Google serverlariga (fonts.googleapis.com, fonts.gstatic.com) ketardi — endi shriftlar shu yerning oʻzida, va bu soʻrov yoʻq. Yuklanishda tashqi narsadan faqat telegram.org dagi mini-ilova kodi qoladi."],
+  uz:{ h:"Boshlashdan oldin", sub:"Uch qator, keyin darrov cheklist.",
+       li:["Cheklist <b>bepul</b>. Belgilar telefoningizda saqlanadi.",
+           "Bizga <b>nima boradi</b>: <b>qaysi bandlarni nuqson deb belgilaganingiz</b>, hisoblasangiz — maydon, va qaergacha yetganingiz. Bu Telegram-IDʼingizga bogʻlangan. Buyurtmada qayta soʻramaslik uchun saqlaymiz.",
+           "Oʻzingiz haqingizdagi hamma narsani oʻchirish — botdagi <b>/delete</b> buyrugʻi, istalgan vaqtda."],
        ok:"Tushunarli, boshlaymiz", more:"Shartlar va maʼlumotlarni qayta ishlash" },
 };
 /* ── R-01 · «Приложение открыли» — до экрана согласия ────────────────────────
@@ -1166,8 +1418,29 @@ function showConsent(){
     track("checklist_open",{});
   };
 }
+/* Место прокрутки. Раскрытый раздел уже переживает перезагрузку (kq_open_v1),
+   но человек мог уйти вниз внутри длинного раздела или к листу замечаний.
+   Пишем не чаще раза в 400 мс — это фоновая запись во время прокрутки, —
+   и восстанавливаем только свежее: вчерашняя позиция сегодня уже чужая. */
+const LSY = "kq_scroll_v1";
+let yTimer = null;
+addEventListener("scroll", () => {
+  clearTimeout(yTimer);
+  yTimer = setTimeout(() => store.set(LSY, JSON.stringify({ y: Math.round(window.scrollY), at: Date.now() })), 400);
+}, { passive: true });
+function restoreScroll(){
+  let v = null; try { v = JSON.parse(store.get(LSY) || "null"); } catch(e) {}
+  if(!v || !v.y || !(Date.now() - v.at < 12 * 3600 * 1000)) return;
+  const max = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+  const y = Math.min(v.y, max);
+  if(y > 40) window.scrollTo(0, y);
+}
+
 showConsent();
 renderStatic(); renderList(); update();
+// После отрисовки и после того, как браузер посчитал высоты: до этого
+// scrollHeight ещё равен экрану, и прокрутка упирается в ноль.
+if(!document.querySelector(".sheet-ov")) setTimeout(restoreScroll, 80);
 
 /* ── G-05 · Цена на кнопке берётся с сервера ─────────────────────────────────
    Владелец меняет цену командой /price, не трогая код. Если бы кнопка чек-листа

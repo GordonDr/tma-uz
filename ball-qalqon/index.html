@@ -129,7 +129,12 @@
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);
   font-size:15.5px;line-height:1.55;-webkit-font-smoothing:antialiased;
-  overflow-x:hidden}
+  /* Порядок двух строк важен. `hidden` делает body контейнером прокрутки,
+     и липкая шапка внутри него в части браузеров залипает не к экрану,
+     а к невидимому контейнеру. `clip` режет вылезающее вбок так же, но
+     контейнера прокрутки не создаёт — и шапка работает. Кто `clip` не знает,
+     остаётся на `hidden`: было так и раньше. */
+  overflow-x:hidden;overflow-x:clip}
 .wrap{max-width:1080px;margin:0 auto;padding:18px 16px 70px}
 h1,h2,h3{font-family:var(--disp);font-weight:600;line-height:1.15;text-wrap:balance}
 h1{font-size:clamp(26px,6.4vw,42px);margin:10px 0 10px;letter-spacing:-.02em}
@@ -139,27 +144,79 @@ p{margin:0 0 12px}
 a{color:var(--brand)}
 small{font-size:13px}
 
-/* ── шапка ───────────────────────────────────────────────────────────────── */
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;
-  flex-wrap:wrap;margin-bottom:10px}
+/* ── шапка ───────────────────────────────────────────────────────────────────
+   ШАПКА СТАЛА ЛИПКОЙ 28.08.2026. Страница — 52 экрана телефона, и на ней
+   не было ни одного элемента с position:fixed или sticky. Человек на двадцатом
+   экране не понимал, где он находится и как вернуться, а чтобы переключить
+   язык, ему надо было пролистать двадцать тысяч пикселей вверх и столько же
+   обратно. Теперь марка, четыре перехода и переключатель языка всегда на
+   экране; на печати шапка снимается, в бардачок она не едет. */
+.top{position:sticky;top:0;z-index:60;background:var(--bg);
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  flex-wrap:wrap;margin:0 -16px 12px;padding:7px 16px 8px;
+  border-bottom:1px solid transparent;transition:border-color .18s,box-shadow .18s}
+.top.stuck{border-bottom-color:var(--line);box-shadow:0 3px 12px rgba(0,0,0,.07)}
 .mark{display:flex;align-items:center;gap:9px;font-family:var(--disp);font-weight:700;
   font-size:16.5px;letter-spacing:-.01em}
 .mark svg{display:block;flex:none}
+/* 25 px в высоту были первым, чего касался узбекоязычный водитель пальцем,
+   и промахивался. Теперь кнопка не ниже 40 px вместе с обоймой. */
 .lang{display:flex;gap:3px;background:var(--sunk);border:1px solid var(--line);
-  border-radius:999px;padding:3px}
+  border-radius:999px;padding:3px;flex:none}
 .lang button{border:0;background:transparent;color:var(--muted);cursor:pointer;
-  font:600 12.5px var(--body);padding:5px 13px;border-radius:999px}
+  font:600 13px var(--body);padding:0 15px;min-height:34px;border-radius:999px}
 .lang button.on{background:var(--panel);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
 .lang button:focus-visible{outline:2px solid var(--brand);outline-offset:1px}
 
+/* Переходы. На телефоне уезжают во вторую строку и листаются вбок: четыре
+   названия в одну строку с маркой и языком на 375 px не встают. */
+.jump{order:3;flex:1 1 100%;display:flex;gap:6px;overflow-x:auto;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none;margin:0 -16px;padding:0 16px}
+.jump::-webkit-scrollbar{display:none}
+.jump a{flex:none;text-decoration:none;color:var(--ink2);white-space:nowrap;
+  border:1px solid var(--line);background:var(--panel);border-radius:999px;
+  padding:0 12px;min-height:32px;display:inline-flex;align-items:center;
+  font:600 12.5px var(--body)}
+.jump a:hover{border-color:var(--brand);color:var(--brand)}
+.jump a.on{border-color:var(--brand);color:var(--brand);background:var(--sunk)}
+@media(min-width:860px){
+  .jump{order:0;flex:1 1 auto;justify-content:center;margin:0;padding:0}
+}
+
 .lede{color:var(--ink2);max-width:60ch;font-size:16.5px}
+.hero-src{max-width:60ch;margin:0 0 14px}
+/* Две кнопки первого экрана. До 28.08.2026 первого поля и первой кнопки
+   действия не было видно вовсе: инпут начинался на 843-м пикселе. */
+.hero-cta{display:flex;flex-wrap:wrap;gap:9px;margin:0 0 4px}
+a.btn{text-decoration:none}
+.hero-cta .btn{min-height:46px;flex:1 1 auto}
+/* На телефоне кнопки идут столбцом во всю ширину. Рядом они делятся шириной
+   пополам, и подпись второй ломается на три строки в узкую колонку. */
+@media(max-width:560px){ .hero-cta .btn{flex:1 1 100%} }
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 4px;padding:0;list-style:none}
 .tags li{border:1px solid var(--line);background:var(--panel);border-radius:11px;
   padding:9px 13px;font-size:13.5px;color:var(--ink2)}
 .tags b{font-family:var(--disp);color:var(--ink);font-weight:600}
 
 /* ── панели ──────────────────────────────────────────────────────────────── */
-section{margin-top:26px;scroll-margin-top:14px}
+/* Отступ под липкой шапкой: без него якорь ставит заголовок раздела ровно
+   под неё, и человек, прыгнувший по переходу, приезжает на обрезанный
+   заголовок.
+
+   ЧИСЛО ПОСЧИТАНО, А НЕ ПРИКИНУТО. Раньше здесь стояло 92 px с пометкой
+   «две строки шапки — примерно 84 px»: в прикидку не попали ни собственные
+   отступы шапки, ни промежуток между её строками. На телефоне шапка равна
+   7 (padding-top) + 42 (обойма языка: 1 + 3 + 34 + 3 + 1) + 10 (gap между
+   строками) + 32 (переход .jump a) + 8 (padding-bottom) + 1 (рамка
+   у .stuck) = 100 px. То есть якорь заводил верхние 8 px раздела ПОД шапку,
+   и у четырёх разделов, где первым ребёнком стоит сам h2 (#faq, #nima,
+   #vositalar, #obrazec), под неё уезжала верхушка букв заголовка. Один
+   из этих четырёх — #faq — стоит переходом в самой шапке, то есть ломался
+   на нажатии, которое мы человеку и предлагаем.
+   108 = 100 (шапка) + 8 на воздух. На широком экране переходы уезжают
+   в первую строку, шапка = 7 + 42 + 8 + 1 = 58, и 64 там по-прежнему верны. */
+section{margin-top:26px;scroll-margin-top:108px}
+@media(min-width:860px){ section{scroll-margin-top:64px} }
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:16px;
   padding:18px;box-shadow:var(--shadow)}
 .panel + .panel{margin-top:14px}
@@ -168,7 +225,7 @@ section{margin-top:26px;scroll-margin-top:14px}
 .cols{display:grid;gap:16px}
 @media(min-width:940px){
   .cols{grid-template-columns:minmax(0,1fr) 372px;align-items:start;gap:20px}
-  .side{position:sticky;top:14px}
+  .side{position:sticky;top:64px}
 }
 
 /* ── строки нарушений ────────────────────────────────────────────────────── */
@@ -497,20 +554,49 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
     </svg>
     Ballim
   </div>
+  <!-- Четыре перехода, и больше не надо: карта, сроки, комплект, вопросы.
+       Это не оглавление на четырнадцать разделов — это ответ на вопрос
+       «где я и как вернуться», который человек задаёт на двадцатом экране. -->
+  <nav class="jump" id="jump" aria-label="Boʻlimlar / Разделы">
+    <a href="#karta" data-t="jKarta">Ballar xaritasi</a>
+    <a href="#chegirma" data-t="jCheg">Qaror keldi</a>
+    <a href="#paket" data-t="jPaket">Toʻplam</a>
+    <a href="#faq" data-t="jFaq">Savollar</a>
+  </nav>
   <div class="lang" id="lang" role="group" aria-label="Til / Язык"></div>
 </div>
 
 <header>
   <h1 data-t="h1">Nechta jarima ballingiz bor va qaysi kuni ular kuyadi</h1>
-  <p class="lede" data-t="lede">Qoidabuzarliklaringizni sana bilan kiriting — xarita hozirgi ballni,
-    har bir kelgusi hisobdan chiqarishni va 12 balldan qachon uzoqlashayotganingizni koʻrsatadi.
-    Bepul, roʻyxatdan oʻtmasdan.</p>
-    <details class="privbox" style="margin:14px 0 0">
-      <summary data-t="privT">Sahifadan nima ketadi va nima ketmaydi</summary>
-      <p class="hint" data-t="priv">Xarita brauzeringizda hisoblanadi: sanalar va moddalar
-    roʻyxati siz oʻzingiz arizaga biriktirmaguningizcha hech qayerga ketmaydi, serverga
-    esa faqat sahifada nima qilinganining nomsiz belgisi — ochildi, hisoblandi va umumiy ball — boradi. Boshqa hech narsa ketmaydi: sahifa uchinchi tomonlarga bironta ham soʻrov yubormaydi. Shriftlar ham shu yerda yotadi, Google serverlarida emas — ilgari ular oʻsha yerdan olinardi va har bir yuklanishdagi eng birinchi soʻrov Google ga ketardi. Endi ketmaydi: brauzerdagi «Tarmoq» oynasini oching va oʻzingiz sanab chiqing.</p>
-    </details>
+  <p class="lede" data-t="lede">Ikkita savolga javob beradi: bugun nechta ballingiz bor va
+    jarimaning yarmini toʻlash kuni qachon tugaydi. Bepul, roʻyxatdan oʻtmasdan.</p>
+
+  <!-- ЧТО ЗДЕСЬ ИЗМЕНИЛОСЬ 28.08.2026 И ПОЧЕМУ.
+
+       Человек, впервые открывший страницу на телефоне, до самого низа первого
+       экрана (812 px) не видел ни одного поля и ни одной кнопки действия:
+       первый инпут начинался на 843-м пикселе. При этом лид говорил ему
+       «введите свои нарушения». Единственное, что нажималось, — плашка
+       «что уходит со страницы», и раскрывалась она в абзац про шрифты Google
+       и вкладку «Сеть» — разговор с программистом, а не с таксистом.
+       Плашка уехала вниз, в «Источники», к остальным техническим утверждениям;
+       то же самое обещание живёт в вопросе «Куда уходят введённые данные?».
+
+       Вторая правка — строка про E-jarimaball. Сюда приводит SMS «у вас
+       8 баллов», и приходит по ней ровно тот, кто НЕ ПОМНИТ, за что их набрал.
+       Ему говорили «введите нарушения» и нигде рядом не говорили, где взять
+       свой список: E-jarimaball и my.gov.uz были названы один раз далеко внизу,
+       внутри оговорки о расхождении. -->
+  <p class="hint hero-src" data-t="lede2">Qoidabuzarliklaringizni eslay olmayapsizmi? Rasmiy
+    roʻyxatingiz va rasmiy ball raqamingiz IIV ning «E-jarimaball» modulida va
+    <a href="https://my.gov.uz" target="_blank" rel="noopener">my.gov.uz</a> da turadi — sanalarni
+    oʻsha yerdan koʻchiring. Xarita faqat siz kiritganini hisoblaydi.</p>
+
+  <div class="hero-cta">
+    <a class="btn pri" href="#karta" data-t="goMap">Ballarimni hisoblash</a>
+    <a class="btn" href="#chegirma" data-t="goCheg">Yarmini qaysi kungacha toʻlash mumkin</a>
+  </div>
+
   <ul class="tags">
     <li data-t="tag1"><b>12 balldan ORTIQ</b> — sud guvohnomadan mahrum qiladi: 6 oydan 3 yilgacha</li>
     <li data-t="tag2"><b>8 ball</b> — SMS-ogohlantirish keladi</li>
@@ -520,11 +606,15 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
          массовый сегмент продукта, и до 28.08.2026 на всей странице не было
          ни одной строки под его повод: он приходит не за «останусь без прав»,
          а за деньгами — за днём, после которого половина штрафа превращается
-         в целый. Ссылка ведёт в блок, где он считает свой день; оговорку
-         «бывает не всегда» несёт сама строка, потому что скидки не бывает
-         вовсе в трёх случаях (ст. 332-1 ч. 2 КоАО). -->
-    <li data-t="tag4"><b>15 kun</b> — qaror topshirilgan kundan jarimaning yarmi, lekin har doim emas:
-      <a href="#chegirma">oʻz kuningizni hisoblang</a></li>
+         в целый. Оговорку «бывает не всегда» несёт сама строка, потому что
+         скидки не бывает вовсе в трёх случаях (ст. 332-1 ч. 2 КоАО).
+
+         Ссылки внутри строки больше нет. Она была единственной ссылкой первого
+         экрана, и первое же нажатие уносило человека на 2157 px — в блок сроков,
+         мимо карты баллов, за которой он и пришёл. Тот же переход теперь стоит
+         кнопкой выше, рядом с кнопкой на карту, и человек выбирает между двумя
+         поводами сам, а не попадает в один из них случайно. -->
+    <li data-t="tag4"><b>15 kun</b> — qaror topshirilgan kundan jarimaning yarmi, lekin har doim emas</li>
   </ul>
 </header>
 
@@ -1104,7 +1194,11 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
       <h3 data-t="sellT">Buni kim qiladi</h3>
       <p data-t="sellWho">Yakka tartibdagi tadbirkor Epixin Kirill Nikolayevich, roʻyxatdan oʻtish raqami <b>7875577</b>, Toshkent shahri, Shayxontohur tumani. Toʻliq rekvizitlar, shu jumladan STIR — ofertada va ariza bilan birga soʻrov boʻyicha.</p>
       <p data-t="sellRul">Men buni yolgʻiz va oʻzim qilaman. Yana <a href="https://t.me/rulchi_bot" target="_blank" rel="noopener">Rulchi</a> ishlaydi — Oʻzbekiston yoʻl harakati qoidalari Telegramda; u tirik, undan har kuni foydalanishadi, va men mahsulotlarni qanday qilishim oʻsha yerdan koʻrinadi.</p>
-      <p data-t="sellAns"><b>Sahifada toʻlov hozircha yoʻq.</b> Siz yuqoridagi shaklga ariza qoldirasiz, u menga darhol keladi, men bogʻlanaman va biz kelishamiz — hech qanday puldan oldin. <b>Ish kuni davomida javob beraman</b>, eng koʻpi bilan uch ish kuni.</p>
+      <!-- «Выше» здесь стояло до 28.08.2026, а форма лежит на три с половиной
+           тысячи пикселей НИЖЕ. Человек, наконец решившийся оставить заявку,
+           листал вверх, формы не находил и решал, что она сломана, — ровно
+           в той точке, где он должен был заплатить. -->
+      <p data-t="sellAns"><b>Sahifada toʻlov hozircha yoʻq.</b> Siz quyidagi shaklga ariza qoldirasiz, u menga darhol keladi, men bogʻlanaman va biz kelishamiz — hech qanday puldan oldin. <b>Ish kuni davomida javob beraman</b>, eng koʻpi bilan uch ish kuni.</p>
       <p data-t="sellBack">Agar shu muddatda javob bermasam — demak men xato qildim, va siz hech narsa yoʻqotmaysiz: suhbatgacha toʻlaydigan narsa yoʻq.</p>
     </div>
     <!-- Три уровня, а не «бесплатно / платно». Средний нужен не ради выручки,
@@ -1198,6 +1292,11 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
       </div>
     </div>
 
+    <!-- Возражение «жалоба ведь бесплатная» разбирается здесь, до формы,
+         а не в «Частых вопросах» после неё. Наполняется из того же массива
+         FAQ, что и список внизу; внизу этого вопроса больше нет. -->
+    <div id="faqFree" style="margin-top:18px"></div>
+
     <form id="lead" style="margin-top:18px" novalidate>
       <fieldset>
         <legend data-t="fWant">Nima kerak</legend>
@@ -1205,6 +1304,17 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
       </fieldset>
       <fieldset>
         <legend data-t="fPrice">Buning uchun qancha toʻlashga tayyorsiz</legend>
+        <!-- ПОЧЕМУ ЗДЕСЬ ПОЯВИЛАСЬ ЭТА СТРОКА. Через экран выше цена названа
+             дважды и с обещанием: «Цена — та, что написана выше, и она
+             не изменится». А здесь у человека спрашивают, сколько он готов
+             заплатить, и в вариантах стоят числа и ниже, и выше названного.
+             Он читает это как торг или как признание, что названная цена
+             ненастоящая, — и читает ровно в момент решения «оставлять заявку
+             или нет». Вопрос нужен: по нему считается порог теста. Но он
+             обязан сказать о себе, что он опрос, а не прайс. -->
+        <p class="hint" data-t="fPriceH" style="margin:0 0 10px">Bu savdolashuv emas: javobingiz
+          narxni oʻzgartirmaydi — yuqoridagi tariflardagi raqamlar oʻsha-oʻsha qoladi.
+          Men bilmoqchiman: bunday narxni qancha odam koʻtara oladi.</p>
         <div class="opts" id="price"></div>
       </fieldset>
       <label for="contact" data-t="fContact">Aloqa: Telegram yoki telefon</label>
@@ -1275,6 +1385,19 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
       <li><a href="https://osonprava.uz/uz/blog/b-toifa-prava-narxi-2026" target="_blank" rel="noopener">osonprava.uz, 22.03.2026</a>
         <span data-t="s8">— avtomaktabda amaliy haydash kursi narxi 5–8 mln soʻm, oʻrtacha 7 mln. Maqola B toifa guvohnomasini olish narxi haqida; «takroriy» soʻzi manbada yoʻq, kursni qaytadan oʻtish talabi esa boshqa manbadan (spot.uz, 19.05.2026).</span></li>
     </ul>
+    <!-- Плашка приехала сюда с первого экрана 28.08.2026. Утверждение верное
+         и проверяемое, но обращено оно к тому, кто умеет открыть вкладку
+         «Сеть», — а на первом экране это была ЕДИНСТВЕННАЯ кнопка, и первое
+         нажатие человека тратилось на разговор не с ним. Здесь, рядом
+         с остальными проверяемыми утверждениями, она на своём месте; то же
+         обещание отдельно живёт в вопросе «Куда уходят введённые данные?». -->
+    <details class="privbox" style="margin:16px 0 0">
+      <summary data-t="privT">Sahifadan nima ketadi va nima ketmaydi</summary>
+      <p class="hint" data-t="priv">Xarita brauzeringizda hisoblanadi: sanalar va moddalar
+    roʻyxati siz oʻzingiz arizaga biriktirmaguningizcha hech qayerga ketmaydi, serverga
+    esa faqat sahifada nima qilinganining nomsiz belgisi — ochildi, hisoblandi va umumiy ball — boradi. Boshqa hech narsa ketmaydi: sahifa uchinchi tomonlarga bironta ham soʻrov yubormaydi. Shriftlar ham shu yerda yotadi, Google serverlarida emas — ilgari ular oʻsha yerdan olinardi va har bir yuklanishdagi eng birinchi soʻrov Google ga ketardi. Endi ketmaydi: brauzerdagi «Tarmoq» oynasini oching va oʻzingiz sanab chiqing.</p>
+    </details>
+
     <div class="share">
       <button class="btn" type="button" id="share" data-t="shareB">Havolani doʻstga yuborish</button>
     </div>
@@ -1443,13 +1566,20 @@ function ev(name, meta){
    физически не может разойтись с тем, что видит человек в исходнике. */
 var RU = {
   h1:"Сколько у вас штрафных баллов и в какой день они сгорят",
-  lede:"Введите свои нарушения с датами — карта покажет текущую сумму, каждое будущее списание и дату, когда вы уйдёте от 12 баллов. Бесплатно и без регистрации.",
+  lede:"Отвечает на два вопроса: сколько у вас баллов сегодня и до какого дня можно заплатить половину штрафа. Бесплатно и без регистрации.",
+  lede2:"Не помните свои нарушения? Ваш официальный список и официальное число баллов лежат в модуле «E-jarimaball» МВД и на <a href=\"https://my.gov.uz\" target=\"_blank\" rel=\"noopener\">my.gov.uz</a> — даты переписывайте оттуда. Карта считает только то, что внесли вы.",
+  jKarta:"Карта баллов",
+  jCheg:"Пришло постановление",
+  jPaket:"Комплект",
+  jFaq:"Вопросы",
+  goMap:"Посчитать мои баллы",
+  goCheg:"До какого дня платить половину",
   privT:"Что уходит со страницы, а что нет",
   priv:"Карта считается в браузере: список дат и статей никуда не уходит, пока вы сами не приложите его к заявке. На сервер идёт только обезличенная отметка о том, что на странице делали — открыл, посчитал, — с общей суммой баллов. Больше ничего: страница не делает ни одного запроса к третьим сторонам. Шрифты лежат здесь же, а не на серверах Google — раньше они брались оттуда, и самый первый запрос каждой загрузки шёл к Google. Теперь не идёт: откройте вкладку «Сеть» в браузере и посчитайте сами.",
   tag1:"<b>БОЛЬШЕ 12 баллов</b> — суд лишает прав: от 6 месяцев до 3 лет",
   tag2:"<b>8 баллов</b> — приходит SMS-предупреждение",
   tag3:"<b>−2 балла</b> — за 6 месяцев без нарушений из балльного списка",
-  tag4:"<b>15 дней</b> — со дня вручения половина штрафа, и бывает так не всегда: <a href=\"#chegirma\">посчитайте свой день</a>",
+  tag4:"<b>15 дней</b> — со дня вручения половина штрафа, и бывает так не всегда",
   mapT:"Карта баллов",
   mapH:"Дата нарушения — та, что указана в постановлении. Балл подставляется сам, но число из вашего постановления всегда главнее: если оно другое — поправьте вручную.",
   addB:"+ Добавить нарушение",
@@ -1559,6 +1689,7 @@ var RU = {
   out2:"Подача от вашего имени или представительство в суде",
   out3:"Оплата или уменьшение суммы штрафа",
   fWant:"Что нужно", fPrice:"Сколько вы готовы за это заплатить",
+  fPriceH:"Это не торг: ваш ответ не меняет цену — числа в тарифах выше остаются прежними. Я спрашиваю, чтобы понять, для скольких людей такая цена подъёмная.",
   fContact:"Связь: Telegram или телефон",
   fNote:"Ваша ситуация коротко (не обязательно)",
   fAttach:"Приложить карту баллов к заявке: даты, статьи и баллы уйдут владельцу. Не отметите — не уйдут",
@@ -1594,7 +1725,7 @@ var RU = {
   sellT:"Кто это делает",
   sellWho:"Индивидуальный предприниматель Епихин Кирилл Николаевич, регистрационный номер <b>7875577</b>, город Ташкент, Шайхантахурский район. Полные реквизиты, включая СТИР, — в оферте и по запросу вместе с заявкой.",
   sellRul:"Я делаю это один и делаю сам. Ещё у меня работает <a href=\"https://t.me/rulchi_bot\" target=\"_blank\" rel=\"noopener\">Rulchi</a> — правила дорожного движения Узбекистана в Telegram; он живой, им пользуются каждый день, и по нему видно, как я делаю продукты.",
-  sellAns:"<b>Оплаты на странице пока нет.</b> Вы оставляете заявку в форме выше, она приходит мне сразу, я связываюсь и мы договариваемся — до всяких денег. <b>Отвечаю в течение рабочего дня</b>, предельный срок — три рабочих дня.",
+  sellAns:"<b>Оплаты на странице пока нет.</b> Вы оставляете заявку в форме ниже, она приходит мне сразу, я связываюсь и мы договариваемся — до всяких денег. <b>Отвечаю в течение рабочего дня</b>, предельный срок — три рабочих дня.",
   sellBack:"Если не ответил в этот срок — значит я ошибся, и вы ничего не теряете: платить до разговора не за что.",
   shareB:"Отправить ссылку другу",
   foot1:"<b>Ballim</b> — сервис расчёта и подготовки черновика документа. Это не юридическая услуга, не экспертиза и не представительство в суде. Обращение вы подаёте сами, результат от нас не зависит.",
@@ -1683,6 +1814,9 @@ var T = {
   // «{n} балла» ломается ровно на единице — «До порога 1 балла». Падеж после
   // числа в русском не выражается одним шаблоном, поэтому число вынесено
   // из фразы, а не подпёрто тремя формами слова.
+  // Стоит прямо под счётом, у каждого расчёта и всегда.
+  resOff:["Bu — siz kiritganingiz boʻyicha hisob. Rasmiy raqamingiz IIV ning «E-jarimaball» modulida va <a href=\"https://my.gov.uz\" target=\"_blank\" rel=\"noopener\">my.gov.uz</a> da turadi. SMS da boshqa raqam boʻlsa — roʻyxatingizni oʻsha yerdan oling va shu yerga koʻchiring: rasmiy raqam ustun, biz emas.",
+          "Это расчёт по тому, что внесли вы. Ваше официальное число лежит в модуле «E-jarimaball» МВД и на <a href=\"https://my.gov.uz\" target=\"_blank\" rel=\"noopener\">my.gov.uz</a>. Если в SMS другое число — возьмите список оттуда и перенесите сюда: право официальное число, а не мы."],
   redT:["Chegaragacha {n} ball. Buning maʼnosi shu:","До порога — {n}. На практике это значит вот что:"],
   redOne:["bir marta yetadi","хватит одного раза"],
   // Ровно 12 и «больше 12» — разные состояния: ст. 34-1 КоАО говорит
@@ -1690,6 +1824,10 @@ var T = {
   // Нарушение, доводящее счёт РОВНО до порога, получает свою подпись — иначе
   // страница читает одну границу двумя способами в двух соседних блоках.
   redEdge:["bir marta yetadi — hisob roppa-rosa 12 boʻladi","хватит одного раза — счёт станет ровно 12"],
+  // Лист A4 у того, кто до порога ещё далеко: справка без разрешения.
+  // Называет самые дорогие позиции справочника и их балл — и ни разу
+  // не говорит, сколько раз ещё можно.
+  shHeavyT:["Chegaragacha {n} ball. Eng qimmat qoidabuzarliklar:","До порога — {n}. Самые дорогие нарушения:"],
   redFoot:["Roʻyxat sizning hozirgi hisobingizdan kelib chiqadi va har bir yangi qoidabuzarlikdan keyin qisqaradi. Ballar jadvaldan olingan; qarordagi raqam har doim ustun.",
            "Список считается от вашего текущего счёта и сокращается после каждого нового нарушения. Баллы взяты из таблицы; число из постановления всегда главнее."],
   // ── Даты для календаря ───────────────────────────────────────────────────
@@ -1742,6 +1880,15 @@ var T = {
   forumUnkT:["Bu modda ikkala roʻyxatda ham yoʻq","Этой статьи нет ни в одном из двух перечней"],
   forumUnkB:["Siz kiritgan moddani MJtKning 245-moddasi birinchi qismi (sudlar) ham, 248-moddasi birinchi qismi (ichki ishlar organlari) ham nomlamaydi — demak qarorni kim chiqarganini moddaning oʻzidan aytib boʻlmaydi, biz esa taxmin qilmaymiz. Ikki yoʻl bor: moddani qarordagidek, qismi bilan yozing — ehtimol u roʻyxatlarda bor; yoki qaror sudniki boʻlsa, yuqoridagi «Bu qarorni sud chiqargan» katagini belgilang. Shu paytgacha qoralamada muddat moddasi oʻrnida ochiq qavs turadi.",
              "Статью, которую вы вписали, не называет ни часть первая статьи 245 КоАО (суды по уголовным делам), ни часть первая статьи 248 (органы внутренних дел) — значит по одной статье сказать, кто вынес постановление, нельзя, а гадать мы не будем. Два выхода: впишите статью так, как она стоит в постановлении, вместе с частью — возможно, она в перечнях есть; либо, если постановление вынес суд, отметьте выше «Это постановление вынес суд». До этого в черновике на месте нормы о сроке стоит открытая скобка."],
+  // Поле «статья» осталось пустым. В форме на этом месте не показывается
+  // ничего: ругать человека за то, чего он не вписывал, нельзя. Этот текст
+  // виден только в собранной выдаче, где без статьи норму о сроке и адрес
+  // подачи назвать действительно не из чего.
+  seedNote:["Bu ikki sana yuqoridagi «Qaror keldi» blokidan koʻchirildi — qaytadan yozmasligingiz uchun. Agar bu boshqa qaror boʻlsa, sanalarni oʻzgartiring: qoralamaga aynan shular tushadi.",
+            "Эти две даты перенесены из блока «Постановление пришло» выше — чтобы не набирать заново. Если здесь другое постановление, поправьте: в черновик уйдут именно они."],
+  forumNoT:["Modda maydoni boʻsh","Поле «статья» осталось пустым"],
+  forumNoB:["Qaroringizdagi moddani qismi bilan yozing: shikoyat muddati qaysi modda boʻyicha sanalishi va qayerga topshirilishi undan kelib chiqadi. Qaror sudniki boʻlsa, yuqoridagi «Bu qarorni sud chiqargan» katagini belgilash ham yetadi. Shu paytgacha qoralamada muddat moddasi oʻrnida ochiq qavs turadi.",
+             "Впишите статью из своего постановления вместе с частью: от неё зависит, по какой норме считается срок жалобы и куда её подавать. Если постановление вынес суд, достаточно отметить выше «Это постановление вынес суд». До этого в черновике на месте нормы о сроке стоит открытая скобка."],
   // Показывается там, где часть статьи не названа, а решает именно она.
   forumAskT:["Qismini yozmaguningizcha muddat moddasini ayta olmaymiz","Пока не названа часть, норму о сроке назвать нельзя"],
   forumAskB:["Siz kiritgan modda boʻyicha ishni QISM hal qiladi. Ikkala roʻyxat ham moddalarni qismlarga boʻlib sanaydi: 136-moddaning birinchi va ikkinchi qismlari, 140-moddaning ikkinchi va uchinchi qismlari, 127-moddaning ikkinchi qismi, 142-moddaning ikkinchi qismi sudda (245-modda, birinchi qism); 136-moddaning uchinchi qismi (skuter, moped, velosiped, individual harakatlanish vositasi — 3 BHM), 140-moddaning birinchi qismi, 127-moddaning birinchi qismi, 142-moddaning birinchi va uchinchi qismlari hamda 125-moddaning birinchi, ikkinchi, uchinchi, beshinchi, oltinchi va yettinchi qismlari ichki ishlar organlarida (248-modda, birinchi qism). 125-moddaning toʻrtinchi qismi ikkala roʻyxatda ham yoʻq — u haqda biz hech narsa demaymiz. Sud qarori boʻlsa MJtKning 324-3-moddasi, organ qarori boʻlsa 316-moddasi amal qiladi — muddat sanalishi ham, topshiriladigan manzil ham boshqa. Qaroringizdagi qismni maydonga yozing: qoralamada shu joyda ochiq qavs turadi.",
@@ -1863,6 +2010,13 @@ var T = {
   whTitle:["Sizda qaysi holat boʻlgan","Какое обстоятельство было у вас"],
   whHint:["Belgilaganingiz matnga bayon sifatida tushadi. Biz shikoyatning istiqbolini baholamaymiz va «asos bor» demaymiz.",
           "Отмеченное попадёт в текст как изложение. Перспективу жалобы мы не оцениваем и «основание есть» не говорим."],
+  /* Убранная галочка обязана быть названа вслух. Довод про месячный срок
+     существует только у камерного постановления (ч. 3 ст. 36 КоАО), и там,
+     где выбран протокол инспектора, его в списке нет. Молчаливое отсутствие
+     самого сильного довода читалось бы как «у нас его вообще нет»; строка
+     говорит, каким одним действием он возвращается. */
+  whCam:["Bitta holat bu roʻyxatda yoʻq — qaror kamera qayd etganidan bir oydan keyin chiqarilgani. U faqat kamerali qarorda boʻladi: yuqoridagi «Nima bilan qayd etilgan» maydonida «Kamera» ni tanlang.",
+         "Одного обстоятельства в списке нет — про постановление, вынесенное позже месяца со дня съёмки. Оно бывает только у камерного постановления: выберите «Камера» в поле «Чем зафиксировано» выше."],
   // Предупреждение появляется ровно там, где довод перестал работать сам собой:
   // камерное постановление плюс «за рулём был не я».
   camDraftWarn:["Bu qaror kamera orqali qayd etilgan. 296-son qarorning 5-2-bandiga koʻra, boshqa haydovchi haqidagi maʼlumot mashina topshirilishidan oldin shaxsiy elektron kabinetga kiritilgan va oʻsha haydovchi tomonidan tasdiqlangan boʻlishi kerak; aks holda ball mulkdorga qoʻllanadi. Qoralamada shu band koʻrsatiladi, lekin istiqbolni davlat organi yoki sud hal qiladi.",
@@ -1898,6 +2052,13 @@ var T = {
   // человеку показывали только большую цифру, а на его ответе стоит порог теста.
   lockB:["Yuqorida sizning oʻz matningizning boshi. Shu qaror boʻyicha toʻliq murojaat matni «Bitta qaror» tarifiga kiradi — {p1} soʻm, bir marta. «Himoya toʻplami» ({p} soʻm) unga har bir qaror boʻyicha alohida matn va muddatlarni, .ics taqvim faylini va A4 himoya varaqasini qoʻshadi. Hozircha toʻlov yoʻq: ariza qoldirasiz, biz esa bogʻlanib, toʻlov usulini va hujjatlarni qachon berishimizni kelishamiz. Narx — tariflarda yozilgani, u oʻzgarmaydi.",
           "Выше — начало вашего собственного текста. Полный текст обращения по этому постановлению входит в тариф «Одно постановление» — {p1} сум, разово. «Комплект защиты» ({p} сум) добавляет к нему отдельный текст и отдельные сроки по каждому постановлению, файл календаря .ics и лист защиты A4. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи. Цена — та, что названа в тарифах, и она не изменится."],
+  /* Тот же замок, но для пустой карточки. Разница в первой фразе, и она
+     принципиальна: «начало вашего собственного текста» там, где человек
+     не ввёл ни одного своего слова, — обещание, которое опровергает само
+     себя на том же экране. Здесь вместо него сказано, что заполнить,
+     и назван раздел, где заполненный текст лежит целиком и бесплатно. */
+  lockB0:["Qaror maydonlari hali boʻsh — matningizning boshi ular toʻldirilganda paydo boʻladi: eng kamida topshirilgan sana va qaror raqami. Toʻliq matn qanday koʻrinishini hozir ham koʻrsangiz boʻladi: pastdagi «Namuna» boʻlimida ikkala hujjat ham qisqartirilmagan holda turibdi. Qaroringiz boʻyicha toʻliq murojaat matni «Bitta qaror» tarifiga kiradi — {p1} soʻm, bir marta; «Himoya toʻplami» ({p} soʻm) unga har bir qaror boʻyicha alohida matn va muddatlarni, .ics taqvim faylini va A4 himoya varaqasini qoʻshadi. Hozircha toʻlov yoʻq: ariza qoldirasiz, biz esa bogʻlanib, toʻlov usulini va hujjatlarni qachon berishimizni kelishamiz.",
+          "Поля постановления пока пустые — начало вашего текста появится, когда вы их заполните: хотя бы дату вручения и номер постановления. Посмотреть, как выглядит полный текст, можно и сейчас: в разделе «Образец» ниже оба документа лежат целиком и без сокращений. Полный текст обращения по вашему постановлению входит в тариф «Одно постановление» — {p1} сум, разово; «Комплект защиты» ({p} сум) добавляет отдельный текст и отдельные сроки по каждому постановлению, файл календаря .ics и лист защиты A4. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи."],
   lockC:["Taqvim fayli .ics va A4 himoya varaqasi «Himoya toʻplami» tarifiga kiradi — {p} soʻm, bir marta. Bitta qaror boʻyicha toʻliq murojaat matni «Bitta qaror» tarifida ham bor — {p1} soʻm. Hozircha toʻlov yoʻq: ariza qoldirasiz, biz esa bogʻlanib, toʻlov usulini va hujjatlarni qachon berishimizni kelishamiz. Narx — tariflarda yozilgani, u oʻzgarmaydi.",
          "Файл календаря .ics и лист защиты A4 входят в «Комплект защиты» — {p} сум, разово. Полный текст обращения по одному постановлению есть и в тарифе «Одно постановление» — {p1} сум. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи. Цена — та, что названа в тарифах, и она не изменится."],
   // Текст замка переписан 28.08.2026 вместе с появлением бесплатного блока
@@ -2271,19 +2432,10 @@ function run(list, until, strict){
   return { total:total, log:log };
 }
 
-/* «6 раза» стояло на первом же экране почти у каждого: остаток до порога чаще
-   всего больше 4 баллов, а значит в красном списке стоят числа 5 и выше.
-   Падеж после числа в русском одним шаблоном не выражается, поэтому форма
-   считается, а не подставляется строкой из словаря. */
-function times(n){
-  if(lang === "uz") return n + " marta";
-  var a = n % 100, b = n % 10, w;
-  if(a >= 11 && a <= 14) w = "раз";
-  else if(b === 1)       w = "раз";
-  else if(b >= 2 && b <= 4) w = "раза";
-  else                   w = "раз";
-  return n + " " + w;
-}
+/* Функция times() («6 раз») удалена 28.08.2026 вместе с единственным местом,
+   которое её звало: списком «сколько раз ещё можно нарушить». Причина — рядом
+   с redList(). Оставлять склонятель для строки, которой больше нет, значит
+   держать наготове то, чего мы решили не говорить. */
 
 function num(n){
   // Балл дробный: 0,5 — это 0,5, а не 0.5 и не «пол-балла».
@@ -2436,8 +2588,12 @@ function render(){
     list.push({ date:d, points:p, title:(lang === "uz" ? vx.uz : vx.ru), acc:accD, nopt:!!vx.nopt });
   }
   if(!list.length){
+    // Пустая панель — то самое место, где стоит тот, кому пришла SMS и кто
+    // не помнит своих нарушений. Здесь он и должен узнать, где взять список,
+    // а не на 6900-м пикселе.
     $("#res").innerHTML = '<div class="empty">' + (lang === "uz" ? UZ.empty : RU.empty) +
-      (bad ? "<br><br>" + t("future") : "") + "</div>";
+      (bad ? "<br><br>" + t("future") : "") + "</div>" +
+      '<p class="hint" style="margin:12px 0 0">' + t("resOff") + "</p>";
     // Карта опустела — значит и последнего расчёта больше нет. Раньше LAST
     // оставался от прежних строк, и человек, удаливший все нарушения, получал
     // в сводке дат списания и обнуление по числам, которых на экране уже нет,
@@ -2508,6 +2664,15 @@ function render(){
   if(strictTotal !== total)
     html += '<p class="hint" style="margin:10px 0 0">' + t("altRead", { n:num(strictTotal) }) + "</p>";
 
+  /* СЮДА ПРИВОДИТ SMS «У ВАС 8 БАЛЛОВ», И ПРИХОДИТ ПО НЕЙ ТОТ, КТО НЕ ПОМНИТ,
+     ЗА ЧТО ИХ НАБРАЛ. Он вносит одно нарушение, которое помнит, получает
+     «1 из 12, пока безопасно» — число, прямо противоречащее его SMS, — и
+     делает единственный логичный вывод: считалка не про него. До 28.08.2026
+     оговорка о том, что настоящее число лежит в E-jarimaball, стояла на
+     6900-м пикселе, внутри раздела «как карта считает»: он до неё не доходил.
+     Теперь она стоит вплотную к числу, которое он видит. */
+  html += '<p class="hint" style="margin:10px 0 0">' + t("resOff") + "</p>";
+
   if(over2) html += '<div class="callout" style="margin:12px 0 0">' + t("cap2") + "</div>";
 
   // Красный список идёт сразу под состоянием, до плана дат. Порядок не случаен:
@@ -2559,7 +2724,7 @@ function render(){
   var b = document.getElementById("toOffer");
   if(b) b.onclick = function(){
     ev("cta", { total:total, from: total >= WARN ? "res" : "res_low" });
-    document.getElementById("paket").scrollIntoView({ behavior:"smooth", block:"start" });
+    goTo("paket");
   };
 
   // Событие calc шлём, когда набор реально изменился, и не чаще потолка:
@@ -2805,7 +2970,7 @@ function renderCheg(){
     // Отметка «статья 131/132/136/140» — это факт дела, а не действие
     // на странице, и уйти отсюда она не может, пока эти обещания стоят.
     ev("cta", { from:"chegirma", filled:got ? 1 : 0 });
-    document.getElementById("paket").scrollIntoView({ behavior:"smooth", block:"start" });
+    goTo("paket");
   };
 }
 
@@ -2818,14 +2983,30 @@ function paintTable(){
         '<td class="p">' + num(x.p) + "</td></tr>";
     }).join("");
 }
-function paintFaq(){
-  $("#faqBox").innerHTML = FAQ.map(function(f){
+/* «Если жалоба бесплатная, за что платить?» — главное возражение человека
+   перед деньгами. Оно было первым в «Частых вопросах», а «Частые вопросы»
+   стоят ПОСЛЕ формы заявки: ответ оказывался за спиной у того, кто уже решает,
+   платить или нет, и до формы он доходил с невыясненным сомнением.
+   Теперь этот вопрос стоит вплотную над формой, а в общем списке внизу его
+   больше нет: перенесён, а не удвоен. Источник у него один — массив FAQ. */
+function faqHtml(list){
+  return list.map(function(f){
     return "<details data-q=\"" + f.id + "\"><summary>" + f.q[LI()] + "</summary>" +
       '<div class="body"><p>' + f.a[LI()] + "</p></div></details>";
   }).join("");
-  $("#faqBox").querySelectorAll("details").forEach(function(d){
+}
+function faqWire(box){
+  box.querySelectorAll("details").forEach(function(d){
     d.addEventListener("toggle", function(){ if(d.open) ev("faq", { q:d.dataset.q }); });
   });
+}
+function paintFaq(){
+  var free = FAQ.filter(function(f){ return f.id === "free"; });
+  var rest = FAQ.filter(function(f){ return f.id !== "free"; });
+  var fb = document.getElementById("faqFree");
+  if(fb){ fb.innerHTML = faqHtml(free); faqWire(fb); }
+  $("#faqBox").innerHTML = faqHtml(fb ? rest : FAQ);
+  faqWire($("#faqBox"));
 }
 var WANTS = [["paket99","wantPak"],["razbor49","wantOne"],["vopros","wantAsk"]];
 /* ЗАЧЕМ ЗДЕСЬ ПОЯВИЛОСЬ 29 000 — ЭТО НЕ ЦЕНА, ЭТО УСЛОВИЕ ИЗМЕРИМОСТИ.
@@ -3044,7 +3225,18 @@ var WHY = [
      довод из всех, и три круга подряд его здесь не было. Часть пятая
      ст. 128-3 меняет часть статьи и балл. Все формулировки в первом лице:
      это утверждения человека, а не наши. */
-  { id:"term",
+  /* ЭТОТ ДОВОД СУЩЕСТВУЕТ ТОЛЬКО У КАМЕРНОГО ПОСТАНОВЛЕНИЯ. Часть третья
+     ст. 36 КоАО говорит про нарушение, «зафиксированное посредством
+     специальных автоматизированных технических средств фото- и
+     видеофиксации», — по протоколу инспектора этого срока нет вовсе.
+     В карточке постановления прямо над обстоятельствами стоит выбор
+     «чем зафиксировано», и по умолчанию там протокол инспектора. Пока
+     галочка показывалась всегда, человек, ответивший «инспектор», мог
+     отметить её — и черновик, который он подаёт и подписывает своим
+     именем, утверждал «правонарушение зафиксировано камерой», споря
+     с его же ответом на две строки выше. Поле `fix` убирает галочку там,
+     где обстоятельства не бывает; сравнение идёт с p.fix карточки. */
+  { id:"term", fix:"cam",
     uz:"Kamera qayd etgan, qaror esa bir oydan keyin chiqarilgan",
     ru:"Снимала камера, а постановление вынесено позже месяца",
     cuz:"Qoidabuzarlik maxsus avtomatlashtirilgan foto va videoqayd vositasi orqali qayd etilgan, qaror esa qoidabuzarlik sodir etilgan kundan bir oy oʻtib chiqarilgan. MJtKning 36-moddasi uchinchi qismiga koʻra bunday hollarda maʼmuriy jazo huquqbuzarlik sodir etilgan kundan bir oydan kechiktirmay qoʻllanilishi mumkin; MJtKning 271-moddasi 7-bandi esa 36-moddadagi muddatlar oʻtgan boʻlsa, ish yuritish istisno qilinishini belgilaydi. Ushbu moddaning uchinchi qismida yana shunday deyilgan: javobgarlikka tortish toʻgʻrisidagi qaror ustidan shikoyat qilinganda muddat bir yilgacha uzayadi — yaʼni bu dalilni shikoyatda keltirsam, oʻsha shikoyatning oʻzi bir yillik muddatni ochadi. Buni bilgan holda keltiryapman.",
@@ -3106,6 +3298,15 @@ var WHY = [
    не должен пережить вкладку на чужом телефоне. */
 var POSTS = [], MAXPOST = 10;
 function newPost(){ return { got:"", post:"", num:"", org:"", art:"", fix:"insp", rep:false, appeal:false, court:false, why:{} }; }
+
+/* Снимает отметки обстоятельств, которых при нынешнем способе фиксации
+   не бывает. Одна функция на экран и на документ: обстоятельство, убранное
+   с экрана, но оставшееся в модели, — это ровно то расхождение, из-за
+   которого платный текст говорил не то, что показывал экран. */
+function whyFit(p){
+  WHY.forEach(function(w){ if(w.fix && w.fix !== p.fix) delete p.why[w.id]; });
+  return p;
+}
 
 /* СКИДКА 50/70% СУЩЕСТВУЕТ НЕ ВСЕГДА. Часть вторая ст. 332-1 КоАО называет ТРИ
    случая, когда упрощённый порядок не применяется:
@@ -3317,7 +3518,12 @@ function paintPosts(){
   if(!POSTS.length) POSTS.push(newPost());
   var maxAttr = new Date().toISOString().slice(0, 10);
   box.innerHTML = POSTS.map(function(p, i){
-    var chks = WHY.map(function(w){
+    // Обстоятельство, привязанное к способу фиксации, показываем только там,
+    // где оно бывает. Отметку, оставшуюся от прежнего выбора, гасим здесь же:
+    // невидимая галочка попала бы в черновик, и человек подписал бы довод,
+    // которого на экране уже не видит.
+    whyFit(p);
+    var chks = WHY.filter(function(w){ return !w.fix || w.fix === p.fix; }).map(function(w){
       return '<label><input type="checkbox" data-w="' + w.id + '"' +
         (p.why[w.id] ? " checked" : "") + "><span>" + (lang === "uz" ? w.uz : w.ru) + "</span></label>";
     }).join("");
@@ -3352,6 +3558,16 @@ function paintPosts(){
             '<option value="cam"' + (p.fix === "cam" ? " selected" : "") + ">" + t("fixCam") + "</option>" +
           "</select></div>" +
       "</div>" +
+      /* Даты сюда могли приехать сами — из блока «Постановление пришло»
+         (seedPost). Перенос удобен и оправдан, но молчал: человек видел в
+         собранном черновике строку «копию постановления я получил(а) 20.08.2026»,
+         хотя в ЭТОЙ форме ничего не вводил, и подписывал своим именем дату,
+         которой не ставил. Если два блока про разные постановления, молча он
+         этого не заметит. Теперь перенос назван вслух, ровно под полями. */
+      (i === 0 && SEEDED && p.got === SEEDED.got && p.post === SEEDED.post &&
+        (p.got || p.post)
+        ? '<p class="hint" style="margin:0 0 10px">' + t("seedNote") + "</p>"
+        : "") +
       /* Три отметки, которых из полей постановления не вывести. Первые две
          нужны окнам скидки: часть вторая ст. 332-1 КоАО снимает скидку при
          повторе того же состава в течение года и при обжаловании.
@@ -3390,6 +3606,10 @@ function paintPosts(){
       (isLate ? '<div class="callout" style="margin:0 0 10px"><b>' + t("lateT") + ".</b> " +
         esc(t(lateKey(p), { tag:postTag(p, i), got:dstr(gotD), dead:dstr(deadD) })) + "</div>" : "") +
       '<div class="chks">' + chks + "</div>" +
+      // Убранное обстоятельство названо вслух, а не пропало молча.
+      (p.fix !== "cam"
+        ? '<p class="hint" style="margin:8px 0 0">' + t("whCam") + "</p>"
+        : "") +
       // Оговорка появляется ровно там, где довод перестал работать сам собой.
       (p.fix === "cam" && p.why.drv ? '<div class="callout">' + t("camDraftWarn") + "</div>" : "") +
     "</div>";
@@ -3459,10 +3679,21 @@ function paintPosts(){
 var LAST = null;
 
 /* ── Красный список ──────────────────────────────────────────────────────────
-   Главный бесплатный экран после самого счёта. Он отвечает на вопрос, который
-   человек задаёт следующим и которого нет нигде: «а мне-то теперь чего нельзя?»
-   Считается прямо: остаток до порога, и справочник делится на то, что закрывает
-   вопрос одним разом, и на то, сколько раз ещё можно. */
+   Отвечает ровно на один вопрос: какое нарушение при СЕГОДНЯШНЕМ счёте
+   закрывает вопрос с одного раза. Больше ни на какой.
+
+   ЧТО ОТСЮДА УБРАНО 28.08.2026 И ПОЧЕМУ. Здесь стоял второй список — «сколько
+   раз ещё можно»: «Оставление места ДТП — 6 раз», «Превышение свыше 60 —
+   6 раз». Человек приходит сюда с испугом «отберут права — не смогу
+   работать», а получал остаток бюджета на нарушения, включая оставление места
+   ДТП. Это читается как разрешение и как насмешка над его страхом, и вопроса
+   «сколько мне ещё можно нарушить» он не задавал ни разу.
+
+   Максимальный балл в справочнике — два, значит смертельная строка появляется
+   только когда до порога осталось два балла и меньше. Пока их больше, красный
+   список молчит целиком: блок, у которого нет своего ответа, лучше не
+   показывать, чем наполнять его вторым — тем, о чём не спрашивали. Счёт,
+   даты списаний и обнуление на этом же экране остаются как были. */
 function redList(total){
   var left = r1(LIMIT - total);
   if(left <= 0) return null;
@@ -3477,27 +3708,31 @@ function redList(total){
     // не убираем (риск он всё равно закрывает), но подпись у него своя.
     if(x.p > left)        kill.push({ v:x, edge:false });
     else if(x.p === left) kill.push({ v:x, edge:true });
-    else near.push({ v:x, n:Math.ceil(left / x.p) });
+    else near.push(x);
   });
   kill.sort(function(a, b){ return a.v.p - b.v.p; });      // сначала самое дешёвое смертельное
-  near.sort(function(a, b){ return a.n - b.n; });
+  near.sort(function(a, b){ return b.p - a.p; });          // самые дорогие первыми
   return { left:left, kill:kill, near:near };
 }
 function redHtml(total){
   var r = redList(total);
-  if(!r) return "";
+  // Нет ни одной строки «хватит одного раза» — значит порог сегодня не
+  // закрывается ничем, и говорить здесь нечего. Экран показывает счёт, даты
+  // списаний и обнуление; вопроса «сколько мне ещё можно» человек не задавал.
+  if(!r || !r.kill.length) return "";
   var out = '<div class="red"><b>' + t("redT", { n:num(r.left) }) + "</b><ul>";
-  if(r.kill.length){
-    out += r.kill.slice(0, 5).map(function(x){
-      return '<li class="kill"><span>' + vlabel(x.v) + "</span><b>" +
-        t(x.edge ? "redEdge" : "redOne") + "</b></li>";
-    }).join("");
-  }
-  out += r.near.slice(0, 3).map(function(x){
-    return "<li><span>" + vlabel(x.v) + "</span><b>" + times(x.n) + "</b></li>";
+  out += r.kill.slice(0, 5).map(function(x){
+    return '<li class="kill"><span>' + vlabel(x.v) + "</span><b>" +
+      t(x.edge ? "redEdge" : "redOne") + "</b></li>";
   }).join("");
   out += "</ul><p>" + t("redFoot") + "</p></div>";
   return out;
+}
+/* Балл в подписи: «1 балл», но «2 балла» и «1,5 балла». Дробных форм в русском
+   одна, целых две, и подставлять строкой из словаря нечего — считаем. */
+function pts(n){
+  if(lang === "uz") return num(n) + " ball";
+  return num(n) + (n === 1 ? " балл" : " балла");
 }
 
 /* ── Даты, ради которых всё затевалось ───────────────────────────────────────
@@ -3590,7 +3825,28 @@ function futureDates(list){ return list.filter(function(x){ return !x.past; }); 
 
    Молчания в состоянии "?" быть не должно: молчание читается как «обычный
    случай», а обычный случай здесь — только один из двух. */
-function forumHtml(p, tag){
+/* ПУСТОЕ ПОЛЕ — НЕ ОШИБКА ЧЕЛОВЕКА. Человек открывал раздел «Данные
+   постановления», ничего ещё не вписав, и первым делом получал красный блок
+   на пол-экрана: «Этой статьи нет ни в одном из двух перечней. Статью, которую
+   вы вписали, не называет…». Он ничего не вписывал. postForum() возвращает «?»
+   и на пустой строке тоже, и текст про «которую вы вписали» вставал на пустоту.
+   Это то же самое, что кнопка «здесь дефект» на пункте «возьмите паспорт»:
+   человека ругают за то, чего он не делал, и он либо ищет у себя
+   несуществующую ошибку, либо закрывает страницу — а это последний блок
+   перед деньгами.
+
+   Теперь на пустом поле в форме не показывается ничего. В собранной выдаче
+   (draft) молчать нельзя — там от статьи зависят и норма срока, и адрес
+   подачи, — поэтому туда идёт третий текст: не «вы вписали не то»,
+   а «поле осталось пустым, впишите». Отличает эти два места третий
+   аргумент: в форме ask=false, в выдаче ask=true. */
+function hasArt(p){ return !!artKey(unsup(String((p && p.art) || ""))); }
+function forumHtml(p, tag, ask){
+  if(!hasArt(p) && !(p && p.court)){
+    if(!ask) return "";
+    return '<div class="callout" style="margin:10px 0 0"><b>' +
+      t("forumNoT") + tag + ".</b> " + t("forumNoB") + "</div>";
+  }
   var f = postForum(p);
   if(f === "sud") return '<div class="callout" style="margin:10px 0 0"><b>' +
     t("courtT") + tag + ".</b> " + t("courtB") + "</div>";
@@ -3614,7 +3870,7 @@ function discWarnHtml(){
     var nd = noDiscReason(p);
     if(nd) out.push('<div class="callout" style="margin:0 0 10px"><b>' + t("ndT") + tag +
       ".</b> " + t("nd" + nd) + "</div>");
-    out.push(forumHtml(p, tag));
+    out.push(forumHtml(p, tag, true));
     if(p.appeal) out.push('<div class="callout" style="margin:0 0 10px"><b>' + t("ndPayT") + tag +
       ".</b> " + t("ndPay") + "</div>");
   });
@@ -3713,7 +3969,11 @@ function buildDraft(p){
   // organ — обращение по ст. 316; "?" — часть статьи не названа, а решает она.
   var forum = postForum(p);
   var court = forum === "sud";
-  var picked = WHY.filter(function(w){ return p.why[w.id]; });
+  // Тот же отбор, что и на экране: обстоятельство, привязанное к способу
+  // фиксации, в документ по другому способу не попадает. Экран его уже
+  // погасил (whyFit), но правило живёт и здесь — документ уходит наружу,
+  // и вторая проверка стоит дешевле одного противоречащего себе текста.
+  var picked = WHY.filter(function(w){ return p.why[w.id] && (!w.fix || w.fix === p.fix); });
   var claims = picked.length
     ? picked.map(function(w, i){
         return (i + 1) + ") " + (lang === "uz" ? w.cuz : w.cru) +
@@ -3813,13 +4073,23 @@ function peekText(txt){
    а обрезанный настоящий текст проверяем глазами — и ровно поэтому он продаёт.
    Скриншота или картинки-заглушки здесь нет по той же причине, что и на сайте:
    она устареет молча в день, когда изменится шаблон (Р-23). */
-function lockBox(what){
+/* Карточка постановления, в которую человек не ввёл ничего. Именно с ней он
+   и нажимает три кнопки комплекта: они стоят на экране раньше, чем он успел
+   что-то заполнить. */
+function postBlank(p){
+  if(!p) return true;
+  if(p.got || p.post || p.num || p.org || p.art) return false;
+  for(var k in p.why){ if(p.why[k]) return false; }
+  return !qname() && !qaddr();
+}
+function lockBox(what, blank){
   // Цену называем ту, которая относится к тому, во что человек упёрся.
   // Раньше здесь всегда стояло 99 000 — в том числе на полном тексте обращения,
   // который входит и в тариф «Одно постановление» за 49 000. Человек в точке
   // решения видел только большую цифру, а на его ответе про сумму стоит порог
   // всего теста: он назовёт то, что ему показали.
-  var key = what === "draft" ? "lockB" : (what === "ics" && TIER === "free" ? "lockD" : "lockC");
+  var key = what === "draft" ? (blank ? "lockB0" : "lockB")
+                             : (what === "ics" && TIER === "free" ? "lockD" : "lockC");
   return '<div class="lockbox"><b>' + t("lockT") + "</b>" +
     t(key, { p:fmt(PRICE), p1:fmt(PRICE_ONE) }) +
     ' <button class="btn" type="button" id="toPak" style="margin-top:10px">' + t("lockB2") + "</button></div>";
@@ -3832,7 +4102,7 @@ function wireLock(what){
     // общий на четыре продукта и правится не отсюда. Поэтому это cta со своим
     // `from` — в разрезе отчёта видно, какой из трёх документов просят чаще.
     ev("cta", { from:"gate_" + what, total:LAST ? LAST.total : null });
-    document.getElementById("paket").scrollIntoView({ behavior:"smooth", block:"start" });
+    goTo("paket");
   };
 }
 function vErr(msg){
@@ -3847,8 +4117,18 @@ function showDraft(){
   // обрезок бесплатного тарифа тоже содержит абзац со сроком, и молчать
   // о том, что срок прошёл, там так же нельзя.
   if(TIER === "free"){
-    $("#vout").innerHTML = lateHtml() + '<div class="peek">' +
-      esc(peekText(buildDraft(POSTS[0]))) + "</div>" + lockBox("draft");
+    // ПУСТАЯ КАРТОЧКА — ОТДЕЛЬНОЕ СОСТОЯНИЕ, А НЕ «ТОТ ЖЕ ОБРЕЗОК, ТОЛЬКО БЕЗ
+    // ДАННЫХ». Кнопка стоит на экране раньше, чем поля заполнены, и человек,
+    // впервые открывший страницу, нажимает её первой. Он получал шапку бланка
+    // из одних квадратных скобок и подпись «выше — начало вашего собственного
+    // текста» с ценой под ней. Ни одного его слова в этом тексте не было —
+    // то есть подпись обещала то, чего на экране нет, ровно в точке решения
+    // «верить или нет». Теперь здесь сказано, что заполнить, а образец
+    // с настоящим заполненным текстом лежит разделом ниже и назван по имени.
+    var blank = postBlank(POSTS[0]);
+    $("#vout").innerHTML = lateHtml() +
+      (blank ? "" : '<div class="peek">' + esc(peekText(buildDraft(POSTS[0]))) + "</div>") +
+      lockBox("draft", blank);
     wireLock("draft");
     return;
   }
@@ -3981,15 +4261,23 @@ function buildSheet(){
      из которых само закрывает порог. Непустым он бывает лишь при остатке ≤ 2,
      а тариф адресован тем, у кого 8 баллов и больше, то есть остаток 4 и выше:
      покупатель из центрального сценария получал лист без обещанного блока.
-     Теперь на бумагу уходит то же, что на экране: и «хватит одного раза»,
-     и «сколько раз ещё можно». */
-  if(r && (r.kill.length || r.near.length)){
+
+     Что стояло здесь до 28.08.2026 вторым блоком и почему его больше нет:
+     строки «Оставление места ДТП — 6 раз». Человек кладёт этот лист в бардачок
+     и перечитывает его через месяц; читать там остаток бюджета на нарушения он
+     не должен. Вместо этого на бумагу уходит справка без разрешения: какие
+     нарушения самые дорогие и сколько баллов каждое даёт. Числа те же самые,
+     из той же таблицы, но они отвечают на вопрос «чего беречься», а не
+     «сколько мне ещё можно». */
+  if(r && r.kill.length){
     h += "<h3>" + t("redT", { n:num(r.left) }) + "</h3><table><tbody>" +
       r.kill.slice(0, 6).map(function(x){
         return "<tr><td>" + vlabel(x.v) + "</td><td>" + t(x.edge ? "redEdge" : "redOne") + "</td></tr>";
-      }).join("") +
-      r.near.slice(0, 4).map(function(x){
-        return "<tr><td>" + vlabel(x.v) + "</td><td style='white-space:nowrap'>" + times(x.n) + "</td></tr>";
+      }).join("") + "</tbody></table>";
+  } else if(r && r.near.length){
+    h += "<h3>" + t("shHeavyT", { n:num(r.left) }) + "</h3><table><tbody>" +
+      r.near.slice(0, 6).map(function(x){
+        return "<tr><td>" + vlabel(x) + "</td><td style='white-space:nowrap'>" + pts(x.p) + "</td></tr>";
       }).join("") + "</tbody></table>";
   }
   h += "<h3>" + t("shDraft") + "</h3><pre>" + esc(buildDrafts()) + "</pre>";
@@ -4102,7 +4390,9 @@ $("#mkPrint").onclick = function(){
   if(TIER !== "paid"){
     // На тарифе «Одно постановление» человек уже видел свой полный текст выше,
     // и обрезок под ним читался бы как насмешка: здесь только замок.
-    $("#vout").innerHTML = lateHtml() + (TIER === "free"
+    // Тот же отбор, что и у «Собрать текст»: обрезок бланка из одних скобок
+    // не показываем — показывать нечего, пока карточка пуста.
+    $("#vout").innerHTML = lateHtml() + (TIER === "free" && !postBlank(POSTS[0])
       ? '<div class="peek">' + esc(peekText(buildDraft(POSTS[0]))) + "</div>"
       : "") + lockBox("print");
     wireLock("print");
@@ -4187,6 +4477,66 @@ $("#add").onclick = function(){
 // Клик по любой кнопке заявки, кроме той, что в результате, — тоже cta.
 document.querySelectorAll('a[href="#paket"]').forEach(function(a){
   a.addEventListener("click", function(){ ev("cta", { from:"link" }); });
+});
+
+/* ── Липкая шапка: тень и подсветка текущего раздела ─────────────────────────
+   Тень появляется, только когда страница уже прокручена: на самом верху рамка
+   под маркой выглядела бы как ошибка вёрстки. Подсветка перехода отвечает
+   на вопрос «где я», который на пятидесяти двух экранах человек задаёт
+   чаще всего. */
+(function(){
+  var top = document.querySelector(".top");
+  var links = [].slice.call(document.querySelectorAll("#jump a"));
+  var secs = links.map(function(a){ return document.getElementById(a.getAttribute("href").slice(1)); });
+  var tick = false;
+  function paint(){
+    tick = false;
+    var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+    if(top) top.classList.toggle("stuck", y > 6);
+    var cur = -1, i;
+    for(i = 0; i < secs.length; i++){
+      if(secs[i] && secs[i].getBoundingClientRect().top <= 120) cur = i;
+    }
+    for(i = 0; i < links.length; i++) links[i].classList.toggle("on", i === cur);
+  }
+  window.addEventListener("scroll", function(){
+    if(tick) return;
+    tick = true;
+    (window.requestAnimationFrame || setTimeout)(paint);
+  }, { passive:true });
+  paint();
+})();
+
+/* ── Переход к разделу так, чтобы «назад» возвращало ─────────────────────────
+   Обе кнопки-перехода к предложению прокручивали через scrollIntoView на
+   тридцать тысяч пикселей, не меняя адреса и не добавляя записи в историю.
+   На телефоне «назад» — универсальная отмена: человек нажимал её, чтобы
+   вернуться к своим датам, и выходил со страницы совсем, потому что отменять
+   было нечего. Теперь прыжок — это запись в истории: «назад» возвращает
+   ровно туда, откуда прыгнули, и только вторым нажатием уводит со страницы.
+   Ссылки с href="#…" такую запись создают сами, поэтому их не трогаем. */
+function goTo(id){
+  var el = document.getElementById(id);
+  if(!el) return;
+  try{
+    if(window.history && history.pushState){
+      history.replaceState({ bqBack:(window.pageYOffset || 0) }, "");
+      history.pushState({ bqTo:id }, "", "#" + id);
+    }
+  }catch(e){}
+  // Плавно — только на близких переходах. Тридцать тысяч пикселей «плавно»
+  // это либо смазанная лента на весь экран, либо долгая анимация, во время
+  // которой человек не понимает, что происходит и куда его несёт. Дальний
+  // переход делается мгновенно, как обычная ссылка с якорем.
+  var far = Math.abs(el.getBoundingClientRect().top) > 4000;
+  el.scrollIntoView({ behavior: far ? "auto" : "smooth", block:"start" });
+}
+window.addEventListener("popstate", function(e){
+  var s = e.state;
+  if(s && typeof s.bqBack === "number"){
+    try{ window.scrollTo({ top:s.bqBack, behavior:"smooth" }); }
+    catch(err){ window.scrollTo(0, s.bqBack); }
+  }
 });
 
 load();

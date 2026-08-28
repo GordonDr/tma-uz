@@ -192,8 +192,43 @@ header{padding:20px 0 0}
 .btn:hover{filter:brightness(1.07)}
 .btn.sec{background:transparent;color:var(--ink);border-color:var(--rule)}
 .after{color:var(--muted);font-size:13.5px;margin-top:12px}
+/* Четыре кнопки первого экрана стоят сеткой 2×2, а не столбиком.
+   ПОЧЕМУ: столбиком они занимают 216 пикселей высоты и начинаются на 633-м —
+   на экране 812 четвёртая, «Сверить свой договор», обрезается нижней кромкой.
+   Именно она описывает положение человека, у которого договор уже на руках,
+   и именно её он не видит. Сеткой все четыре умещаются в 108 пикселей. */
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.btns .btn{margin:0;flex:1 1 calc(50% - 5px);text-align:center;padding:13px 12px;font-size:15px}
+@media(min-width:660px){.btns .btn{flex:0 1 auto;padding:13px 22px;font-size:16px}}
 
-/* ── Смета ───────────────────────────────────────────────────────────────── */
+/* ── Смета ─────────────────────────────────────────────────────────────────
+   Липкая строка с ответом. ПОЧЕМУ ОНА ЕСТЬ: итог лежит на 3100 пикселей ниже
+   первого поля, то есть на пять экранов ниже нажатой кнопки «Посчитать полную
+   цену». Человек листает вслепую, не зная, будет ли ответ вообще, и бросает
+   раньше, чем дойдёт. Полоса держит ответ перед глазами всё время, пока он
+   идёт по строкам сметы, и она же говорит, чего от него ждут, пока названная
+   цена не введена. */
+.peek{position:sticky;top:0;z-index:6;display:flex;flex-wrap:wrap;align-items:baseline;
+  gap:4px 14px;background:var(--card);border:1px solid var(--rule);border-radius:12px;
+  padding:11px 15px;margin-top:20px}
+.peek .pl{font-size:13px;color:var(--muted);flex:1 1 100%}
+.peek .pv{font:700 clamp(20px,5.5vw,28px) var(--display);font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;white-space:nowrap}
+.peek .pe{font-size:13.5px;color:var(--ink2);white-space:nowrap}
+.peek .pe b{color:var(--amber);font-family:var(--display);font-variant-numeric:tabular-nums}
+.peek.ask .pv,.peek.ask .pe{display:none}
+.peek.ask .pl{font-size:14.5px;color:var(--ink2)}
+
+/* Оговорка про A1 раскрывается, а не лежит развёрнутой. ПОЧЕМУ: развёрнутой
+   она занимала 868 пикселей — больше экрана телефона — и стояла первым, что
+   видит человек после главной кнопки «Посчитать полную цену». Пришедший
+   с договором на категорию B читал экран про чужой товар — мототранспорт
+   до 25 см³ — и решал, что открыл не ту ссылку. Факт нужен ровно тому,
+   кому нужен скутер: одной строкой он его находит, остальных он не задевает. */
+details.note{border-bottom:0;padding:14px 16px;margin:20px 0}
+details.note summary{font-size:15px}
+details.note .a{margin-top:10px;font-size:14.5px}
+
 .sheet{background:var(--card);border:1px solid var(--rule);border-radius:14px;
   padding:6px 18px 18px;margin-top:22px}
 /* На узком экране строка сметы разложена в две полосы: пояснение занимает всю
@@ -238,6 +273,20 @@ label.chk input{width:19px;height:19px;max-width:19px;accent-color:var(--green);
 .extra .ev{font:700 20px var(--display);color:var(--amber);font-variant-numeric:tabular-nums;
   justify-self:end;white-space:nowrap}
 .extra .eh{grid-column:1 / -1;color:var(--ink2);font-size:13.5px;margin-top:4px}
+
+/* Что делать дальше — прямо у итога, а не через двадцать тысяч пикселей.
+   ПОЧЕМУ: ответ («названные 7 миллионов превращаются в 10,5») человек получает
+   на 17% страницы, и в эту же секунду страница ничего ему не предлагала:
+   до первой кнопки после итога было 20 000 пикселей, а единственная ссылка
+   на форму лежала внутри блока предложения на 87% длины. Свою задачу человек
+   закрывал здесь и уходил. Обе кнопки ведут туда, где он уже находится:
+   договор у него на руках. */
+.nextup{margin-top:16px}
+.nextup .nt{font-weight:600;font-size:15px;margin:0 0 10px}
+.nextup .nb{display:flex;flex-wrap:wrap;gap:10px}
+.nextup .nb .btn{margin:0;flex:1 1 calc(50% - 5px);text-align:center;padding:12px 12px;font-size:15px}
+@media(min-width:660px){.nextup .nb .btn{flex:0 1 auto;padding:12px 20px}}
+.nextup .nh{color:var(--muted);font-size:13px;margin:10px 0 0}
 
 /* Полоса состава: то, что назвали, и то, что добавится. Смысл картинки один —
    показать долю второго куска, поэтому кусков ровно два, а не восемь. */
@@ -296,10 +345,19 @@ label.chk input{width:19px;height:19px;max-width:19px;accent-color:var(--green);
 .svm{font-size:14px;color:var(--ink2);background:var(--amber-bg);border-radius:9px;
   padding:10px 12px;margin:0 0 11px}
 .svm b{color:var(--amber)}
-.svb{display:flex;flex-wrap:wrap;gap:8px}
+/* Три ответа — три равные колонки, а не строка с переносом. ПОЧЕМУ: на 375px
+   «Есть в договоре» и «Нет» вставали рядом, а «Не смотрел» переносился вниз —
+   и выглядел не как третий равный вариант, а как отдельная кнопка под вопросом.
+   При том что именно он выбран по умолчанию: человек отвечал, не понимая,
+   что уже ответил. */
+.svb{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .svb button{background:transparent;border:1px solid var(--rule);border-radius:9px;
-  color:var(--ink2);font:600 13.5px var(--body);padding:8px 13px;cursor:pointer;
-  min-height:38px}
+  color:var(--ink2);font:600 13px var(--body);line-height:1.25;padding:8px 6px;cursor:pointer;
+  min-height:38px;text-align:center}
+@media(min-width:520px){
+  .svb{display:flex;flex-wrap:wrap}
+  .svb button{font-size:13.5px;padding:8px 13px}
+}
 .svb button.on.yes{background:var(--green-bg);border-color:var(--green);color:var(--green)}
 .svb button.on.no{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
 .svb button.on.skip{background:var(--rule2);border-color:var(--rule);color:var(--ink)}
@@ -326,6 +384,8 @@ label.chk input{width:19px;height:19px;max-width:19px;accent-color:var(--green);
 .cmp .sch.best{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
 .cmp .sch h4{font:600 14px var(--body);margin:0 0 10px;color:var(--muted);
   letter-spacing:.08em;text-transform:uppercase}
+.cmp .fh{font-size:12.5px;color:var(--muted);background:var(--green-bg);border-radius:8px;
+  padding:8px 10px;margin:0 0 12px}
 .cmp .fl{margin-bottom:10px}
 .cmp .fl label{display:block;font-size:13px;color:var(--ink2);margin-bottom:3px}
 .cmp .fl input{max-width:100%}
@@ -421,12 +481,28 @@ footer p{margin:0 0 10px}
   <div class="col">
     <p class="lbl" data-ru="Ташкент · категория B · 2026">Toshkent · B toifa · 2026</p>
     <h1 data-ru="Автошкола: сколько это стоит на самом деле">Avtomaktab aslida qancha turadi</h1>
+    <!-- Кнопки стоят ДО объясняющего абзаца, а не после него. ПОЧЕМУ: абзац
+         занимает четырнадцать строк, и кнопки начинались на 633-м пикселе —
+         у самой кромки экрана телефона. Человек, у которого договор уже лежит
+         на столе, приходит сюда не читать, а понять, обманывают его или нет;
+         текст остаётся на месте и объясняет — но после того, как показано,
+         куда нажать. Вторая кнопка — «Сверить свой договор»: это положение
+         того, кто пришёл раньше всех остальных. -->
+    <div class="btns">
+      <a class="btn" href="#hisob" data-ev="calc_top" data-ru="Посчитать полную цену">Toʻliq narxni hisoblash</a>
+      <a class="btn sec" href="#shartnoma" data-ev="dog_top" data-ru="Сверить свой договор">Shartnomani solishtirish</a>
+      <a class="btn sec" href="#solish" data-ev="cmp_top" data-ru="Сравнить три школы">Uchta maktabni solishtirish</a>
+      <a class="btn sec" href="#savollar" data-ev="q_top" data-ru="Семь вопросов">Yettita savol</a>
+    </div>
     <p class="lead" data-ru="Теорию по категориям A и B разрешено осваивать самостоятельно — автошкола нужна ради практики. Практики при этом норма требует не менее 69 часов, и договор на 40 часов уже ниже минимума. Счёт на этом не заканчивается: экзамен, пересдача, дополнительные часы, бензин, медсправка и сбор за удостоверение обычно называются после того, как договор подписан. Ниже — калькулятор, который складывает названную вам цену со всем остальным, и семь вопросов, которые стоит задать до подписания.">A va B toifa nazariyasini mustaqil oʻzlashtirishga ruxsat berilgan — avtomaktab amaliyot uchun kerak. Amaliyotdan esa meʼyor kamida 69 soatni talab qiladi, 40 soatlik shartnoma allaqachon minimumdan past. Hisob shu bilan tugamaydi: imtihon, qayta topshirish, qoʻshimcha soatlar, yoqilgʻi, tibbiy maʼlumotnoma va guvohnoma yigʻimi odatda shartnoma imzolangandan keyin aytiladi. Quyida — sizga aytilgan narxni qolgan hamma narsa bilan qoʻshadigan hisoblagich va imzolashdan oldin beriladigan yettita savol.</p>
-    <a class="btn" href="#hisob" data-ev="calc_top" data-ru="Посчитать полную цену">Toʻliq narxni hisoblash</a>
-    <a class="btn sec" href="#solish" data-ev="cmp_top" data-ru="Сравнить три школы">Uchta maktabni solishtirish</a>
-    <a class="btn sec" href="#savollar" data-ev="q_top" data-ru="Семь вопросов">Yettita savol</a>
-    <a class="btn sec" href="#shartnoma" data-ev="dog_top" data-ru="Сверить свой договор">Shartnomani solishtirish</a>
-    <p class="after"><span data-ru="Бесплатно и без регистрации: калькулятор, сравнение трёх школ, семь вопросов, разбор состава договора, журнал занятий и лист для печати. Платный — только разбор вашего договора, 49 000 сум. Контакт спрашиваем в заявке. Сам расчёт считается в браузере, но три числа из него — названную вам цену, итог и разницу — мы сохраняем у себя: имени и номера в этих записях нет, но если вы оставите заявку, они окажутся связаны с ней:">Bepul va roʻyxatdan oʻtmasdan: hisoblagich, uchta avtomaktabni solishtirish, yettita savol, shartnoma tarkibining tahlili, darslar daftari va chop etish varaqasi. Pullik qism bitta — shartnomangiz tahlili, 49 000 soʻm. Aloqa maʼlumotini arizada soʻraymiz. Hisobning oʻzi brauzerda bajariladi, lekin undan uchta raqamni — sizga aytilgan narx, jami va farq — oʻzimizda saqlaymiz: bu yozuvlarda na ism, na raqam bor, lekin ariza qoldirsangiz, ular ariza bilan bogʻlanadi:</span> <a href="#maxfiylik" data-ru="что уходит со страницы и зачем">sahifadan nima yuboriladi va nima uchun</a></p>
+    <!-- Предупреждение о том, что сохраняется, укорочено с восьми строк до трёх,
+         но осталось ЗДЕСЬ, до первого действия. ПОЧЕМУ не перенесли вниз: первое
+         событие уходит на сервер, когда человек трогает поля калькулятора, —
+         значит сказать об этом надо раньше, чем он их тронул. А почему короче:
+         это третье, что он читает после заголовка и кнопок, в момент, когда
+         ещё решает, доверять ли странице вообще. Полный перечень, включая
+         серверы и сроки, остался в «Что уходит со страницы» по ссылке. -->
+    <p class="after"><span data-ru="Бесплатно и без регистрации: калькулятор, сравнение школ, семь вопросов, разбор состава договора, журнал занятий и лист для печати. Платный — только разбор вашего договора, 49 000 сум. Три числа из расчёта — названную вам цену, итог и разницу — мы сохраняем у себя без имени и номера:">Bepul va roʻyxatdan oʻtmasdan: hisoblagich, avtomaktablarni solishtirish, yettita savol, shartnoma tarkibining tahlili, darslar daftari va chop etish varaqasi. Pullik qism bitta — shartnomangiz tahlili, 49 000 soʻm. Hisobdagi uchta raqamni — sizga aytilgan narx, jami va farq — ism va raqamsiz oʻzimizda saqlaymiz:</span> <a href="#maxfiylik" data-ru="что уходит со страницы и зачем">sahifadan nima yuboriladi va nima uchun</a></p>
   </div>
 </section>
 
@@ -437,12 +513,35 @@ footer p{margin:0 0 10px}
     <!-- Оговорка про A1 стоит ДО калькулятора, а не в FAQ. ПОЧЕМУ: человек,
          пришедший считать смету ради скутера, по норме не должен платить
          автошколе ничего, и калькулятор посчитал бы ему полный курс. Отправить
-         его прочь до первого поля дешевле, чем после итога. -->
-    <div class="note warn">
-      <strong data-ru="Если вам нужен скутер или мопед, автошкола не нужна — но экзамены и удостоверение платные.">Sizga skuter yoki moped kerak boʻlsa, avtomaktab shart emas — lekin imtihonlar va guvohnoma pullik.</strong>
+         его прочь до первого поля дешевле, чем после итога.
+         НО СВЁРНУТОЙ, А НЕ РАЗВЁРНУТОЙ. Развёрнутой она занимала 868 пикселей —
+         больше экрана телефона — и была первым, что видел человек, нажавший
+         «Посчитать полную цену». Пришедший с договором на категорию B получал
+         экран про мототранспорт до 25 см³ и решал, что открыл не ту ссылку.
+         Свёрнутая строка находит того, кому нужен скутер, и не задевает
+         остальных: факт остался целиком, вместе со ссылкой. -->
+    <details class="note warn" data-q="a1">
+      <summary><strong data-ru="Если вам нужен скутер или мопед, автошкола не нужна — но экзамены и удостоверение платные.">Sizga skuter yoki moped kerak boʻlsa, avtomaktab shart emas — lekin imtihonlar va guvohnoma pullik.</strong></summary>
+      <div class="a">
       <span data-ru="С 1 января 2026 года введена подкатегория A1 — мототранспорт до 25 см³ или до 0,25 кВт и до 25 км/ч. По ней дают право сдавать теоретический и практический экзамены напрямую, не проходя обязательную учебную программу: теория — 20 вопросов, порог 16, справка об окончании обучения не требуется. А у кого уже есть права A, B, C или D, тот управляет A1 вообще ничего не сдавая. Но «без автошколы» не значит «бесплатно»: A1 прямо назван в пункте 20 приложения 2 к ПКМ № 408 среди категорий, удостоверение по которым выдаётся сдавшим И теоретический, И практический экзамены, а приложение 2¹ относит A1 к экзаменам у субъектов предпринимательства. Значит платить надо за два экзамена — 2 × 10% БРВ в органе ГСБДД, то есть 82 400 сум при БРВ 412 000 и 88 000 с 1 сентября 2026 года, либо цену частного центра, если он работает в вашей области, — плюс 79% БРВ за само удостоверение, 325 480 и 347 600 соответственно. Практический экзамен на A1 принимают на двухколёсном мопеде или скутере. Итого государственная часть по A1: около 407 880 сум при БРВ 412 000 и 435 600 с 1 сентября 2026 года. Этот калькулятор считает категорию B.">2026-yil 1-yanvardan A1 kichik toifasi joriy etildi — 25 sm³ gacha yoki 0,25 kVt gacha va 25 km/soatgacha boʻlgan mototransport. U boʻyicha majburiy oʻquv dasturini oʻtamasdan turib, toʻgʻridan-toʻgʻri nazariy va amaliy imtihon topshirish huquqi beriladi: nazariya — 20 ta savol, chegara 16, oʻqishni tugatganlik haqidagi maʼlumotnoma talab qilinmaydi. A, B, C yoki D guvohnomasi bor odam esa A1 ni umuman hech narsa topshirmasdan boshqaradi. Lekin «avtomaktabsiz» degani «bepul» degani emas: A1 408-son qaror 2-ilovasining 20-bandida guvohnoma nazariy VA amaliy imtihonni topshirganlarga beriladigan toifalar qatorida toʻgʻridan-toʻgʻri nomlangan, 2¹-ilova esa A1 ni tadbirkorlik subyektlaridagi imtihonlarga kiritadi. Yaʼni ikkita imtihon uchun toʻlash kerak — DYHXX organida 2 × BHM ning 10 foizi, yaʼni BHM 412 000 da 82 400 soʻm va 2026-yil 1-sentabrdan 88 000, yoki viloyatingizda xususiy markaz ishlasa — oʻsha markazning narxi — hamda guvohnomaning oʻzi uchun BHM ning 79 foizi, mos ravishda 325 480 va 347 600. A1 boʻyicha amaliy imtihon ikki gʻildirakli moped yoki skuterda qabul qilinadi. Jami A1 boʻyicha davlat qismi: BHM 412 000 da 407 880 soʻm atrofida, 2026-yil 1-sentabrdan 435 600. Bu hisoblagich B toifani hisoblaydi.</span>
       <a href="https://lex.uz/uz/docs/7791514" target="_blank" rel="noopener" data-ru="lex.uz · ПКМ № 676 от 25.10.2025, пп. 1–2">lex.uz · 676-son qaror, 25.10.2025, 1–2-bandlar</a>
-    </div>
+      </div>
+    </details>
+
+  </div>
+
+  <!-- Ответ, ради которого нажата кнопка, — здесь, а не пятью экранами ниже.
+       Полоса липкая: она идёт вместе с человеком по всем строкам сметы.
+       Пока названная цена не введена, полоса не показывает итог, а просит
+       её ввести: считать «полную цену» без цены, которую назвали, не из чего,
+       и делать вид, что ответ уже есть, значит отвечать не на его вопрос.
+       Полоса лежит ребёнком секции, а не колонки: липкий элемент живёт ровно
+       столько, сколько виден его родитель, — внутри .col он отклеился бы через
+       двести пикселей, то есть до первого поля. -->
+  <div class="peek ask" id="peek">
+    <span class="pl" id="p_lbl"></span>
+    <b class="pv num" id="p_total">—</b>
+    <span class="pe" id="p_extra_w"></span>
   </div>
 
   <div class="sheet">
@@ -452,7 +551,13 @@ footer p{margin:0 0 10px}
         <span class="t" data-ru="Практический курс автошколы">Avtomaktabning amaliy kursi</span>
         <span class="h" data-ru="Сумма, которую назвали вам. Обзоры дают от 2,8 до 8 млн — поэтому цифра ваша, а не наша">Sizga aytilgan summa. Sharhlarda 2,8 dan 8 milliongacha — shuning uchun raqam bizniki emas, sizniki</span>
       </div>
-      <div class="rc"><input type="number" id="i_kurs" min="0" max="30000000" step="100000" value="7000000" inputmode="numeric"></div>
+      <!-- Поле пустое, и это не мелочь. Раньше здесь стояло value="7000000":
+           подпись велела вписать сумму, которую называют вам, а в поле уже
+           лежало чужое число. Тому, кому назвали ровно семь миллионов, повезло
+           бы; любому другому страница с той же уверенностью показала бы итог,
+           посчитанный от не его цены. Страница про то, что вам называют одну
+           сумму, а считают другую, не имеет права делать это сама. -->
+      <div class="rc"><input type="number" id="i_kurs" min="0" max="30000000" step="100000" inputmode="numeric"></div>
       <div class="rs num" id="s_kurs">—</div>
     </div>
 
@@ -608,6 +713,22 @@ footer p{margin:0 0 10px}
       <div class="eh" id="s_note"></div>
     </div>
 
+    <!-- Две кнопки прямо у итога. ПОЧЕМУ ЗДЕСЬ: ровно в эту секунду человек
+         получает удар — названные семь миллионов превращаются в десять с
+         половиной, — и до этой правки страница в этот момент не предлагала
+         ничего: ближайшая кнопка была через двадцать тысяч пикселей. Обе
+         ведут туда, где человек уже стоит: договор у него на руках. Первая
+         бесплатная и сделана самим человеком, вторая платная — порядок
+         именно такой, а не наоборот. -->
+    <div class="nextup">
+      <p class="nt" data-ru="Договор уже на руках?">Shartnoma qoʻlingizdami?</p>
+      <div class="nb">
+        <a class="btn sec" href="#shartnoma" data-ev="itog_sverka" data-ru="Сверить его по 12 пунктам — бесплатно">12 band boʻyicha solishtirish — bepul</a>
+        <a class="btn" href="#ariza" data-ev="itog_ariza" data-ru="Отдать на разбор — 49 000 сум">Tahlilga berish — 49 000 soʻm</a>
+      </div>
+      <p class="nh" data-ru="Сначала сверьте сами: если все двенадцать пунктов в договоре нашлись, разбор вам не нужен — страница скажет об этом прямо.">Avval oʻzingiz solishtiring: oʻn ikkita bandning hammasi shartnomada topilsa, tahlil sizga kerak emas — sahifa buni ochiq aytadi.</p>
+    </div>
+
   </div>
 
   <div class="col">
@@ -627,7 +748,7 @@ footer p{margin:0 0 10px}
 <section id="solish">
   <div class="col">
     <h2 data-ru="Три автошколы рядом">Uchta avtomaktab yonma-yon</h2>
-    <p data-ru="Названные цены нельзя сравнивать между собой: в одну входит бензин, в другую нет, в одной часов больше. Впишите по каждой школе три числа — и цены станут сравнимыми. Общая часть (экзамен, медсправка, госпошлина, доставка) у всех одинаковая и берётся из калькулятора выше.">Aytilgan narxlarni bir-biri bilan solishtirib boʻlmaydi: biriga yoqilgʻi kiradi, boshqasiga yoʻq, birida soat koʻproq. Har bir avtomaktab boʻyicha uchta raqamni yozing — narxlar solishtiradigan boʻladi. Umumiy qism (imtihon, tibbiy maʼlumotnoma, davlat boji, yetkazish) hammasida bir xil va yuqoridagi hisoblagichdan olinadi.</p>
+    <p data-ru="Названные цены нельзя сравнивать между собой: в одну входит бензин, в другую нет, в одной часов больше. Впишите по каждой школе три числа — и цены станут сравнимыми. Общая часть (экзамен, медсправка, сбор за удостоверение, доставка) у всех одинаковая и берётся из калькулятора выше.">Aytilgan narxlarni bir-biri bilan solishtirib boʻlmaydi: biriga yoqilgʻi kiradi, boshqasiga yoʻq, birida soat koʻproq. Har bir avtomaktab boʻyicha uchta raqamni yozing — narxlar solishtiradigan boʻladi. Umumiy qism (imtihon, tibbiy maʼlumotnoma, guvohnoma yigʻimi, yetkazish) hammasida bir xil va yuqoridagi hisoblagichdan olinadi.</p>
   </div>
 
   <!-- Три школы разложены разметкой, а не собраны скриптом. ПОЧЕМУ: на этой
@@ -637,6 +758,13 @@ footer p{margin:0 0 10px}
   <div class="cmp">
     <div class="sch" data-s="1">
       <h4 data-ru="Школа 1">1-avtomaktab</h4>
+      <!-- Первая школа заполняется из калькулятора. ПОЧЕМУ: у человека,
+           который только что посчитал свою смету, есть ровно одна школа —
+           та, чью цену ему назвали. Раздел просил его вписать цены двух школ,
+           которых у него нет, и заново набрать ту, которую он ввёл экраном
+           выше. Подстановка живёт только до первого прикосновения к любому
+           полю сравнения и не трогает уже сохранённые школы. -->
+      <p class="fh hide" id="c1_hint" data-ru="Числа взяты из вашего калькулятора выше. Измените их, если у этой школы иначе.">Raqamlar yuqoridagi hisoblagichingizdan olindi. Bu avtomaktabda boshqacha boʻlsa, oʻzgartiring.</p>
       <div class="fl"><label for="c1_name" data-ru="Название (для себя)">Nomi (oʻzingiz uchun)</label>
         <input type="text" id="c1_name" maxlength="30" placeholder="—"></div>
       <div class="fl"><label for="c1_kurs" data-ru="Названная цена курса">Aytilgan kurs narxi</label>
@@ -855,6 +983,12 @@ footer p{margin:0 0 10px}
     <div class="svsum" id="sv_out">
       <p class="svc" id="sv_count">—</p>
       <p class="svv" id="sv_verd">—</p>
+      <!-- Кнопка появляется ровно в одном случае из четырёх: когда пройдены
+           все двенадцать пунктов И чего-то не хватает. Во всех остальных она
+           была бы предложением без основания — а при вердикте «всё есть»
+           страница прямо говорит не платить, и кнопка рядом с этими словами
+           отменяла бы их. -->
+      <p class="svcta hide" id="sv_cta" style="margin:12px 0 0"><a class="btn" href="#ariza" data-ev="sverka_ariza" data-ru="Отдать договор на разбор — 49 000 сум">Shartnomani tahlilga berish — 49 000 soʻm</a></p>
     </div>
 
     <div class="svgrp">
@@ -1068,6 +1202,12 @@ footer p{margin:0 0 10px}
     </div>
     <div class="fld">
       <label data-ru="Сколько это для вас стоит">Bu siz uchun qancha turadi</label>
+      <!-- Цена названа здесь ещё раз и теми же словами, что наверху. ПОЧЕМУ:
+           страница называла её дважды и по-разному — 49 000 в сером тексте
+           первого экрана и три варианта без выбранного здесь, — и человек,
+           дошедший до формы, не понимал, за что и сколько с него просят.
+           На вопрос «сколько это стоит» страница отвечала вопросом. -->
+      <p class="after" style="margin:0 0 8px" data-ru="Пакет стоит 49 000 сум — та же цена, что в карточке выше, и платить сегодня ничего не нужно. Здесь мы спрашиваем другое: сколько такой разбор стоит для вас. По этим ответам и решается, останется ли цена такой.">Paket 49 000 soʻm turadi — yuqoridagi kartochkadagi oʻsha narx, va bugun hech narsa toʻlash kerak emas. Bu yerda boshqa narsani soʻraymiz: shunday tahlil siz uchun qancha turadi. Narx shundayligicha qoladimi — aynan shu javoblar boʻyicha hal qilinadi.</p>
       <!-- Вариант выше нашей цены стоит здесь намеренно. Поднять цену после
            посева дороже, чем начать выше, а узнать это можно только спросив:
            если 79 000 выбирают заметно чаще нуля, значит 49 000 — не потолок.
@@ -1087,7 +1227,7 @@ footer p{margin:0 0 10px}
     </div>
     <button class="btn" type="submit" id="f_send" data-ru="Оставить заявку">Ariza qoldirish</button>
     <p class="after hide" id="f_err" style="color:var(--bad)"></p>
-    <p class="after" id="f_hint" data-ru="Оплаты на странице нет — это заявка, она ни к чему вас не обязывает: если после переписки разбор вам нужен, договоримся о деталях и цене — 49 000 сум, — и отказаться можно на любом шаге. Нажимая «Оставить заявку», вы соглашаетесь, что мы сохраним оставленный контакт, текст заявки, ваш расчёт — три числа из калькулятора выше — и язык, на котором вы читаете страницу, чтобы ответить вам на нём же, и используем всё это только для того, чтобы связаться с вами по этому обращению. Заявка идёт в два места, и оба названы: сначала в нашу базу (Supabase, серверы за пределами Узбекистана), потом владельцу в Telegram — иначе ответить вам было бы нечем. Для рассылок не используем, удаляем по первой просьбе — напишите тем же контактом.">Sahifada toʻlov yoʻq — bu ariza, u sizni hech narsaga majburlamaydi: yozishmadan keyin tahlil kerak boʻlsa, 49 000 soʻmlik hisobni qoʻlda yuboramiz va undan voz kechish mumkin. «Ariza qoldirish» tugmasini bosish orqali siz qoldirgan aloqangizni, ariza matnini, hisobingizni — yuqoridagi hisoblagichdan uchta raqamni — va sahifani qaysi tilda oʻqiyotganingizni, oʻsha tilda javob berishimiz uchun, saqlashimizga va bularning hammasidan faqat shu murojaat yuzasidan siz bilan bogʻlanish uchun foydalanishimizga rozilik bildirasiz. Ariza ikki joyga boradi va ikkalasi ham aytilgan: avval bizning bazamizga (Supabase, serverlar Oʻzbekistondan tashqarida), keyin egasiga Telegram orqali — aks holda sizga javob berib boʻlmasdi. Tarqatmalar uchun ishlatmaymiz, birinchi soʻrovingizga koʻra oʻchiramiz — shu aloqa orqali yozing.</p>
+    <p class="after" id="f_hint" data-ru="Оплаты на странице нет — это заявка, она ни к чему вас не обязывает: если после переписки разбор вам нужен, мы выставим счёт вручную в той же переписке — 49 000 сум, сумма одна для всех, — и от счёта можно отказаться. Нажимая «Оставить заявку», вы соглашаетесь, что мы сохраним оставленный контакт, текст заявки, ваш расчёт — три числа из калькулятора выше — и язык, на котором вы читаете страницу, чтобы ответить вам на нём же, и используем всё это только для того, чтобы связаться с вами по этому обращению. Заявка идёт в два места, и оба названы: сначала в нашу базу (Supabase, серверы за пределами Узбекистана), потом владельцу в Telegram — иначе ответить вам было бы нечем. Для рассылок не используем, удаляем по первой просьбе — напишите тем же контактом.">Sahifada toʻlov yoʻq — bu ariza, u sizni hech narsaga majburlamaydi: yozishmadan keyin tahlil kerak boʻlsa, oʻsha yozishmada 49 000 soʻmlik hisobni qoʻlda yuboramiz — summa hamma uchun bitta, — va hisobdan voz kechish mumkin. «Ariza qoldirish» tugmasini bosish orqali siz qoldirgan aloqangizni, ariza matnini, hisobingizni — yuqoridagi hisoblagichdan uchta raqamni — va sahifani qaysi tilda oʻqiyotganingizni, oʻsha tilda javob berishimiz uchun, saqlashimizga va bularning hammasidan faqat shu murojaat yuzasidan siz bilan bogʻlanish uchun foydalanishimizga rozilik bildirasiz. Ariza ikki joyga boradi va ikkalasi ham aytilgan: avval bizning bazamizga (Supabase, serverlar Oʻzbekistondan tashqarida), keyin egasiga Telegram orqali — aks holda sizga javob berib boʻlmasdi. Tarqatmalar uchun ishlatmaymiz, birinchi soʻrovingizga koʻra oʻchiramiz — shu aloqa orqali yozing.</p>
   </form>
 
   <div class="ok hide" id="f_ok">
@@ -1340,6 +1480,8 @@ function applyLang() {
   [].slice.call(document.querySelectorAll("[data-ru]")).forEach(function (n) {
     n.innerHTML = lang === "ru" ? n.dataset.ru : n.dataset.uzt;
   });
+  var fe = document.getElementById("f_err");
+  if (fe && fe.dataset.eru) fe.textContent = lang === "ru" ? fe.dataset.eru : fe.dataset.euz;
   document.documentElement.lang = lang;
   document.title = TITLE[lang];
   var bar = document.getElementById("langbar");
@@ -1358,6 +1500,10 @@ function applyLang() {
   document.getElementById("f_note").placeholder = lang === "ru"
     ? "Например: какая школа, когда планируете платить"
     : "Masalan: qaysi avtomaktab, qachon toʻlamoqchisiz";
+  // Поле названной цены пустое, поэтому подсказка в нём — не пример суммы,
+  // а действие: пример человек принял бы за уже посчитанное число.
+  document.getElementById("i_kurs").placeholder = lang === "ru"
+    ? "впишите сумму" : "summani yozing";
 }
 
 /* ── Тема ─────────────────────────────────────────────────────────────────
@@ -1504,12 +1650,39 @@ function calc() {
     el.closest(".row").classList.toggle("off", !r[1]);
   });
 
-  document.getElementById("s_total").textContent = money(p.total);
-  document.getElementById("s_extra").textContent = money(p.extra);
+  // Пока названная цена не введена, итога нет — ни внизу, ни в липкой строке.
+  // ПОЧЕМУ НЕ ПОКАЗЫВАТЬ ОСТАТОК: без курса в сумме лежит только государственная
+  // и медицинская часть, а подпись над ней говорит «итого до получения прав».
+  // Это был бы ответ на вопрос, которого человек не задавал, — и выглядел бы
+  // как посчитанный по его цене. Ровно та же ошибка, что зашитые в поле
+  // 7 000 000, только с другого конца.
+  var ask = !(p.kurs > 0);
+  document.getElementById("s_total").textContent = ask ? "—" : money(p.total);
+  document.getElementById("s_extra").textContent = ask ? "—" : money(p.extra);
 
-  var share = p.total > 0 ? Math.max(0, Math.min(100, p.kurs / p.total * 100)) : 0;
+  // ── Липкая строка с ответом ───────────────────────────────────────────────
+  var peek = document.getElementById("peek");
+  peek.classList.toggle("ask", ask);
+  document.getElementById("p_lbl").textContent = ask
+    ? (lang === "ru" ? "Впишите названную вам цену — итог появится здесь"
+                     : "Sizga aytilgan narxni yozing — jami shu yerda chiqadi")
+    : (lang === "ru" ? "Итого до получения прав" : "Guvohnoma qoʻlga tekkunicha jami");
+  document.getElementById("p_total").textContent = ask ? "—" : money(p.total);
+  var pe = document.getElementById("p_extra_w");
+  pe.textContent = "";
+  if (!ask) {
+    pe.appendChild(document.createTextNode(lang === "ru"
+      ? "сверх названного " : "aytilganidan ortiq "));
+    var peb = document.createElement("b");
+    peb.textContent = fmt(p.extra);
+    pe.appendChild(peb);
+  }
+
+  // Полоса состава без названной цены была бы сплошь оранжевой — «всё сверх
+  // названного», хотя названного ещё нет. Пустая полоса честнее.
+  var share = (!ask && p.total > 0) ? Math.max(0, Math.min(100, p.kurs / p.total * 100)) : 0;
   document.getElementById("bar1").style.width = share + "%";
-  document.getElementById("bar2").style.width = (100 - share) + "%";
+  document.getElementById("bar2").style.width = (ask ? 0 : 100 - share) + "%";
 
   // ── Часы вождения против нормы ────────────────────────────────────────────
   // Строка не суммируется: недобор оплачивают позже и по другой цене. Показываем
@@ -1550,7 +1723,15 @@ function calc() {
   // Три состояния селектора, а не два: «не считаю» — это не «через ГСБДД».
   // Приписывать человеку выбор, которого он не делал, нельзя даже ради
   // красивого объяснения заниженного итога.
-  if (p.path === "no") {
+  //
+  // Первым стоит случай «цену ещё не вписали». Без него страница сравнивала
+  // государственную часть с ориентиром полного цикла и советовала «проверить,
+  // не забыли ли строку» человеку, который не заполнил ни одной.
+  if (ask) {
+    note = lang === "ru"
+      ? "Итога пока нет: впишите в первой строке сумму, которую называют вам в автошколе. Всё остальное уже подставлено, и складывать есть с чем — не хватает только вашей цифры."
+      : "Hozircha yakun yoʻq: birinchi qatorga avtomaktabda sizga aytilgan summani yozing. Qolgani allaqachon qoʻyilgan, qoʻshadigan narsa bor — faqat sizning raqamingiz yetishmayapti.";
+  } else if (p.path === "no") {
     note = lang === "ru"
       ? "Экзамен и пересдачи в этот итог не включены — вы выбрали «Не считаю экзамен». Ориентир открытых обзоров (10–11 млн сум) посчитан вместе с экзаменом по цене частного центра, поэтому сравнивать с ним ваш итог нельзя. Кто принимает экзамен именно у вас, надо спросить в автошколе: там, где работает лицензированный частный центр, экзамены принимает только он."
       : "Imtihon va qayta topshirishlar bu yakunga kirmagan — siz «Imtihonni hisoblamayman» ni tanladingiz. Ochiq sharhlardagi mezon (10–11 million soʻm) imtihonni xususiy markaz narxi boʻyicha qoʻshib hisoblagan, shuning uchun sizning yakuningizni u bilan solishtirib boʻlmaydi. Imtihonni aynan sizda kim qabul qilishini avtomaktabdan soʻrash kerak: litsenziyali xususiy markaz ishlaydigan hududda imtihonni faqat oʻsha qabul qiladi.";
@@ -1578,8 +1759,58 @@ function calc() {
 // Событие calc шлём с задержкой: пока человек набирает «7000000», иначе
 // улетело бы семь событий подряд и воронка стала бы враньём.
 var calcTimer = null, calcLast = 0;
+/* ── Расчёт переживает перезагрузку ───────────────────────────────────────
+   ПОЧЕМУ ЭТО ОБЯЗАТЕЛЬНО, А НЕ УДОБСТВО: страница помнила всё второстепенное —
+   сравнение школ, отметки по договору, журнал, язык, тему, — а калькулятор,
+   к которому ведёт главная кнопка, обнулялся при первом же F5. Считают вечером
+   дома, а разговаривают в школе утром: человек открывает ту же ссылку второй
+   раз, и именно его пять с половиной миллионов и двадцать девять недостающих
+   часов встречают его пустыми.
+
+   Хранится строка поля, а не число. ПОЧЕМУ: пустое поле и ноль — разные вещи.
+   Ноль в «названной цене» означал бы «мне назвали ноль», и липкая строка
+   показала бы итог вместо просьбы вписать цену. */
+var HIS_KEY = "avtomaktab_hisob";
+var HIS_IDS = ["i_kurs", "i_med", "i_exam", "i_retry", "i_dog_hours",
+               "i_hours", "i_hour_v", "i_fuel_n", "i_fuel_v", "i_boj"];
+function hisobSave() {
+  try {
+    var o = {};
+    HIS_IDS.forEach(function (id) { o[id] = document.getElementById(id).value; });
+    o.i_post = document.getElementById("i_post").checked ? 1 : 0;
+    localStorage.setItem(HIS_KEY, JSON.stringify(o));
+  } catch (e) {}
+}
+function hisobRestore() {
+  var o = null;
+  try { o = JSON.parse(localStorage.getItem(HIS_KEY) || "null"); } catch (e) { return; }
+  if (!o || typeof o !== "object") return;
+  HIS_IDS.forEach(function (id) {
+    var v = o[id];
+    if (typeof v !== "string") return;
+    var el = document.getElementById(id);
+    if (!el) return;
+    // У списка принимаем только то значение, которое в нём есть: запись
+    // в хранилище правится руками, а невалидное value молча делает селектор
+    // пустым — и смета считалась бы по нулю там, где человек видит выбор.
+    if (el.tagName === "SELECT") {
+      var ok = false;
+      [].slice.call(el.options).forEach(function (op) { if (op.value === v) ok = true; });
+      if (ok) el.value = v;
+    } else if (v === "" || /^[0-9]+(\.[0-9]+)?$/.test(v)) {
+      el.value = v;
+    }
+  });
+  document.getElementById("i_post").checked = !!o.i_post;
+}
+
 function calcChanged() {
   var r = calc();
+  hisobSave();
+  // Первая школа сравнения заполняется из калькулятора, пока человек сам
+  // не тронул сравнение: у того, кто только что посчитал смету, есть ровно
+  // одна школа — та, чью цену ему назвали.
+  cmpMirror();
   // Сравнение считает общую часть из этих же полей, а лист печати собирает всё
   // вместе, поэтому обе вещи пересчитываются здесь же, а не по своему событию.
   cmpCalc();
@@ -1740,6 +1971,10 @@ leadForm.addEventListener("submit", function (e) {
   var btn = document.getElementById("f_send");
   var err = document.getElementById("f_err");
   function stop(ru, uz, el) {
+    // Обе половины остаются на узле: applyLang() перерисует показанную ошибку,
+    // если человек переключит язык, не исправив поле.
+    err.dataset.eru = ru;
+    err.dataset.euz = uz;
     err.textContent = lang === "ru" ? ru : uz;
     err.classList.remove("hide");
     if (el && el.scrollIntoView) el.scrollIntoView({ block: "center" });
@@ -1811,9 +2046,9 @@ leadForm.addEventListener("submit", function (e) {
       // там лежит согласие на обработку контакта, и стирать его нельзя.
       btn.disabled = false;
       var err = document.getElementById("f_err");
-      err.textContent = lang === "ru"
-        ? "Не удалось отправить. Проверьте связь и попробуйте ещё раз."
-        : "Yuborib boʻlmadi. Aloqani tekshirib, yana urinib koʻring.";
+      err.dataset.eru = "Не удалось отправить. Проверьте связь и попробуйте ещё раз.";
+      err.dataset.euz = "Yuborib boʻlmadi. Aloqani tekshirib, yana urinib koʻring.";
+      err.textContent = lang === "ru" ? err.dataset.eru : err.dataset.euz;
       err.classList.remove("hide");
     });
 });
@@ -1921,6 +2156,29 @@ function cmpCalc() {
    школы из своей записи: без восстановления полей на листе печатались бы
    школы, которых на странице уже не видно. */
 var CMP_KEY = "avtomaktab_cmp";
+
+/* Подстановка первой школы из калькулятора. Живёт до первого прикосновения
+   к любому полю сравнения — и это «до» переживает перезагрузку: человек,
+   который в субботу вписал вторую школу, не должен во вторник обнаружить,
+   что первая колонка переписана калькулятором.
+
+   Признак «человек уже заполнял сравнение» держится отдельным ключом, а не
+   наличием CMP_KEY. ПОЧЕМУ: cmpCalc() на старте сам записывает CMP_KEY —
+   пустой, из трёх нулей, — и после первой же загрузки страницы проверка
+   «запись есть» становится истиной у всех, то есть подстановка не сработала
+   бы ни у кого ни разу. */
+var CMP_OWN = "avtomaktab_cmp_own";
+var cmpVirgin = true;
+try { cmpVirgin = !localStorage.getItem(CMP_OWN); } catch (e) {}
+function cmpMirror() {
+  if (!cmpVirgin || cmpTouched) return;
+  var p = parts();
+  document.getElementById("c1_kurs").value  = p.kurs;
+  document.getElementById("c1_fuel").value  = p.fuel;
+  document.getElementById("c1_hours").value = p.hours;
+  document.getElementById("c1_hint").classList.toggle("hide", !(p.kurs > 0));
+}
+
 function cmpSave(rows) {
   try {
     localStorage.setItem(CMP_KEY, JSON.stringify(rows.map(function (r) {
@@ -1960,7 +2218,14 @@ var cmpTouched = false;
     (function (id) {
       var el = document.getElementById(id);
       var h = function () {
-        if (!cmpTouched) { cmpTouched = true; ev("cta", { where: "tool_compare" }); }
+        if (!cmpTouched) {
+          cmpTouched = true;
+          try { localStorage.setItem(CMP_OWN, "1"); } catch (e2) {}
+          ev("cta", { where: "tool_compare" });
+          // Подпись «взято из калькулятора» уходит вместе с подстановкой:
+          // с этой секунды числа в карточке ставит человек, а не мы.
+          document.getElementById("c1_hint").classList.add("hide");
+        }
         cmpCalc();
       };
       el.addEventListener("input", h);
@@ -2175,6 +2440,10 @@ function svRender() {
     : "Shartnomada bor: <i>" + yes + "</i> · yoʻq: <i>" + no + "</i> · qaramadim: <i>" + skip + "</i> / <i>" + total + "</i>";
 
   box.className = "svsum";
+  // Предложение появляется ровно вместе с вердиктом «не хватает N из 12»
+  // и ни секундой раньше: пока список не пройден, вывода нет — ни в нашу
+  // пользу, ни против, — и кнопка рядом с «вывода пока нет» была бы им.
+  document.getElementById("sv_cta").classList.toggle("hide", !(skip === 0 && no > 0));
   if (skip === total) {
     vrd.innerHTML = lang === "ru"
       ? "Пока не отмечено ничего, и никакого вывода отсюда не следует. Откройте договор и пройдите список сверху вниз — это десять минут."
@@ -2271,6 +2540,33 @@ document.addEventListener("click", function (e) {
   if (t.closest('a[href^="namuna.html"]')) ev("cta", { where: "tool_namuna" });
 });
 
+/* ── «Назад» обязан уводить со страницы, а не прыгать по ней ───────────────
+   Каждая внутренняя ссылка добавляла запись в историю. Четыре кнопки первого
+   экрана — четыре записи: чтобы уйти, «назад» надо было нажать четыре раза,
+   и каждое нажатие телепортировало человека по тридцатитысячепиксельной
+   странице вместо выхода. На телефоне «назад» — рефлекс, и страница, которая
+   его не отпускает, ощущается ловушкой.
+
+   Поэтому переход делается прокруткой, а адрес меняется через replaceState:
+   ссылку по-прежнему можно скопировать с якорем, но записи в истории не
+   прибавляется. Обработчик события cta висит на самой ссылке и срабатывает
+   раньше этого — замер не меняется. */
+document.addEventListener("click", function (e) {
+  var t = e.target;
+  if (!t || !t.closest) return;
+  if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+  var a = t.closest('a[href^="#"]');
+  if (!a) return;
+  var href = a.getAttribute("href") || "";
+  if (href.length < 2) return;              // «#» — это не переход
+  var dst = document.getElementById(href.slice(1));
+  if (!dst) return;
+  e.preventDefault();
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion:reduce)").matches;
+  dst.scrollIntoView({ block: "start", behavior: reduce ? "auto" : "smooth" });
+  try { history.replaceState(null, "", href); } catch (x) {}
+});
+
 /* ── Цена в карточке — из одного места ─────────────────────────────────────
    Раньше window.MVP_PRICES объявлялась и не использовалась ни разу, а число
    49 000 стояло в карточке текстом. Две копии одной цены — это ровно тот
@@ -2283,9 +2579,14 @@ document.addEventListener("click", function (e) {
 })();
 
 /* ── Старт ────────────────────────────────────────────────────────────── */
+// Расчёт восстанавливается ДО первого calc(): иначе человек, вернувшийся
+// к своей ссылке, успел бы увидеть пустую смету и уйти прежде, чем она
+// заполнится его числами.
+hisobRestore();
 applyLang();
 calc();
 cmpRestore();
+cmpMirror();
 cmpCalc();
 logRender();
 svRender();
@@ -2304,6 +2605,7 @@ ev("open", { lang: lang, ref: (document.referrer || "").slice(0, 80) });
 window.addEventListener("pageshow", function () {
   calc();
   cmpRestore();
+  cmpMirror();
   cmpCalc();
   logRender();
 });
