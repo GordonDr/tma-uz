@@ -6,6 +6,27 @@
 <title>Avtomaktabga olib boriladigan varaqa</title>
 <meta name="robots" content="noindex">
 <meta name="color-scheme" content="light dark">
+<!-- Превью ссылки есть и здесь, хотя страница закрыта от индексации.
+     ПОЧЕМУ ОДНО НЕ ОТМЕНЯЕТ ДРУГОГО: noindex говорит поисковику «не бери
+     в выдачу», а превью разворачивает мессенджер по прямой ссылке, которую
+     человек прислал сам. Лист печати именно так и пересылают — «смотри, что
+     я понесу в автошколу», — и без этих тегов ссылка уезжает серым
+     прямоугольником.
+     Это НЕ нарушает обещание страницы не делать ни одного сетевого запроса:
+     og:image не запрос, а адрес. Его читает робот мессенджера у себя,
+     браузер человека к нему не идёт — на листе ни одной картинки нет. -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Avtomaktabga olib boriladigan varaqa">
+<meta property="og:description" content="A4 varaqasi: sizning hisobingiz, uchta avtomaktab yonma-yon va administratorga beriladigan yettita savol — javob uchun boʻsh chiziqlari bilan.">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/avtomaktab-narx/varaqa.html">
+<meta property="og:site_name" content="Avtomaktab Ochiq-Narx">
+<meta property="og:locale" content="uz_UZ">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/avtomaktab-narx/sayt/og/og-uz.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Avtomaktab Ochiq-Narx: meʼyor B toifa uchun kamida 69 soat haydashni talab qiladi, shartnomalarda esa 40 yoziladi">
+<meta name="twitter:card" content="summary_large_image">
 <!-- Значок — data-URI, тот же, что у расчёта и у сайта. Файлом нельзя: лист
      не делает НИ ОДНОГО сетевого запроса, и ссылка на .ico или .png сделала
      бы из этого обещания неправду первым же запросом. data-URI запроса
@@ -19,8 +40,19 @@
    На этой странице НЕТ ни одного сетевого запроса. Ни fetch, ни картинок,
    ни шрифтов с чужого домена: сюда попадают названия автошкол и суммы, которые
    человек ввёл про себя, и они не должны никуда уходить даже случайно —
-   загрузка шрифта с чужого домена уже была бы обращением наружу. Поэтому
-   гарнитуры только системные. */
+   загрузка шрифта уже была бы обращением наружу. Поэтому гарнитуры только
+   системные.
+
+   С 28.08 у продукта есть свои файлы шрифтов рядом с ним (app/shrift/), и они
+   отдаются с того же адреса, что и страница, — но сюда их не подключают тоже.
+   Свой домен или чужой, запрос остаётся запросом: он уходит ровно в тот
+   момент, когда на листе уже стоят названия автошкол и суммы, и уносит
+   с собой время открытия этого листа. Обещание «ни одного сетевого запроса»
+   стоит дороже, чем совпадение гарнитур с калькулятором.
+
+   Имя «IBM Plex Sans» из списка убрано: оно здесь всё равно не подгружалось,
+   а стояло первым — то есть код называл гарнитуру, которой на странице нет,
+   и спорил с этим самым комментарием. */
 :root{
   --paper:#FFFFFF; --ink:#14201C; --ink2:#3A4741; --muted:#5F6D66;
   --rule:#CBD3CD; --rule2:#E6EBE6; --green:#0F6B57; --amber:#8A4F10;
@@ -37,7 +69,7 @@
 }
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);
-  font-family:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
   font-size:15px;line-height:1.5}
 .sheet{max-width:760px;margin:0 auto;padding:22px 18px 60px}
 .num{font-variant-numeric:tabular-nums}
@@ -64,7 +96,7 @@ ol.q{padding-left:18px;margin:0}
 ol.q li{margin-bottom:13px;font-size:14px}
 ol.q .t{font-weight:600;display:block}
 ol.q .ask{color:var(--ink2);display:block;margin-bottom:6px}
-.line{border-bottom:1px solid var(--rule);height:17px;margin-top:4px}
+.line{display:block;border-bottom:1px solid var(--rule);height:17px;margin-top:4px}
 .who{display:flex;gap:14px;flex-wrap:wrap;margin-top:16px;font-size:13px;color:var(--muted)}
 .who span{flex:1 1 190px}
 .who i{display:block;border-bottom:1px solid var(--rule);height:19px;font-style:normal}
@@ -73,7 +105,11 @@ ol.q .ask{color:var(--ink2);display:block;margin-bottom:6px}
 .empty{border:1px dashed var(--rule);border-radius:11px;padding:14px;color:var(--ink2);font-size:14px}
 .hide{display:none}
 
-/* Печать: лист обязан выйти на один А4 и не тратить краску на интерфейс. */
+/* Печать: не тратить краску на интерфейс. Влезть в один А4 лист не может
+   и не пытается: расчёт по строкам, семь вопросов с линейками под ответы
+   и таблица трёх школ — это две страницы, и так и написано на странице
+   расчёта. Обещание «на один лист» стояло там до 28.08.2026 и было ложным:
+   ни в одном сочетании заполненных полей лист в одну страницу не влезал. */
 @media print{
   :root{--paper:#fff;--ink:#000;--ink2:#222;--muted:#555;--rule:#888;--rule2:#ccc;
         --green:#000;--amber:#000}
@@ -141,13 +177,12 @@ ol.q .ask{color:var(--ink2);display:block;margin-bottom:6px}
     <span class="line"></span></li>
   <li><span class="t" data-ru="Экзамен, пересдача, споры">Imtihon, qayta topshirish, nizolar</span>
     <span class="ask" data-ru="Кто у нас принимает экзамен — частный центр или орган ГСБДД? Сопровождение входит? Помните: теория действительна два месяца. Где решается спор?">Bizda imtihonni kim qabul qiladi — xususiy markazmi yoki DYHXX organimi? Hamrohlik kiradimi? Esda tuting: nazariya ikki oy amal qiladi. Nizo qayerda hal qilinadi?</span>
-    <span class="line"></span></li>
-  <li><span class="t" data-ru="Коробка передач на экзамене">Imtihondagi uzatmalar qutisi</span>
-    <span class="ask" data-ru="Практический экзамен принимают на механической коробке — кроме A1 и A: для них норма делает прямое исключение (ПКМ № 408, прил. 2 к Положению о лицензировании, п. 11, абз. 2 в ред. ПКМ № 125 от 30.03.2026; без исключения то же в прил. 2¹, п. 40). На чём я буду учиться и на чём сдавать? Если учусь на автомате — сколько стоит переучиться?">Amaliy imtihon mexanik uzatmalar qutisida qabul qilinadi — A1 va A bundan mustasno: ular uchun meʼyor toʻgʻridan-toʻgʻri istisno qiladi (408-son qaror, litsenziyalash nizomiga 2-ilova, 11-band, 2-xatboshi, 30.03.2026 dagi 125-son qaror tahririda; mustasnosiz oʻshanday talab 2¹-ilova 40-bandida). Men nimada oʻrganaman va nimada topshiraman? Avtomatda oʻrgansam — qayta oʻrganish qancha turadi?</span>
-    <span class="line"></span></li>
-  <li><span class="t" data-ru="Пропуск экзамена">Imtihonni oʻtkazib yuborish</span>
-    <span class="ask" data-ru="Экзаменационный платёж вносится вперёд и не возвращается; неявка без уважительной причины = услуга оказана, но справка платёж спасает (прил. 2¹, пп. 51–52). Какие документы центр примет как уважительную причину и куда их нести?">Imtihon toʻlovi oldindan toʻlanadi va qaytarilmaydi; uzrli sababsiz kelmaslik xizmat koʻrsatilgan hisoblanadi, lekin maʼlumotnoma toʻlovni saqlab qoladi (2¹-ilova, 51–52-bandlar). Markaz qanday hujjatlarni uzrli sabab deb qabul qiladi va ularni qayerga olib borish kerak?</span>
-    <span class="line"></span></li>
+    <span class="line"></span>
+    <span class="ask" data-ru="Коробка передач на экзамене. Практический экзамен принимают на механической коробке — кроме A1 и A: для них норма делает прямое исключение (ПКМ № 408, прил. 2 к Положению о лицензировании, п. 11, абз. 2 в ред. ПКМ № 125 от 30.03.2026; без исключения то же в прил. 2¹, п. 40). На чём я буду учиться и на чём сдавать? Если учусь на автомате — сколько стоит переучиться?">Imtihondagi uzatmalar qutisi. Amaliy imtihon mexanik uzatmalar qutisida qabul qilinadi — A1 va A bundan mustasno: ular uchun meʼyor toʻgʻridan-toʻgʻri istisno qiladi (408-son qaror, litsenziyalash nizomiga 2-ilova, 11-band, 2-xatboshi, 30.03.2026 dagi 125-son qaror tahririda; mustasnosiz oʻshanday talab 2¹-ilova 40-bandida). Men nimada oʻrganaman va nimada topshiraman? Avtomatda oʻrgansam — qayta oʻrganish qancha turadi?</span>
+    <span class="line"></span>
+    <span class="ask" data-ru="Пропуск экзамена. Экзаменационный платёж вносится вперёд и не возвращается; неявка без уважительной причины = услуга оказана, но справка платёж спасает (прил. 2¹, пп. 51–52). Какие документы центр примет как уважительную причину и куда их нести?">Imtihonni oʻtkazib yuborish. Imtihon toʻlovi oldindan toʻlanadi va qaytarilmaydi; uzrli sababsiz kelmaslik xizmat koʻrsatilgan hisoblanadi, lekin maʼlumotnoma toʻlovni saqlab qoladi (2¹-ilova, 51–52-bandlar). Markaz qanday hujjatlarni uzrli sabab deb qabul qiladi va ularni qayerga olib borish kerak?</span>
+    <span class="line"></span>
+  </li>
 </ol>
 
 <div class="who">

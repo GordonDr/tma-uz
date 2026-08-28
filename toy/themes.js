@@ -14,18 +14,19 @@
    кириллице, и красивый шрифт без неё превращается в подстановку системного.
    Все шрифты ниже кириллицу покрывают — это проверялось при выборе. */
 
-const TOY_FONTS =
-  "https://fonts.googleapis.com/css2" +
-  "?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400" +
-  "&family=Manrope:wght@300;400;500;600;700" +
-  "&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400" +
-  "&family=Prata" +
-  "&family=Forum" +
-  "&family=Tenor+Sans" +
-  "&family=Spectral:ital,wght@0,300;0,400;0,500;1,300" +
-  "&family=Golos+Text:wght@400;500;600" +
-  "&family=Unbounded:wght@300;400;600" +
-  "&display=swap";
+/* Набора шрифтов здесь больше нет. Он лежит один раз в fonts/fonts.css, и все
+   страницы подключают его обычным <link rel="stylesheet" href="fonts/fonts.css">.
+
+   Почему убран отсюда. Раньше здесь стоял адрес fonts.googleapis.com, и каждая
+   страница подключала его через document.write. Это значило две вещи сразу.
+   Первая: первым запросом каждой загрузки — ещё до того, как человек нажал
+   что-нибудь, и до всякого согласия — уходило обращение к Google. Вторая:
+   ссылка на стили строилась скриптом, то есть текст страницы не давал прочитать,
+   куда она пойдёт. Теперь шрифты лежат рядом с продуктом, и обе вещи ушли.
+
+   Список гарнитур не пропал: он ровно тот же и виден в fonts/fonts.css.
+   Держать его ещё и здесь значило бы завести второй источник правды —
+   ту самую ошибку, из-за которой список тем раньше разъезжался по трём файлам. */
 
 const TOY_ORN = {
   rings: `<svg class="orn" viewBox="0 0 112 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -229,7 +230,6 @@ function toyApplyTheme(id, root){
 }
 
 if (typeof window !== "undefined") {
-  window.TOY_FONTS = TOY_FONTS;
   window.TOY_THEMES = TOY_THEMES;
   window.TOY_THEME_ORDER = TOY_THEME_ORDER;
   window.toyTheme = toyTheme;

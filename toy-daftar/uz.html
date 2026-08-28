@@ -10,23 +10,35 @@
 <link rel="alternate" hreflang="ru" href="https://gordondr.github.io/tma-uz/toy-daftar/">
 <link rel="alternate" hreflang="uz" href="https://gordondr.github.io/tma-uz/toy-daftar/uz.html">
 <link rel="alternate" hreflang="x-default" href="https://gordondr.github.io/tma-uz/toy-daftar/">
+<!-- Havola koʻrinishi. 28.08 gacha bu yerda brand/toy-og.png turardi — boʻsh
+     anor rangli maydondagi belgi: na nom, na bu nima ekani haqida bir qator,
+     na son. Mahsulot havolasi suhbatga yuboriladi, va odam birinchi boʻlib
+     shuni koʻradi. Endi rasmda nom, bitta qator va bitta son bor.
+     Har bir tilga oʻz rasmi: og-uz.png va og-ru.png.
+     tools/og-draw.html chizadi, app/og/ da yotadi. -->
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Toʻy-Daftar">
 <meta property="og:locale" content="uz_UZ">
 <meta property="og:locale:alternate" content="ru_RU">
 <meta property="og:title" content="Toʻyga taklifnoma va toʻyxona uchun aniq son">
-<meta property="og:image" content="https://gordondr.github.io/tma-uz/brand/toy-og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
 <meta property="og:description" content="Mehmon butun oila nomidan bir marta bosib javob beradi. Toʻyxona necha joy uchun hisob qoʻyishini oldindan koʻrasiz.">
 <meta property="og:url" content="https://gordondr.github.io/tma-uz/toy-daftar/uz.html">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/toy/og/og-uz.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Toʻy-Daftar. Toʻyxona kelganlar uchun emas, taklif qilinganlar uchun oladi: javob bermayotgan sakkiz oila uchun band turgan 19 joyga 4 750 000 soʻm.">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FBF7F2">
 <link rel="icon" href="../brand/logo-toy.svg" type="image/svg+xml">
 <link rel="icon" href="../brand/toy-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../brand/toy-apple.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Manrope:wght@400;500;600;700&display=swap">
+<!-- Шрифты свои, один набор с приложением: /tma-uz/toy/fonts/. Сайт и мини-апп
+     лежат в соседних папках Pages, и держать две копии одних и тех же файлов
+     значило бы заставить человека скачать их дважды при переходе с сайта
+     в приложение. Раньше здесь стояла ссылка на fonts.googleapis.com —
+     первый запрос каждой загрузки уходил к Google до всякого действия. -->
+<link rel="stylesheet" href="../toy/fonts/fonts.css">
 <style>
 /* Визуальный язык взят у самого продукта: гранат и золото приглашения, шрифт
    Forum — тот же, что в оформлениях «Anor» и «Suzani». Сайт продаёт внешний вид
@@ -131,6 +143,16 @@ details summary::before{content:"+";color:var(--gold-ink);font-weight:700;margin
 details[open] summary::before{content:"–"}
 details p{margin:10px 0 0;color:var(--ink2)}
 
+/* Блок продавца. Стоит рядом с ценой, а не в оферте: оферту открывают после
+   решения, а возражение «откуда я знаю, что вы не пропадёте с деньгами»
+   возникает до. Оно названо главным в беклогах всех шести продуктов. */
+.seller{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:24px 26px;margin:26px auto 0;max-width:680px;text-align:left}
+.seller h3{font-family:var(--display);font-size:22px;margin-bottom:10px}
+.seller p{margin:0 0 13px;color:var(--ink2);font-size:15.2px}
+.seller p:last-child{margin-bottom:0}
+.seller b{color:var(--ink)}
+
 footer{border-top:1px solid var(--line);padding:30px 0 46px;color:var(--muted);font-size:13.5px}
 footer a{color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -153,71 +175,71 @@ footer a{color:var(--muted)}
     <path d="M56 4c3.6 3.6 7.2 5.6 7.2 9s-3.6 5.4-7.2 9c-3.6-3.6-7.2-5.6-7.2-9s3.6-5.4 7.2-9z" stroke="currentColor" stroke-width="1.2"/>
     <circle cx="43" cy="13" r="2" fill="currentColor"/><circle cx="69" cy="13" r="2" fill="currentColor"/>
   </svg>
-  <div class="eyebrow">Toshkent · to‘y va oilaviy tantanalar</div>
-  <h1>Havola orqali taklifnoma<br>va to‘yxona uchun aniq son</h1>
+  <div class="eyebrow">Toshkent · toʻy va oilaviy tantanalar</div>
+  <h1>Havola orqali taklifnoma<br>va toʻyxona uchun aniq son</h1>
   <p class="lead">Mehmon taklifnomani ochadi va <strong>butun oila nomidan bir marta</strong>
-    javob beradi: «to‘rt kishi kelamiz» yoki «to‘rttadan ikkitasi keladi». Siz
-    to‘yxona necha joy uchun hisob qo‘yishini — hisob qo‘yilgunga qadar ko‘rasiz.</p>
+    javob beradi: «toʻrt kishi kelamiz» yoki «toʻrttadan ikkitasi keladi». Siz
+    toʻyxona necha joy uchun hisob qoʻyishini — hisob qoʻyilgunga qadar koʻrasiz.</p>
   <a class="cta" href="https://t.me/toy_daftar_bot?start=site_uz">Taklifnoma yasash</a>
   <!-- «_uz» в коде канала читает бот: первое письмо уходит на языке страницы,
        а не на языке, который стоит в Telegram. То же и у демо — ?lang=uz. -->
-  <a class="cta sec" href="../toy/demo.html?lang=uz">Qanday ko‘rinishini ko‘rish</a>
+  <a class="cta sec" href="../toy/demo.html?lang=uz">Qanday koʻrinishini koʻrish</a>
   <p class="after">Taklifnomalar va javoblar bepul, oilalar istagancha.</p>
 </section>
 </div>
 
 <section style="padding-bottom:34px">
   <div class="wrap"><div class="mid">
-    <h2>O‘nta bezak</h2>
+    <h2>Oʻnta bezak</h2>
     <p style="color:var(--ink2)">Bular rasm emas — mehmon ochadigan haqiqiy
       taklifnoma sahifalari. Yon tomonga suring.</p>
   </div></div>
   <div class="gal">
-    <figure><div class="phone"><iframe loading="lazy" title="Zar bezagi" src="../toy/invite.html?theme=zar&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zar</b>klassik, iliq</figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Atlas bezagi" src="../toy/invite.html?theme=atlas&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Atlas</b>milliy</figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Oq bezagi" src="../toy/invite.html?theme=oq&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Oq</b>minimal</figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Kecha bezagi" src="../toy/invite.html?theme=kecha&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Kecha</b>kechki</figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Anor bezagi" src="../toy/invite.html?theme=anor&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Anor</b><span class="lock">anor rang · Premium</span></figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Zumrad bezagi" src="../toy/invite.html?theme=zumrad&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zumrad</b><span class="lock">to‘q yashil · Premium</span></figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Marmar bezagi" src="../toy/invite.html?theme=marmar&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Marmar</b><span class="lock">salqin, oq · Premium</span></figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Shafaq bezagi" src="../toy/invite.html?theme=shafaq&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Shafaq</b><span class="lock">pushti · Premium</span></figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Suzani bezagi" src="../toy/invite.html?theme=suzani&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Suzani</b><span class="lock">soʻzana · Premium</span></figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Zamon bezagi" src="../toy/invite.html?theme=zamon&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zamon</b><span class="lock">zamonaviy · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Zar bezagi" src="../toy/invite.html?theme=zar&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zar</b>klassik, iliq</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Atlas bezagi" src="../toy/invite.html?theme=atlas&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Atlas</b>milliy</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Oq bezagi" src="../toy/invite.html?theme=oq&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Oq</b>minimal</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Kecha bezagi" src="../toy/invite.html?theme=kecha&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Kecha</b>kechki</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Anor bezagi" src="../toy/invite.html?theme=anor&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Anor</b><span class="lock">anor rang · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Zumrad bezagi" src="../toy/invite.html?theme=zumrad&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zumrad</b><span class="lock">toʻq yashil · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Marmar bezagi" src="../toy/invite.html?theme=marmar&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Marmar</b><span class="lock">salqin, oq · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Shafaq bezagi" src="../toy/invite.html?theme=shafaq&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Shafaq</b><span class="lock">pushti · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Suzani bezagi" src="../toy/invite.html?theme=suzani&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Suzani</b><span class="lock">soʻzana · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Zamon bezagi" src="../toy/invite.html?theme=zamon&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zamon</b><span class="lock">zamonaviy · Premium</span></figcaption></figure>
   </div>
   <div class="wrap"><div class="mid">
-    <a class="cta sec" style="margin:0" href="../toy/demo.html?lang=uz">O‘z ismlaringiz bilan yig‘ib ko‘ring</a>
+    <a class="cta sec" style="margin:0" href="../toy/demo.html?lang=uz">Oʻz ismlaringiz bilan yigʻib koʻring</a>
   </div></div>
 </section>
 
 <div class="wrap">
 <section id="pul">
   <div class="col">
-    <h2>To‘yxona kelganlar uchun emas, taklif qilinganlar uchun oladi</h2>
+    <h2>Toʻyxona kelganlar uchun emas, taklif qilinganlar uchun oladi</h2>
     <p>Oila «kelolmaymiz» demaguncha, joylar u uchun band turadi — va hisobga
-      qo‘yiladi. Shuning uchun har bir javob bermayotgan oila «noaniqlik» emas,
+      qoʻyiladi. Shuning uchun har bir javob bermayotgan oila «noaniqlik» emas,
       aniq summa.</p>
-    <p>Toshkent to‘yxonalarida 2026 yilda bir kishi uchun joy <strong>200 000 dan
-      800 000 so‘mgacha</strong> turadi, mehmonxonalardagi zallarda — 1,1 dan
+    <p>Toshkent toʻyxonalarida 2026 yilda bir kishi uchun joy <strong>200 000 dan
+      800 000 soʻmgacha</strong> turadi, mehmonxonalardagi zallarda — 1,1 dan
       3,3 milliongacha (<a href="https://anons.uz/ru/digest/gde-provesti-svadbu-v-tashkente" target="_blank" rel="noopener">anons.uz
-      dagi zallar sharhi</a>, 18.03.2026). Premium <strong>butun to‘y uchun bir marta
-      49 000 so‘m</strong> — bu o‘sha sharhdagi eng arzon zaldagi bitta joydan ham arzon,
-      u yerda joy 200 000 so‘mdan boshlanadi. Adashish esa o‘nlab joyga bo‘lishi mumkin.</p>
-    <p style="color:var(--muted);font-size:14px">Qidiruvdagi narxlarga ehtiyot bo‘ling:
-      «to‘yxona narxlari» so‘rovi bo‘yicha birinchi bo‘lib 2019 yilgi maqola chiqadi,
-      unda Versal bir kishiga 180 000 so‘m. 2026 yilda o‘sha zal — 800 000 dan.
-      Narxlar to‘rt yarim barobar oshgan, maqola esa hamon tepada.</p>
+      dagi zallar sharhi</a>, 18.03.2026). Premium <strong>butun toʻy uchun bir marta
+      49 000 soʻm</strong> — bu oʻsha sharhdagi eng arzon zaldagi bitta joydan ham arzon,
+      u yerda joy 200 000 soʻmdan boshlanadi. Adashish esa oʻnlab joyga boʻlishi mumkin.</p>
+    <p style="color:var(--muted);font-size:14px">Qidiruvdagi narxlarga ehtiyot boʻling:
+      «toʻyxona narxlari» soʻrovi boʻyicha birinchi boʻlib 2019 yilgi maqola chiqadi,
+      unda Versal bir kishiga 180 000 soʻm. 2026 yilda oʻsha zal — 800 000 dan.
+      Narxlar toʻrt yarim barobar oshgan, maqola esa hamon tepada.</p>
   </div>
   <div class="bill" style="max-width:640px">
     <div class="brow"><span>Tasdiqladi — 53 joy</span><b>13 250 000</b></div>
     <div class="brow warn"><span>8 ta oila javob bermayapti — 19 joy ular uchun band</span><b>4 750 000</b></div>
-    <div class="brow total"><span>To‘yxona 72 joy uchun hisob qo‘yadi</span><b>18 000 000 so‘m</b></div>
-    <p style="margin:16px 0 0;color:var(--muted);font-size:14px">Bir joy narxi 250 000 so‘m bo‘lganda.
-      «Kelolmaymiz» degan har bir oila hisobdan taxminan 590 000 so‘m olib tashlaydi —
-      bu o‘nta Premium dan ko‘p.</p>
+    <div class="brow total"><span>Toʻyxona 72 joy uchun hisob qoʻyadi</span><b>18 000 000 soʻm</b></div>
+    <p style="margin:16px 0 0;color:var(--muted);font-size:14px">Bir joy narxi 250 000 soʻm boʻlganda.
+      «Kelolmaymiz» degan har bir oila hisobdan taxminan 590 000 soʻm olib tashlaydi —
+      bu oʻnta Premium dan koʻp.</p>
   </div>
   <div class="col">
     <div class="note">Bu hisob-kitob bepul. Aynan u eslatmalarni bugun yuborish
-      uchun sabab bo‘ladi — to‘ydan bir hafta oldin sonni o‘zgartirish kech bo‘ladi.</div>
+      uchun sabab boʻladi — toʻydan bir hafta oldin sonni oʻzgartirish kech boʻladi.</div>
   </div>
 </section>
 
@@ -225,37 +247,42 @@ footer a{color:var(--muted)}
   <div class="col">
     <h2>Bu qanday ishlaydi</h2>
     <ol class="steps">
-      <li><b>Oilalarni kiritasiz</b>Bitta odam emas, oila bo‘yicha: «Karimovlar oilasi, 4 kishi».
-        Tayyor ro‘yxat Excel dan yoki yozishmadan butunligicha qo‘yiladi.</li>
-      <li><b>Havolalarni yuborasiz</b>Ilova ro‘yxat bo‘ylab ketma-ket olib o‘tadi — har bir
+      <li><b>Oilalarni kiritasiz</b>Bitta odam emas, oila boʻyicha: «Karimovlar oilasi, 4 kishi».
+        Tayyor roʻyxat Excel dan yoki yozishmadan butunligicha qoʻyiladi.</li>
+      <li><b>Havolalarni yuborasiz</b>Ilova roʻyxat boʻylab ketma-ket olib oʻtadi — har bir
         oila uchun faqat chatni tanlash qoladi. Qanchasi yuborilgani va qanchasi qolgani
-        ko‘rinib turadi. Telegrami yo‘q qarindoshlar uchun — QR bilan rasm ko‘rinishidagi
+        koʻrinib turadi. Telegrami yoʻq qarindoshlar uchun — QR bilan rasm koʻrinishidagi
         taklifnoma, uni chop etishadi.</li>
-      <li><b>Javoblar o‘zi keladi</b>Mehmon «To‘rt kishi kelamiz» ni bosadi — bitta harakat.
-        Kim ochib, javob bermagani alohida ko‘rinadi, ularga bitta tugma bilan eslatiladi.</li>
-      <li><b>Sonni to‘yxonaga berasiz</b>Hisob javoblardan bitta rasmga yig‘iladi, uni
-        ma’murga yuborishadi. Ustiga stollarga joylashtirish va chop etish uchun ro‘yxat.</li>
+      <li><b>Javoblar oʻzi keladi</b>Mehmon «Toʻrt kishi kelamiz» ni bosadi — bitta harakat.
+        Kim ochib, javob bermagani alohida koʻrinadi, ularga bitta tugma bilan eslatiladi.</li>
+      <li><b>Sonni toʻyxonaga berasiz</b>Hisob javoblardan bitta rasmga yigʻiladi, uni
+        maʼmurga yuborishadi. Ustiga stollarga joylashtirish va chop etish uchun roʻyxat.</li>
     </ol>
   </div>
 </section>
 
 <section id="ikki">
   <div class="col">
-    <h2>To‘yni ikki tomon yuritadi</h2>
-    <p>Kelin tomon va kuyov tomon — har birining o‘z oilalar doirasi bor. Ilgari bir
-      tomon ikkinchisiga ismlarni telefonda aytib turardi, ro‘yxat esa baribir
-      bir-biriga to‘g‘ri kelmaydigan ikkita daftarda qolardi.</p>
-    <p>Ilovada to‘yning <strong>ikkita egasi</strong> bo‘lishi mumkin. Ikkinchi tomonni
-      bitta havola bilan chaqirasiz — ro‘yxatlar umumiy bo‘ladi, biri kiritganini
-      ikkinchisi darrov ko‘radi. Tarif va to‘yni o‘chirish uni yaratgan odamda qoladi.</p>
+    <h2>Toʻyni ikki tomon yuritadi</h2>
+    <p>Kelin tomon va kuyov tomon — har birining oʻz oilalar doirasi bor. Ilgari bir
+      tomon ikkinchisiga ismlarni telefonda aytib turardi, roʻyxat esa baribir
+      bir-biriga toʻgʻri kelmaydigan ikkita daftarda qolardi.</p>
+    <p>Ilovada toʻyning <strong>ikkita egasi</strong> boʻlishi mumkin. Ikkinchi tomonni
+      bitta havola bilan chaqirasiz — roʻyxatlar umumiy boʻladi, biri kiritganini
+      ikkinchisi darrov koʻradi. Tarif va toʻyni oʻchirish uni yaratgan odamda qoladi.</p>
   </div>
 </section>
 
 <section id="narx">
   <div class="mid">
     <h2>Qancha turadi</h2>
-    <p style="color:var(--ink2)">Bir to‘y uchun bir martalik, obuna emas.
+    <p style="color:var(--ink2)">Bir toʻy uchun bir martalik, obuna emas.
       Taklifnomalar va javoblar har qanday tarifda bepul.</p>
+    <!-- Ссылка стоит НАД ценами, а не под ними: вопрос «что я получу за эти
+         деньги» возникает раньше, чем человек дочитает список пунктов. -->
+    <p style="margin-bottom:0"><a href="../toy/obrazec.html?lang=uz"><b>Pulli tarif namunasini
+      toʻliq koʻrish</b></a> — toʻyxona uchun hisob, stollarga joylashtirish va
+      sovgʻalar daftari oʻylab topilgan toʻy ustida, toʻlovdan oldin.</p>
   </div>
   <div class="grid3">
     <div class="tier">
@@ -263,111 +290,161 @@ footer a{color:var(--muted)}
       <div class="p">0 <small>doimo</small></div>
       <ul>
         <li>Taklifnoma va javoblar, oilalar istagancha</li>
-        <li>To‘rtta bezak</li>
+        <li>Toʻrtta bezak</li>
         <li>Taklifnomaning uch tili: lotin, kirill, rus</li>
-        <li>To‘yxona necha joy uchun hisob qo‘yishi</li>
+        <li>Toʻyxona necha joy uchun hisob qoʻyishi</li>
         <li>Kim ochib, javob bermagani</li>
         <li>30, 14, 10, 7 kun qolganda va arafasida eslatma</li>
       </ul>
     </div>
     <div class="tier on">
       <h3>Premium</h3>
-      <div class="p">49 000 <small>bir to‘y uchun</small></div>
+      <div class="p">49 000 <small>bir toʻy uchun</small></div>
       <ul>
         <li>Yana oltita bezak</li>
-        <li>To‘yning ikkinchi egasi: ikki tomon umumiy ro‘yxat yuritadi</li>
-        <li>To‘yxona uchun hisob rasm bilan — WhatsApp orqali yuboriladi</li>
-        <li>Stollarga joylashtirish va chop etish uchun ro‘yxat</li>
-        <li>QR bilan rasm ko‘rinishidagi taklifnoma — telegrami yo‘qlar uchun</li>
+        <li>Toʻyning ikkinchi egasi: ikki tomon umumiy roʻyxat yuritadi</li>
+        <li>Toʻyxona uchun hisob rasm bilan — WhatsApp orqali yuboriladi</li>
+        <li>Stollarga joylashtirish va chop etish uchun roʻyxat</li>
+        <li>QR bilan rasm koʻrinishidagi taklifnoma — telegrami yoʻqlar uchun</li>
         <li>Mehmonlarni Excel ga yuklab olish</li>
       </ul>
     </div>
     <div class="tier">
-      <h3>To‘liq</h3>
-      <div class="p">149 000 <small>bir to‘y uchun</small></div>
+      <h3>Toʻliq</h3>
+      <div class="p">149 000 <small>bir toʻy uchun</small></div>
       <ul>
         <li>Premium dagi hammasi</li>
-        <li>Sovg‘alar daftari: kim nima va qancha sovg‘a qilgani</li>
+        <li>Sovgʻalar daftari: kim nima va qancha sovgʻa qilgani</li>
         <li>Mehmonlar tilaklari — ular javobdan keyin darrov yoziladi</li>
         <li>Daftar va tilaklarni fayl qilib yuklab olish</li>
-        <li>Ma’lumotlar o‘chirilishidan oldin daftarni sizga yuboramiz — u sizda qoladi</li>
+        <li>Maʼlumotlar oʻchirilishidan oldin daftarni sizga yuboramiz — u sizda qoladi</li>
       </ul>
     </div>
+  </div>
+
+  <!-- Четыре проверяемые вещи, а не «мы надёжные»: кто ты (имя и номер, которые
+       можно проверить в реестре), где тебя найти, за сколько ты ответишь и что
+       будет, если не понравится.
+
+       Про возврат — то же, что в русской версии: в PRODAVETS.md стоит «14 кун
+       ичида, изохсиз», а оферта этого продукта даёт другое. Здесь стоит то,
+       что написано в оферте, слово в слово с русским блоком. Два языка одного
+       обещания обязаны говорить одно и то же — иначе это два разных договора. -->
+  <div class="seller">
+    <h3>Buni kim qiladi</h3>
+    <p>Yakka tartibdagi tadbirkor <b>Epixin Kirill Nikolayevich</b>,
+      roʻyxatdan oʻtish raqami <b>7875577</b>, Toshkent shahri,
+      Shayxontohur tumani. STIR — botdagi soʻrov boʻyicha.</p>
+    <p>Men buni yolgʻiz va oʻzim qilaman. Yana
+      <a href="https://t.me/rulchi_bot" target="_blank" rel="noopener">Rulchi</a>
+      ishlaydi — Oʻzbekiston yoʻl harakati qoidalari Telegramda; u tirik, undan
+      har kuni foydalanishadi, va men mahsulotlarni qanday qilishim oʻsha yerdan
+      koʻrinadi.</p>
+    <!-- Javob muddati odam haqiqatan oladigan muddat boʻlishi kerak. Bu yerda
+         «ish kuni davomida» turgandi, oferta esa («Shikoyatlarni qabul qilish
+         tartibi») va botning oʻzi murojaatga javoban «3 ish kuni» deydi.
+         Bitta yoʻlda uchta har xil son — bu mahsulotning oʻz mexanizmi rad
+         etadigan vaʼda. Endi eng koʻp muddat ofertadan va bot satrlaridan
+         olingan, «odatda oʻsha kuni» esa muddatdan tez javob berish sifatida
+         qoldi. Rus tilidagi blok bilan soʻzma-soʻz bir xil. -->
+    <p><b>Odatda oʻsha kuni javob beraman.</b> Eng koʻpi bilan — 3 ish kuni:
+      <a href="../toy/oferta.html?lang=uz">ofertada</a> shunday yozilgan va bot ham
+      murojaatni qabul qilganda shuni aytadi. Botga yozing — xabarni darhol
+      koʻraman.</p>
+    <!-- «bir sutka» soʻrov muddati edi, lekin pul qaytish muddati deb oʻqilardi:
+         ofertada qaytarish uchun 3 ish kuni berilgan. Endi ikki muddat alohida
+         aytilgan — soʻrov oynasi va qaytarishning oʻzi. Rus tilidagi blok bilan
+         soʻzma-soʻz bir xil. -->
+    <p><b>Toʻgʻri kelmasa — pulni qaytaraman.</b> Toʻlovdan keyin birorta ham
+      taklifnoma yubormagan boʻlsangiz — toʻliq qaytariladi: toʻlovdan keyin
+      bir sutka ichida botga yozing, pul oʻsha usulda 3 ish kuni ichida qaytadi.
+      Biror narsa mening aybim bilan ishlamasa va men uni
+      tuzatmasam — qiymati qaytariladi. Bu faqat shu yerda emas,
+      <a href="../toy/oferta.html?lang=uz">ofertada</a>, 2-boʻlimda yozilgan.</p>
   </div>
 </section>
 
 <section id="faq">
   <div class="col">
-    <h2>Ko‘p beriladigan savollar</h2>
+    <h2>Koʻp beriladigan savollar</h2>
 
-    <details><summary>Qonun bo‘yicha nechta mehmon taklif qilish mumkin?</summary>
-      <p>To‘y va oilaviy tantanada <b>200 nafargacha</b>, osh berish marosimida
-        <b>250 nafargacha</b>. Qo‘shaloq to‘yda — 250 gacha, u bilan bog‘liq oshda —
-        300 gacha. Tadbir <b>bir kun, soat 06:00 dan 23:00 gacha</b> o‘tkaziladi.</p>
+    <details><summary>Qonun boʻyicha nechta mehmon taklif qilish mumkin?</summary>
+      <p>Toʻy va oilaviy tantanada <b>200 nafargacha</b>, osh berish marosimida
+        <b>250 nafargacha</b>. Qoʻshaloq toʻyda — 250 gacha, u bilan bogʻliq oshda —
+        300 gacha. Tadbir <b>bir kun, soat 06:00 dan 23:00 gacha</b> oʻtkaziladi.</p>
       <p>Oliy Majlis Qonunchilik palatasi va Senati Kengashlarining
         <a href="https://lex.uz/uz/docs/5153833" target="_blank" rel="noopener">14.09.2019 yildagi 2736-III-son</a>
-        qo‘shma qarori bilan tasdiqlangan Nizomda belgilangan, 2020 yil 1 yanvardan amalda.</p>
-      <p>Bular respublika raqamlari, ular ustiga mahalliy talablar ham qo‘shiladi.
+        qoʻshma qarori bilan tasdiqlangan Nizomda belgilangan, 2020 yil 1 yanvardan amalda.</p>
+      <p>Bular respublika raqamlari, ular ustiga mahalliy talablar ham qoʻshiladi.
         Osh berish marosimining vaqtini <b>tuman yoki shahar Kengashi alohida
         belgilaydi</b> (Nizomning 3-bandi), viloyat, tuman va shahar Kengashlari
-        esa o‘z hududi uchun <b>qo‘shimcha talablar</b> belgilashi mumkin
+        esa oʻz hududi uchun <b>qoʻshimcha talablar</b> belgilashi mumkin
         (20-band). Mahallangizdan aniqlang: biz respublika normasini bilamiz,
         Kengashingiz qaroringizni emas.</p></details>
 
-    <details><summary>To‘yxona bilan shartnoma majburiymi?</summary>
-      <p>Ha, agar to‘y <b>to‘yxona, kafe yoki restoranda</b> o‘tsa va ishtirokchilar
-        <b>50 nafar va undan ortiq</b> bo‘lsa: o‘sha Nizom tadbir o‘tkazuvchi shaxs
-        bilan zal rahbari o‘rtasida yozma shartnoma tuzilishini talab qiladi,
+    <details><summary>Toʻyxona bilan shartnoma majburiymi?</summary>
+      <p>Ha, agar toʻy <b>toʻyxona, kafe yoki restoranda</b> oʻtsa va ishtirokchilar
+        <b>50 nafar va undan ortiq</b> boʻlsa: oʻsha Nizom tadbir oʻtkazuvchi shaxs
+        bilan zal rahbari oʻrtasida yozma shartnoma tuzilishini talab qiladi,
         ishtirokchilar soni esa shartnomaning majburiy bandlaridan biri. Zal
-        ma’muriyati esa ichki ishlar organlariga kamida ikki kun oldin
+        maʼmuriyati esa ichki ishlar organlariga kamida ikki kun oldin
         <b>yozma ravishda</b> xabar beradi.</p>
-      <p>Agar to‘y <b>xonadonda yoki guzarda</b> o‘tsa, shartnoma bo‘lmaydi —
+      <p>Agar toʻy <b>xonadonda yoki guzarda</b> oʻtsa, shartnoma boʻlmaydi —
         majburiyatlardan mahallani xabardor qilish qoladi. Lekin <b>mehmonlar
         cheklovi va mahallani bir hafta oldin xabardor qilish bir xil ishlaydi</b>,
         uyda ham, zalda ham: Nizomning 11-bandi ularni xonadondagi tantanalarga
         ham tatbiq etadi.</p>
       <p>Bundan amaliy xulosa: aniq son sizga «qulaylik uchun» emas, shartnomani
-        imzolash va cheklovdan chiqib ketmaslik uchun kerak. Tadbir o‘tkazish tartibi
-        buzilgani uchun Ma’muriy javobgarlik to‘g‘risidagi kodeksning 192¹-moddasi
-        bo‘yicha jarima solinadi: <b>to‘y o‘tkazuvchi uchun 10 BHM</b>
-        (BHM 440 000 bo‘lganda, ya’ni 01.09.2026 dan — 4 400 000 so‘m; BHM 412 000
-        bo‘lganda — 4 120 000), <b>zal mansabdor shaxsi uchun 30 BHM</b>
-        (13 200 000 so‘m) va bir yil ichida takrorlanganda 50 BHM (22 000 000 so‘m).</p></details>
+        imzolash va cheklovdan chiqib ketmaslik uchun kerak. Tadbir oʻtkazish tartibi
+        buzilgani uchun Maʼmuriy javobgarlik toʻgʻrisidagi kodeksning 192¹-moddasi
+        boʻyicha jarima solinadi: <b>toʻy oʻtkazuvchi uchun 10 BHM</b>
+        (BHM 440 000 boʻlganda, yaʼni 01.09.2026 dan — 4 400 000 soʻm; BHM 412 000
+        boʻlganda — 4 120 000), <b>zal mansabdor shaxsi uchun 30 BHM</b>
+        (13 200 000 soʻm) va bir yil ichida takrorlanganda 50 BHM (22 000 000 soʻm).</p></details>
 
-    <details><summary>Mehmonda Telegram bo‘lmasa-chi?</summary>
-      <p>Bunday oilalar uchun QR-kodli A5 o‘lchamdagi rasm taklifnoma bor: uni
+    <details><summary>Mehmonda Telegram boʻlmasa-chi?</summary>
+      <p>Bunday oilalar uchun QR-kodli A5 oʻlchamdagi rasm taklifnoma bor: uni
         WhatsApp orqali yuborishadi yoki chop etishadi. Mehmon kamerani qaratadi
         va javob beradi — va qolganlar bilan bir xil hisobga tushadi.</p></details>
 
     <details><summary>Taklifnoma qaysi tilda keladi?</summary>
-      <p>To‘y uchun siz tanlagan tilda: o‘zbek lotin, o‘zbek kirill yoki rus.
-        Mehmon o‘zida tilni almashtirishi mumkin — agar unga boshqasi qulayroq bo‘lsa.</p></details>
+      <p>Toʻy uchun siz tanlagan tilda: oʻzbek lotin, oʻzbek kirill yoki rus.
+        Mehmon oʻzida tilni almashtirishi mumkin — agar unga boshqasi qulayroq boʻlsa.</p></details>
 
-    <details><summary>To‘ydan keyin mehmonlar ma’lumotlari nima bo‘ladi?</summary>
-      <p>Tadbir sanasidan 90 kun o‘tgach ismlar, javoblar va sovg‘alar yozuvlari
-        avtomatik o‘chiriladi. O‘chirishdan bir hafta oldin biz sizga sovg‘alar
-        daftarini va mehmonlar ro‘yxatini fayl qilib yuboramiz — uzoqroq kerak
-        bo‘ladigani sizda qoladi, bizda emas.</p></details>
+    <details><summary>Toʻydan keyin mehmonlar maʼlumotlari nima boʻladi?</summary>
+      <p>Tadbir sanasidan 90 kun oʻtgach ismlar, javoblar va sovgʻalar yozuvlari
+        avtomatik oʻchiriladi. Oʻchirishdan bir hafta oldin biz sizga sovgʻalar
+        daftarini va mehmonlar roʻyxatini fayl qilib yuboramiz — uzoqroq kerak
+        boʻladigani sizda qoladi, bizda emas.</p></details>
 
-    <details><summary>Bu faqat nikoh to‘yi uchunmi?</summary>
-      <p>Yo‘q. Fotiha, beshik to‘yi, sunnat to‘yi, nahor oshi va yubiley — har
-        birining o‘z taklifnoma matni va o‘z bezagi bor. Oilalar ro‘yxatini boshqa
-        to‘ydan ko‘chirish mumkin, har bir marosim uchun qaytadan terib o‘tirmaslik uchun.</p></details>
+    <details><summary>Bu faqat nikoh toʻyi uchunmi?</summary>
+      <p>Yoʻq. Fotiha, beshik toʻyi, sunnat toʻyi, nahor oshi va yubiley — har
+        birining oʻz taklifnoma matni va oʻz bezagi bor. Oilalar roʻyxatini boshqa
+        toʻydan koʻchirish mumkin, har bir marosim uchun qaytadan terib oʻtirmaslik uchun.</p></details>
   </div>
 </section>
 
 <section>
   <div class="mid">
-    <h2>Oilalar ro‘yxatidan boshlang</h2>
-    <p style="color:var(--ink2)">Telegramda ochiladi, ro‘yxatdan o‘tmasdan va o‘rnatmasdan.</p>
+    <h2>Oilalar roʻyxatidan boshlang</h2>
+    <p style="color:var(--ink2)">Telegramda ochiladi, roʻyxatdan oʻtmasdan va oʻrnatmasdan.</p>
     <a class="cta" href="https://t.me/toy_daftar_bot?start=site_uz">Taklifnoma yasash</a>
   </div>
 </section>
 
+<!-- Подвал повторяет то же, что стоит у цены: до цены человек дочитывает
+     не всегда, а в подвал заглядывает именно тот, кто ищет, кто за этим стоит. -->
 <footer>
-  <div>YaTT, Toshkent, O‘zbekiston Respublikasi ·
-    <a href="../toy/oferta.html">Ommaviy oferta va ma’lumotlarni qayta ishlash</a> ·
-    <a href="https://t.me/toy_daftar_bot">Botdagi qo‘llab-quvvatlash</a></div>
+  <div>Yakka tartibdagi tadbirkor Epixin Kirill Nikolayevich,
+    roʻyxatdan oʻtish raqami 7875577, Shayxontohur tumani, Toshkent shahri,
+    Oʻzbekiston Respublikasi. STIR — botdagi soʻrov boʻyicha.
+    Odatda oʻsha kuni javob beraman, eng koʻpi bilan — 3 ish kuni.</div>
+  <div style="margin-top:8px">
+    <!-- lang=uz в адресе: оферта берёт язык из адреса выше настроек телефона,
+         иначе читатель узбекской страницы получал русский договор. -->
+    <a href="../toy/oferta.html?lang=uz">Ommaviy oferta va maʼlumotlarni qayta ishlash</a> ·
+    <a href="https://t.me/toy_daftar_bot">Botdagi qoʻllab-quvvatlash</a> ·
+    <a href="https://t.me/rulchi_bot" target="_blank" rel="noopener">Mening boshqa mahsulotim — Rulchi</a></div>
 </footer>
 </div>
 

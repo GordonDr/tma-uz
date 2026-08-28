@@ -5,19 +5,28 @@
     <loc>https://gordondr.github.io/tma-uz/avtomaktab-narx/sayt/</loc>
     <xhtml:link rel="alternate" hreflang="uz" href="https://gordondr.github.io/tma-uz/avtomaktab-narx/sayt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://gordondr.github.io/tma-uz/avtomaktab-narx/sayt/ru.html"/>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>monthly</changefreq><priority>1.0</priority>
   </url>
   <url>
     <loc>https://gordondr.github.io/tma-uz/avtomaktab-narx/sayt/ru.html</loc>
     <xhtml:link rel="alternate" hreflang="uz" href="https://gordondr.github.io/tma-uz/avtomaktab-narx/sayt/"/>
     <xhtml:link rel="alternate" hreflang="ru" href="https://gordondr.github.io/tma-uz/avtomaktab-narx/sayt/ru.html"/>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>monthly</changefreq><priority>0.9</priority>
   </url>
   <url>
     <loc>https://gordondr.github.io/tma-uz/avtomaktab-narx/</loc>
-    <lastmod>2026-08-27</lastmod>
+    <lastmod>2026-08-28</lastmod>
     <changefreq>weekly</changefreq><priority>0.9</priority>
+  </url>
+  <!-- Образец разбора. В карте сайта он стоит по той же причине, по которой
+       стоит на странице: это единственное место, где видно, что именно
+       покупают, и человек, ищущий «avtomaktab shartnomasi namunasi»,
+       должен приходить сразу сюда, а не на форму заявки. -->
+  <url>
+    <loc>https://gordondr.github.io/tma-uz/avtomaktab-narx/namuna.html</loc>
+    <lastmod>2026-08-28</lastmod>
+    <changefreq>monthly</changefreq><priority>0.7</priority>
   </url>
 </urlset>

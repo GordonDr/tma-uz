@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Boshlang'ich sinf o'qituvchisiga milliy sertifikat ustamasi: 15 foiz, ballar, yig'im</title>
-<meta name="description" content="411-son qaror bo'yicha boshlang'ich sinf o'qituvchisiga B+ darajadagi sertifikat uchun har oy lavozim maoshining 15 foizi ustama. Toifangiz bo'yicha necha so'm, imtihon yig'imi qancha, necha ball kerak, ariza qayerdan beriladi — manbalari bilan.">
-<meta name="keywords" content="milliy sertifikat, boshlang'ich sinf o'qituvchisi, ustama, malaka imtihoni, 411-son qaror, necha ball, imtihon to'lovi, my.gov.uz">
+<title>Boshlangʻich sinf oʻqituvchisiga milliy sertifikat ustamasi: 15 foiz, ballar, yigʻim</title>
+<meta name="description" content="411-son qaror boʻyicha boshlangʻich sinf oʻqituvchisiga B+ darajadagi sertifikat uchun har oy lavozim maoshining 15 foizi ustama. Toifangiz boʻyicha necha soʻm, imtihon yigʻimi qancha, necha ball kerak, ariza qayerdan beriladi — manbalari bilan.">
+<meta name="keywords" content="milliy sertifikat, boshlangʻich sinf oʻqituvchisi, ustama, malaka imtihoni, 411-son qaror, necha ball, imtihon toʻlovi, my.gov.uz">
 <link rel="canonical" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/sayt/">
 <link rel="alternate" hreflang="uz" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/sayt/">
 <link rel="alternate" hreflang="ru" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/sayt/ru.html">
@@ -13,15 +13,25 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="uz_UZ">
 <meta property="og:locale:alternate" content="ru_RU">
-<meta property="og:title" content="B+ sertifikat maoshingizga har oy qancha qo'shadi?">
-<meta property="og:description" content="Toifangiz bo'yicha ustama, imtihon yig'imi va ballar shkalasi — hammasi manbasi bilan. Kalkulyator va 20 savollik mashq bepul.">
-<!-- og:image здесь НЕТ намеренно. Единственная нарисованная картинка превью
-     сделана до переименования, и на ней стоит старое имя «Ustoz-Sertifikat» —
-     то самое, по которому поиск уводит к чужой платформе. В канале превью
-     крупнее заголовка, поэтому чужое имя там хуже, чем его отсутствие.
-     Перерисовка вынесена владельцу (Р15). twitter:card тоже снят: без
-     картинки summary_large_image рисует пустой прямоугольник. -->
-<meta name="twitter:card" content="summary">
+<meta property="og:title" content="B+ sertifikat maoshingizga har oy qancha qoʻshadi?">
+<meta property="og:description" content="Toifangiz boʻyicha ustama, imtihon yigʻimi va ballar shkalasi — hammasi manbasi bilan. Kalkulyator va 20 savollik mashq bepul.">
+<!-- Превью перерисовано 28.08.2026. Картинок две, по одной на язык:
+     узбекская страница показывает og.png, русская — og-ru.png. Одна картинка
+     на обе означала бы, что половина читателей видит в ленте чужой язык
+     раньше, чем текст. Оба файла лежат в site/ и выкатываются в /sayt/:
+     туда их кладёт deploy.sh и там же их ищет tools/prevyu.pl. На них
+     ссылаются и страницы приложения — картинка одна на язык, адрес один.
+     Число на картинке одно и это 15 процентов из п. 6, а не сумма из
+     калькулятора: суммы считаются от оклада, а оклады 1 сентября растут
+     на 7 процентов (ПФ-115), и статическая картинка сама не пересчитается.
+     twitter:card поднят до summary_large_image: теперь картинка есть. -->
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/ustoz-sertifikat/sayt/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Ustamam: boshlangʻich sinf oʻqituvchisiga lavozim maoshining 15 foizi har oy, B+ sertifikat bilan">
+<meta property="og:site_name" content="Ustamam">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="https://gordondr.github.io/tma-uz/ustoz-sertifikat/sayt/">
 <meta name="theme-color" content="#F6F4EE">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230E5C46'/><path d='M17 33l10 11 20-24' stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
@@ -136,6 +146,16 @@ summary:before{content:"+ ";color:var(--acc);font-weight:700}
 details[open] summary:before{content:"– "}
 details p{margin:10px 0 2px;color:var(--ink2);font-size:15px}
 footer{border-top:1px solid var(--line);padding:30px 0 46px;color:var(--muted);font-size:13.5px}
+/* Блок продавца в подвале. Рамка, а не заливка: подвал набран мелким серым,
+   и заливка сделала бы его похожим на рекламный врез. Цвет текста здесь
+   поднят до основного — это единственное место в подвале, которое читают
+   не как сноску. */
+footer .kim{border:1px solid var(--line);border-radius:14px;padding:16px 17px;margin:0 0 24px;
+  color:var(--ink2);font-size:14.5px;max-width:680px}
+footer .kim h2{font-size:18px;margin:0 0 10px}
+footer .kim p{margin:0 0 10px}
+footer .kim p:last-child{margin-bottom:0}
+footer .kim strong{color:var(--ink)}
 footer a{color:var(--muted)}
 footer ol{padding-left:18px;margin:10px 0 0}
 footer li{margin-bottom:7px}
@@ -148,7 +168,14 @@ footer li{margin-bottom:7px}
 <header>
   <div class="top">
     <span class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5 11-13" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-    <div><b>Ustamam</b> <span>· boshlang'ich sinf o'qituvchisi uchun</span></div>
+    <!-- Точки перед подписью здесь БЫЛО, и она стояла в начале строки всегда,
+         а не только на узкой ширине: `.top b` объявлен display:block (строка 94),
+         то есть имя и подпись стоят друг под другом при любой ширине экрана.
+         Разделитель имеет смысл между словами в одной строке; в начале своей
+         собственной строки он читается как маркер списка или сбой отрисовки —
+         и это первое, что человек видит на странице. В приложении тот же блок
+         собран без точки (app/index.html:361-364), теперь оба совпадают. -->
+    <div><b>Ustamam</b> <span>boshlangʻich sinf oʻqituvchisi uchun</span></div>
     <div class="langs"><a id="lang-top" href="ru.html" hreflang="ru">По-русски</a></div>
   </div>
 </header>
@@ -156,33 +183,33 @@ footer li{margin-bottom:7px}
 <div class="hero">
   <div class="col">
     <span class="tag">VMQ № 411, 29.07.2026</span>
-    <h1>Boshlang'ich sinf o'qituvchisiga milliy sertifikat uchun qancha ustama beriladi?</h1>
+    <h1>Boshlangʻich sinf oʻqituvchisiga milliy sertifikat uchun qancha ustama beriladi?</h1>
     <p class="lead">Qisqa javob: <strong>B+ va undan yuqori darajadagi sertifikat uchun har oy
-      lavozim maoshining 15 foizi</strong>, 2026/2027 o'quv yilidan, sertifikat amal qilgan
-      butun davrda, davlat byudjeti hisobidan. Toifangiz bo'yicha bu necha so'm bo'lishi,
-      imtihon uchun qancha to'lanishi va necha ball kerakligi — pastda, har bir raqam
+      lavozim maoshining 15 foizi</strong>, 2026/2027 oʻquv yilidan, sertifikat amal qilgan
+      butun davrda, davlat byudjeti hisobidan. Toifangiz boʻyicha bu necha soʻm boʻlishi,
+      imtihon uchun qancha toʻlanishi va necha ball kerakligi — pastda, har bir raqam
       manbasi bilan.</p>
     <a class="cta" id="cta-top" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/?lang=uz">Ustamani hisoblash</a>
     <a class="cta sec" href="#jadval">Toifalar jadvali</a>
-    <p class="after">Kalkulyator va 20 savollik mashq bepul, ro'yxatdan o'tish shart emas.</p>
+    <p class="after">Kalkulyator va 20 savollik mashq bepul, roʻyxatdan oʻtish shart emas.</p>
   </div>
 </div>
 
 <section id="jadval">
   <div class="col">
-    <h2>Toifangiz bo'yicha ustama necha so'm</h2>
-    <p>Ustama lavozim maoshidan hisoblanadi, ya'ni raqam toifangizga bog'liq. Quyidagi
+    <h2>Toifangiz boʻyicha ustama necha soʻm</h2>
+    <p>Ustama lavozim maoshidan hisoblanadi, yaʼni raqam toifangizga bogʻliq. Quyidagi
       maoshlar bir stavka uchun. Ustunlar «hozir» deb emas, <strong>sana bilan</strong>
       nomlangan: 2026-yil 1-sentyabrdan byudjet tashkilotlari xodimlarining maoshi
-      7 foizga oshiriladi (PF-115, 23.06.2026, I bo'lim, 2-band), ya'ni o'sha kundan
+      7 foizga oshiriladi (PF-115, 23.06.2026, I boʻlim, 2-band), yaʼni oʻsha kundan
       ikkinchi ustun eskiradi, uchinchisi esa ishlay boshlaydi.</p>
   </div>
   <div class="tw">
     <table>
       <thead><tr><th>Toifa</th><th>Lavozim maoshi <br>01.09.2026 gacha</th><th>15% ustama, oyiga <br>01.09.2026 gacha</th><th>15% ustama, oyiga <br>01.09.2026 dan</th><th>12 oyda <br>01.09.2026 dan keyingi maoshdan</th></tr></thead>
       <tbody>
-        <tr><td>O'rta maxsus ma'lumotli</td><td class="n">3 169 623</td><td class="n">475 443</td><td class="v">508 724</td><td class="n">6 104 688</td></tr>
-        <tr><td>Oliy ma'lumotli</td><td class="n">3 390 824</td><td class="n">508 624</td><td class="v">544 227</td><td class="n">6 530 724</td></tr>
+        <tr><td>Oʻrta maxsus maʼlumotli</td><td class="n">3 169 623</td><td class="n">475 443</td><td class="v">508 724</td><td class="n">6 104 688</td></tr>
+        <tr><td>Oliy maʼlumotli</td><td class="n">3 390 824</td><td class="n">508 624</td><td class="v">544 227</td><td class="n">6 530 724</td></tr>
         <tr><td>2-toifa</td><td class="n">3 796 213</td><td class="n">569 432</td><td class="v">609 292</td><td class="n">7 311 504</td></tr>
         <tr><td>1-toifa</td><td class="n">4 230 138</td><td class="n">634 521</td><td class="v">678 937</td><td class="n">8 147 244</td></tr>
         <tr><td>Oliy toifa</td><td class="n">4 674 594</td><td class="n">701 189</td><td class="v">750 272</td><td class="n">9 003 264</td></tr>
@@ -190,55 +217,55 @@ footer li{margin-bottom:7px}
     </table>
   </div>
   <div class="col">
-    <p class="after">Maoshlar — infoedu.uz, 08.02.2026 (01.09.2026 gacha bo'lgan holat).
-      7 foizlik oshirish — PF-115, 23.06.2026, I bo'lim, 2-band (BHM ning yangi
-      miqdori esa o'sha farmonning II bo'limi, 3-band «b»). Hisob-kitob oddiy:
+    <p class="after">Maoshlar — infoedu.uz, 08.02.2026 (01.09.2026 gacha boʻlgan holat).
+      7 foizlik oshirish — PF-115, 23.06.2026, I boʻlim, 2-band (BHM ning yangi
+      miqdori esa oʻsha farmonning II boʻlimi, 3-band «b»). Hisob-kitob oddiy:
       maosh × 0,15. Bir stavkadan ortiq ishlaganda ustama qanday hisoblanishi qarorda
-      aytilmagan — bu bizga noma'lum, va biz buni taxmin bilan to'ldirmaymiz.</p>
+      aytilmagan — bu bizga nomaʼlum, va biz buni taxmin bilan toʻldirmaymiz.</p>
     <div class="note">
       <strong>«12 oyda» ustuni ataylab sentyabrdan keyingi maoshdan hisoblangan.</strong>
-      2026-yilgi kuzgi sessiya bo'yicha olingan sertifikat bo'yicha ustama butunlay
-      1-sentyabrdan keyin to'lanadi, o'sha kundan esa maosh 7 foizga oshgan bo'ladi.
-      Shuning uchun yilni sentyabrgacha bo'lgan maoshdan hisoblash o'z foydangizni
-      kamaytirib ko'rsatadi: masalan, oliy ma'lumotli o'qituvchida farq bir yilda
-      427 236 so'm, oliy toifada esa 588 996 so'm. Ustama bir martalik mukofot
+      2026-yilgi kuzgi sessiya boʻyicha olingan sertifikat boʻyicha ustama butunlay
+      1-sentyabrdan keyin toʻlanadi, oʻsha kundan esa maosh 7 foizga oshgan boʻladi.
+      Shuning uchun yilni sentyabrgacha boʻlgan maoshdan hisoblash oʻz foydangizni
+      kamaytirib koʻrsatadi: masalan, oliy maʼlumotli oʻqituvchida farq bir yilda
+      427 236 soʻm, oliy toifada esa 588 996 soʻm. Ustama bir martalik mukofot
       emas — u sertifikat amal qilgan
-      butun davrda har oy maoshga qo'shiladi, va yiliga u jadvalning
+      butun davrda har oy maoshga qoʻshiladi, va yiliga u jadvalning
       <strong>beshinchi</strong> ustunidagi raqamga teng.
     </div>
     <!-- Оговорка про 2027 год переехала сюда из подвала «Manbalar». Человек
          решает по этой таблице, а не по подвалу. -->
     <div class="note">
-      <strong>2027-yildan to'lov budjet so'rovnomalariga bog'liq.</strong> Qarorning
-      6-bandi, uchinchi xatboshisi: 2026-yilgi xarajatlar Maktabgacha va maktab ta'limi
-      vazirligiga ajratilgan mablag'lar doirasida moliyalashtiriladi,
+      <strong>2027-yildan toʻlov budjet soʻrovnomalariga bogʻliq.</strong> Qarorning
+      6-bandi, uchinchi xatboshisi: 2026-yilgi xarajatlar Maktabgacha va maktab taʼlimi
+      vazirligiga ajratilgan mablagʻlar doirasida moliyalashtiriladi,
       «2027-yildan boshlab esa budjet qonunchiligi talablariga muvofiq taqdim etilgan
-      budjet so'rovnomalariga asosan Davlat budjeti parametrlarida nazarda tutiladi».
+      budjet soʻrovnomalariga asosan Davlat budjeti parametrlarida nazarda tutiladi».
       Sertifikat uch yil amal qiladi, «12 oyda» ustuni esa deyarli butunlay 2026-yildan
-      keyingi davrga tushadi. Bu — amaldagi norma bo'yicha bizning hisobimiz, uch yilga
-      to'lov kafolati emas.
+      keyingi davrga tushadi. Bu — amaldagi norma boʻyicha bizning hisobimiz, uch yilga
+      toʻlov kafolati emas.
     </div>
   </div>
 </section>
 
 <section id="tolov">
   <div class="col">
-    <h2>Imtihon uchun qancha to'lanadi va nega sana muhim</h2>
-    <p>Bu yerda ikkita raqam bor va ular teng emas. <strong>Belgilangan to'lov</strong> —
+    <h2>Imtihon uchun qancha toʻlanadi va nega sana muhim</h2>
+    <p>Bu yerda ikkita raqam bor va ular teng emas. <strong>Belgilangan toʻlov</strong> —
       ariza berilgan kundagi bazaviy hisoblash miqdorining 1,5 baravari (VMQ № 411,
-      1-ilova, 4-band). <strong>Kassaga to'laydigan summangiz</strong> esa shundan
-      90 foizi: «Davlat xizmati ko'rsatilishi uchun ro'yxatdan YIDXP orqali o'tilgani
-      sababli talabgordan belgilangan to'lov miqdorining 90 foizi undiriladi» —
-      o'sha Nizomning 4-bobi, 21-bandi, birinchi jumlasi.</p>
-    <p>Bu 90 foiz shartli emas va uni «unutib qo'yish» mumkin emas: ro'yxatdan o'tishning
-      boshqa yo'li yo'q. Nizomning 9-bandi shunday deydi — talabgor «YIDXP orqali
-      elektron shaklda ariza berib, ro'yxatdan o'tadi», qog'oz ariza qaror matnida
-      umuman yo'q. Ya'ni 90 foiz <strong>har doim</strong> qo'llanadi. To'lov esa imtihon
-      kuniga emas, <strong>ariza kuniga</strong> bog'langan, BHM esa 1-sentyabrdan o'zgaradi.</p>
+      1-ilova, 4-band). <strong>Kassaga toʻlaydigan summangiz</strong> esa shundan
+      90 foizi: «Davlat xizmati koʻrsatilishi uchun roʻyxatdan YIDXP orqali oʻtilgani
+      sababli talabgordan belgilangan toʻlov miqdorining 90 foizi undiriladi» —
+      oʻsha Nizomning 4-bobi, 21-bandi, birinchi jumlasi.</p>
+    <p>Bu 90 foiz shartli emas va uni «unutib qoʻyish» mumkin emas: roʻyxatdan oʻtishning
+      boshqa yoʻli yoʻq. Nizomning 9-bandi shunday deydi — talabgor «YIDXP orqali
+      elektron shaklda ariza berib, roʻyxatdan oʻtadi», qogʻoz ariza qaror matnida
+      umuman yoʻq. Yaʼni 90 foiz <strong>har doim</strong> qoʻllanadi. Toʻlov esa imtihon
+      kuniga emas, <strong>ariza kuniga</strong> bogʻlangan, BHM esa 1-sentyabrdan oʻzgaradi.</p>
   </div>
   <div class="tw">
     <table>
-      <thead><tr><th>Ariza berilgan kun</th><th>BHM</th><th>Belgilangan to'lov <br>1,5 BHM, 4-band</th><th>To'lanadigan summa <br>90%, 21-band</th></tr></thead>
+      <thead><tr><th>Ariza berilgan kun</th><th>BHM</th><th>Belgilangan toʻlov <br>1,5 BHM, 4-band</th><th>Toʻlanadigan summa <br>90%, 21-band</th></tr></thead>
       <tbody>
         <tr><td>2026-yil 31-avgustgacha</td><td class="n">412 000</td><td class="n">618 000</td><td class="v">556 200</td></tr>
         <tr><td>2026-yil 1-sentyabrdan</td><td class="n">440 000</td><td class="n">660 000</td><td class="v">594 000</td></tr>
@@ -247,95 +274,95 @@ footer li{margin-bottom:7px}
   </div>
   <div class="col">
     <div class="note warn">
-      <strong>Farq — 37 800 so'm, va u bitta kunga bog'liq.</strong> Sana bu yerda
-      arizani bergan kun: <strong>2026-yil 31-avgustgacha</strong> bergan 556 200 so'm
-      to'laydi, <strong>1-sentyabrdan</strong> bergan — 594 000 so'm. Buni biz o'ylab
-      topganimiz yo'q: shart qarorning o'zida — «ariza berilgan kundagi BHM». Farq
-      aynan 37 800 so'm, chunki u haqiqatda undiriladigan summalar orasidagi farq:
-      594 000 − 556 200. Agar sizga biror joyda «42 000 so'm» deyilsa, u 21-bandni
+      <strong>Farq — 37 800 soʻm, va u bitta kunga bogʻliq.</strong> Sana bu yerda
+      arizani bergan kun: <strong>2026-yil 31-avgustgacha</strong> bergan 556 200 soʻm
+      toʻlaydi, <strong>1-sentyabrdan</strong> bergan — 594 000 soʻm. Buni biz oʻylab
+      topganimiz yoʻq: shart qarorning oʻzida — «ariza berilgan kundagi BHM». Farq
+      aynan 37 800 soʻm, chunki u haqiqatda undiriladigan summalar orasidagi farq:
+      594 000 − 556 200. Agar sizga biror joyda «42 000 soʻm» deyilsa, u 21-bandni
       hisobga olmagan. Ikkala summa ham shu yerda turadi ataylab: bu sahifa 1-sentyabrdan
-      keyin ham noto'g'ri bo'lib qolmasligi kerak.
+      keyin ham notoʻgʻri boʻlib qolmasligi kerak.
     </div>
 
-    <h3>Chegirmalar: kimga yarmi, kimga to'rtdan biri</h3>
+    <h3>Chegirmalar: kimga yarmi, kimga toʻrtdan biri</h3>
     <p>Nizomning 4-bandi, ikkinchi xatboshisi ikkita chegirmani belgilaydi, va ular
-      YIDXP dagi so'rovnomaning <strong>7-savoli</strong> bilan bevosita bog'liq —
-      u yerda sizdan «qonunchilik hujjatlarida belgilangan chegirmani qo'llash huquqiga
-      egaligi: Ha/Yo'q» deb so'raladi. Bu savolga tayyor bo'lib boring.</p>
+      YIDXP dagi soʻrovnomaning <strong>7-savoli</strong> bilan bevosita bogʻliq —
+      u yerda sizdan «qonunchilik hujjatlarida belgilangan chegirmani qoʻllash huquqiga
+      egaligi: Ha/Yoʻq» deb soʻraladi. Bu savolga tayyor boʻlib boring.</p>
   </div>
   <div class="tw">
     <table>
       <thead><tr><th>Kim</th><th>Chegirma</th><th>Ariza 31-avgustgacha</th><th>Ariza 1-sentyabrdan</th></tr></thead>
       <tbody>
         <tr><td>Chegirmasiz</td><td class="n">—</td><td class="v">556 200</td><td class="n">594 000</td></tr>
-        <tr><td>Ijtimoiy reyestrning «kambag'al oila» toifasidagi oila a'zolari; I va II guruh nogironligi bo'lgan shaxslar</td><td class="n">50%</td><td class="v">278 100</td><td class="n">297 000</td></tr>
-        <tr><td>Ijtimoiy reyestrning «davlat ta'minotidagi oila» toifasidagi oila a'zolari</td><td class="n">75%</td><td class="v">139 050</td><td class="n">148 500</td></tr>
+        <tr><td>Ijtimoiy reyestrning «kambagʻal oila» toifasidagi oila aʼzolari; I va II guruh nogironligi boʻlgan shaxslar</td><td class="n">50%</td><td class="v">278 100</td><td class="n">297 000</td></tr>
+        <tr><td>Ijtimoiy reyestrning «davlat taʼminotidagi oila» toifasidagi oila aʼzolari</td><td class="n">75%</td><td class="v">139 050</td><td class="n">148 500</td></tr>
       </tbody>
     </table>
   </div>
   <div class="col">
-    <p class="after"><strong>Bu jadvaldagi chegirmali summalar — ikkita mumkin bo'lgan
-      o'qishning kattasi, va biz buni yashirmaymiz.</strong> 4-band chegirmani
-      «belgilangan to'lovning 50 foizi miqdorida» deb beradi, 21-band esa «belgilangan
-      to'lov miqdorining 90 foizi» ni undiradi — ikkala foiz ham bitta bazadan,
-      hisoblanadi, va bu baza 1-sentyabrda BHM bilan birga o'zgaradi: ariza
-      31-avgustgacha berilsa 618 000 so'm, 1-sentyabrdan — 660 000 so'm.
+    <p class="after"><strong>Bu jadvaldagi chegirmali summalar — ikkita mumkin boʻlgan
+      oʻqishning kattasi, va biz buni yashirmaymiz.</strong> 4-band chegirmani
+      «belgilangan toʻlovning 50 foizi miqdorida» deb beradi, 21-band esa «belgilangan
+      toʻlov miqdorining 90 foizi» ni undiradi — ikkala foiz ham bitta bazadan,
+      hisoblanadi, va bu baza 1-sentyabrda BHM bilan birga oʻzgaradi: ariza
+      31-avgustgacha berilsa 618 000 soʻm, 1-sentyabrdan — 660 000 soʻm.
       Jadvalning ikkala ustunini ham sanaymiz. <strong>Ariza 31-avgustgacha:</strong>
-      ko'paytiruvchi o'qishda 618 000 × 0,9 × 0,5 = 278 100, ayirmali o'qishda
+      koʻpaytiruvchi oʻqishda 618 000 × 0,9 × 0,5 = 278 100, ayirmali oʻqishda
       556 200 − 309 000 = 247 200. <strong>Ariza 1-sentyabrdan:</strong>
-      660 000 × 0,9 × 0,5 = 297 000, ayirmali o'qishda 594 000 − 330 000 = 264 000.
+      660 000 × 0,9 × 0,5 = 297 000, ayirmali oʻqishda 594 000 − 330 000 = 264 000.
       Qaysi biri YIDXP
-      invoysida chiqishini biz bilmaymiz: qarorda buni hal qiladigan jumla yo'q,
-      va taxminni raqam sifatida ko'rsatmaymiz. Shuning uchun jadvalda kattasi turadi —
-      pulni kam rejalashtirgandan ko'ra ortiqcha rejalashtirgan xavfsizroq. Invoysingiz
+      invoysida chiqishini biz bilmaymiz: qarorda buni hal qiladigan jumla yoʻq,
+      va taxminni raqam sifatida koʻrsatmaymiz. Shuning uchun jadvalda kattasi turadi —
+      pulni kam rejalashtirgandan koʻra ortiqcha rejalashtirgan xavfsizroq. Invoysingiz
       kichikroq chiqsa, bu yaxshi xabar; kattaroq chiqmaydi.</p>
     <div class="note">
-      <strong>Toifadan yaqinda chiqarilgan bo'lsangiz ham chegirma yo'qolmaydi.</strong>
-      O'sha 4-bandning uchinchi va to'rtinchi xatboshilari: «davlat ta'minotidagi oila»
-      yoki «kambag'al oila» toifasidan chiqarilgani sababli «kambag'allik chegarasidagi
-      oila» toifasiga o'tkazilgan oilalarga chegirma <strong>avvalgi toifasi bo'yicha</strong>
-      qo'llanadi; og'ir hayotiy vaziyat sababli «kambag'allik chegarasidagi oila»
-      toifasiga kiritilganlarga esa — «kambag'al oila» uchun belgilangan miqdorda,
+      <strong>Toifadan yaqinda chiqarilgan boʻlsangiz ham chegirma yoʻqolmaydi.</strong>
+      Oʻsha 4-bandning uchinchi va toʻrtinchi xatboshilari: «davlat taʼminotidagi oila»
+      yoki «kambagʻal oila» toifasidan chiqarilgani sababli «kambagʻallik chegarasidagi
+      oila» toifasiga oʻtkazilgan oilalarga chegirma <strong>avvalgi toifasi boʻyicha</strong>
+      qoʻllanadi; ogʻir hayotiy vaziyat sababli «kambagʻallik chegarasidagi oila»
+      toifasiga kiritilganlarga esa — «kambagʻal oila» uchun belgilangan miqdorda,
       reyestrda turgan davrda, biroq reyestrga kiritilgan sanadan boshlab 12 oydan
-      ko'p bo'lmagan muddatda.
+      koʻp boʻlmagan muddatda.
     </div>
 
     <div class="note warn">
-      <strong>To'lov imtihondan kamida 12 kun oldin.</strong> Nizomga 1-ilova (SXEMA),
-      1-bosqich: talabgor to'lovni «imtihondan kamida 12 kun oldin» amalga oshiradi;
-      2-bosqich: talabgorlarni ro'yxatga olish «imtihon sanasidan 12 kun oldin»
-      yakunlanadi. Ya'ni imtihon kunidan 12 kun qolganda ariza berish ham, to'lash ham
-      kech. Imtihon o'tkaziladigan joy va vaqt (ruxsatnoma) esa imtihondan 3 kun oldin
-      YIDXP orqali keladi. Arizani «o'z xohishiga ko'ra» istalgan vaqtda berish mumkin,
-      imtihonlar esa yil davomida o'tkaziladi.
+      <strong>Toʻlov imtihondan kamida 12 kun oldin.</strong> Nizomga 1-ilova (SXEMA),
+      1-bosqich: talabgor toʻlovni «imtihondan kamida 12 kun oldin» amalga oshiradi;
+      2-bosqich: talabgorlarni roʻyxatga olish «imtihon sanasidan 12 kun oldin»
+      yakunlanadi. Yaʼni imtihon kunidan 12 kun qolganda ariza berish ham, toʻlash ham
+      kech. Imtihon oʻtkaziladigan joy va vaqt (ruxsatnoma) esa imtihondan 3 kun oldin
+      YIDXP orqali keladi. Arizani «oʻz xohishiga koʻra» istalgan vaqtda berish mumkin,
+      imtihonlar esa yil davomida oʻtkaziladi.
     </div>
 
-    <p>O'ta olmasangiz, keyingi urinish uchun to'lov yana to'lanadi. Shuning uchun
-      tayyorgarlikning narxini imtihon narxi bilan taqqoslash to'g'ri bo'ladi, kurs narxi
-      bilan emas: yiqilgan urinish 31-avgustgacha 556 200, 1-sentyabrdan 594 000 so'mga
+    <p>Oʻta olmasangiz, keyingi urinish uchun toʻlov yana toʻlanadi. Shuning uchun
+      tayyorgarlikning narxini imtihon narxi bilan taqqoslash toʻgʻri boʻladi, kurs narxi
+      bilan emas: yiqilgan urinish 31-avgustgacha 556 200, 1-sentyabrdan 594 000 soʻmga
       turadi.</p>
 
-    <h3>Pulni qaytarib olish mumkin bo'lgan holat</h3>
+    <h3>Pulni qaytarib olish mumkin boʻlgan holat</h3>
     <p>Nizomning 22-bandi: uzrli sabab (xizmat safari, malaka oshirish, kasallik yoki
-      oila a'zosining vafoti — tasdiqlovchi hujjat bilan) tufayli imtihonda qatnasha
-      olmasangiz, <strong>imtihon o'tkazilgan sanadan uch kundan kechikmay</strong>
-      YIDXP orqali murojaat qilishingiz kerak: yo keyingi imtihonga o'tkazishlarini,
-      yo to'lovni qaytarishlarini so'rab. Qaytarish <strong>to'liq</strong> bo'ladi —
-      G'aznachilik xizmati qo'mitasi orqali, Nizomga 3-ilovadagi shakl bo'yicha
-      (unda, 10-bandda, bank kartangiz ma'lumotlari so'raladi). Bunday arizalar
-      yetti ish kunida ko'rib chiqiladi (25-band).</p>
+      oila aʼzosining vafoti — tasdiqlovchi hujjat bilan) tufayli imtihonda qatnasha
+      olmasangiz, <strong>imtihon oʻtkazilgan sanadan uch kundan kechikmay</strong>
+      YIDXP orqali murojaat qilishingiz kerak: yo keyingi imtihonga oʻtkazishlarini,
+      yo toʻlovni qaytarishlarini soʻrab. Qaytarish <strong>toʻliq</strong> boʻladi —
+      Gʻaznachilik xizmati qoʻmitasi orqali, Nizomga 3-ilovadagi shakl boʻyicha
+      (unda, 10-bandda, bank kartangiz maʼlumotlari soʻraladi). Bunday arizalar
+      yetti ish kunida koʻrib chiqiladi (25-band).</p>
     <div class="note warn">
       <strong>Va aksincha: uchta holatda pul qaytarilmaydi.</strong> 23-band —
       imtihonga kechiksangiz, uzrli sababsiz kelmasangiz yoki imtihondan
       chetlashtirilsangiz. Chetlashtirish sababini 15-band beradi: imtihon binosiga
-      <strong>har qanday qo'llanma, adabiyot, telekommunikatsiya va texnika vositalarini</strong>
+      <strong>har qanday qoʻllanma, adabiyot, telekommunikatsiya va texnika vositalarini</strong>
       olib kirish, shuningdek boshqa talabgorlar bilan gaplashish yoki ularga biror
-      narsa uzatish qat'iyan man etiladi; qoidani buzgan talabgor chetlashtiriladi va
-      natijalari hisoblanmaydi. Cho'ntagingizdagi telefon — 31-avgustgacha 556 200, 1-sentyabrdan 594 000 so'm va butun urinish.
+      narsa uzatish qatʼiyan man etiladi; qoidani buzgan talabgor chetlashtiriladi va
+      natijalari hisoblanmaydi. Choʻntagingizdagi telefon — 31-avgustgacha 556 200, 1-sentyabrdan 594 000 soʻm va butun urinish.
     </div>
-    <p class="after">Agar testologiya me'yorlari buzilgani aniqlansa (imtihon materiallari
-      oldindan tarqalsa, maxfiylik buzilsa yoki natijalar taqsimoti me'yordan keskin farq
-      qilsa), natijalar bekor qilinadi va sizning xohishingizga ko'ra to'lov qaytariladi
+    <p class="after">Agar testologiya meʼyorlari buzilgani aniqlansa (imtihon materiallari
+      oldindan tarqalsa, maxfiylik buzilsa yoki natijalar taqsimoti meʼyordan keskin farq
+      qilsa), natijalar bekor qilinadi va sizning xohishingizga koʻra toʻlov qaytariladi
       yoki qayta imtihon tashkil etiladi — 17-band.</p>
   </div>
 </section>
@@ -343,9 +370,9 @@ footer li{margin-bottom:7px}
 <section id="ballar">
   <div class="col">
     <h2>Necha ball kerak: darajalar shkalasi</h2>
-    <p>Ustama uchun kamida <strong>B+</strong>, ya'ni <strong>60 ball</strong> kerak.
-      46 ball ham sertifikat beradi, lekin u C daraja va 15 foizlik ustamaga asos bo'lmaydi.
-      Imtihonda ball Rash modeli bo'yicha hisoblanadi.</p>
+    <p>Ustama uchun kamida <strong>B+</strong>, yaʼni <strong>60 ball</strong> kerak.
+      46 ball ham sertifikat beradi, lekin u C daraja va 15 foizlik ustamaga asos boʻlmaydi.
+      Imtihonda ball Rash modeli boʻyicha hisoblanadi.</p>
   </div>
   <div class="tw">
     <table>
@@ -354,27 +381,27 @@ footer li{margin-bottom:7px}
         <tr><td class="n">70 dan yuqori</td><td>A+</td><td class="v">ha</td></tr>
         <tr><td class="n">65 – 69,9</td><td>A</td><td class="v">ha</td></tr>
         <tr><td class="n">60 – 64,9</td><td>B+</td><td class="v">ha</td></tr>
-        <tr><td class="n">55 – 59,9</td><td>B</td><td>yo'q</td></tr>
-        <tr><td class="n">50 – 54,9</td><td>C+</td><td>yo'q</td></tr>
-        <tr><td class="n">46 – 49,9</td><td>C</td><td>yo'q</td></tr>
+        <tr><td class="n">55 – 59,9</td><td>B</td><td>yoʻq</td></tr>
+        <tr><td class="n">50 – 54,9</td><td>C+</td><td>yoʻq</td></tr>
+        <tr><td class="n">46 – 49,9</td><td>C</td><td>yoʻq</td></tr>
       </tbody>
     </table>
   </div>
   <div class="col">
     <!-- Ссылка на первоисточник, а не на газету: шкала стоит в акте дословно. -->
-    <p class="after">Shkala — <strong>VMQ № 411, 1-ilova, 5-band</strong>, so'zma-so'z:
+    <p class="after">Shkala — <strong>VMQ № 411, 1-ilova, 5-band</strong>, soʻzma-soʻz:
       «70 balldan yuqori ball olgan talabgorga A+ darajali; 65 — 69,9 ball olgan talabgorga
       A darajali; 60 — 64,9 ball olgan talabgorga B+ darajali; 55 — 59,9 ball olgan
       talabgorga B darajali; 50 — 54,9 ball olgan talabgorga C+ darajali; 46 — 49,9 ball
       olgan talabgorga C darajali sertifikat beriladi»
       (<a href="https://lex.uz/uz/docs/-8362485" rel="nofollow noopener" target="_blank">lex.uz</a>,
-      27.08.2026 da ochilgan). O'sha bandning yuqoridagi xatboshisi: «Malaka imtihoni
-      natijalari xalqaro metodika — Rash modeli asosida hisoblanadi» — ball to'g'ri
-      javoblar ulushi emas, shuning uchun «shuncha to'g'ri javob = shuncha ball» degan
-      qayta hisobni biz va'da qilmaymiz. kun.uz va uz24.uz (30.07.2026) bayonlarini
-      qaror matni bo'yicha tekshirdik, teskarisini emas.
-      Bu shkala boshlang'ich ta'lim o'qituvchilari uchundir; boshqa fanlarda daraja
-      shartlari boshqacha bo'lishi mumkin.</p>
+      27.08.2026 da ochilgan). Oʻsha bandning yuqoridagi xatboshisi: «Malaka imtihoni
+      natijalari xalqaro metodika — Rash modeli asosida hisoblanadi» — ball toʻgʻri
+      javoblar ulushi emas, shuning uchun «shuncha toʻgʻri javob = shuncha ball» degan
+      qayta hisobni biz vaʼda qilmaymiz. kun.uz va uz24.uz (30.07.2026) bayonlarini
+      qaror matni boʻyicha tekshirdik, teskarisini emas.
+      Bu shkala boshlangʻich taʼlim oʻqituvchilari uchundir; boshqa fanlarda daraja
+      shartlari boshqacha boʻlishi mumkin.</p>
   </div>
 </section>
 
@@ -383,56 +410,56 @@ footer li{margin-bottom:7px}
     <h2>Ariza qanday beriladi va sertifikat qachon keladi</h2>
     <ol class="steps">
       <li><strong>Elektron ariza — Yagona interaktiv davlat xizmatlari portali orqali.</strong>
-        Qarorda u YIDXP deb yuritiladi, portal manzili — my.gov.uz. Qog'oz ariza yoki
-        tumandagi navbat haqida qaror matnida gap yo'q.</li>
-      <li><strong>To'lov — imtihondan kamida 12 kun oldin.</strong> Belgilangan to'lov
+        Qarorda u YIDXP deb yuritiladi, portal manzili — my.gov.uz. Qogʻoz ariza yoki
+        tumandagi navbat haqida qaror matnida gap yoʻq.</li>
+      <li><strong>Toʻlov — imtihondan kamida 12 kun oldin.</strong> Belgilangan toʻlov
         ariza berilgan kundagi BHM ning 1,5 baravari, undiriladigani esa shundan
-        90 foizi (21-band): 31-avgustgacha 556 200 so'm, 1-sentyabrdan 594 000 so'm.
-        Muddat — Nizomga 1-ilova (SXEMA): to'lov «imtihondan kamida 12 kun oldin»,
-        ro'yxatga olish esa «imtihon sanasidan 12 kun oldin» yakunlanadi.</li>
-      <li><strong>Ruxsatnoma — imtihondan 3 kun oldin.</strong> Imtihon o'tkaziladigan
+        90 foizi (21-band): 31-avgustgacha 556 200 soʻm, 1-sentyabrdan 594 000 soʻm.
+        Muddat — Nizomga 1-ilova (SXEMA): toʻlov «imtihondan kamida 12 kun oldin»,
+        roʻyxatga olish esa «imtihon sanasidan 12 kun oldin» yakunlanadi.</li>
+      <li><strong>Ruxsatnoma — imtihondan 3 kun oldin.</strong> Imtihon oʻtkaziladigan
         sana va joy YIDXP orqali keladi (10-band). Elektron raqamli imzo talab etilmaydi.</li>
-      <li><strong>Imtihon — test sinovlari shaklida.</strong> Boshlang'ich sinf fanlari
-        bo'yicha bilim, o'qitish metodikasi va pedagogik mahorat baholanadi. Maxsus
-        jihozlangan, videokuzatuvli xonada, har bir o'rinda bitta talabgor; videotasvir
-        bir yil saqlanadi (12-band). Binoga qo'llanma, adabiyot, telefon va boshqa
-        texnika vositalarini olib kirish qat'iyan man etiladi (15-band).</li>
+      <li><strong>Imtihon — test sinovlari shaklida.</strong> Boshlangʻich sinf fanlari
+        boʻyicha bilim, oʻqitish metodikasi va pedagogik mahorat baholanadi. Maxsus
+        jihozlangan, videokuzatuvli xonada, har bir oʻrinda bitta talabgor; videotasvir
+        bir yil saqlanadi (12-band). Binoga qoʻllanma, adabiyot, telefon va boshqa
+        texnika vositalarini olib kirish qatʼiyan man etiladi (15-band).</li>
       <li><strong>Natijalar — 21 ish kunigacha.</strong> «Malaka imtihoni natijalari ular
         yakunlangan kundan boshlab yigirma bir ish kunidan kechikmay YIDXP orqali
-        e'lon qilinadi» (16-band). Ya'ni imtihon kuni bilan javob kuni orasida
-        taqvim bo'yicha bir oyga yaqin vaqt bor — ustamani rejalashtirayotganda
+        eʼlon qilinadi» (16-band). Yaʼni imtihon kuni bilan javob kuni orasida
+        taqvim boʻyicha bir oyga yaqin vaqt bor — ustamani rejalashtirayotganda
         shuni hisobga oling.</li>
       <li><strong>Sertifikat — bir ish kunida, elektron shaklda, uch yil muddatga.</strong>
         QR kodli sertifikat shu portal orqali yuboriladi.</li>
-      <li><strong>Rozi bo'lmasangiz — apellyatsiya uch kun ichida.</strong> Natijalar
-        e'lon qilingan kundan uch kun ichida, YIDXP orqali, Nizomga 4-ilovadagi shakl
-        bo'yicha (26-band). Shikoyatni vakolatli organ direktorining buyrug'i bilan
-        tuzilgan 5 yoki 7 kishilik komissiya <strong>ikki hafta ichida</strong> ko'rib
+      <li><strong>Rozi boʻlmasangiz — apellyatsiya uch kun ichida.</strong> Natijalar
+        eʼlon qilingan kundan uch kun ichida, YIDXP orqali, Nizomga 4-ilovadagi shakl
+        boʻyicha (26-band). Shikoyatni vakolatli organ direktorining buyrugʻi bilan
+        tuzilgan 5 yoki 7 kishilik komissiya <strong>ikki hafta ichida</strong> koʻrib
         chiqadi (27-band). Rad javobi ikki holatda beriladi: apellyatsiya Nizom
-        talablari buzilgan holda taqdim etilsa yoki dalillar o'z tasdig'ini topmasa
-        (28-band). Takroriy apellyatsiyaga yo'l qo'yilmaydi; komissiya qarori ustidan
+        talablari buzilgan holda taqdim etilsa yoki dalillar oʻz tasdigʻini topmasa
+        (28-band). Takroriy apellyatsiyaga yoʻl qoʻyilmaydi; komissiya qarori ustidan
         sudga murojaat qilish mumkin (29-band).</li>
     </ol>
     <div class="note warn">
-      <strong>Imtihon jadvali hali e'lon qilinmagan.</strong> 27.08.2026 holatiga
-      boshlang'ich sinf o'qituvchilari uchun sanalar chiqmagan: 2026-yilgi ochiq jadvallarda
-      faqat fan o'qituvchilari uchun sessiyalar bor. Jadvalni Bilim va malakalarni
-      baholash agentligi e'lon qiladi — sanalarni o'sha yerdan tekshiring, biz ham
-      chiqishi bilan shu sahifada yozamiz. Qaror bo'yicha imtihonlar <strong>yil
-      davomida</strong> o'tkaziladi va ariza «o'z xohishiga ko'ra» beriladi (Nizomga
-      1-ilova, SXEMA) — ya'ni belgilangan bitta oyni kutish shart emas, lekin har bir
+      <strong>Imtihon jadvali hali eʼlon qilinmagan.</strong> 27.08.2026 holatiga
+      boshlangʻich sinf oʻqituvchilari uchun sanalar chiqmagan: 2026-yilgi ochiq jadvallarda
+      faqat fan oʻqituvchilari uchun sessiyalar bor. Jadvalni Bilim va malakalarni
+      baholash agentligi eʼlon qiladi — sanalarni oʻsha yerdan tekshiring, biz ham
+      chiqishi bilan shu sahifada yozamiz. Qaror boʻyicha imtihonlar <strong>yil
+      davomida</strong> oʻtkaziladi va ariza «oʻz xohishiga koʻra» beriladi (Nizomga
+      1-ilova, SXEMA) — yaʼni belgilangan bitta oyni kutish shart emas, lekin har bir
       sana uchun 12 kunlik muddat amal qiladi.
     </div>
     <div class="note">
-      <strong>Ustama hammaga emas.</strong> Qarorning 6-bandi to'rtta shartni birga
-      qo'yadi: sertifikat darajasi B+ va undan yuqori; o'qituvchi boshlang'ich sinflarda
-      dars beradi; va u <strong>«boshlang'ich ta'lim» mutaxassisligiga ega</strong>;
-      to'lov sertifikat amal qilgan davrda, Davlat budjeti hisobidan, «tegishli ta'lim
-      tiliga mos ravishda barcha fanlar bo'yicha». Uchinchi shart eng ko'p e'tibordan
-      chetda qoladi: boshlang'ich sinflarda boshqa mutaxassislik diplomi bilan dars
-      berayotgan o'qituvchi imtihonga to'lab, ustamani olmasligi mumkin. Bundan tashqari
-      Nizomning 1-bandi qamrovni <strong>Maktabgacha va maktab ta'limi vazirligi
-      tizimidagi umumiy o'rta ta'lim tashkilotlari</strong> bilan cheklaydi — nodavlat
+      <strong>Ustama hammaga emas.</strong> Qarorning 6-bandi toʻrtta shartni birga
+      qoʻyadi: sertifikat darajasi B+ va undan yuqori; oʻqituvchi boshlangʻich sinflarda
+      dars beradi; va u <strong>«boshlangʻich taʼlim» mutaxassisligiga ega</strong>;
+      toʻlov sertifikat amal qilgan davrda, Davlat budjeti hisobidan, «tegishli taʼlim
+      tiliga mos ravishda barcha fanlar boʻyicha». Uchinchi shart eng koʻp eʼtibordan
+      chetda qoladi: boshlangʻich sinflarda boshqa mutaxassislik diplomi bilan dars
+      berayotgan oʻqituvchi imtihonga toʻlab, ustamani olmasligi mumkin. Bundan tashqari
+      Nizomning 1-bandi qamrovni <strong>Maktabgacha va maktab taʼlimi vazirligi
+      tizimidagi umumiy oʻrta taʼlim tashkilotlari</strong> bilan cheklaydi — nodavlat
       maktablar uchun masala ochiq, va biz uni taxmin bilan yopmaymiz.
     </div>
   </div>
@@ -440,55 +467,55 @@ footer li{margin-bottom:7px}
 
 <section id="nima">
   <div class="col">
-    <h2>Imtihonda nima so'raladi</h2>
-    <p>Qaror bo'yicha imtihonda uch narsa baholanadi: <strong>boshlang'ich sinf fanlari
-      bo'yicha bilim, o'qitish metodikasi va pedagogik mahorat</strong>. Ya'ni bu bitta
-      fan bo'yicha imtihon emas — bu boshlang'ich sinf o'qituvchisining ishi bo'yicha
-      umumlashtirilgan imtihon, ta'lim tilida.</p>
+    <h2>Imtihonda nima soʻraladi</h2>
+    <p>Qaror boʻyicha imtihonda uch narsa baholanadi: <strong>boshlangʻich sinf fanlari
+      boʻyicha bilim, oʻqitish metodikasi va pedagogik mahorat</strong>. Yaʼni bu bitta
+      fan boʻyicha imtihon emas — bu boshlangʻich sinf oʻqituvchisining ishi boʻyicha
+      umumlashtirilgan imtihon, taʼlim tilida.</p>
     <div class="note warn">
-      <strong>Aniq spetsifikatsiya e'lon qilinmagan.</strong> Savollar soni, topshiriqlar
-      turi, vaqt me'yori — 27.08.2026 holatiga ochiq manbalarda yo'q. Qarorning o'zi
-      buni shunday belgilaydi: imtihon topshiriqlari formati va o'tkazish muddatlari
+      <strong>Aniq spetsifikatsiya eʼlon qilinmagan.</strong> Savollar soni, topshiriqlar
+      turi, vaqt meʼyori — 27.08.2026 holatiga ochiq manbalarda yoʻq. Qarorning oʻzi
+      buni shunday belgilaydi: imtihon topshiriqlari formati va oʻtkazish muddatlari
       vakolatli organ tomonidan tasdiqlanadi va uning rasmiy veb-saytiga joylashtiriladi
       (1-ilova, 8-band). Kim sizga «rasmiy imtihon savollari» deb narsa taklif qilsa,
       u yoki adashgan, yoki aldayapti: rasmiy savollar bankiga kirish yopiq.
     </div>
-    <p>Shuning uchun bizning mashqimiz «imtihon savollari» emas va bo'lishi ham mumkin emas.
-      U boshlang'ich sinf dasturi va metodikasi asosida tuzilgan: har bir savolda
-      hisoblash, so'zni tahlil qilish yoki aniq qoidani bilish kerak, noto'g'ri variantlar
-      esa o'quvchilarning tipik xatolaridan olingan.</p>
+    <p>Shuning uchun bizning mashqimiz «imtihon savollari» emas va boʻlishi ham mumkin emas.
+      U boshlangʻich sinf dasturi va metodikasi asosida tuzilgan: har bir savolda
+      hisoblash, soʻzni tahlil qilish yoki aniq qoidani bilish kerak, notoʻgʻri variantlar
+      esa oʻquvchilarning tipik xatolaridan olingan.</p>
   </div>
 </section>
 
 <section id="tayyorgarlik">
   <div class="col">
     <h2>Tayyorgarlik qancha turadi</h2>
-    <p>Ochiq manbalarda topilgan narxlar. Boshlang'ich sinf o'qituvchilari malaka imtihoniga
+    <p>Ochiq manbalarda topilgan narxlar. Boshlangʻich sinf oʻqituvchilari malaka imtihoniga
       atalgan kursni 27.08.2026 holatiga topmadik — spetsifikatsiya chiqmagani uchun
       hech kim uni tuza olmaydi. Quyidagi kurs ona tili sertifikatiga tayyorlaydi va
-      taqqoslash uchun keltirilgan. Narxlar butun kurs uchun: oylikka bo'lmaymiz, chunki
-      o'sha sahifaning o'zi muddat bo'yicha o'ziga zid — sarlavhada «2 oylik intensiv kurs»,
+      taqqoslash uchun keltirilgan. Narxlar butun kurs uchun: oylikka boʻlmaymiz, chunki
+      oʻsha sahifaning oʻzi muddat boʻyicha oʻziga zid — sarlavhada «2 oylik intensiv kurs»,
       savol-javobda «Kurs 45 kun davom etadi».</p>
   </div>
   <div class="tw">
     <table>
       <thead><tr><th>Nima</th><th>Narx</th><th>Manba</th></tr></thead>
       <tbody>
-        <tr><td>Imtihon yig'imi, bir urinish (boshlang'ich ta'lim) — undiriladigan summa</td><td class="v">556 200 – 594 000</td><td class="src">VMQ № 411, 4- va 21-band</td></tr>
-        <tr><td>O'sha yig'im chegirma bilan: 50% / 75% (ariza 31-avgustgacha)</td><td class="n">278 100 / 139 050</td><td class="src">VMQ № 411, 4-band</td></tr>
+        <tr><td>Imtihon yigʻimi, bir urinish (boshlangʻich taʼlim) — undiriladigan summa</td><td class="v">556 200 – 594 000</td><td class="src">VMQ № 411, 4- va 21-band</td></tr>
+        <tr><td>Oʻsha yigʻim chegirma bilan: 50% / 75% (ariza 31-avgustgacha)</td><td class="n">278 100 / 139 050</td><td class="src">VMQ № 411, 4-band</td></tr>
         <tr><td>«Ona tili | Milliy sertifikat kursi», butun kurs (sahifada «2 oylik», savol-javobda «45 kun»)</td><td class="n">500 000</td><td class="src">ustoz.uz, 27.08.2026</td></tr>
         <tr><td>Ustamam: kalkulyator, 20 savollik mashq, xatolar daftari, vaqt bilan sinov, tayyorlik varaqasi, rejaning 3 kuni</td><td class="v">0</td><td class="src">shu sahifa</td></tr>
-        <tr><td>Ustamam «Imtihon to'plami»: to'liq reja (ishlayapti) va to'liq savollar banki (yozilmoqda)</td><td class="v">99 000</td><td class="src">bir marta; hozircha sotilmaydi</td></tr>
+        <tr><td>Ustamam «Imtihon toʻplami»: toʻliq reja (ishlayapti) va toʻliq savollar banki (yozilmoqda)</td><td class="v">99 000</td><td class="src">bir marta; hozircha sotilmaydi</td></tr>
       </tbody>
     </table>
   </div>
   <div class="col">
     <div class="note">
-      <strong>Hozircha to'lov qabul qilinmayapti.</strong> To'plamdagi savollar banki
-      yozilmoqda va u boshlang'ich sinflar metodisti o'qib chiqmaguncha sotilmaydi.
+      <strong>Hozircha toʻlov qabul qilinmayapti.</strong> Toʻplamdagi savollar banki
+      yozilmoqda va u boshlangʻich sinflar metodisti oʻqib chiqmaguncha sotilmaydi.
       Sahifadagi forma —
-      zayavka, to'lov emas: tayyor bo'lganda birinchi bo'lib sizga yozamiz va narx
-      shu sahifadagi narx bo'lib qoladi.
+      zayavka, toʻlov emas: tayyor boʻlganda birinchi boʻlib sizga yozamiz va narx
+      shu sahifadagi narx boʻlib qoladi.
     </div>
   </div>
 </section>
@@ -501,47 +528,55 @@ footer li{margin-bottom:7px}
     <div class="card">
       <h3>Bepul va shundayligicha qoladi</h3>
       <ul class="plain">
-        <li><strong>Ustama kalkulyatori</strong> — toifangiz yoki maoshingiz bo'yicha
-          oyiga, yiliga va yig'im necha oyda qoplanishi</li>
-        <li><strong>20 savollik mashq</strong> — har javobdan keyin izoh: nega bu to'g'ri
-          va qaysi tipik xato ko'zda tutilgan</li>
+        <li><strong>Ustama kalkulyatori</strong> — toifangiz yoki maoshingiz boʻyicha
+          oyiga, yiliga va yigʻim necha oyda qoplanishi</li>
+        <li><strong>20 savollik mashq</strong> — har javobdan keyin izoh: nega bu toʻgʻri
+          va qaysi tipik xato koʻzda tutilgan</li>
         <li><strong>Xatolar daftari</strong> — xato qilgan savollaringiz saqlanadi va
-          ikki xil kunda to'g'ri javob bermaguningizcha daftardan chiqmaydi</li>
-        <li><strong>Vaqt bilan sinov</strong> — imtihon shaklida: soat ketadi, izoh yo'q,
-          javob o'zgartirilmaydi</li>
-        <li><strong>Rejaning birinchi 3 kuni</strong> — haqiqiy va bosib chiqarsa bo'ladi;
-          reja kunlarni savol soni bilan emas, vaqt bilan o'lchaydi, chunki savollarimiz
-          bugun 20 ta va biz ko'proqni va'da qilmaymiz</li>
-        <li><strong>Tayyorlik varaqasi</strong> — bloklar bo'yicha foiz, urinishlar
-          ro'yxati va sana; bosma varaqda ham, bitta A4 varaqqa</li>
+          ikki xil kunda toʻgʻri javob bermaguningizcha daftardan chiqmaydi</li>
+        <li><strong>Vaqt bilan sinov</strong> — imtihon shaklida: soat ketadi, izoh yoʻq,
+          javob oʻzgartirilmaydi</li>
+        <li><strong>Rejaning birinchi 3 kuni</strong> — haqiqiy va bosib chiqarsa boʻladi;
+          reja kunlarni savol soni bilan emas, vaqt bilan oʻlchaydi, chunki savollarimiz
+          bugun 20 ta va biz koʻproqni vaʼda qilmaymiz</li>
+        <li><strong>Tayyorlik varaqasi</strong> — bloklar boʻyicha foiz, urinishlar
+          roʻyxati va sana; bosma varaqda ham, bitta A4 varaqqa</li>
       </ul>
     </div>
     <div class="card">
-      <h3>«Imtihon to'plami» — 99 000 so'm, hozircha sotilmaydi</h3>
+      <h3>«Imtihon toʻplami» — 99 000 soʻm, hozircha sotilmaydi</h3>
       <ul class="plain">
-        <li><strong>To'liq shaxsiy reja imtihon kuningizgacha. Bugun ishlab turibdi.</strong>
-          Kun-ba-kun, eng bo'sh bloklaringizga eng ko'p kun, taqvim ko'rinishida
-          bosiladi. <strong>Nechta varaq bo'lishini o'lchadik:</strong> 31 kungacha
-          bo'lgan reja bitta A4 ga sig'adi, undan uzuni bitta varaqqa sig'maydi:
-          90 kunlik reja — 1,11–1,15 varaq, ya'ni ikkinchi varaq deyarli bo'sh
-          chiqadi. O'lchandi 28.08.2026. Taqvim shuning
-          uchun kerak: kun-bir-qator ko'rinishida bu to'rt varaqdan oshardi.
-          Bepulda birinchi uch kuni ochiq va ular haqiqiy; to'plam qolgan kunlarni ochadi</li>
-        <li><strong>To'liq savollar banki — hali yozilmoqda, bugun yo'q.</strong>
-          Besh blok va metodika bo'yicha, har biriga izoh bilan. Bugun sahifada
+        <li><strong>Toʻliq shaxsiy reja imtihon kuningizgacha. Bugun ishlab turibdi.</strong>
+          Kun-ba-kun, eng boʻsh bloklaringizga eng koʻp kun, taqvim koʻrinishida
+          bosiladi. <strong>Nechta varaq boʻlishini oʻlchadik:</strong> 31 kungacha
+          boʻlgan reja bitta A4 ga sigʻadi, undan uzuni bitta varaqqa sigʻmaydi:
+          90 kunlik reja — 1,11–1,15 varaq, yaʼni ikkinchi varaq deyarli boʻsh
+          chiqadi. Oʻlchandi 28.08.2026. Taqvim shuning
+          uchun kerak: kun-bir-qator koʻrinishida bu toʻrt varaqdan oshardi.
+          Bepulda birinchi uch kuni ochiq va ular haqiqiy; toʻplam qolgan kunlarni ochadi</li>
+        <li><strong>Toʻliq savollar banki — hali yozilmoqda, bugun yoʻq.</strong>
+          Besh blok va metodika boʻyicha, har biriga izoh bilan. Bugun sahifada
           20 ta savol bor va ularning hammasi bepul</li>
-        <li class="no"><strong>To'plamda emas: tayyorlik varaqasi.</strong> U bepul
-          va bepulligicha qoladi — bloklar bo'yicha foiz, urinishlar ro'yxati va sana.
-          Urinishlar orasidagi farq foiz punktida faqat izohlarni ko'rishdan oldingi
+        <li class="no"><strong>Toʻplamda emas: tayyorlik varaqasi.</strong> U bepul
+          va bepulligicha qoladi — bloklar boʻyicha foiz, urinishlar roʻyxati va sana.
+          Urinishlar orasidagi farq foiz punktida faqat izohlarni koʻrishdan oldingi
           urinishlar uchun yoziladi: savollarimiz 20 ta, takroriy urinish esa yodda
-          qolganini o'lchaydi</li>
-        <li class="no"><strong>Va'da qilmaymiz:</strong> imtihondan o'tishni, ustama
+          qolganini oʻlchaydi</li>
+        <li class="no"><strong>Vaʼda qilmaymiz:</strong> imtihondan oʻtishni, ustama
           olishni va «rasmiy savollar»ni</li>
       </ul>
-      <p class="after">Bugun to'lov qabul qilinmayapti: to'plamdagi ikkinchi narsa
-        yozilmagan. Siz zayavka qoldirasiz, tayyor bo'lganda birinchi bo'lib sizga
-        yozamiz. 99 000 so'm — bir urinish yig'imining beshdan bir qismidan ham kam
-        va har qanday toifada birinchi oylik ustamaning to'rtdan biridan arzon.</p>
+      <!-- Ссылка на образец стоит внутри карточки цены, а не отдельным разделом:
+           вопрос «а что я, собственно, куплю» возникает у человека ровно на
+           числе 99 000, и ответ должен лежать в одном нажатии от него. -->
+      <p class="after"><strong><a href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/obrazec.html?lang=uz">Toʻliq
+        rejaning namunasi — boshidan oxirigacha</a>.</strong> Roʻyxatdan oʻtmasdan
+        va toʻlovsiz: oʻylab topilgan oʻqituvchi uchun tuzilgan, lekin xuddi shu
+        kod bilan — har bir kuni, taqvimi va mavzular roʻyxati. Hech narsa
+        kesilmagan. Savollar banki namunada yoʻq, chunki u hali yozilmagan.</p>
+      <p class="after">Bugun toʻlov qabul qilinmayapti: toʻplamdagi ikkinchi narsa
+        yozilmagan. Siz zayavka qoldirasiz, tayyor boʻlganda birinchi boʻlib sizga
+        yozamiz. 99 000 soʻm — bir urinish yigʻimining beshdan bir qismidan ham kam
+        va har qanday toifada birinchi oylik ustamaning toʻrtdan biridan arzon.</p>
     </div>
   </div>
   <div class="col">
@@ -555,135 +590,140 @@ footer li{margin-bottom:7px}
 
     <details>
       <summary>Menda allaqachon milliy sertifikat bor. Ustama beriladimi?</summary>
-      <p>Bu qaysi sertifikat ekaniga va qaysi qoidaga bog'liq. 411-son qaror boshlang'ich
-        ta'lim o'qituvchilari uchun alohida malaka imtihoni tartibini belgilaydi va
+      <p>Bu qaysi sertifikat ekaniga va qaysi qoidaga bogʻliq. 411-son qaror boshlangʻich
+        taʼlim oʻqituvchilari uchun alohida malaka imtihoni tartibini belgilaydi va
         undagi 15 foiz shu imtihonda olingan B+ va undan yuqori darajaga tegishli.
-        Ona tili bo'yicha 50 foizlik ustama esa boshqa qoida bo'yicha beriladi va u yerda
+        Ona tili boʻyicha 50 foizlik ustama esa boshqa qoida boʻyicha beriladi va u yerda
         ham daraja sharti bor: asos — C darajadagi milliy sertifikat (qaror kuchga
         kirgunga qadar olingan sertifikatlar uchun bu 60 ball degani).</p>
     </details>
 
     <details>
       <summary>Ustama qaysi kundan hisoblanadi?</summary>
-      <p>Qaror bo'yicha to'lovlar 2026/2027 o'quv yilidan boshlanadi va sertifikat amal
+      <p>Qaror boʻyicha toʻlovlar 2026/2027 oʻquv yilidan boshlanadi va sertifikat amal
         qilgan butun davrda davom etadi. Aniq oy va hujjat aylanishi — maktab va
-        tuman bo'limi darajasidagi masala; bu haqda ommaviy manbalarda batafsil
-        tushuntirish yo'q, shuning uchun biz uni o'ylab qo'ymaymiz.</p>
+        tuman boʻlimi darajasidagi masala; bu haqda ommaviy manbalarda batafsil
+        tushuntirish yoʻq, shuning uchun biz uni oʻylab qoʻymaymiz.</p>
     </details>
 
     <details>
       <summary>Imtihonni necha marta topshirish mumkin?</summary>
-      <p>Urinishlar soniga cheklov haqida ochiq manbalarda ma'lumot topmadik. Aniq
-        bo'lgan narsa: har bir urinish uchun yig'im qaytadan to'lanadi, ya'ni yiqilish
-        556 200 – 594 000 so'mga turadi (chegirmangiz bo'lsa — kamroq).</p>
+      <p>Urinishlar soniga cheklov haqida ochiq manbalarda maʼlumot topmadik. Aniq
+        boʻlgan narsa: har bir urinish uchun yigʻim qaytadan toʻlanadi, yaʼni yiqilish
+        556 200 – 594 000 soʻmga turadi (chegirmangiz boʻlsa — kamroq).</p>
     </details>
 
     <details>
-      <summary>Menda «kambag'al oila» yoki «davlat ta'minotidagi oila» toifasi bor. To'lov kamayadimi?</summary>
-      <p>Ha. VMQ № 411 ga 1-ilova bo'lgan Nizomning 4-bandi, ikkinchi xatboshisi: Ijtimoiy reyestrning «kambag'al oila»
-        toifasidagi oila a'zolariga va I hamda II guruh nogironligi bo'lgan shaxslarga —
-        50 foiz chegirma, «davlat ta'minotidagi oila» toifasidagi oila a'zolariga —
-        75 foiz. Ya'ni 31-avgustgacha ariza bersangiz 556 200 o'rniga 278 100 yoki
-        139 050 so'm; 1-sentyabrdan esa 594 000 o'rniga 297 000 yoki 148 500 so'm.
-        Toifadan yaqinda chiqarilgan bo'lsangiz ham chegirma darrov yo'qolmaydi,
-        lekin muddatsiz emas: o'sha bandning to'rtinchi xatboshisi og'ir hayotiy
-        vaziyat sababli «kambag'allik chegarasidagi oila» toifasiga kiritilganlarga
-        chegirmani «kambag'al oila» miqdorida beradi, biroq «ushbu reyestrga
-        kiritilgan sanadan boshlab <strong>12 oydan ko'p bo'lmagan muddatda</strong>».
-        YIDXP dagi so'rovnomaning 7-savoli aynan shu haqda so'raydi, va qarorni
+      <summary>Menda «kambagʻal oila» yoki «davlat taʼminotidagi oila» toifasi bor. Toʻlov kamayadimi?</summary>
+      <p>Ha. VMQ № 411 ga 1-ilova boʻlgan Nizomning 4-bandi, ikkinchi xatboshisi: Ijtimoiy reyestrning «kambagʻal oila»
+        toifasidagi oila aʼzolariga va I hamda II guruh nogironligi boʻlgan shaxslarga —
+        50 foiz chegirma, «davlat taʼminotidagi oila» toifasidagi oila aʼzolariga —
+        75 foiz. Yaʼni 31-avgustgacha ariza bersangiz 556 200 oʻrniga 278 100 yoki
+        139 050 soʻm; 1-sentyabrdan esa 594 000 oʻrniga 297 000 yoki 148 500 soʻm.
+        Toifadan yaqinda chiqarilgan boʻlsangiz ham chegirma darrov yoʻqolmaydi,
+        lekin muddatsiz emas: oʻsha bandning toʻrtinchi xatboshisi ogʻir hayotiy
+        vaziyat sababli «kambagʻallik chegarasidagi oila» toifasiga kiritilganlarga
+        chegirmani «kambagʻal oila» miqdorida beradi, biroq «ushbu reyestrga
+        kiritilgan sanadan boshlab <strong>12 oydan koʻp boʻlmagan muddatda</strong>».
+        YIDXP dagi soʻrovnomaning 7-savoli aynan shu haqda soʻraydi, va qarorni
         portal qabul qiladi — toifangizni biz tekshirmaymiz.</p>
     </details>
 
     <details>
       <summary>Sertifikat faqat 15 foiz ustama beradimi?</summary>
-      <p>Yo'q, ikkinchi foydasi ham bor va u kamroq gapiriladi. Qarorning 3-ilovasi
-        pedagog kadrlarni attestatsiyadan o'tkazish nizomining 36-bandiga (VMQ № 572, 17.09.2021)
-        o'zgartirish kiritdi: kamida B+ darajali sertifikatga ega o'qituvchiga
+      <p>Yoʻq, ikkinchi foydasi ham bor va u kamroq gapiriladi. Qarorning 3-ilovasi
+        pedagog kadrlarni attestatsiyadan oʻtkazish nizomining 36-bandiga (VMQ № 572, 17.09.2021)
+        oʻzgartirish kiritdi: kamida B+ darajali sertifikatga ega oʻqituvchiga
         sertifikat amal qilgan davrda navbatdagi majburiy attestatsiyada mutaxassislik
-        fani va kasb standarti bo'yicha bilim darajasini aniqlash hamda o'quv fani
-        bo'yicha malaka sinovidan <strong>maksimal ball</strong> beriladi va u o'sha
-        o'quv fani bo'yicha malaka sinovidan <strong>ozod etiladi</strong>. Ikkinchi
+        fani va kasb standarti boʻyicha bilim darajasini aniqlash hamda oʻquv fani
+        boʻyicha malaka sinovidan <strong>maksimal ball</strong> beriladi va u oʻsha
+        oʻquv fani boʻyicha malaka sinovidan <strong>ozod etiladi</strong>. Ikkinchi
         bosqich sinovida qatnashish esa majburiyligicha qoladi. Attestatsiya malaka
-        toifasini belgilaydi, toifa esa lavozim maoshini — ya'ni o'sha 15 foiz
+        toifasini belgilaydi, toifa esa lavozim maoshini — yaʼni oʻsha 15 foiz
         hisoblanadigan bazani.</p>
-      <p><strong>Lekin bu foydaning chegarasi bor, va uni aytmaslik xato bo'lardi.</strong>
-        O'sha 572-son nizomning 48-bandi (VMQ № 130, 28.02.2025 tahriri) attestatsiyada
-        86 va undan yuqori ball olgan pedagogga bazaviy tarif stavkasiga qo'shimcha
-        <strong>70 foiz</strong> ustama belgilaydi — va o'sha bandda shunday yozilgan:
+      <p><strong>Lekin bu foydaning chegarasi bor, va uni aytmaslik xato boʻlardi.</strong>
+        Oʻsha 572-son nizomning 48-bandi (VMQ № 130, 28.02.2025 tahriri) attestatsiyada
+        86 va undan yuqori ball olgan pedagogga bazaviy tarif stavkasiga qoʻshimcha
+        <strong>70 foiz</strong> ustama belgilaydi — va oʻsha bandda shunday yozilgan:
         «Belgilangan darajadagi milliy yoki unga mos darajadagi xalqaro sertifikatga ega
-        bo'lganligi sababli navbatdagi majburiy attestatsiyada mutaxassislik fani va kasb
-        standarti bo'yicha bilim darajasini aniqlash hamda o'quv fani bo'yicha malaka
-        sinovidan berilgan maksimal ball e'tiborga olinmaydi». Ya'ni sertifikat uchun
-        qo'yilgan maksimal ball 70 foizlik ustamaga <strong>hisoblanmaydi</strong>:
+        boʻlganligi sababli navbatdagi majburiy attestatsiyada mutaxassislik fani va kasb
+        standarti boʻyicha bilim darajasini aniqlash hamda oʻquv fani boʻyicha malaka
+        sinovidan berilgan maksimal ball eʼtiborga olinmaydi». Yaʼni sertifikat uchun
+        qoʻyilgan maksimal ball 70 foizlik ustamaga <strong>hisoblanmaydi</strong>:
         u ustama faqat malaka sinovining ikkala bosqichida qatnashib, oliy yoki birinchi
         toifaga erishgan (yoki uni saqlagan) pedagogga beriladi va ikki yil amal qiladi;
         sertifikat egalari uni navbatdan tashqari attestatsiyada qatnashish orqali
-        olishlari mumkin. Butun bu qoida o'zi ham shartli: o'sha band uni «attestatsiya
-        tizimi xalqaro e'tirof etilgan vakolatli xorijiy tashkilotlar akkreditatsiyasidan
-        o'tkazilgandan so'ng» ishlaydi deydi.</p>
-      <p>Va sertifikat sizni attestatsiyaning o'zidan ozod qilmaydi — faqat bitta
-        sinovdan. O'sha nizomning 46-bandi: uzrsiz sababga ko'ra attestatsiyada
-        qatnashmagan pedagogning malaka toifasi (lavozimi) bir pog'ona tushiriladi,
-        mutaxassis (oliy ma'lumotli o'qituvchi) lavozimidagi pedagog bilan esa ish
+        olishlari mumkin. Butun bu qoida oʻzi ham shartli: oʻsha band uni «attestatsiya
+        tizimi xalqaro eʼtirof etilgan vakolatli xorijiy tashkilotlar akkreditatsiyasidan
+        oʻtkazilgandan soʻng» ishlaydi deydi.</p>
+      <p>Va sertifikat sizni attestatsiyaning oʻzidan ozod qilmaydi — faqat bitta
+        sinovdan. Oʻsha nizomning 46-bandi: uzrsiz sababga koʻra attestatsiyada
+        qatnashmagan pedagogning malaka toifasi (lavozimi) bir pogʻona tushiriladi,
+        mutaxassis (oliy maʼlumotli oʻqituvchi) lavozimidagi pedagog bilan esa ish
         beruvchi mehnat shartnomasini bekor qilish huquqiga ega.</p>
     </details>
 
     <details>
-      <summary>Imtihon kuni kasal bo'lib qolsam, pul yonadimi?</summary>
-      <p>Yo'q, agar uch kun ichida murojaat qilsangiz. Nizomning 22-bandi: uzrli sabab
-        (xizmat safari, malaka oshirish, kasallik yoki oila a'zosining vafoti —
-        tasdiqlovchi hujjat bilan) tufayli qatnasha olmasangiz, imtihon o'tkazilgan
+      <summary>Imtihon kuni kasal boʻlib qolsam, pul yonadimi?</summary>
+      <p>Yoʻq, agar uch kun ichida murojaat qilsangiz. Nizomning 22-bandi: uzrli sabab
+        (xizmat safari, malaka oshirish, kasallik yoki oila aʼzosining vafoti —
+        tasdiqlovchi hujjat bilan) tufayli qatnasha olmasangiz, imtihon oʻtkazilgan
         sanadan <strong>uch kundan kechikmay</strong> YIDXP orqali murojaat qilasiz:
-        keyingi imtihonga o'tkazish yoki to'lovni qaytarish. Qaytarish to'liq bo'ladi,
-        Nizomga 3-ilovadagi shakl bo'yicha; ariza yetti ish kunida ko'riladi (25-band).
+        keyingi imtihonga oʻtkazish yoki toʻlovni qaytarish. Qaytarish toʻliq boʻladi,
+        Nizomga 3-ilovadagi shakl boʻyicha; ariza yetti ish kunida koʻriladi (25-band).
         Ammo kechikkan, uzrli sababsiz kelmagan yoki imtihondan chetlashtirilgan
-        talabgorga to'lov qaytarilmaydi (23-band).</p>
+        talabgorga toʻlov qaytarilmaydi (23-band).</p>
     </details>
 
     <details>
-      <summary>Imtihon qaysi tilda bo'ladi?</summary>
-      <p>Ta'lim tilida: o'qituvchi o'zi dars beradigan tildagi boshlang'ich sinf fanlari
-        bo'yicha baholanadi. Shuning uchun o'zbek tilida dars beradigan o'qituvchi uchun
-        «ona tili» — o'zbek tili, rus tilida dars beradigan uchun esa rus tili, va bu
-        ikki xil savollar to'plami degani.</p>
+      <summary>Imtihon qaysi tilda boʻladi?</summary>
+      <p>Taʼlim tilida: oʻqituvchi oʻzi dars beradigan tildagi boshlangʻich sinf fanlari
+        boʻyicha baholanadi. Shuning uchun oʻzbek tilida dars beradigan oʻqituvchi uchun
+        «ona tili» — oʻzbek tili, rus tilida dars beradigan uchun esa rus tili, va bu
+        ikki xil savollar toʻplami degani.</p>
     </details>
 
     <details>
       <summary>Sizning savollaringiz rasmiymi?</summary>
-      <p>Yo'q va bo'lishi ham mumkin emas. Rasmiy savollar bankiga kirish yopiq.
-        Bizning savollarimiz boshlang'ich sinf dasturi va o'qitish metodikasi asosida
-        o'zimiz tuzganmiz. 26.08.2026 holatiga ularni mustaqil metodist tekshirmagan —
-        buni ham yashirmaymiz; tekshiruv bo'lganda shu yerda yozamiz.</p>
+      <p>Yoʻq va boʻlishi ham mumkin emas. Rasmiy savollar bankiga kirish yopiq.
+        Bizning savollarimiz boshlangʻich sinf dasturi va oʻqitish metodikasi asosida
+        oʻzimiz tuzganmiz. 26.08.2026 holatiga ularni mustaqil metodist tekshirmagan —
+        buni ham yashirmaymiz; tekshiruv boʻlganda shu yerda yozamiz.</p>
     </details>
 
     <details>
       <summary>Siz davlat tashkilotimisiz?</summary>
-      <p>Yo'q. Bilim va malakalarni baholash agentligi bilan aloqamiz yo'q, rasmiy
+      <p>Yoʻq. Bilim va malakalarni baholash agentligi bilan aloqamiz yoʻq, rasmiy
         savollar bankiga kirmaymiz va sertifikat bermaymiz. Biz faqat hisoblaymiz,
         tushuntiramiz va mashq beramiz.</p>
     </details>
 
     <details>
-      <summary>Ma'lumotlarim qayerda saqlanadi?</summary>
+      <summary>Maʼlumotlarim qayerda saqlanadi?</summary>
       <!-- zapret-ok: список сверен со всеми вызовами ev() в app/index.html построчно
            и с телом запросов на живом прогоне через перехват window.fetch. -->
       <p>Mashq va reja brauzeringizda saqlanadi — qaysi savolda xato qilganingiz bizga
-        ko'rinmaydi. Serverga qadam nomi va raqamlar ketadi, va ro'yxat to'liq:
-        kalkulyatorga kiritgan summa va undan chiqqan oylik ustama; maoshni qo'lda
+        koʻrinmaydi. Serverga qadam nomi va raqamlar ketadi, va roʻyxat toʻliq:
+        kalkulyatorga kiritgan summa va undan chiqqan oylik ustama; maoshni qoʻlda
         yozdingizmi yoki toifadan tanladingizmi; mashq va sinov natijasi, urinish
-        savollar izohini o'qishdan oldin bo'ldimi yoki keyin (ha yoki yo'q) hamda sinovga
+        savollar izohini oʻqishdan oldin boʻldimi yoki keyin (ha yoki yoʻq) hamda sinovga
         ketgan soniyalar; xatolar daftarida nechta savol qolgani — qaysilari emas;
         reja necha kunga tuzilgani, imtihon sanasini kiritdingizmi va tarifingiz;
         savol-javobda nechanchi savolni birinchi ochganingiz — matni emas, tartib
         raqami; qaysi tugmalarni bosganingiz va zayavka tugmasini narx blokidan
         bosdingizmi yoki rejadanmi; qaysi havoladan kelganingiz va brauzeringizga
-        beriladigan tasodifiy sessiya kodi. Buni «Tarmoq» oynasida o'zingiz sanab
+        beriladigan tasodifiy sessiya kodi. Buni «Tarmoq» oynasida oʻzingiz sanab
         chiqishingiz mumkin.
-        Aloqa ma'lumotingiz va formadagi javoblaringiz esa faqat zayavka formasini
-        o'zingiz to'ldirsangiz yuboriladi
+        <strong>Uchinchi shaxsga esa birorta ham soʻrov ketmaydi:</strong> bu sahifada
+        na tashqi shrift, na hisoblagich, na vidjet bor — Google Fonts avval bor edi
+        va olib tashlandi. Ilova sahifasi ochilganda brauzer jami toʻrtta narsani oladi:
+        uchta oʻz fayli va raqamlar ketadigan bizning oʻz manzilimiz. Yon taʼsiri —
+        sekin internetda tezroq ochiladi.
+        Aloqa maʼlumotingiz va formadagi javoblaringiz esa faqat zayavka formasini
+        oʻzingiz toʻldirsangiz yuboriladi
         va bizning bazamizda (Supabase, Frankfurt serveri) saqlanadi hamda bizga Telegram
-        orqali keladi — ya'ni O'zbekistondan tashqaridagi serverlarda ham bo'ladi.
-        O'chirishimizni so'rasangiz, o'chiramiz.</p>
+        orqali keladi — yaʼni Oʻzbekistondan tashqaridagi serverlarda ham boʻladi.
+        Oʻchirishimizni soʻrasangiz, oʻchiramiz.</p>
     </details>
   </div>
 </section>
@@ -696,8 +736,8 @@ footer li{margin-bottom:7px}
            написано, что машинно читаемого текста постановления найти не удалось,
            и все числа брались из двух новостей. Это оказалось неправдой:
            lex.uz отдаёт и постановление, и приложение к нему обычным запросом. -->
-      <li>15 foizlik ustama va uning to'rtta sharti (6-band), B+ daraja sharti, ballar
-        shkalasi, belgilangan to'lov 1,5 BHM (1-ilova, 4-band), YIDXP
+      <li>15 foizlik ustama va uning toʻrtta sharti (6-band), B+ daraja sharti, ballar
+        shkalasi, belgilangan toʻlov 1,5 BHM (1-ilova, 4-band), YIDXP
         orqali ariza (9-band), QR kodli sertifikat bir ish kunida va uch yil muddatga,
         imtihon formatini vakolatli organ tasdiqlashi (8-band) — qarorning
         rasmiy matni:
@@ -705,43 +745,43 @@ footer li{margin-bottom:7px}
         Xabar sharhlari:
         <a href="https://kun.uz/news/2026/07/30/b-darajadagi-milliy-sertifikatga-ega-oqituvchilarga-ustama-beriladi" rel="nofollow noopener" target="_blank">kun.uz, 30.07.2026</a>,
         <a href="https://uz24.uz/uz/articles/ustama-26-7-30" rel="nofollow noopener" target="_blank">uz24.uz, 30.07.2026</a>.</li>
-      <li>Toifalar bo'yicha lavozim maoshlari:
+      <li>Toifalar boʻyicha lavozim maoshlari:
         <a href="https://infoedu.uz/2025-yilda-pedagog-kadrlar-qancha-maosh-oladi" rel="nofollow noopener" target="_blank">infoedu.uz, 08.02.2026</a>.
         Jadvaldagi summalar <strong>2026-yil 1-sentyabrgacha</strong> amal qiladi;
-        o'sha kundan byudjet maoshlari 7 foizga oshadi, yangi rasmiy jadval esa hali
-        e'lon qilinmagan.</li>
-      <li>Attestatsiya: sertifikat egasiga maksimal ball va o'quv fani malaka sinovidan
+        oʻsha kundan byudjet maoshlari 7 foizga oshadi, yangi rasmiy jadval esa hali
+        eʼlon qilinmagan.</li>
+      <li>Attestatsiya: sertifikat egasiga maksimal ball va oʻquv fani malaka sinovidan
         ozod etilish (36-band, uchinchi xatboshi, VMQ № 411 tahririda); 86 balldan
-        yuqori natija uchun 70 foizlik ustama va sertifikat uchun qo'yilgan maksimal
+        yuqori natija uchun 70 foizlik ustama va sertifikat uchun qoʻyilgan maksimal
         ballning unga hisoblanmasligi, ustamaning ikki yillik muddati hamda uning
-        xalqaro akkreditatsiyaga bog'liqligi (48-band, VMQ № 130, 28.02.2025 tahririda);
+        xalqaro akkreditatsiyaga bogʻliqligi (48-band, VMQ № 130, 28.02.2025 tahririda);
         attestatsiyada uzrsiz qatnashmaslik oqibati (46-band) — VMQ № 572, 17.09.2021,
         amaldagi tahrirda:
         <a href="https://lex.uz/uz/docs/-5641270" rel="nofollow noopener" target="_blank">lex.uz/uz/docs/-5641270</a>.</li>
-      <li>To'lovning 90 foizi YIDXP orqali ro'yxatdan o'tilgani uchun (4-bob, 21-band),
+      <li>Toʻlovning 90 foizi YIDXP orqali roʻyxatdan oʻtilgani uchun (4-bob, 21-band),
         chegirmalar 50 va 75 foiz hamda ularning 12 oylik cheklovi (1-bob, 4-band),
-        12 kunlik to'lov muddati (Nizomga 1-ilova, SXEMA), natijalar 21 ish kunida
-        (16-band), natijalarning bekor qilinishi va shunda to'lovning qaytarilishi
+        12 kunlik toʻlov muddati (Nizomga 1-ilova, SXEMA), natijalar 21 ish kunida
+        (16-band), natijalarning bekor qilinishi va shunda toʻlovning qaytarilishi
         (17-band), pulni qaytarish (22–25-band), apellyatsiya tartibi (26–29-band),
-        ustamaning 2027-yildan boshlab budjet so'rovnomalari orqali nazarda tutilishi
-        (qarorning 6-bandi, uchinchi xatboshi) — o'sha qarorning o'zi, yuqoridagi
+        ustamaning 2027-yildan boshlab budjet soʻrovnomalari orqali nazarda tutilishi
+        (qarorning 6-bandi, uchinchi xatboshi) — oʻsha qarorning oʻzi, yuqoridagi
         havola.</li>
-      <li>BHM 412 000 so'm — <strong>2025-yil 1-avgustdan</strong>, PF-91, 02.06.2025,
-        II bo'lim, 3-band «b» kichik bandi:
+      <li>BHM 412 000 soʻm — <strong>2025-yil 1-avgustdan</strong>, PF-91, 02.06.2025,
+        II boʻlim, 3-band «b» kichik bandi:
         <a href="https://lex.uz/ru/docs/7553336" rel="nofollow noopener" target="_blank">lex.uz/ru/docs/7553336</a>.
-        BHM 440 000 so'm va byudjet xodimlari maoshining 7 foizga oshishi —
-        <strong>2026-yil 1-sentyabrdan</strong>, PF-115, 23.06.2026, II bo'lim,
+        BHM 440 000 soʻm va byudjet xodimlari maoshining 7 foizga oshishi —
+        <strong>2026-yil 1-sentyabrdan</strong>, PF-115, 23.06.2026, II boʻlim,
         2-band va 3-band «b» kichik bandi:
-        <a href="https://lex.uz/uz/docs/-8283656" rel="nofollow noopener" target="_blank">o'zbekcha matn</a>,
+        <a href="https://lex.uz/uz/docs/-8283656" rel="nofollow noopener" target="_blank">oʻzbekcha matn</a>,
         <a href="https://lex.uz/ru/docs/8283680" rel="nofollow noopener" target="_blank">ruscha rasmiy matn</a>.
-        Diqqat: 412 000 raqami PF-115 da <strong>yo'q</strong> — u boshqa farmon bilan
-        belgilangan, shuning uchun ikkalasi ham alohida ko'rsatilgan.</li>
-      <li>2026-yilgi sessiyalar jadvali (boshlang'ich ta'lim u yerda yo'q):
+        Diqqat: 412 000 raqami PF-115 da <strong>yoʻq</strong> — u boshqa farmon bilan
+        belgilangan, shuning uchun ikkalasi ham alohida koʻrsatilgan.</li>
+      <li>2026-yilgi sessiyalar jadvali (boshlangʻich taʼlim u yerda yoʻq):
         <a href="https://oliygoh.uz/milliy-sertifikat-2026" rel="nofollow noopener" target="_blank">oliygoh.uz, jadval</a>.
-        O'sha saytdagi 556 200 so'm — bu «boshqa fanlar uchun boshqa narx» emas:
-        u ham xuddi shu 0,9 × 1,5 BHM, ya'ni bizning yig'imimiz bilan bir xil summa.</li>
+        Oʻsha saytdagi 556 200 soʻm — bu «boshqa fanlar uchun boshqa narx» emas:
+        u ham xuddi shu 0,9 × 1,5 BHM, yaʼni bizning yigʻimimiz bilan bir xil summa.</li>
       <li>Taqqoslash uchun kurs narxi — «Ona tili | Milliy sertifikat kursi», butun kursga
-        500 000 so'm (27.08.2026 holatiga). Sahifa muddat bo'yicha o'ziga zid:
+        500 000 soʻm (27.08.2026 holatiga). Sahifa muddat boʻyicha oʻziga zid:
         sarlavhada «2 oylik intensiv kurs», savol-javobda «Kurs 45 kun davom etadi» —
         shuning uchun oylik narx chiqarilmadi:
         <a href="https://ustoz.uz/course/ona-tili-milliy-sertifikat-kursi" rel="nofollow noopener" target="_blank">ustoz.uz</a>.</li>
@@ -749,12 +789,36 @@ footer li{margin-bottom:7px}
         <a href="https://talimxabarlari.uz/26760/" rel="nofollow noopener" target="_blank">talimxabarlari.uz, 15.04.2025</a>.</li>
     </ol>
     <p style="margin-top:18px">Sahifa 27.08.2026 da yangilangan. Bu sahifa rasmiy hujjat emas
-      va yuridik maslahat ham emas: u ochiq manbalardagi raqamlarni bir joyga yig'adi va
-      har biriga havola qo'yadi. Qaror matnining rasmiy tahriri —
+      va yuridik maslahat ham emas: u ochiq manbalardagi raqamlarni bir joyga yigʻadi va
+      har biriga havola qoʻyadi. Qaror matnining rasmiy tahriri —
       <a href="https://lex.uz/uz/docs/-8362485" rel="nofollow noopener" target="_blank">lex.uz</a> da,
-      va biz uni o'zimiz o'qidik.</p>
+      va biz uni oʻzimiz oʻqidik.</p>
     <p><a id="lang-foot" href="ru.html" hreflang="ru">По-русски</a> ·
       <a id="cta-foot" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/?lang=uz">Kalkulyator va mashq</a></p>
+
+    <!-- БЛОК ПРОДАВЦА (products/_obshee/PRODAVETS.md), текст дословный. В подвале
+         он стоит ниже источников намеренно: источники отвечают на «правда ли это»,
+         а этот блок — на «кто это говорит», и второй вопрос человек задаёт после
+         первого. Он лежит внутри того же <footer> и той же .col: отдельным
+         подвалом он давал бы на странице два элемента footer и вложенный
+         второй .wrap — лишний отступ там, где колонка уже задана.
+         Две приписки — те же, что в приложении: у Ustamam своего бота нет
+         (единственный живой входящий адрес владельца назван прямо в тексте), а
+         обещание возврата относится к деньгам, которых сегодня не берут. -->
+    <div class="kim">
+      <h2>Buni kim qiladi</h2>
+      <p><strong>Buni kim qiladi.</strong> Yakka tartibdagi tadbirkor Epixin Kirill
+      Nikolayevich, roʻyxatdan oʻtish raqami <strong>7875577</strong>, Toshkent shahri,
+      Shayxontohur tumani. Toʻliq rekvizitlar, shu jumladan STIR — ofertada va ariza bilan birga soʻrov boʻyicha.</p>
+      <p>Men buni yolgʻiz va oʻzim qilaman. Yana
+      <a href="https://t.me/rulchi_bot" rel="noopener" target="_blank">Rulchi</a> ishlaydi —
+      Oʻzbekiston yoʻl harakati qoidalari Telegramda; u tirik, undan har kuni
+      foydalanishadi, va men mahsulotlarni qanday qilishim oʻsha yerdan koʻrinadi.</p>
+      <p><strong>Ish kuni davomida javob beraman</strong>, eng koʻpi bilan uch ish kuni. Sahifadagi shaklga ariza qoldiring — u menga darhol keladi.</p>
+      <p><strong>Agar shu muddatda javob bermasam — demak men xato qildim, va siz hech narsa yoʻqotmaysiz: suhbatgacha toʻlaydigan narsa yoʻq.</strong>
+      </p>
+      
+    </div>
   </div>
 </footer>
 </div>
@@ -811,7 +875,8 @@ footer li{margin-bottom:7px}
       "applicationCategory":"EducationalApplication",
       "operatingSystem":"Web",
       "url":"https://gordondr.github.io/tma-uz/ustoz-sertifikat/",
-      "description":"Boshlang'ich sinf o'qituvchisi uchun: milliy sertifikat ustamasi kalkulyatori, 20 savollik izohli mashq, xatolar daftari, vaqt bilan sinov va imtihon kunigacha kun-ba-kun reja.",
+      "image":"https://gordondr.github.io/tma-uz/ustoz-sertifikat/sayt/og.png",
+      "description":"Boshlangʻich sinf oʻqituvchisi uchun: milliy sertifikat ustamasi kalkulyatori, 20 savollik izohli mashq, xatolar daftari, vaqt bilan sinov va imtihon kunigacha kun-ba-kun reja.",
       "areaServed":{"@type":"Country","name":"Uzbekistan"},
       "offers":[
         {"@type":"Offer","name":"Kalkulyator, 20 savollik mashq, xatolar daftari, vaqt bilan sinov, tayyorlik varaqasi, rejaning 3 kuni","price":"0","priceCurrency":"UZS","availability":"https://schema.org/InStock"}
@@ -821,25 +886,25 @@ footer li{margin-bottom:7px}
       "@type":"FAQPage",
       "mainEntity":[
         {"@type":"Question","name":"Menda allaqachon milliy sertifikat bor. Ustama beriladimi?",
-         "acceptedAnswer":{"@type":"Answer","text":"Bu qaysi sertifikat ekaniga va qaysi qoidaga bog'liq. 411-son qaror boshlang'ich ta'lim o'qituvchilari uchun alohida malaka imtihoni tartibini belgilaydi va undagi 15 foiz shu imtihonda olingan B+ va undan yuqori darajaga tegishli. Ona tili bo'yicha 50 foizlik ustama esa boshqa qoida bo'yicha beriladi va u yerda ham daraja sharti bor."}},
+         "acceptedAnswer":{"@type":"Answer","text":"Bu qaysi sertifikat ekaniga va qaysi qoidaga bogʻliq. 411-son qaror boshlangʻich taʼlim oʻqituvchilari uchun alohida malaka imtihoni tartibini belgilaydi va undagi 15 foiz shu imtihonda olingan B+ va undan yuqori darajaga tegishli. Ona tili boʻyicha 50 foizlik ustama esa boshqa qoida boʻyicha beriladi va u yerda ham daraja sharti bor."}},
         {"@type":"Question","name":"Ustama qaysi kundan hisoblanadi?",
-         "acceptedAnswer":{"@type":"Answer","text":"Qaror bo'yicha to'lovlar 2026/2027 o'quv yilidan boshlanadi va sertifikat amal qilgan butun davrda davom etadi. Aniq oy va hujjat aylanishi — maktab va tuman bo'limi darajasidagi masala; bu haqda ommaviy manbalarda batafsil tushuntirish yo'q."}},
+         "acceptedAnswer":{"@type":"Answer","text":"Qaror boʻyicha toʻlovlar 2026/2027 oʻquv yilidan boshlanadi va sertifikat amal qilgan butun davrda davom etadi. Aniq oy va hujjat aylanishi — maktab va tuman boʻlimi darajasidagi masala; bu haqda ommaviy manbalarda batafsil tushuntirish yoʻq."}},
         {"@type":"Question","name":"Imtihonni necha marta topshirish mumkin?",
-         "acceptedAnswer":{"@type":"Answer","text":"Urinishlar soniga cheklov haqida ochiq manbalarda ma'lumot topmadik. Aniq bo'lgan narsa: har bir urinish uchun yig'im qaytadan to'lanadi, ya'ni yiqilish 556 200 – 594 000 so'mga turadi."}},
-        {"@type":"Question","name":"Menda «kambag'al oila» yoki «davlat ta'minotidagi oila» toifasi bor. To'lov kamayadimi?",
-         "acceptedAnswer":{"@type":"Answer","text":"Ha. VMQ № 411, 1-ilova, 4-band: Ijtimoiy reyestrning «kambag'al oila» toifasidagi oila a'zolariga va I hamda II guruh nogironligi bo'lgan shaxslarga 50 foiz, «davlat ta'minotidagi oila» toifasidagi oila a'zolariga 75 foiz chegirma. Ariza 31-avgustgacha berilsa — 556 200 o'rniga 278 100 yoki 139 050 so'm."}},
+         "acceptedAnswer":{"@type":"Answer","text":"Urinishlar soniga cheklov haqida ochiq manbalarda maʼlumot topmadik. Aniq boʻlgan narsa: har bir urinish uchun yigʻim qaytadan toʻlanadi, yaʼni yiqilish 556 200 – 594 000 soʻmga turadi."}},
+        {"@type":"Question","name":"Menda «kambagʻal oila» yoki «davlat taʼminotidagi oila» toifasi bor. Toʻlov kamayadimi?",
+         "acceptedAnswer":{"@type":"Answer","text":"Ha. VMQ № 411, 1-ilova, 4-band: Ijtimoiy reyestrning «kambagʻal oila» toifasidagi oila aʼzolariga va I hamda II guruh nogironligi boʻlgan shaxslarga 50 foiz, «davlat taʼminotidagi oila» toifasidagi oila aʼzolariga 75 foiz chegirma. Ariza 31-avgustgacha berilsa — 556 200 oʻrniga 278 100 yoki 139 050 soʻm."}},
         {"@type":"Question","name":"Sertifikat faqat 15 foiz ustama beradimi?",
-         "acceptedAnswer":{"@type":"Answer","text":"Yo'q. Qarorning 3-ilovasi VMQ № 572 dagi attestatsiya nizomining 36-bandini o'zgartirdi: kamida B+ darajali sertifikatga ega o'qituvchiga navbatdagi majburiy attestatsiyada mutaxassislik fani va kasb standarti bo'yicha bilim darajasini aniqlash hamda o'quv fani bo'yicha malaka sinovidan maksimal ball beriladi va u o'sha o'quv fani bo'yicha malaka sinovidan ozod etiladi. Ikkinchi bosqich sinovi majburiyligicha qoladi. Diqqat: o'sha nizomning 48-bandiga ko'ra sertifikat uchun qo'yilgan maksimal ball 86 balldan yuqori natija uchun beriladigan 70 foizlik ustamaga hisoblanmaydi, va 46-bandga ko'ra attestatsiyada uzrsiz qatnashmaslik malaka toifasini bir pog'ona tushiradi."}},
-        {"@type":"Question","name":"Imtihon kuni kasal bo'lib qolsam, pul yonadimi?",
-         "acceptedAnswer":{"@type":"Answer","text":"Yo'q, agar imtihon o'tkazilgan sanadan uch kundan kechikmay YIDXP orqali murojaat qilsangiz: to'lov to'liq qaytariladi yoki keyingi imtihonga o'tkaziladi (22-band). Kechikkan, uzrli sababsiz kelmagan yoki imtihondan chetlashtirilgan talabgorga to'lov qaytarilmaydi (23-band)."}},
-        {"@type":"Question","name":"Imtihon qaysi tilda bo'ladi?",
-         "acceptedAnswer":{"@type":"Answer","text":"Ta'lim tilida: o'qituvchi o'zi dars beradigan tildagi boshlang'ich sinf fanlari bo'yicha baholanadi. Shuning uchun o'zbek tilida dars beradigan o'qituvchi uchun ona tili — o'zbek tili, rus tilida dars beradigan uchun esa rus tili."}},
+         "acceptedAnswer":{"@type":"Answer","text":"Yoʻq. Qarorning 3-ilovasi VMQ № 572 dagi attestatsiya nizomining 36-bandini oʻzgartirdi: kamida B+ darajali sertifikatga ega oʻqituvchiga navbatdagi majburiy attestatsiyada mutaxassislik fani va kasb standarti boʻyicha bilim darajasini aniqlash hamda oʻquv fani boʻyicha malaka sinovidan maksimal ball beriladi va u oʻsha oʻquv fani boʻyicha malaka sinovidan ozod etiladi. Ikkinchi bosqich sinovi majburiyligicha qoladi. Diqqat: oʻsha nizomning 48-bandiga koʻra sertifikat uchun qoʻyilgan maksimal ball 86 balldan yuqori natija uchun beriladigan 70 foizlik ustamaga hisoblanmaydi, va 46-bandga koʻra attestatsiyada uzrsiz qatnashmaslik malaka toifasini bir pogʻona tushiradi."}},
+        {"@type":"Question","name":"Imtihon kuni kasal boʻlib qolsam, pul yonadimi?",
+         "acceptedAnswer":{"@type":"Answer","text":"Yoʻq, agar imtihon oʻtkazilgan sanadan uch kundan kechikmay YIDXP orqali murojaat qilsangiz: toʻlov toʻliq qaytariladi yoki keyingi imtihonga oʻtkaziladi (22-band). Kechikkan, uzrli sababsiz kelmagan yoki imtihondan chetlashtirilgan talabgorga toʻlov qaytarilmaydi (23-band)."}},
+        {"@type":"Question","name":"Imtihon qaysi tilda boʻladi?",
+         "acceptedAnswer":{"@type":"Answer","text":"Taʼlim tilida: oʻqituvchi oʻzi dars beradigan tildagi boshlangʻich sinf fanlari boʻyicha baholanadi. Shuning uchun oʻzbek tilida dars beradigan oʻqituvchi uchun ona tili — oʻzbek tili, rus tilida dars beradigan uchun esa rus tili."}},
         {"@type":"Question","name":"Sizning savollaringiz rasmiymi?",
-         "acceptedAnswer":{"@type":"Answer","text":"Yo'q va bo'lishi ham mumkin emas. Rasmiy savollar bankiga kirish yopiq. Bizning savollarimiz boshlang'ich sinf dasturi va o'qitish metodikasi asosida o'zimiz tuzganmiz. 26.08.2026 holatiga ularni mustaqil metodist tekshirmagan."}},
+         "acceptedAnswer":{"@type":"Answer","text":"Yoʻq va boʻlishi ham mumkin emas. Rasmiy savollar bankiga kirish yopiq. Bizning savollarimiz boshlangʻich sinf dasturi va oʻqitish metodikasi asosida oʻzimiz tuzganmiz. 26.08.2026 holatiga ularni mustaqil metodist tekshirmagan."}},
         {"@type":"Question","name":"Siz davlat tashkilotimisiz?",
-         "acceptedAnswer":{"@type":"Answer","text":"Yo'q. Bilim va malakalarni baholash agentligi bilan aloqamiz yo'q, rasmiy savollar bankiga kirmaymiz va sertifikat bermaymiz. Biz faqat hisoblaymiz, tushuntiramiz va mashq beramiz."}},
-        {"@type":"Question","name":"Ma'lumotlarim qayerda saqlanadi?",
-         "acceptedAnswer":{"@type":"Answer","text":"Mashq va reja brauzeringizda saqlanadi — qaysi savolda xato qilganingiz bizga ko'rinmaydi. Serverga qadam nomi va raqamlar ketadi. Aloqa ma'lumotingiz faqat zayavka formasini o'zingiz to'ldirsangiz yuboriladi va bizning bazamizda (Supabase, Frankfurt serveri) saqlanadi hamda bizga Telegram orqali keladi — ya'ni O'zbekistondan tashqaridagi serverlarda ham bo'ladi. O'chirishimizni so'rasangiz, o'chiramiz."}}
+         "acceptedAnswer":{"@type":"Answer","text":"Yoʻq. Bilim va malakalarni baholash agentligi bilan aloqamiz yoʻq, rasmiy savollar bankiga kirmaymiz va sertifikat bermaymiz. Biz faqat hisoblaymiz, tushuntiramiz va mashq beramiz."}},
+        {"@type":"Question","name":"Maʼlumotlarim qayerda saqlanadi?",
+         "acceptedAnswer":{"@type":"Answer","text":"Mashq va reja brauzeringizda saqlanadi — qaysi savolda xato qilganingiz bizga koʻrinmaydi. Serverga qadam nomi va raqamlar ketadi. Aloqa maʼlumotingiz faqat zayavka formasini oʻzingiz toʻldirsangiz yuboriladi va bizning bazamizda (Supabase, Frankfurt serveri) saqlanadi hamda bizga Telegram orqali keladi — yaʼni Oʻzbekistondan tashqaridagi serverlarda ham boʻladi. Oʻchirishimizni soʻrasangiz, oʻchiramiz."}}
       ]
     }
   ]

@@ -10,22 +10,36 @@
 <link rel="alternate" hreflang="ru" href="https://gordondr.github.io/tma-uz/toy-daftar/">
 <link rel="alternate" hreflang="uz" href="https://gordondr.github.io/tma-uz/toy-daftar/uz.html">
 <link rel="alternate" hreflang="x-default" href="https://gordondr.github.io/tma-uz/toy-daftar/">
+<!-- Превью ссылки. До 28.08 здесь стоял brand/toy-og.png — знак продукта
+     на пустом гранатовом поле: ни имени, ни строки о том, что это, ни числа.
+     Ссылку на продукт пересылают в чат, и это первое, что человек видит;
+     по нему он решает, открывать ли вообще. Теперь на картинке имя, одна
+     строка и одно число — то самое, ради которого продукт и открывают.
+     Картинка своя на каждый язык: og-ru.png и og-uz.png.
+     Рисуется tools/og-draw.html, лежит в app/og/. -->
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Toʻy-Daftar">
 <meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="uz_UZ">
 <meta property="og:title" content="Приглашения на той и точное число гостей для тойханы">
-<meta property="og:image" content="https://gordondr.github.io/tma-uz/brand/toy-og.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
 <meta property="og:description" content="Гости отвечают за всю семью одним касанием. Вы видите, за сколько мест выставит счёт тойхона.">
 <meta property="og:url" content="https://gordondr.github.io/tma-uz/toy-daftar/">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/toy/og/og-ru.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Toʻy-Daftar. Тойхона берёт за приглашённых, а не за пришедших: 4 750 000 сум за 19 мест, которые держат за восемью молчащими семьями.">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#FBF7F2">
 <link rel="icon" href="../brand/logo-toy.svg" type="image/svg+xml">
 <link rel="icon" href="../brand/toy-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../brand/toy-apple.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Forum&family=Manrope:wght@400;500;600;700&display=swap">
+<!-- Шрифты свои, один набор с приложением: /tma-uz/toy/fonts/. Сайт и мини-апп
+     лежат в соседних папках Pages, и держать две копии одних и тех же файлов
+     значило бы заставить человека скачать их дважды при переходе с сайта
+     в приложение. Раньше здесь стояла ссылка на fonts.googleapis.com —
+     первый запрос каждой загрузки уходил к Google до всякого действия. -->
+<link rel="stylesheet" href="../toy/fonts/fonts.css">
 <style>
 /* Визуальный язык взят у самого продукта: гранат и золото приглашения, шрифт
    Forum — тот же, что в оформлениях «Anor» и «Suzani». Сайт продаёт внешний вид
@@ -130,6 +144,16 @@ details summary::before{content:"+";color:var(--gold-ink);font-weight:700;margin
 details[open] summary::before{content:"–"}
 details p{margin:10px 0 0;color:var(--ink2)}
 
+/* Блок продавца. Стоит рядом с ценой, а не в оферте: оферту открывают после
+   решения, а возражение «откуда я знаю, что вы не пропадёте с деньгами»
+   возникает до. Оно названо главным в беклогах всех шести продуктов. */
+.seller{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:24px 26px;margin:26px auto 0;max-width:680px;text-align:left}
+.seller h3{font-family:var(--display);font-size:22px;margin-bottom:10px}
+.seller p{margin:0 0 13px;color:var(--ink2);font-size:15.2px}
+.seller p:last-child{margin-bottom:0}
+.seller b{color:var(--ink)}
+
 footer{border-top:1px solid var(--line);padding:30px 0 46px;color:var(--muted);font-size:13.5px}
 footer a{color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -142,7 +166,7 @@ footer a{color:var(--muted)}
   <img src="../brand/logo-toy.svg" alt="">
   <b>Toʻy-Daftar</b>
   <span class="sp"></span>
-  <a href="uz.html" hreflang="uz">O‘zbekcha</a>
+  <a href="uz.html" hreflang="uz">Oʻzbekcha</a>
 </header>
 </div>
 
@@ -178,16 +202,16 @@ footer a{color:var(--muted)}
       те самые, что откроет гость. Листайте вбок.</p>
   </div></div>
   <div class="gal">
-    <figure><div class="phone"><iframe loading="lazy" title="Оформление Zar" src="../toy/invite.html?theme=zar&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zar</b>классика, тёплое</figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Оформление Atlas" src="../toy/invite.html?theme=atlas&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Atlas</b>национальное</figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Оформление Oq" src="../toy/invite.html?theme=oq&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Oq</b>минимализм, светлое</figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Оформление Kecha" src="../toy/invite.html?theme=kecha&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Kecha</b>вечернее</figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Оформление Anor" src="../toy/invite.html?theme=anor&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Anor</b><span class="lock">гранат · Premium</span></figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Оформление Zumrad" src="../toy/invite.html?theme=zumrad&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zumrad</b><span class="lock">изумруд · Premium</span></figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Оформление Marmar" src="../toy/invite.html?theme=marmar&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Marmar</b><span class="lock">мрамор · Premium</span></figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Оформление Shafaq" src="../toy/invite.html?theme=shafaq&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Shafaq</b><span class="lock">закат · Premium</span></figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Оформление Suzani" src="../toy/invite.html?theme=suzani&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Suzani</b><span class="lock">сюзане · Premium</span></figcaption></figure>
-    <figure><div class="phone"><iframe loading="lazy" title="Оформление Zamon" src="../toy/invite.html?theme=zamon&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%27yxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zamon</b><span class="lock">современное · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Zar" src="../toy/invite.html?theme=zar&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zar</b>классика, тёплое</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Atlas" src="../toy/invite.html?theme=atlas&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Atlas</b>национальное</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Oq" src="../toy/invite.html?theme=oq&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Oq</b>минимализм, светлое</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Kecha" src="../toy/invite.html?theme=kecha&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Kecha</b>вечернее</figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Anor" src="../toy/invite.html?theme=anor&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Anor</b><span class="lock">гранат · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Zumrad" src="../toy/invite.html?theme=zumrad&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zumrad</b><span class="lock">изумруд · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Marmar" src="../toy/invite.html?theme=marmar&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Marmar</b><span class="lock">мрамор · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Shafaq" src="../toy/invite.html?theme=shafaq&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Shafaq</b><span class="lock">закат · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Suzani" src="../toy/invite.html?theme=suzani&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Suzani</b><span class="lock">сюзане · Premium</span></figcaption></figure>
+    <figure><div class="phone"><iframe loading="lazy" title="Оформление Zamon" src="../toy/invite.html?theme=zamon&ilang=uz_latin&couple=Aziz%20%26%20Nilufar&date=2026-10-18&time=18:00&venue=To%CA%BByxona%20%C2%ABZarafshon%C2%BB"></iframe></div><figcaption><b>Zamon</b><span class="lock">современное · Premium</span></figcaption></figure>
   </div>
   <div class="wrap"><div class="mid">
     <a class="cta sec" style="margin:0" href="../toy/demo.html?lang=ru">Собрать своё со своими именами</a>
@@ -259,6 +283,11 @@ footer a{color:var(--muted)}
     <h2>Сколько стоит</h2>
     <p style="color:var(--ink2)">Разово за той, не подписка. Приглашения и ответы
       бесплатны на любом тарифе.</p>
+    <!-- Ссылка стоит НАД ценами, а не под ними: вопрос «что я получу за эти
+         деньги» возникает раньше, чем человек дочитает список пунктов. -->
+    <p style="margin-bottom:0"><a href="../toy/obrazec.html?lang=ru"><b>Посмотреть образец
+      платного целиком</b></a> — счёт для тойханы, рассадка и книга подарков
+      на выдуманном тое, до всякой оплаты.</p>
   </div>
   <div class="grid3">
     <div class="tier">
@@ -296,6 +325,51 @@ footer a{color:var(--muted)}
         <li>Перед удалением данных книгу присылаем вам — останется у вас</li>
       </ul>
     </div>
+  </div>
+
+  <!-- Четыре проверяемые вещи, а не «мы надёжные»: кто ты (имя и номер, которые
+       можно проверить в реестре), где тебя найти, за сколько ты ответишь и что
+       будет, если не понравится. Каждая — проверяемое обещание.
+
+       Про возврат. В products/_obshee/PRODAVETS.md стоит «верну деньги
+       в течение 14 дней, без объяснений». Здесь этого нет НАРОЧНО: оферта
+       того же продукта (oferta.html, раздел 2) даёт другое — полный возврат
+       в течение суток, пока не отправлено ни одного приглашения, и возврат
+       стоимости, если функция не работает по нашей вине. Поставить рядом
+       с ценой обещание, которого нет в договоре, — это ровно тот класс
+       ошибки, который здесь ловят: обещание, которому противоречит
+       собственный документ продукта. Пока оферта не изменена владельцем,
+       на странице стоит то, что в ней написано. -->
+  <div class="seller">
+    <h3>Кто это делает</h3>
+    <p>Индивидуальный предприниматель <b>Епихин Кирилл Николаевич</b>,
+      регистрационный номер <b>7875577</b>, город Ташкент, Шайхантахурский район.
+      СТИР — по запросу в боте.</p>
+    <p>Я делаю это один и делаю сам. Ещё у меня работает
+      <a href="https://t.me/rulchi_bot" target="_blank" rel="noopener">Rulchi</a> —
+      правила дорожного движения Узбекистана в Telegram; он живой, им пользуются
+      каждый день, и по нему видно, как я делаю продукты.</p>
+    <!-- Срок ответа стоит тот, который человек и правда получит. Здесь было
+         «в течение рабочего дня», а оферта того же продукта (раздел «Порядок
+         приёма жалоб») и сам бот в ответ на обращение говорят «3 рабочих дня».
+         Три разных числа на одном пути — от кнопки «Поддержка в боте» до
+         первого ответа бота — это обещание, которому противоречит собственный
+         механизм продукта. Предельный срок теперь взят из оферты и из строк
+         бота (`help`, `noted` в supabase/functions/toy/index.ts), а «обычно
+         в тот же день» осталось как то, что владелец делает сверх срока. -->
+    <p><b>Отвечаю обычно в тот же день.</b> Предельный срок — 3 рабочих дня:
+      так записано в <a href="../toy/oferta.html?lang=ru">оферте</a> и то же самое
+      отвечает бот, когда принимает обращение. Пишите в бота — там я вижу
+      сообщение сразу.</p>
+    <!-- «в течение суток» относилось к запросу, а читалось как срок, за который
+         придут деньги: оферта даёт на возврат 3 рабочих дня. Теперь оба срока
+         названы по отдельности — окно запроса и срок самого возврата. -->
+    <p><b>Не подойдёт — верну деньги.</b> Если после оплаты вы не отправили
+      ни одного приглашения — возврат полный: напишите в бота в течение суток
+      после оплаты, деньги вернутся тем же способом за 3 рабочих дня.
+      Если что-то не работает по моей вине и я это не починил — возврат стоимости.
+      Это записано в <a href="../toy/oferta.html?lang=ru">оферте</a>, раздел 2,
+      а не только здесь.</p>
   </div>
 </section>
 
@@ -364,10 +438,19 @@ footer a{color:var(--muted)}
   </div>
 </section>
 
+<!-- Подвал повторяет то же, что стоит у цены: до цены человек дочитывает
+     не всегда, а в подвал заглядывает именно тот, кто ищет, кто за этим стоит. -->
 <footer>
-  <div>ИП, Ташкент, Республика Узбекистан ·
-    <a href="../toy/oferta.html">Публичная оферта и обработка данных</a> ·
-    <a href="https://t.me/toy_daftar_bot">Поддержка в боте</a></div>
+  <div>Индивидуальный предприниматель Епихин Кирилл Николаевич,
+    регистрационный номер 7875577, Шайхантахурский район, г. Ташкент,
+    Республика Узбекистан. СТИР — по запросу в боте.
+    Отвечаю обычно в тот же день, предельный срок — 3 рабочих дня.</div>
+  <div style="margin-top:8px">
+    <!-- lang=ru в адресе: оферта берёт язык из адреса выше настроек телефона,
+         иначе читатель попадал бы на договор на языке своей системы. -->
+    <a href="../toy/oferta.html?lang=ru">Публичная оферта и обработка данных</a> ·
+    <a href="https://t.me/toy_daftar_bot">Поддержка в боте</a> ·
+    <a href="https://t.me/rulchi_bot" target="_blank" rel="noopener">Мой другой продукт — Rulchi</a></div>
 </footer>
 </div>
 

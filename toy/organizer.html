@@ -4,21 +4,39 @@
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<meta property="og:image" content="https://gordondr.github.io/tma-uz/brand/toy-og.png">
+<!-- Превью ссылки. Кабинет открывают из Telegram, но его адрес пересылают
+     руками чаще, чем кажется: организатор кидает ссылку второй стороне тоя.
+     До 28.08 в превью уходил знак продукта на пустом поле — ни имени,
+     ни строки о том, что это. Картинка рисуется tools/og-draw.html. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Toʻy-Daftar">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="uz_UZ">
+<meta property="og:title" content="Toʻy-Daftar — кабинет тоя">
+<meta property="og:description" content="Семьи, ответы, точное число для тойханы, рассадка по столам и книга подарков — в одном месте.">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/toy/organizer.html">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/toy/og/og-ru.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Toʻy-Daftar. Тойхона берёт за приглашённых, а не за пришедших: 4 750 000 сум за 19 мест, которые держат за восемью молчащими семьями.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../brand/logo-toy.svg" type="image/svg+xml">
 <link rel="icon" href="../brand/toy-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../brand/toy-apple.png">
 <title>Toʻy-Daftar — кабинет</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!-- Шрифты свои, рядом с продуктом: fonts/fonts.css. Печатное приглашение
+     рисуется шрифтом выбранного оформления, а их десять, поэтому набор один
+     на все страницы — иначе canvas подставит системный.
+     Раньше здесь стоял document.write со ссылкой на fonts.googleapis.com. -->
+<link rel="stylesheet" href="fonts/fonts.css">
 <script src="themes.js"></script>
-<!-- Набор шрифтов — из themes.js: печатное приглашение рисуется шрифтом выбранного
-     оформления, а их десять. Без общего набора canvas подставлял системный. -->
-<script>document.write('<link rel="stylesheet" href="' + window.TOY_FONTS + '">');</script>
+<!-- Счёт для зала, рассадка и список для печати живут в zal.js, а не здесь:
+     их же рисует образец (obrazec.html) на выдуманном тое, до всяких денег.
+     Держать две копии значило бы иметь два разных счёта — один за замком,
+     другой на витрине, — и они разъехались бы с первой правки. -->
+<script src="zal.js"></script>
 <script src="config.js"></script>
 <script src="i18n-organizer.js"></script>
 <script src="invite-texts.js"></script>
@@ -591,24 +609,11 @@ function daysLeft(){ if(!S.ev.event_date) return null;
 
    Месяц пишем сами, а не через toLocaleDateString: локаль uz-UZ выдаёт
    «2026 M10 31», и срок, названный законом, выглядел бы машинным мусором.
-   В приглашении эта же таблица уже есть по той же причине. Русскую форму
-   тоже собираем руками — Intl добавляет « г.», и следом за ней в предложении
-   вставала вторая точка. */
-const MONTHS_ORG = {
-  ru: ["января","февраля","марта","апреля","мая","июня",
-       "июля","августа","сентября","октября","ноября","декабря"],
-  uz: ["yanvar","fevral","mart","aprel","may","iyun",
-       "iyul","avgust","sentabr","oktabr","noyabr","dekabr"],
-};
+   Сама таблица месяцев и формат переехали в zal.js: ими пользуется ещё
+   и счёт для зала, где до этого стоял Intl и узбекоязычный организатор
+   нёс администратору бумагу с «2026 M10 18». */
 function mahDate(){
-  const iso = S.ev && S.ev.event_date;
-  if(!iso) return "";
-  const ms = Date.parse(`${iso}T12:00:00+05:00`);
-  if(isNaN(ms)) return "";
-  const d = new Date(ms - 7 * 864e5);
-  const part = k => new Intl.DateTimeFormat("en-GB", { timeZone:"Asia/Tashkent", [k]:"numeric" }).format(d);
-  const list = MONTHS_ORG[lang === "uz" ? "uz" : "ru"];
-  return `${Number(part("day"))} ${list[Number(part("month")) - 1]} ${part("year")}`;
+  return toyDateLong(S.ev && S.ev.event_date, lang, { shiftDays: -7 });
 }
 function render(){
   const t=L(), c=counts();
@@ -619,7 +624,7 @@ function render(){
   <div class="top" style="color:var(--gold)">${ORN}
     ${occ?`<div class="pre">${esc(occ)}</div>`:""}
     <h1 style="color:var(--ink)">${esc(names[0].trim())}${names[1]?`<span class="amp">&amp;</span>${esc(names[1].trim())}`:""}</h1>
-    <div class="meta">${S.ev.event_date? new Date(S.ev.event_date).toLocaleDateString(t.locale,{day:"numeric",month:"long"}):t.noDate}${S.ev.event_time?` · ${esc(S.ev.event_time)}`:""}${dl!==null&&dl>=0?t.daysLeft(dl):""}<br>${esc(S.ev.venue_name||t.noVenue)}</div>
+    <div class="meta">${S.ev.event_date? toyDateLong(S.ev.event_date, lang, { year:false }):t.noDate}${S.ev.event_time?` · ${esc(S.ev.event_time)}`:""}${dl!==null&&dl>=0?t.daysLeft(dl):""}<br>${esc(S.ev.venue_name||t.noVenue)}</div>
     <span class="tier">${tierName}</span>
   </div>
   <div class="stats">
@@ -1295,54 +1300,12 @@ function tabSend(){
 
 // Сколько мест держит семья. Пока семья не отказалась, зал считает её по числу
 // приглашённых — та же формула, по которой тойхона выставляет счёт.
-function famSeats(f){
-  const n = f.rsvp_status==="yes" ? f.rsvp_count : f.invited_count;
-  return Math.max(0, n|0);
-}
-const famSide = f => (f.side==="kelin" ? "kelin" : "kuyov");
-// Сравнение кортежей: без него выбор стола превращается в нечитаемое условие.
-function lessKey(a,b){ for(let i=0;i<a.length;i++){ if(a[i]!==b[i]) return a[i]<b[i]; } return false; }
-
-function planSeating(fams, tables){
-  const T = (tables||[]).map(x=>({ id:x.id, num:x.num|0, cap:Math.max(0,x.capacity|0), used:0, side:null, mixed:false }));
-  const byId = new Map(T.map(x=>[x.id,x]));
-  // Занятое место и «чей это стол» считаем по уже рассаженным: двигать мы их
-  // не будем, но место они держат и сторону столу задают тоже они.
-  for(const f of (fams||[])){
-    if(f.table_id==null) continue;
-    const tb = byId.get(f.table_id); if(!tb) continue;
-    tb.used += famSeats(f);
-    const sd = famSide(f);
-    if(tb.side===null) tb.side = sd; else if(tb.side!==sd) tb.mixed = true;
-  }
-  // Отказавшимся место не нужно. Семья с нулём мест — тоже не задача рассадки.
-  const pool = (fams||[]).filter(f => f.table_id==null && f.rsvp_status!=="no" && famSeats(f)>0);
-  pool.sort((a,b)=> famSeats(b)-famSeats(a)
-    || (famSide(a)==="kelin"?0:1)-(famSide(b)==="kelin"?0:1)
-    || (a.id-b.id));
-
-  const plan=[], left=[];
-  for(const f of pool){
-    const s = famSeats(f), sd = famSide(f);
-    let best=null, bk=null;
-    for(const tb of T){
-      const slack = tb.cap - tb.used - s;
-      if(slack < 0) continue;             // семью не режем: стол просто не подходит
-      // 0 — стол уже занят своей стороной, 1 — пустой, 2 — смешанный, 3 — чужая сторона.
-      const rank = tb.used===0 ? 1 : (tb.mixed ? 2 : (tb.side===sd ? 0 : 3));
-      // Келин заполняет ряд с начала, куёв — с конца: так стороны сидят группами.
-      const k = [rank, slack, sd==="kelin" ? tb.num : -tb.num, tb.id];
-      if(!bk || lessKey(k,bk)){ best=tb; bk=k; }
-    }
-    if(!best){ left.push(f); continue; }
-    best.used += s;
-    if(best.side===null) best.side = sd; else if(best.side!==sd) best.mixed = true;
-    plan.push({ family_id:f.id, table_id:best.id, seats:s });
-  }
-  return { plan, seats: plan.reduce((acc,p)=>acc+p.seats,0), left,
-           leftSeats: left.reduce((acc,f)=>acc+famSeats(f),0),
-           tables: new Set(plan.map(p=>p.table_id)).size };
-}
+/* Само вычисление переехало в zal.js — его зовёт и образец. Здесь остались
+   имена, под которыми к нему обращается остальной кабинет: переименовывать
+   тридцать мест вызова значило бы менять работающий код ради косметики. */
+function famSeats(f){ return toyFamSeats(f); }
+const famSide = toyFamSide;
+function planSeating(fams, tables){ return toyPlanSeating(fams, tables); }
 
 /* Синтетика. Ни node, ни python в системе нет, поэтому проверка живёт здесь и
    гоняется из консоли браузера: toySeatTest(60) и toySeatTest(300). Проверяются
@@ -1475,6 +1438,7 @@ function tabSeating(){
   if(S.ev.tier==="free"){
     $("#tab").innerHTML=`<div class="lock"><b>${t.sLockTitle}</b>
       <p>${t.sLockText}</p>
+      <p><a href="obrazec.html">${t.lockSample}</a></p>
       <button class="b gold" id="buyP">${t.payPremium}</button></div>`;
     $("#buyP").onclick=()=>pay("premium"); return;
   }
@@ -1544,6 +1508,7 @@ function tabZal(){
       <div class="note" style="margin-top:4px">${t.zProgText(answered,S.fams.length)}</div></div>
     <div class="lock"><b>${t.zLockTitle}</b>
       <p>${t.zLockText}</p>
+      <p><a href="obrazec.html">${t.lockSample}</a></p>
       <button class="b gold" id="buyP">${t.payPremium}</button></div>`;
     $("#buyP").onclick=()=>pay("premium");
     return;
@@ -1552,7 +1517,11 @@ function tabZal(){
 
   const kuyov=S.fams.filter(f=>f.side==="kuyov"), kelin=S.fams.filter(f=>f.side==="kelin");
   const est=c.yes+Math.round(c.pendInv*0.6);
-  const dstr=S.ev.event_date?new Date(S.ev.event_date).toLocaleDateString(t.locale):"";
+  // Дата словами и здесь: этот же dstr стоит в шапке документа для печати
+  // и в тексте, который копируют в чат тойханы. Короткая форма на uz-UZ
+  // выходит «2026-10-18» и рядом с длинной датой в картинке смотрится
+  // как две разные даты.
+  const dstr=toyDateLong(S.ev.event_date, lang);
   $("#tab").innerHTML=`
   <div class="est"><b>${est}</b><span>${t.zEstNote}</span></div>
   <div class="big">
@@ -1588,39 +1557,14 @@ function tabZal(){
     // «;» в названии семьи разъезжал колонки, а «=» в ней открывался формулой.
     const body=rows().map(r=>[r.name,r.side,r.inv,r.st,r.cnt,r.tbl].map(csvCell).join(";")).join("\n");
     dl(`${t.zCsvFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.csv`,"﻿"+head+body,"text/csv"); };
+  // Сборка документа — в zal.js: тот же список по столам показывает образец.
   $("#docx").onclick=()=>{
     haptic("medium");
-    const byT={}; S.fams.forEach(f=>{const k=f.table_id||0;(byT[k]=byT[k]||[]).push(f);});
-    const parts=Object.keys(byT).sort((a,b)=>a-b).map(k=>{
-      const tb=S.tables.find(x=>x.id==k), title=tb?t.zDocTable(tb.num):t.zDocNoTable;
-      const list=byT[k].filter(f=>f.rsvp_status!=="no");
-      const tot=list.reduce((a,f)=>a+(f.rsvp_status==="yes"?f.rsvp_count:f.invited_count),0);
-      return {title,list,tot};
-    });
-    const seats=f=>f.rsvp_status==="yes"?f.rsvp_count:f.invited_count;
-    const stat=f=>f.rsvp_status==="yes"?t.zDocStYes:t.zDocStPending;
-    const blocks=parts.map(b=>`<h3>${t.zDocBlock(b.title,b.tot)}</h3><table><tr><th>${t.zThFamily}</th><th>${t.zThPeople}</th><th>${t.zThStatus}</th></tr>${
-      b.list.map(f=>`<tr><td>${esc(f.name)}</td><td>${seats(f)}</td><td>${stat(f)}</td></tr>`).join("")}</table>`).join("");
-    // G-03. Строка про махаллю стоит в самом документе, а не только на экране:
-    // документ — это то, что организатор пересылает и перечитывает, и именно
-    // про уведомление он забывает. Ноль разработки, но это и отличает наш счёт
-    // от таблицы, которую зал попросил бы сделать в Excel.
-    const head=`<h1>${t.zDocH1(esc(S.ev.couple))}<br><span style="font-size:11pt">${dstr} · ${esc(S.ev.venue_name||"")}</span></h1>
-      <p>${t.zDocSummary(c.yes,c.pend.length,c.pendInv,est)}</p>${mahDate()?`<p>${t.zMahDoc(mahDate())}</p>`:""}`;
-    const strip=s=>String(s).replace(/<[^>]+>/g,"");
-    // Текстом — тот же документ для вставки в Excel и Google Таблицы: колонки
-    // разделены табуляцией, поэтому вставка раскладывается сама.
-    const plain=[`${S.ev.couple} · ${dstr} · ${S.ev.venue_name||""}`,
-      strip(t.zDocSummary(c.yes,c.pend.length,c.pendInv,est))]
-      .concat(mahDate()?[strip(t.zMahDoc(mahDate()))]:[], [""])
-      .concat(...parts.map(b=>[`${t.zDocBlock(b.title,b.tot)}`,
-        [t.zThFamily,t.zThPeople,t.zThStatus].join("\t")]
-        .concat(b.list.map(f=>[f.name,seats(f),stat(f)].join("\t")), [""])))
-      .join("\n");
-    if(isMobileTg()) return showDocOverlay(head+blocks, plain);
-    dl(`${t.zDocFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.doc`,
-      `<html><head><meta charset="utf-8"><style>body{font-family:'Times New Roman',serif;margin:1.5cm}h1{font-size:15pt;text-align:center}h3{font-size:12pt;margin:12pt 0 4pt}table{border-collapse:collapse;width:100%}td,th{border:1px solid #000;padding:4pt;font-size:11pt}</style></head><body>
-      ${head}${blocks}</body></html>`,"application/msword"); };
+    const d = toyZalDoc({ couple:S.ev.couple, dateStr:dstr, venue:S.ev.venue_name,
+      fams:S.fams, tables:S.tables, yes:c.yes, pendFams:c.pend.length,
+      pendInv:c.pendInv, est, mah:mahDate(), t });
+    if(isMobileTg()) return showDocOverlay(d.head + d.blocks, d.plain);
+    dl(`${t.zDocFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.doc`, d.html, "application/msword"); };
 }
 /* В Telegram WebView на телефоне программное скачивание молча не срабатывает:
    клик по <a download> ничего не делает и ничего не сообщает. Человек жмёт
@@ -1717,90 +1661,33 @@ function showCopySheet(name, content){
    пересылают — пересылают картинку. Рисуем на canvas и показываем оверлеем:
    в Telegram WebView программное скачивание срабатывает не всегда, а долгое
    нажатие на картинку работает везде. Кнопка «скачать» остаётся для десктопа. */
-function wrapText(ctx, text, maxW){
-  const words=String(text||"").split(/\s+/).filter(Boolean); const lines=[]; let line="";
-  for(const w of words){
-    const probe=line?line+" "+w:w;
-    if(ctx.measureText(probe).width>maxW && line){ lines.push(line); line=w; } else line=probe;
-  }
-  if(line) lines.push(line);
-  return lines.length?lines:[""];
-}
-function fitFont(ctx, text, maxW, family, start, min){
-  let size=start;
-  while(size>min){ ctx.font=`600 ${size}px ${family}`; if(ctx.measureText(text).width<=maxW) break; size-=2; }
-  ctx.font=`600 ${size}px ${family}`;
-  return size;
-}
+// Обе — из zal.js: печатное приглашение ниже пользуется ими же.
+function wrapText(ctx, text, maxW){ return toyWrapText(ctx, text, maxW); }
+function fitFont(ctx, text, maxW, family, start, min){ return toyFitFont(ctx, text, maxW, family, start, min); }
+/* Рисование переехало в zal.js: ровно эту картинку показывает образец
+   на выдуманном тое, до денег. Здесь осталось только собрать числа
+   из состояния кабинета и показать готовое. */
 async function zalPng(){
   const t=L(), c=counts();
   const sum=s=>S.fams.filter(f=>f.side===s&&f.rsvp_status==="yes").reduce((a,f)=>a+(f.rsvp_count||0),0);
   const est=c.yes+Math.round(c.pendInv*0.6);
   try { await document.fonts.ready; } catch(e) {}
 
-  const W=1080, H=1440, cv=document.createElement("canvas");
-  cv.width=W; cv.height=H;
-  const x=cv.getContext("2d");
-  const SERIF='"Cormorant Garamond", Georgia, serif', SANS='Manrope, system-ui, sans-serif';
-  const CREAM="#FBF7F2", INK="#2A211C", MUTED="#8B7A6C", GOLD="#B08D3F", OK="#2E7D4F", WARN="#A86B00";
-
-  x.fillStyle=CREAM; x.fillRect(0,0,W,H);
-  x.strokeStyle=GOLD; x.lineWidth=3; x.strokeRect(30,30,W-60,H-60);
-  x.lineWidth=1; x.strokeRect(44,44,W-88,H-88);
-
-  x.textAlign="center"; x.fillStyle=MUTED;
-  x.font=`600 26px ${SANS}`;
-  x.fillText(t.zPngEyebrow.toUpperCase(), W/2, 132);
-
-  x.fillStyle=INK;
-  fitFont(x, S.ev.couple||"", W-200, SERIF, 80, 40);
-  x.fillText(S.ev.couple||"", W/2, 232);
-
-  const dstr=S.ev.event_date?new Date(S.ev.event_date).toLocaleDateString(t.locale,{day:"numeric",month:"long",year:"numeric"}):"";
-  x.fillStyle=MUTED; x.font=`500 30px ${SANS}`;
-  x.fillText([dstr,S.ev.event_time].filter(Boolean).join(" · "), W/2, 290);
-  let y=334;
-  if(S.ev.venue_name){
-    wrapText(x,S.ev.venue_name,W-220).slice(0,2).forEach(l=>{ x.fillText(l,W/2,y); y+=38; });
-  }
-
-  // Все цифры рисуем сансом. У Cormorant старостильные цифры: «21» читается как «2I»,
-  // а картинка существует ровно ради того, чтобы число прочли с первого взгляда.
-  x.fillStyle=GOLD; x.font=`700 190px ${SANS}`;
-  x.fillText(String(est), W/2, 600);
-  x.fillStyle=INK; x.font=`700 36px ${SANS}`;
-  x.fillText(t.zPngMain, W/2, 664);
-  x.fillStyle=MUTED; x.font=`400 26px ${SANS}`;
-  wrapText(x,t.zPngMainNote,W-280).slice(0,2).forEach((l,i)=>x.fillText(l,W/2,712+i*34));
-
-  // Три колонки: подтвердили · ждём · отказались
-  const col=[[String(c.yes),t.zYes,OK],[String(c.pendInv),t.zPngPending,WARN],[String(c.no),t.zPngNo,MUTED]];
-  col.forEach(([v,label,color],i)=>{
-    const cx=W/2+(i-1)*300;
-    x.fillStyle=color; x.font=`700 82px ${SANS}`; x.fillText(v,cx,872);
-    x.fillStyle=MUTED; x.font=`500 25px ${SANS}`; x.fillText(label,cx,918);
+  const cv = toyZalPng({
+    couple: S.ev.couple,
+    // Дата словами через toyDateLong, а не через Intl: на uz-UZ Intl рисует
+    // «2026 M10 18» прямо в счёте, который несут администратору зала.
+    dateStr: toyDateLong(S.ev.event_date, lang),
+    time: S.ev.event_time,
+    venue: S.ev.venue_name,
+    est, yes:c.yes, pendInv:c.pendInv, no:c.no,
+    kuyov: sum("kuyov"), kelin: sum("kelin"),
+    answered: S.fams.filter(f=>f.rsvp_status!=="pending").length,
+    total: S.fams.length,
+    tables: S.tables.length, cap: S.tables[0]?.capacity,
+    today: toyDateLong(new Date().toISOString().slice(0,10), lang),
+    t,
   });
-
-  x.strokeStyle="#EADFD2"; x.lineWidth=1;
-  x.beginPath(); x.moveTo(120,976); x.lineTo(W-120,976); x.stroke();
-
-  const rows=[[t.zPngKuyov,String(sum("kuyov"))],[t.zPngKelin,String(sum("kelin"))],
-    [t.zPngFamilies,`${S.fams.filter(f=>f.rsvp_status!=="pending").length} / ${S.fams.length}`]];
-  if(S.tables.length) rows.push([t.zPngTables,`${S.tables.length} × ${S.tables[0].capacity}`]);
-  rows.forEach((r,i)=>{
-    const ry=1046+i*60;
-    x.font=`500 32px ${SANS}`;
-    x.textAlign="left";  x.fillStyle=MUTED; x.fillText(r[0],140,ry);
-    x.font=`600 32px ${SANS}`;
-    x.textAlign="right"; x.fillStyle=INK;   x.fillText(r[1],W-140,ry);
-    if(i<rows.length-1){ x.strokeStyle="#EDE2D4"; x.beginPath(); x.moveTo(140,ry+20); x.lineTo(W-140,ry+20); x.stroke(); }
-  });
-
-  x.textAlign="center"; x.fillStyle=MUTED; x.font=`400 24px ${SANS}`;
-  x.fillText(t.zPngFooter(new Date().toLocaleDateString(t.locale)), W/2, H-92);
-  x.fillStyle=GOLD; x.font=`600 26px ${SANS}`;
-  x.fillText("Toʻy-Daftar", W/2, H-54);
-
 
   showPngOverlay(cv, `${t.zPngFile}${(S.ev.couple||"toy").replace(/\s+/g,"_")}.png`, t.zPngHint);
 }
@@ -2019,6 +1906,7 @@ function tabGifts(){
     $("#tab").innerHTML=`<div class="lock"><b>${t.fLockTitle}</b>
       <p>${t.fLockText}</p>
       <p>${S.wishes?t.wLockHave(S.wishes):t.wLockNone}</p>
+      <p><a href="obrazec.html">${t.lockSample}</a></p>
       <button class="b gold" id="buyF">${t.payFull}</button></div>`;
     $("#buyF").onclick=()=>pay("full"); return;
   }

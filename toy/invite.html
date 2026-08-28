@@ -8,18 +8,32 @@
 <link rel="icon" href="../brand/toy-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../brand/toy-apple.png">
 <title>Taklifnoma</title>
+<!-- Превью ссылки. Эту страницу открывает ГОСТЬ, и ссылка на неё лежит
+     в семейном чате рядом с фотографиями. Значит превью тут — приглашение,
+     а не реклама: ни цены, ни счёта тойханы, ни единой цифры на картинке.
+     Числа стоят на картинках сайта (og-ru.png, og-uz.png) — там их читает
+     тот, кто платит; здесь их читал бы тот, кого позвали на той.
+     Рисуется tools/og-draw.html → app/og/og-taklifnoma.png. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Toʻy-Daftar">
+<meta property="og:locale" content="uz_UZ">
+<meta property="og:locale:alternate" content="ru_RU">
 <meta property="og:title" content="Taklifnoma · Приглашение">
-<meta property="og:image" content="https://gordondr.github.io/tma-uz/brand/toy-og.png">
+<meta property="og:description" content="Сизни тўй маросимига таклиф этамиз · Bosing va butun oila nomidan javob bering">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/toy/invite.html">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/toy/og/og-taklifnoma.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Toʻy-Daftar. Taklifnoma · Приглашение. Сизни тўй маросимига таклиф этамиз.">
 <meta name="twitter:card" content="summary_large_image">
-<meta property="og:description" content="Сизни тўй маросимига таклиф этамиз">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Набор шрифтов задан в themes.js: их десять на десять оформлений, и держать
-     список в двух местах — верный способ получить подстановку системного. -->
+<!-- Шрифты свои, рядом с продуктом: fonts/fonts.css — один набор на десять
+     оформлений. Приглашение открывает гость, часто с медленного мобильного
+     интернета; раньше до первой буквы его имени страница успевала сходить
+     на fonts.googleapis.com за стилями и на fonts.gstatic.com за файлами.
+     Теперь она не обращается наружу вовсе. -->
+<link rel="stylesheet" href="fonts/fonts.css">
 <script src="themes.js"></script>
-<script>document.write('<link rel="stylesheet" href="' + window.TOY_FONTS + '">');</script>
 <style>
 :root{
   --bg:#FBF7F2; --card:#FFFFFF; --ink:#2A211C; --muted:#7B6A5D; --accent:#B08D3F; --deep:#7D1F38;

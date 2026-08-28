@@ -15,7 +15,29 @@
 <meta property="og:title" content="Jarima ballari: o‘z raqamingiz va o‘z sanangiz">
 <meta property="og:description" content="12 balldan ORTIQ — sud guvohnomadan mahrum qiladi: 6 oydan 3 yilgacha. Qoidabuzarliklaringizni sana bilan kiriting va xavf zonasidan qachon chiqishingizni ko‘ring.">
 <meta property="og:url" content="https://gordondr.github.io/tma-uz/ball-qalqon/sayt/">
-<meta name="twitter:card" content="summary">
+<meta property="og:site_name" content="Ballim">
+<meta property="og:locale:alternate" content="ru_RU">
+<!-- ПРЕВЬЮ ССЫЛКИ. og:image здесь не было вовсе: ссылка на сайт,
+     отправленная в Telegram, разворачивалась серым прямоугольником, а это
+     первое, что видит человек, и по этому он решает, открывать ли.
+     Картинка нарисована на canvas теми же шрифтами, что и страница; на ней
+     одно число — 12 — и одна строка о том, что происходит выше него.
+     Файл общий с приложением — лежит в app/ продукта и назван абсолютным
+     адресом: краулер относительный путь из чужого домена не разрешит,
+     а сайт стоит на /sayt/, то есть на уровень глубже. Русская страница
+     несёт свою картинку, og-ru.png, — язык превью обязан совпадать
+     с языком страницы, иначе в предпросмотре и на экране разные языки.
+     twitter:card стал summary_large_image: с summary картинка ужимается
+     в квадратик 120x120, где число 12 и строку под ним уже не прочесть. -->
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/ball-qalqon/og-uz.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Katta 12 raqami, tagida «jarima balli», yonida: undan ORTIQ bo‘lsa — sud guvohnomadan mahrum qiladi">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jarima ballari: o‘z raqamingiz va o‘z sanangiz">
+<meta name="twitter:description" content="12 balldan ORTIQ — sud guvohnomadan mahrum qiladi: 6 oydan 3 yilgacha.">
+<meta name="twitter:image" content="https://gordondr.github.io/tma-uz/ball-qalqon/og-uz.png">
 <meta name="theme-color" content="#F4F6F9">
 <!-- Значок вкладки. Был единственным из опубликованных продуктов без него:
      браузер просил /favicon.ico, получал 404 и рисовал пустой глобус, а ссылку
@@ -23,13 +45,32 @@
      файл, — деплой этих продуктов копирует app/ как есть и лишний файл не
      кладёт; ровно так сделано у avtomaktab-narx. Цвет — --brand страницы. -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23103A6B'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' font-weight='700' fill='%23fff' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<!-- ШРИФТЫ ЛЕЖАТ РЯДОМ, А НЕ У GOOGLE. Здесь были preconnect к двум хостам
+     Google и таблица стилей css2 — из-за них первый запрос каждой загрузки
+     уходил третьему лицу до всякого действия человека. Страница обещает
+     перечислить всё, что с неё уходит; обещание, выполненное наполовину,
+     хуже невыполненного. Файлы лежат в app-папке продукта, на Pages это
+     ../fonts/ от адреса сайта: один и тот же кэш обслуживает и сайт,
+     и калькулятор, то есть главный переход человека проходит без докачки.
+     Диапазоны веса и unicode-range взяты дословно из ответа css2 — рисунок
+     шрифта не изменился. Rubik и Inter — SIL Open Font License 1.1. -->
+<link rel="preload" href="../fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
 /* Палитра и стили — копия русской версии. Две версии живут отдельными файлами,
    а не одним со словарём: это статические страницы для поиска, и разметка,
    которую видит краулер, должна быть той же, что видит человек. */
+@font-face{font-family:Rubik;font-style:normal;font-weight:500 700;font-display:swap;
+  src:url(../fonts/rubik-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Rubik;font-style:normal;font-weight:500 700;font-display:swap;
+  src:url(../fonts/rubik-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Inter;font-style:normal;font-weight:400 600;font-display:swap;
+  src:url(../fonts/inter-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Inter;font-style:normal;font-weight:400 600;font-display:swap;
+  src:url(../fonts/inter-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
 :root{
   --bg:#F4F6F9; --panel:#FFFFFF; --sunk:#EDF1F6;
   --ink:#14202E; --ink2:#3E5063; --muted:#57697D;
@@ -147,6 +188,14 @@ details .body p:last-child{margin-bottom:0}
 .srcs a{color:var(--muted)}
 footer{border-top:1px solid var(--line);padding:24px 0 42px;color:var(--muted);font-size:13.5px}
 footer a{color:var(--muted)}
+/* Блок продавца в подвале. Текст общий на все продукты портфеля —
+   products/_obshee/PRODAVETS.md, взят дословно. */
+.seller{border:1px solid var(--line);background:var(--panel);border-radius:13px;
+  padding:14px 15px;margin:0 0 18px;color:var(--ink2);font-size:13.5px}
+.seller h2{font-size:16px;margin:0 0 8px;color:var(--ink)}
+.seller p{margin:0 0 8px}
+.seller p:last-child{margin-bottom:0}
+.seller a{color:var(--brand)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 </style>
 </head>
@@ -359,7 +408,7 @@ footer a{color:var(--muted)}
     (<a href="https://lex.uz/uz/docs/8107338" target="_blank" rel="noopener">lex.uz, 125-son qaror</a>,
     27.08.2026 da o‘qildi).</p>
   <p>O‘sha hujjatdan qaytarib olish nega qimmatroq ekani ham kelib chiqadi: yangi
-    9<sup>2</sup>-band «А» va «В» toifadagi oddiy nomzodlarga majburiy dasturning
+    9<sup>2</sup>-band «A» va «B» toifadagi oddiy nomzodlarga majburiy dasturning
     <strong>nazariy qismini mustaqil o‘zlashtirishga</strong> ruxsat berdi, 37-band esa mahrum
     qilinganlardan o‘quv tashkilotida <strong>to‘liq kurs</strong>ni, nazariyasi bilan birga,
     talab qiladi. 2026-yilgi yengillik mahrum qilinganlarga tegishli emas. Va o‘qish jazo
@@ -890,7 +939,7 @@ footer a{color:var(--muted)}
       yotadi. Serverga sahifada nima qilinganining nomsiz belgisi ketadi (ochildi, hisoblandi —
       unda ballar summasi bor, sanalar va moddalar yo‘q), hamda aloqa ma’lumoti — agar siz
       o‘zingiz ariza yuborsangiz. Hujjatlar to‘plamining maydonlari (qaror raqami, F.I.Sh.,
-      manzil) brauzerdan umuman chiqmaydi: ular faqat matn va taqvim yig‘ish uchun kerak. Va yana bitta narsa, u siz hech nima qilmasingizdan oldin yuboriladi: shriftlarni sahifa Google serverlaridan oladi — fonts.googleapis.com va fonts.gstatic.com, — shuning uchun har bir yuklanishdagi eng birinchi so‘rov o‘sha yerga ketadi. Ma’lumotlaringizni Google ga bermaymiz, lekin sahifa ochilgani faktini u ko‘radi.</p></div></details>
+      manzil) brauzerdan umuman chiqmaydi: ular faqat matn va taqvim yig‘ish uchun kerak. Undan boshqa hech narsa ketmaydi: sahifa uchinchi tomonlarga bironta ham so‘rov yubormaydi. Shriftlar ham shu yerda yotadi, Google serverlarida emas — ilgari ular o‘sha yerdan olinardi va har bir yuklanishdagi eng birinchi so‘rov Google ga ketardi, endi esa ketmaydi. Buni tekshirish bir daqiqalik ish: brauzerdagi «Tarmoq» oynasini oching va so‘rovlarni o‘zingiz sanab chiqing.</p></div></details>
 
   <details><summary>Roppa-rosa 12 ball bo‘lsa nima bo‘ladi?</summary>
     <div class="body"><p>Bu chegara, va biz ochiq aytamiz: unga tayanib bo‘lmaydi. MJtK ning
@@ -936,6 +985,23 @@ footer a{color:var(--muted)}
 </section>
 
 <footer>
+  <!-- Кто продаёт. Возражение «откуда я знаю, что вы не пропадёте с деньгами»
+       снимается не словами «мы надёжные», а четырьмя проверяемыми вещами:
+       имя и номер в реестре, живой канал для ответа, срок ответа числом
+       и правило возврата числом. Текст общий на шесть продуктов и взят
+       дословно из products/_obshee/PRODAVETS.md. -->
+  <div class="seller">
+    <h2>Buni kim qiladi</h2>
+    <p>Yakka tartibdagi tadbirkor Epixin Kirill Nikolayevich, roʻyxatdan oʻtish raqami
+      <strong>7875577</strong>, Toshkent shahri, Shayxontohur tumani. Toʻliq rekvizitlar, shu jumladan STIR — ofertada va ariza bilan birga soʻrov boʻyicha.</p>
+    <p>Men buni yolgʻiz va oʻzim qilaman. Yana
+      <a href="https://t.me/rulchi_bot" target="_blank" rel="noopener">Rulchi</a> ishlaydi —
+      Oʻzbekiston yoʻl harakati qoidalari Telegramda; u tirik, undan har kuni foydalanishadi,
+      va men mahsulotlarni qanday qilishim oʻsha yerdan koʻrinadi.</p>
+    <p><strong>Ish kuni davomida javob beraman</strong>, eng koʻpi bilan uch ish kuni. Sahifadagi shaklga ariza qoldiring — u menga darhol keladi.</p>
+    <p><strong>Agar shu muddatda javob bermasam — demak men xato qildim, va siz hech narsa yoʻqotmaysiz.</strong>
+      </p>
+  </div>
   <p><strong>Ballim</strong> — hisoblash va hujjat qoralamasi xizmati. Bu yuridik xizmat emas,
     ekspertiza emas va sudda vakillik emas. Murojaatni siz o‘zingiz topshirasiz, natija bizga
     bog‘liq emas. Jabrlanuvchi bo‘lgan YHTH, mastlik va jinoiy tarkib bo‘lgan holatlarni

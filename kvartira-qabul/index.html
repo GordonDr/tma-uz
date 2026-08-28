@@ -13,9 +13,12 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:title" content="Приёмка квартиры в новостройке — чек-лист с нормами">
-<meta property="og:image" content="https://gordondr.github.io/tma-uz/brand/kvartira-og.png">
+<meta property="og:site_name" content="Kvartira Qabul">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/kvartira/og/og-ru.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kvartira Qabul: 48 пунктов в чек-листе приёмки. Квартира в новостройке, допуски из ШНҚ и КМК — в миллиметрах.">
+<meta property="og:locale:alternate" content="uz_UZ">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:description" content="48 пунктов по 10 зонам, с допусками из ШНҚ и КМК в миллиметрах. Бесплатно, прямо в Telegram.">
 <meta property="og:url" content="https://gordondr.github.io/tma-uz/kvartira-qabul/">
@@ -23,9 +26,7 @@
 <link rel="icon" href="../brand/logo-kvartira.svg" type="image/svg+xml">
 <link rel="icon" href="../brand/kvartira-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../brand/kvartira-apple.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spectral:wght@400;500;600&family=Golos+Text:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 /* Направление — технический чертёж, а не лендинг.
    Продукт про геометрию: углы, плоскости, допуски в миллиметрах. Поэтому
@@ -136,6 +137,16 @@ details[open] summary::before{content:"–"}
 details p{margin:10px 0 0;color:var(--ink2)}
 
 footer{border-top:1px solid var(--rule);padding:30px 0 46px;color:var(--muted);font-size:13.5px}
+/* Блок продавца. «Откуда я знаю, что вы не пропадёте с деньгами» снимается
+   не словами «мы надёжные», а четырьмя проверяемыми вещами: кто ты, где тебя
+   найти, за сколько ответишь, что будет, если не подойдёт. */
+.seller{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+  padding:20px 22px;margin:0 0 22px;max-width:680px;color:var(--ink2);
+  font-size:15px;line-height:1.62}
+.seller h3{font-family:var(--body);font-size:15px;font-weight:700;color:var(--ink);margin-bottom:9px}
+.seller p{margin:0 0 10px}
+.seller p:last-child{margin:0}
+.seller b{color:var(--ink)}
 footer a{color:var(--muted)}
 .langs{float:right}
 .langs a{margin-left:12px}
@@ -377,6 +388,9 @@ footer a{color:var(--muted)}
         отдельной цены по Ташкенту источник не даёт). Мы делаем другое: даём
         чек-лист, по которому смотрит сам покупатель, и оформляем найденное
         документами.</p>
+      <p style="margin-top:14px"><a href="../kvartira/sample.html?lang=ru"><strong>Посмотреть
+        образец до оплаты</strong></a> — акт осмотра и претензия целиком, на вымышленных
+        данных. Не скриншот и не отрывок: ровно те листы, которые вы получите.</p>
       <div class="note" style="margin-bottom:0">
         Мы не проводим экспертизу и не гарантируем исход спора. Мы готовим
         документы — подаёте вы сами.
@@ -471,12 +485,30 @@ footer a{color:var(--muted)}
 </section>
 
 <footer>
-  <div>ИП Епихин Кирилл Николаевич, регистрационный номер 7875577, СТИР __________,
+  <div class="seller">
+    <h3>Кто это делает</h3>
+    <p>Индивидуальный предприниматель Епихин Кирилл Николаевич, регистрационный
+      номер <b>7875577</b>, город Ташкент, Шайхантахурский район.
+      СТИР — по запросу в боте.</p>
+    <p>Я делаю это один и делаю сам. Ещё у меня работает
+      <a href="https://t.me/rulchi_bot">Rulchi</a> — правила дорожного движения
+      Узбекистана в Telegram; он живой, им пользуются каждый день, и по нему
+      видно, как я делаю продукты.</p>
+    <p><b>Отвечаю в течение рабочего дня</b>, обычно быстрее. Пишите в бота —
+      там я вижу сообщение сразу.</p>
+    <p><b>Не подойдёт результат — верну деньги полностью, без объяснений.</b>
+      Деньги приходят в течение 10 дней с обращения, обычно в тот же день.
+      Не «рассмотрю обращение», а верну.</p>
+  </div>
+  <div>ИП Епихин Кирилл Николаевич, регистрационный номер 7875577, СТИР — по запросу в боте,
     г. Ташкент, Шайхантахурский район, Республика Узбекистан ·
-    <a href="../kvartira/oferta.html">Публичная оферта и обработка данных</a> ·
+    <a href="../kvartira/oferta.html?lang=ru">Публичная оферта и обработка данных</a> ·
     <a href="https://t.me/kvartira_qabul_bot">Поддержка в боте</a></div>
   <div style="margin-top:8px">Ссылки на нормы приведены для ориентира. Действующие
     редакции ШНҚ и КМК — в фонде ТМСИТИ (shnk.tmsiti.uz).</div>
+  <div style="margin-top:8px">Что уходит с этой страницы к третьим лицам: <b>ничего</b>.
+    Ни счётчиков, ни шрифтов с чужих серверов, ни кнопок соцсетей — шрифты лежат
+    здесь же, рядом со страницей. Это видно во вкладке «Сеть» за минуту.</div>
 </footer>
 </div>
 

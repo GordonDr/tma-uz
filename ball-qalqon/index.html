@@ -19,12 +19,66 @@
      файл, — деплой этих продуктов копирует app/ как есть и лишний файл не
      кладёт; ровно так сделано у avtomaktab-narx. Цвет — --brand страницы. -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23103A6B'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' font-weight='700' fill='%23fff' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E" type="image/svg+xml">
+<!-- ПРЕВЬЮ ССЫЛКИ. Раньше здесь были только og:title и og:description,
+     og:image не было вовсе — значит ссылка, отправленная в Telegram или
+     в чат, разворачивалась серым прямоугольником. Это первое, что человек
+     видит, и по нему он решает, открывать ли вообще.
+     Картинка нарисована на canvas теми же шрифтами, что и страница
+     (app/og-uz.png и app/og-ru.png, 1200x630). На ней одно число — 12, —
+     потому что ради него
+     страницу и открывают, и одна строка о том, что происходит выше него.
+     ЯЗЫК КАРТИНКИ. Их две: og-uz.png и og-ru.png. Здесь стоит узбекская,
+     потому что разметка этой страницы узбекская (lang="uz"), а превью
+     собирает краулер, который наш applyLang() не выполняет: подменить
+     картинку под язык человека статический файл не может. Русская версия
+     стоит на русской странице сайта — sayt/ru.html, — и именно её несут
+     русские посты. Заголовок и описание здесь остаются двуязычными
+     по той же причине, по которой были: их видно в предпросмотре у обоих. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Ballim">
+<meta property="og:locale" content="uz_UZ">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/ball-qalqon/">
 <meta property="og:title" content="Jarima ballari xaritasi · Карта штрафных баллов">
 <meta property="og:description" content="12 balldan ORTIQ bo‘lsa — sud guvohnomadan mahrum qiladi. · Если баллов БОЛЬШЕ 12 — прав лишает суд. Сколько у вас баллов, когда они сгорят и какое нарушение закроет границу.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Inter:wght@400;500;600&display=swap">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/ball-qalqon/og-uz.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Katta 12 raqami, tagida «jarima balli», yonida: undan ORTIQ bo‘lsa — sud guvohnomadan mahrum qiladi">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jarima ballari xaritasi · Карта штрафных баллов">
+<meta name="twitter:description" content="12 balldan ORTIQ bo‘lsa — sud guvohnomadan mahrum qiladi. · Если баллов БОЛЬШЕ 12 — прав лишает суд.">
+<meta name="twitter:image" content="https://gordondr.github.io/tma-uz/ball-qalqon/og-uz.png">
+<!-- ШРИФТЫ ЛЕЖАТ ЗДЕСЬ, А НЕ У GOOGLE. Здесь были три строки: preconnect
+     к fonts.googleapis.com, preconnect к fonts.gstatic.com и таблица стилей
+     css2. Из-за них ПЕРВЫЙ запрос каждой загрузки уходил третьему лицу —
+     до всякого действия человека и до всякого согласия, — и уносил IP,
+     User-Agent и адрес страницы. Страница при этом обещает перечислить всё,
+     что с неё уходит, и приглашает открыть вкладку «Сеть» и посчитать самому;
+     обещание, выполненное наполовину, хуже, чем невыполненное.
+     Теперь те же два шрифта лежат в fonts/ рядом со страницей. Четыре файла
+     вместо четырёх запросов наружу: по одному на латиницу и кириллицу каждого
+     семейства, unicode-range выбирает нужный — узбекская страница кириллицу
+     не качает вовсе. Диапазоны веса и unicode-range взяты дословно из ответа
+     css2, поэтому рисунок шрифта не изменился ни на пиксель. Rubik и Inter —
+     SIL Open Font License 1.1, размещение у себя лицензией разрешено.
+     Те же файлы использует сайт (sayt/), ссылаясь на ../fonts/ — один кэш
+     на переход «сайт → калькулятор», то есть на главный путь человека. -->
+<link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
 <style>
+@font-face{font-family:Rubik;font-style:normal;font-weight:500 700;font-display:swap;
+  src:url(fonts/rubik-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Rubik;font-style:normal;font-weight:500 700;font-display:swap;
+  src:url(fonts/rubik-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Inter;font-style:normal;font-weight:400 600;font-display:swap;
+  src:url(fonts/inter-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Inter;font-style:normal;font-weight:400 600;font-display:swap;
+  src:url(fonts/inter-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
 /* Полная светлая палитра — в голом :root. Тёмную задаём ТОЛЬКО переопределением
    токенов: если цвет объявлен впервые внутри media-блока, при системной тёмной
    теме страница берёт фон хоста и текст тонет. Проверено на To'y (Р-…, demo.html).
@@ -222,6 +276,15 @@ details .body p:last-child{margin-bottom:0}
 .price{font-family:var(--disp);font-weight:700;font-size:30px;letter-spacing:-.02em}
 .price small{font-family:var(--body);font-weight:500;font-size:13.5px;color:var(--ink2);
   display:block;margin-top:2px}
+/* Блок продавца. Стоит вплотную к цене, а не в подвале и не в оферте:
+   возражение «откуда я знаю, что вы не пропадёте с деньгами» возникает
+   ДО решения, а оферту открывают после. Общий текст на все продукты —
+   products/_obshee/PRODAVETS.md, взят дословно. */
+.seller{border:1px solid var(--line);background:var(--panel);border-radius:13px;
+  padding:14px 15px;margin-top:14px}
+.seller h3{font-size:15px;margin:0 0 8px}
+.seller p{margin:0 0 8px;font-size:13.5px;color:var(--ink2)}
+.seller p:last-child{margin-bottom:0}
 fieldset{border:0;padding:0;margin:0 0 12px}
 legend{padding:0;font-size:10.5px;font-weight:600;letter-spacing:.08em;
   text-transform:uppercase;color:var(--muted);margin-bottom:6px}
@@ -330,6 +393,47 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
    кладёт в бардачок, — счёт, даты, красный список и черновик, — а не форма
    заявки, переключатель языка и список источников. */
 #sheet{display:none}
+
+/* ── Образец готового комплекта ──────────────────────────────────────────────
+   Документы показываются целиком, а не картинкой: скриншот молча устареет
+   в тот день, когда изменится шаблон, а этот блок собран тем же кодом, что
+   и платная выдача, и устареть отдельно от неё не может.
+   Моноширинный шрифт — системный: документ и должен выглядеть как текст
+   в поле формы, а не как вёрстка страницы. */
+.obdoc{white-space:pre-wrap;overflow-x:auto;margin:0 0 6px;
+  font:13px/1.55 ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",monospace;
+  background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 15px;color:var(--ink2)}
+.obsheet{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:14px 15px;color:var(--ink2);font-size:14px}
+.obsheet h2{font-size:19px;margin:0 0 8px}
+.obsheet h3{font-size:15px;margin:16px 0 6px}
+.obsheet p{margin:0 0 8px}
+.obsheet .big{font-family:var(--disp);font-weight:700;font-size:26px}
+/* min-width:0 здесь обязателен, и без него образец листа читался неполностью.
+   Общее правило выше — table{width:100%;min-width:440px} — писалось для
+   таблицы баллов, у которой три колонки и своя обёртка .scroller с боковой
+   прокруткой. Таблицам образца («Даты» и «Красный список») оно доставалось
+   тоже, и они получались 440 px внутри карточки шириной 343 px на экране
+   375 px. Своё overflow-x:auto им не помогало: прокручивать нечего, когда
+   ширина самой таблицы и есть 440. А body{overflow-x:hidden} эту разницу
+   не прокручивает, а ОБРЕЗАЕТ — то есть у каждой строки образца пропадала
+   правая треть: «Осталось 2 дня: истекает срок обжал…», и добраться до конца
+   строки было нельзя ничем. Резало это ровно тот экран, ради которого раздел
+   и сделан: единственный образец платного листа, который человек видит
+   до денег. Измерено на 375 px: documentElement.scrollWidth был 472 при
+   clientWidth 375, после правки — 375, таблицы 312 px, обрезки нет.
+   В @media print у #sheet min-width:0 уже стояло — на бумаге это чинили,
+   на экране забыли. */
+.obsheet table{width:100%;min-width:0;border-collapse:collapse;font-size:13.5px;display:block;overflow-x:auto}
+.obsheet td{padding:5px 8px 5px 0;border-top:1px solid var(--line2);vertical-align:top}
+.obsheet pre{white-space:pre-wrap;margin:0;
+  font:12.5px/1.5 ui-monospace,"SFMono-Regular",Consolas,"Liberation Mono",monospace}
+.obsheet .foot{color:var(--muted);font-size:11.5px;margin-top:12px;
+  border-top:1px solid var(--line2);padding-top:8px}
+.obstamp{display:inline-block;background:var(--bad-bg);color:var(--bad);
+  border-radius:999px;padding:5px 12px;font:600 11.5px var(--body);
+  letter-spacing:.09em;text-transform:uppercase;margin:0 0 12px}
 @media print{
   body{background:#fff;color:#000}
   /* !important нужен обоим правилам, и именно поэтому важен порядок мысли:
@@ -356,10 +460,19 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
 
 <div class="top">
   <div class="mark">
-    <svg width="24" height="26" viewBox="0 0 24 26" fill="none" aria-hidden="true">
-      <path d="M12 1.5 21.5 5v8.2c0 5.4-3.9 9.6-9.5 11.3C6.4 22.8 2.5 18.6 2.5 13.2V5L12 1.5Z"
-            stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"></path>
-      <path d="M7.6 12.6h8.8M12 8.2v8.8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"></path>
+    <!-- ЗНАК ТОТ ЖЕ, ЧТО НА САЙТЕ. Здесь стоял щит с плюсом — метафора
+         старого имени «Ball-Qalqon» (qalqon — щит). Имя от неё отказались
+         намеренно: README, раздел «Имя», говорит, что продукт даёт человеку
+         его число и его дату, «а не „щит“ — метафору, которая ничего
+         не обещает». Обе страницы сайта уже носили циферблат, приложение
+         осталось со щитом — и человек, нажавший на сайте «Посчитать свои
+         баллы», попадал на страницу с другим знаком под тем же словом
+         Ballim. Знак взят из products/ball-qalqon/site/ru.html дословно,
+         чтобы третьего варианта не завелось. -->
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="9.2" stroke="currentColor" stroke-width="1.7"></circle>
+      <path d="M12 12 16.6 8.2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"></path>
+      <path d="M5.4 15.6A7.6 7.6 0 0 1 12 4.4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" opacity=".45"></path>
     </svg>
     Ballim
   </div>
@@ -372,7 +485,7 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
     har bir kelgusi hisobdan chiqarishni va 12 balldan qachon uzoqlashayotganingizni ko‘rsatadi.
     Bepul, ro‘yxatdan o‘tmasdan. Xarita brauzeringizda hisoblanadi: sanalar va moddalar
     ro‘yxati siz o‘zingiz arizaga biriktirmaguningizcha hech qayerga ketmaydi, serverga
-    esa faqat nomsiz belgi — hisoblandi va umumiy ball — boradi. Va yana bitta narsa, u siz hech nima qilmasingizdan oldin yuboriladi: shriftlarni sahifa Google serverlaridan oladi — fonts.googleapis.com va fonts.gstatic.com, — shuning uchun har bir yuklanishdagi eng birinchi so‘rov o‘sha yerga ketadi. Ma’lumotlaringizni Google ga bermaymiz, lekin sahifa ochilgani faktini u ko‘radi.</p>
+    esa faqat sahifada nima qilinganining nomsiz belgisi — ochildi, hisoblandi va umumiy ball — boradi. Boshqa hech narsa ketmaydi: sahifa uchinchi tomonlarga bironta ham so‘rov yubormaydi. Shriftlar ham shu yerda yotadi, Google serverlarida emas — ilgari ular o‘sha yerdan olinardi va har bir yuklanishdagi eng birinchi so‘rov Google ga ketardi. Endi ketmaydi: brauzerdagi «Tarmoq» oynasini oching va o‘zingiz sanab chiqing.</p>
   <ul class="tags">
     <li data-t="tag1"><b>12 balldan ORTIQ</b> — sud guvohnomadan mahrum qiladi: 6 oydan 3 yilgacha</li>
     <li data-t="tag2"><b>8 ball</b> — SMS-ogohlantirish keladi</li>
@@ -812,6 +925,64 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
   </div>
 </section>
 
+<!-- ────────────────────────────────────────────────────────────────────────────
+     ОБРАЗЕЦ ТОВАРА ДО ДЕНЕГ. Свод по портфелю: «ничего из того, за что платят,
+     человек не видит до денег». Здесь он видит всё: полный текст обращения,
+     полный текст апелляционной жалобы и лист A4 — целиком, без формы,
+     без ввода данных и на бесплатном тарифе.
+
+     ПОЧЕМУ ЭТО НЕ СКРИНШОТ И НЕ НАБРАННЫЙ РУКАМИ ТЕКСТ. Скриншот устареет
+     молча в день, когда изменится шаблон (Р-23), а набранный руками образец
+     разъедется с выдачей на первой же правке buildDraft() — и разъедется
+     в сторону обещания, которого мы не выполним. Поэтому здесь работают
+     те же функции buildDraft() и buildSheet(), что и в платной выдаче,
+     только на вымышленном постановлении: два источника правды в одном файле
+     — ошибка, которую эта приёмка ловила пять раз.
+
+     ПОЧЕМУ ДВА ДОКУМЕНТА, А НЕ ОДИН. Обращение в орган и апелляционная жалоба
+     на постановление суда — разная норма, разный срок и разный адрес подачи.
+     Разницу между тарифами за 49 000 и за 99 000 видно на предмете,
+     а не в списке пунктов.
+
+     ЕСЛИ ТОВАР ГДЕ-ТО СЛАБЕЕ, ЧЕМ ЗВУЧИТ, ЭТО ЗДЕСЬ ВИДНО. Квадратные скобки
+     на месте номера дела и незаполненных обстоятельств стоят в образце ровно
+     так же, как в платной выдаче: мы за человека их не придумываем. Показать
+     это заранее честнее, чем объяснять после оплаты.
+     ──────────────────────────────────────────────────────────────────────── -->
+<section id="obrazec">
+  <h2 data-t="obT">Namuna: to‘lovdan oldin va to‘liq</h2>
+  <div class="obstamp" data-t="obStamp">Namuna — ma’lumotlar o‘ylab topilgan</div>
+  <p class="hint" data-t="obH">Quyida — «Himoya to‘plami»ga kiradigan hujjatlarning o‘zi,
+    qisqartirilmagan holda. Ular shu yerda, brauzeringizda, o‘sha kodning o‘zi bilan
+    yig‘ilgan: bu ekran surati ham, kesilgan bo‘lak ham emas. F.I.Sh., manzil, qaror
+    raqami va sanalar o‘ylab topilgan va hech kimga tegishli emas — o‘z maydonlaringizni
+    to‘ldirganingizda o‘sha joylarda sizning ma’lumotlaringiz turadi.</p>
+  <div class="callout" data-t="obWarn">Kvadrat qavslar — bo‘sh joylar, ular matnda
+    <b>ataylab</b> qoladi. Ish raqamini ham, sababni ham biz siz uchun o‘ylab topmaymiz:
+    ularni o‘zingiz qo‘yasiz. To‘lagan odam ham xuddi shunday qavslarni oladi.</div>
+
+  <h3 data-t="ob1T">1 · Murojaat qoralamasi — organ qarori bo‘yicha</h3>
+  <p class="hint" data-t="ob1H">Kamera qayd etgan qaror. Ikkita holat belgilangan: rulda
+    men emas edim va qaror qoidabuzarlikdan bir oy o‘tib chiqarilgan. Matn my.gov.uz dagi
+    1054-xizmat maydoniga qo‘yish uchun tayyor.</p>
+  <pre class="obdoc" id="obDraft1"></pre>
+
+  <h3 data-t="ob2T">2 · Apellyatsiya shikoyati — sud qarori bo‘yicha</h3>
+  <p class="hint" data-t="ob2H">Boshqa norma, boshqa muddat va boshqa manzil: shikoyat
+    qarorni chiqargan sudning o‘ziga topshiriladi. Belgilangan holatlar — ball
+    hisoblashdagi texnik xatolik va Nizom talablarining buzilishi.</p>
+  <pre class="obdoc" id="obDraft2"></pre>
+
+  <h3 data-t="ob3T">3 · A4 himoya varaqasi</h3>
+  <p class="hint" data-t="ob3H">Bardachokka qo‘yiladigan bitta varaq: hozirgi ball,
+    sanalar, qizil ro‘yxat va ikkala matn. Bu yerda u ekran ko‘rinishida; chop etganda
+    xuddi shu narsa qog‘ozga tushadi va internetsiz o‘qiladi.</p>
+  <div class="obsheet" id="obSheet"></div>
+  <p class="hint" style="margin-top:12px" data-t="obFoot">Ball xaritasining o‘zi bepul va
+    shunday qoladi. Yuqoridagi namuna esa o‘sha xaritaning o‘ylab topilgan raqamlari
+    ustiga qurilgan — o‘z raqamlaringizni yuqorida, xaritaning o‘zida kiritasiz.</p>
+</section>
+
 <section id="paket">
   <div class="offer">
     <h2 data-t="offT">Tariflar: nima kiradi va qancha turadi</h2>
@@ -819,7 +990,31 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
       hech qayerga murojaat qilmaymiz va sudda vakillik qilmaymiz: muddatlar bilan ballarni
       hisoblaymiz va matn qoralamasini beramiz, topshirishni o‘zingiz qilasiz.</p>
     <div class="price" id="priceBig">99 000 so‘m
-      <small data-t="offSub">Hozircha to‘lov yo‘q: siz ariza qoldirasiz, biz bog‘lanamiz va narxni tasdiqlaymiz.</small>
+      <!-- Обещание «подтвердим цену» отсюда убрано (B-62). Человеку, который боится,
+           что продавец пропадёт с деньгами, «подтвердим цену» сообщает ровно
+           одно: сумма ещё не окончательная и зависит от того, как он себя
+           покажет. И стоит эта фраза в самом дорогом месте страницы — вплотную
+           к числу. Согласовывать после заявки действительно надо, но не цену,
+           а способ оплаты и срок выдачи. На сайте формулировка другая и там
+           она на месте: рядом с ней объясняется, зачем спрашивают готовность
+           платить, — здесь такого объяснения нет. -->
+      <small data-t="offSub">Narx — yuqorida yozilgani, u o‘zgarmaydi. Hozircha to‘lov yo‘q: siz ariza qoldirasiz, biz esa bog‘lanib, to‘lov usulini va hujjatlarni qachon berishimizni kelishamiz.</small>
+    </div>
+    <!-- Кто продаёт. Четыре проверяемые вещи, и ни одной оценочной: имя
+         и номер (проверяются в реестре), живой канал для ответа, срок ответа
+         числом и правило возврата числом. «Мы надёжные» здесь нет и быть
+         не может — оно не проверяется. Текст общий на все продукты портфеля
+         и взят дословно из products/_obshee/PRODAVETS.md, чтобы шесть страниц
+         не разошлись шестью формулировками одного факта.
+         СТИР записан одним способом — «по запросу в боте». Второго состояния
+         этого факта в продукте нет: пустых прочерков `__________` под номер
+         здесь не заводили ни разу (проверено grep по app, site и marketing). -->
+    <div class="seller">
+      <h3 data-t="sellT">Buni kim qiladi</h3>
+      <p data-t="sellWho">Yakka tartibdagi tadbirkor Epixin Kirill Nikolayevich, roʻyxatdan oʻtish raqami <b>7875577</b>, Toshkent shahri, Shayxontohur tumani. Toʻliq rekvizitlar, shu jumladan STIR — ofertada va ariza bilan birga soʻrov boʻyicha.</p>
+      <p data-t="sellRul">Men buni yolgʻiz va oʻzim qilaman. Yana <a href="https://t.me/rulchi_bot" target="_blank" rel="noopener">Rulchi</a> ishlaydi — Oʻzbekiston yoʻl harakati qoidalari Telegramda; u tirik, undan har kuni foydalanishadi, va men mahsulotlarni qanday qilishim oʻsha yerdan koʻrinadi.</p>
+      <p data-t="sellAns"><b>Sahifada toʻlov hozircha yoʻq.</b> Siz yuqoridagi shaklga ariza qoldirasiz, u menga darhol keladi, men bogʻlanaman va biz kelishamiz — hech qanday puldan oldin. <b>Ish kuni davomida javob beraman</b>, eng koʻpi bilan uch ish kuni.</p>
+      <p data-t="sellBack">Agar shu muddatda javob bermasam — demak men xato qildim, va siz hech narsa yoʻqotmaysiz: suhbatgacha toʻlaydigan narsa yoʻq.</p>
     </div>
     <!-- Три уровня, а не «бесплатно / платно». Средний нужен не ради выручки,
          а ради замера: человек с одним постановлением и человек с девятью
@@ -1147,7 +1342,7 @@ function ev(name, meta){
    физически не может разойтись с тем, что видит человек в исходнике. */
 var RU = {
   h1:"Сколько у вас штрафных баллов и в какой день они сгорят",
-  lede:"Введите свои нарушения с датами — карта покажет текущую сумму, каждое будущее списание и дату, когда вы уйдёте от 12 баллов. Бесплатно, без регистрации. Карта считается в браузере: список дат и статей никуда не уходит, пока вы сами не приложите его к заявке, а на сервер идёт только обезличенная отметка о расчёте с общей суммой баллов. И ещё одно, что уходит до всякого вашего действия: шрифты страница берёт с серверов Google — fonts.googleapis.com и fonts.gstatic.com, — поэтому самый первый запрос при каждой загрузке идёт туда. Ваших данных мы Google не передаём, но сам факт открытия страницы он видит.",
+  lede:"Введите свои нарушения с датами — карта покажет текущую сумму, каждое будущее списание и дату, когда вы уйдёте от 12 баллов. Бесплатно, без регистрации. Карта считается в браузере: список дат и статей никуда не уходит, пока вы сами не приложите его к заявке, а на сервер идёт только обезличенная отметка о том, что на странице делали, — открыл, посчитал, — с общей суммой баллов. Больше не уходит ничего: страница не делает ни одного запроса к третьим сторонам. Шрифты лежат здесь же, а не на серверах Google — раньше они брались оттуда, и самый первый запрос каждой загрузки шёл к Google. Теперь не идёт: откройте вкладку «Сеть» в браузере и посчитайте сами.",
   tag1:"<b>БОЛЬШЕ 12 баллов</b> — суд лишает прав: от 6 месяцев до 3 лет",
   tag2:"<b>8 баллов</b> — приходит SMS-предупреждение",
   tag3:"<b>−2 балла</b> — за 6 месяцев без нарушений из балльного списка",
@@ -1245,7 +1440,7 @@ var RU = {
   tWhy:"<b>Почему именно сейчас.</b> Отдельный порядок для лишённых прав, поручённый пунктом 4 постановления № 676, <b>принят</b>: постановление № 125 от 30.03.2026 внесло в постановление № 408 пункт 37 — медосмотр, затем обучение в учебной организации по <b>полному курсу, теоретическому и практическому</b>, и только затем экзамены, причём всё это <b>после</b> окончания срока взыскания. Практический курс вождения на рынке стоит 5–8 млн сум, в среднем 7 млн (<a href=\"https://osonprava.uz/uz/blog/b-toifa-prava-narxi-2026\" target=\"_blank\" rel=\"noopener\">osonprava.uz, 22.03.2026</a>; цена там приведена для получения прав категории B) — и это только практика, а по пункту 37 нужна ещё и теория, которую обычным кандидатам с 01.04.2026 разрешено осваивать самостоятельно, а лишённым — нет. По статье 34-1 КоАО срок лишения не менее шести месяцев, по статье 28 КоАО суд вправе назначить до трёх лет, и обучение начинается только после него. Комплект — примерно полтора процента от этой суммы. И вторая цифра: штраф за проезд на красный — 3 БРВ, то есть <b>1 236 000 сум при БРВ 412 000</b> (с 1 августа 2025 года, указ УП-91) и <b>1 320 000 сум при БРВ 440 000</b> (с 1 сентября 2026 года, указ УП-115); какая из двух ваша — решает статья 25 КоАО, часть вторая: «Размер штрафа определяется исходя из базовой расчётной величины, установленной на момент совершения административного правонарушения». Статья — 128<sup>4</sup> часть 2 КоАО (<a href=\"https://lex.uz/ru/docs/97661\" target=\"_blank\" rel=\"noopener\">lex.uz</a>). При уплате в первые 15 дней со дня вручения постановления — вдвое меньше (статья 332<sup>1</sup> КоАО), но в трёх случаях скидки нет вовсе — смотрите раздел «Сроки» выше. Там, где скидка есть, пропустить это окно дороже комплекта в шесть раз.",
   offT:"Тарифы: что входит и сколько стоит",
   offH:"Для тех, у кого 8 баллов и больше. Мы не обращаемся никуда от вашего имени и не представляем вас в суде: считаем сроки и баллы и даём черновик текста, подаёте вы сами.",
-  offSub:"Оплаты пока нет: вы оставляете заявку, мы связываемся и подтверждаем цену.",
+  offSub:"Цена — та, что написана выше, и она не изменится. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи.",
   inT:"Что входит",
   in1:"Полный текст обращения — отдельно по каждому внесённому постановлению, готовый для поля услуги 1054; по судебным постановлениям — текст апелляционной жалобы",
   in2:"Календарь безопасных дней файлом .ics — даты попадают в телефон",
@@ -1277,6 +1472,22 @@ var RU = {
   s6:" — публикация о том же сроке; сам срок мы берём из статьи 316 КоАО, издание его только повторяет.",
   s7:" — услуга 1054 на my.gov.uz, бесплатно, заявление рассматривается 10 дней; срок скидки не продлевается.",
   s8:" — цена практического курса вождения в автошколе 5–8 млн сум, в среднем 7 млн. Статья о стоимости получения прав категории B; слова «повторный» источник не содержит, а требование пройти курс заново после лишения взято из spot.uz, 19.05.2026.",
+  obT:"Образец: до денег и целиком",
+  obStamp:"Образец — данные вымышленные",
+  obH:"Ниже — сами документы из «Комплекта защиты», без сокращений. Они собраны здесь же, в вашем браузере, тем же кодом, что и платная выдача: это не скриншот и не обрезок. Ф. И. О., адрес, номер постановления и даты вымышлены и никому не принадлежат — когда вы заполните свои поля, на этих местах будут ваши данные.",
+  obWarn:"Квадратные скобки — незаполненные места, и они остаются в тексте <b>намеренно</b>. Мы не придумываем за вас ни номер дела, ни причину: их вписываете вы. Тот, кто заплатил, получает ровно такие же скобки.",
+  ob1T:"1 · Черновик обращения — по постановлению органа",
+  ob1H:"Постановление вынесено по камере. Отмечены два обстоятельства: за рулём был не я и постановление вынесено позже месяца со дня нарушения. Текст готов к вставке в поле услуги 1054 на my.gov.uz.",
+  ob2T:"2 · Апелляционная жалоба — по постановлению суда",
+  ob2H:"Другая норма, другой срок и другой адрес: жалоба подаётся в тот же суд, который вынес постановление. Отмеченные обстоятельства — техническая ошибка при начислении баллов и нарушение требований Положения.",
+  ob3T:"3 · Лист защиты A4",
+  ob3H:"Один лист в бардачок: текущий балл, даты, красный список и оба текста. Здесь он в экранном виде; на печати то же самое уходит на бумагу и читается без интернета.",
+  obFoot:"Сама карта баллов бесплатна и такой останется. Образец выше построен на вымышленных числах этой карты — свои числа вы вводите выше, в самой карте.",
+  sellT:"Кто это делает",
+  sellWho:"Индивидуальный предприниматель Епихин Кирилл Николаевич, регистрационный номер <b>7875577</b>, город Ташкент, Шайхантахурский район. Полные реквизиты, включая СТИР, — в оферте и по запросу вместе с заявкой.",
+  sellRul:"Я делаю это один и делаю сам. Ещё у меня работает <a href=\"https://t.me/rulchi_bot\" target=\"_blank\" rel=\"noopener\">Rulchi</a> — правила дорожного движения Узбекистана в Telegram; он живой, им пользуются каждый день, и по нему видно, как я делаю продукты.",
+  sellAns:"<b>Оплаты на странице пока нет.</b> Вы оставляете заявку в форме выше, она приходит мне сразу, я связываюсь и мы договариваемся — до всяких денег. <b>Отвечаю в течение рабочего дня</b>, предельный срок — три рабочих дня.",
+  sellBack:"Если не ответил в этот срок — значит я ошибся, и вы ничего не теряете: платить до разговора не за что.",
   shareB:"Отправить ссылку другу",
   foot1:"<b>Ballim</b> — сервис расчёта и подготовки черновика документа. Это не юридическая услуга, не экспертиза и не представительство в суде. Обращение вы подаёте сами, результат от нас не зависит.",
   foot2:"Проект Rulchi · Ташкент · <span id=\"upd\"></span>"
@@ -1285,6 +1496,13 @@ var RU = {
 /* Тексты, которые собирает скрипт. Держать их вторым словарём с ключами
    было бы лишним уровнем: здесь их немного и они всегда парой. */
 var T = {
+  /* Плейсхолдер поля связи. Он стоял только в разметке, то есть только
+     по-узбекски, и applyLang() плейсхолдеры не трогает вовсе — значит
+     на русском экране в главном поле формы заявки было написано
+     «@username yoki +998 __ ___ __ __». Узбекское «yoki» в русской форме
+     на шаге, где человек оставляет контакт, — то же самое, что чужой язык
+     на кассе. Держим парой, как остальной текст. */
+  phContact:["@username yoki +998 __ ___ __ __","@username или +998 __ ___ __ __"],
   langUz:["O‘zbekcha","O‘zbekcha"], langRu:["Русский","Русский"],
   lDate:["Sana","Дата"], lViol:["Qoidabuzarlik","Нарушение"], lBall:["Ball","Баллы"],
   del:["O‘chirish","Удалить"],
@@ -1496,12 +1714,12 @@ var T = {
   // человек упёрся. Раньше здесь всегда стояло 99 000, в том числе на полном
   // тексте обращения, который входит и в тариф за 49 000: в точке решения
   // человеку показывали только большую цифру, а на его ответе стоит порог теста.
-  lockB:["Yuqorida sizning o‘z matningizning boshi. Shu qaror bo‘yicha to‘liq murojaat matni «Bitta qaror» tarifiga kiradi — {p1} so‘m, bir marta. «Himoya to‘plami» ({p} so‘m) unga har bir qaror bo‘yicha alohida matn va muddatlarni, .ics taqvim faylini va A4 himoya varaqasini qo‘shadi. Hozircha to‘lov yo‘q: ariza qoldirasiz, biz bog‘lanamiz va narxni tasdiqlaymiz.",
-          "Выше — начало вашего собственного текста. Полный текст обращения по этому постановлению входит в тариф «Одно постановление» — {p1} сум, разово. «Комплект защиты» ({p} сум) добавляет к нему отдельный текст и отдельные сроки по каждому постановлению, файл календаря .ics и лист защиты A4. Оплаты пока нет: вы оставляете заявку, мы связываемся и подтверждаем цену."],
-  lockC:["Taqvim fayli .ics va A4 himoya varaqasi «Himoya to‘plami» tarifiga kiradi — {p} so‘m, bir marta. Bitta qaror bo‘yicha to‘liq murojaat matni va muddatlari «Bitta qaror» tarifida ham bor — {p1} so‘m. Hozircha to‘lov yo‘q: ariza qoldirasiz, biz bog‘lanamiz va narxni tasdiqlaymiz.",
-         "Файл календаря .ics и лист защиты A4 входят в «Комплект защиты» — {p} сум, разово. Полный текст обращения и сроки по одному постановлению есть и в тарифе «Одно постановление» — {p1} сум. Оплаты пока нет: вы оставляете заявку, мы связываемся и подтверждаем цену."],
-  lockD:["Qaroringiz bo‘yicha muddatlar — shikoyatning oxirgi kuni va chegirma oynalari — «Bitta qaror» tarifiga kiradi ({p1} so‘m). Sanalarni telefonga soladigan .ics faylning o‘zi esa «Himoya to‘plami» da ({p} so‘m). Yuqoridagi xarita sanalari bepulligicha qoladi. Hozircha to‘lov yo‘q: ariza qoldirasiz, biz bog‘lanamiz va narxni tasdiqlaymiz.",
-         "Сроки по вашему постановлению — последний день жалобы и окна скидки — входят в тариф «Одно постановление» ({p1} сум). Сам файл календаря .ics, который кладёт даты в телефон, — в «Комплект защиты» ({p} сум). Даты по карте баллов выше остаются бесплатными. Оплаты пока нет: вы оставляете заявку, мы связываемся и подтверждаем цену."],
+  lockB:["Yuqorida sizning o‘z matningizning boshi. Shu qaror bo‘yicha to‘liq murojaat matni «Bitta qaror» tarifiga kiradi — {p1} so‘m, bir marta. «Himoya to‘plami» ({p} so‘m) unga har bir qaror bo‘yicha alohida matn va muddatlarni, .ics taqvim faylini va A4 himoya varaqasini qo‘shadi. Hozircha to‘lov yo‘q: ariza qoldirasiz, biz esa bog‘lanib, to‘lov usulini va hujjatlarni qachon berishimizni kelishamiz. Narx — tariflarda yozilgani, u o‘zgarmaydi.",
+          "Выше — начало вашего собственного текста. Полный текст обращения по этому постановлению входит в тариф «Одно постановление» — {p1} сум, разово. «Комплект защиты» ({p} сум) добавляет к нему отдельный текст и отдельные сроки по каждому постановлению, файл календаря .ics и лист защиты A4. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи. Цена — та, что названа в тарифах, и она не изменится."],
+  lockC:["Taqvim fayli .ics va A4 himoya varaqasi «Himoya to‘plami» tarifiga kiradi — {p} so‘m, bir marta. Bitta qaror bo‘yicha to‘liq murojaat matni va muddatlari «Bitta qaror» tarifida ham bor — {p1} so‘m. Hozircha to‘lov yo‘q: ariza qoldirasiz, biz esa bog‘lanib, to‘lov usulini va hujjatlarni qachon berishimizni kelishamiz. Narx — tariflarda yozilgani, u o‘zgarmaydi.",
+         "Файл календаря .ics и лист защиты A4 входят в «Комплект защиты» — {p} сум, разово. Полный текст обращения и сроки по одному постановлению есть и в тарифе «Одно постановление» — {p1} сум. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи. Цена — та, что названа в тарифах, и она не изменится."],
+  lockD:["Qaroringiz bo‘yicha muddatlar — shikoyatning oxirgi kuni va chegirma oynalari — «Bitta qaror» tarifiga kiradi ({p1} so‘m). Sanalarni telefonga soladigan .ics faylning o‘zi esa «Himoya to‘plami» da ({p} so‘m). Yuqoridagi xarita sanalari bepulligicha qoladi. Hozircha to‘lov yo‘q: ariza qoldirasiz, biz esa bog‘lanib, to‘lov usulini va hujjatlarni qachon berishimizni kelishamiz. Narx — tariflarda yozilgani, u o‘zgarmaydi.",
+         "Сроки по вашему постановлению — последний день жалобы и окна скидки — входят в тариф «Одно постановление» ({p1} сум). Сам файл календаря .ics, который кладёт даты в телефон, — в «Комплект защиты» ({p} сум). Даты по карте баллов выше остаются бесплатными. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи. Цена — та, что названа в тарифах, и она не изменится."],
   lockB2:["Tariflarni ko‘rish","Перейти к тарифам"],
   // ── Дыры в черновике. Незаполненное поле остаётся видимой скобкой ────────
   brOrg:["qarorni chiqargan organ","орган, вынесший постановление"],
@@ -1628,6 +1846,7 @@ var T = {
   shT:["Himoya varaqasi","Лист защиты"],
   shDate:["Hisob {d} holatiga. Rasmiy raqam «E-jarimaball» modulida va my.gov.uz da.",
           "Расчёт на {d}. Официальное число — в модуле «E-jarimaball» и на my.gov.uz."],
+  shNotes:["Muhim eslatmalar","Важные оговорки"],
   shDates:["Sanalar","Даты"],
   shDraft:["Murojaat qoralamasi","Черновик обращения"],
   shFoot:["Ballim — hisoblash va hujjat qoralamasi. Yuridik xizmat, ekspertiza yoki sudda vakillik emas. Ballar jadvali: VM 06.05.2025 dagi 296-son qarori, 2-ilova (676-son qaror tahririda). Shikoyat muddati: organ qarori bo‘yicha — MJtK 316-moddasi, qaror nusxasi olingan kundan o‘n kun; sud qarori bundan mustasno, unga MJtK 324-3-moddasi amal qiladi — qaror e’lon qilingan kundan, siz uchun esa nusxasi topshirilgan yoki olingan kundan o‘n sutka, shikoyat qarorni chiqargan sudga topshiriladi (324-1-modda, beshinchi qism). Chegirma oynalari: MJtK 332-1-moddasi, qaror topshirilgan kundan; soddalashtirilgan tartib uchta holatda qo‘llanilmaydi — 131, 132, 136, 140-moddalar va 211-moddaning uchinchi qismi bo‘yicha; shikoyat yoki protest bo‘lganda; bir yil ichida xuddi shunday tarkib takrorlanganda. Jarimani to‘lash muddati: MJtK 332-moddasi ikkinchi qismi, qaror chiqarilgan kundan 60 kun, shikoyat qanoatlantirilmasa — xabar berilgan kundan 30 kun. Olti oylik hisobdan chiqarish sanalari siz qaror sanasini ko‘rsatgan joyda o‘sha sanadan, ko‘rsatmagan joyda qoidabuzarlik sanasidan hisoblangan — ikkinchi holda haqiqiy sana keyinroq bo‘lishi mumkin.",
@@ -1709,6 +1928,11 @@ function applyLang(){
   document.title = t("pgTitle");
   var md = document.querySelector('meta[name="description"]');
   if(md) md.setAttribute("content", t("pgDesc"));
+  // Плейсхолдер — такой же текст, как всё остальное, но живёт он в атрибуте,
+  // а цикл выше ходит только по [data-t] и меняет innerHTML. Поэтому здесь
+  // отдельная строка: без неё русский экран показывал узбекский плейсхолдер.
+  var pc = document.getElementById("contact");
+  if(pc) pc.placeholder = t("phContact");
   $("#lang").innerHTML =
     ["uz","ru"].map(function(k){
       return '<button type="button" data-l="' + k + '"' + (k === lang ? ' class="on"' : '') +
@@ -1719,6 +1943,7 @@ function applyLang(){
       lang = b.dataset.l;
       try{ localStorage.setItem("bq_lang", lang); }catch(e){}
       applyLang(); paintTable(); paintFaq(); paintQuick(); paintRows(); paintForm(); paintPosts(); render();
+      buildObrazec();               // образец пересобирается на языке экрана
       // Уже собранный текст остаётся на прежнем языке, и переключатель молча
       // оставлял бы человека с русским обращением на узбекской странице.
       // Чистим выдачу: пересобрать её — одна кнопка, а починить непонятое доверие — нет.
@@ -2146,8 +2371,11 @@ function render(){
 
   // Событие calc шлём, когда набор реально изменился, и не чаще потолка:
   // иначе один человек с дрожащей рукой на поле даты выглядит как двадцать.
+  // И не шлём вовсе, пока считается образец: там карта вымышленная, а порог
+  // всего теста считается по числу расчётов — свой же образец, посчитанный
+  // за расчёт человека, поднял бы это число у каждого открывшего страницу.
   var key = list.map(function(x){ return dstr(x.date) + ":" + x.points; }).join("|");
-  if(key !== lastKey){
+  if(!SAMPLE && key !== lastKey){
     lastKey = key;
     clearTimeout(calcTimer);
     calcTimer = setTimeout(function(){ ev("calc", { n:list.length, total:total }); }, 1200);
@@ -3025,8 +3253,19 @@ function buildIcs(list){
    Незаполненные поля остаются квадратными скобками — так человек видит дыру
    и заполняет её, а не отправляет текст с нашей выдумкой вместо своего адреса. */
 function br(v, key){ return v ? v : "[" + t(key) + "]"; }
-function qname(){ var e = document.getElementById("qName"); return e ? e.value.trim() : ""; }
-function qaddr(){ var e = document.getElementById("qAddr"); return e ? e.value.trim() : ""; }
+/* Пока собирается ОБРАЗЕЦ, Ф. И. О. и адрес берутся не из полей человека,
+   а из вымышленных. Ветка здесь, а не второй копией buildDraft(): образец
+   обязан собираться тем же кодом, что и платная выдача, иначе он перестанет
+   быть образцом в первый же день, когда шаблон поправят. */
+var SAMPLE = null;
+function qname(){
+  if(SAMPLE) return SAMPLE.name;
+  var e = document.getElementById("qName"); return e ? e.value.trim() : "";
+}
+function qaddr(){
+  if(SAMPLE) return SAMPLE.addr;
+  var e = document.getElementById("qAddr"); return e ? e.value.trim() : "";
+}
 
 // Один черновик — по одному постановлению. Столько черновиков, сколько
 // постановлений покрывает тариф; их склеивает buildDrafts().
@@ -3278,8 +3517,19 @@ function buildSheet(){
   }
   // На бумаге объяснение нужно ровно так же, как на экране: лист кладут
   // в бардачок и перечитывают через месяц, когда спросить уже негде.
+  //
+  // ЗАГОЛОВОК ЗДЕСЬ БЫЛ `ndT` — «По этому постановлению скидки 50/70% нет».
+  // Он печатался над ВСЕМ, что вернул discWarnHtml(), а функция возвращает три
+  // разные вещи: оговорку про скидку (только когда noDiscReason не пуст),
+  // оговорку про суд и оговорку про срок уплаты после жалобы. Найдено образцом:
+  // у постановления суда со скидкой оговорки про скидку не было вовсе, зато
+  // заголовок «скидки нет» стоял — и ниже, в разделе «Даты», тот же лист
+  // печатал окна 50% и 30% по тому же постановлению. Утверждение спорило
+  // с числами на одном листе бумаги, который человек держит месяц.
+  // Каждая оговорка внутри и так названа своим полужирным заголовком,
+  // поэтому здесь нейтральное имя раздела, а не название одной из трёх.
   var nod = discWarnHtml();
-  if(nod) h += "<h3>" + t("ndT") + "</h3>" + nod;
+  if(nod) h += "<h3>" + t("shNotes") + "</h3>" + nod;
   var dates = planDates();
   if(dates.length){
     h += "<h3>" + t("shDates") + "</h3><table><tbody>" + dates.map(function(x){
@@ -3306,6 +3556,92 @@ function buildSheet(){
   h += "<div class='foot'>" + t("shFoot") + "</div>";
   s.innerHTML = h;
   return true;
+}
+
+/* ── ОБРАЗЕЦ ГОТОВОГО КОМПЛЕКТА ──────────────────────────────────────────────
+   Собирается теми же функциями, что и платная выдача, — buildDraft()
+   и buildSheet(), — только на вымышленном постановлении и вымышленной карте.
+   Ни одной строки документа здесь не набрано руками: набранная копия
+   разошлась бы с выдачей на первой же правке шаблона, и разошлась бы
+   в сторону обещания, которого мы не выполним.
+
+   Как это устроено. Глобальное состояние (карта, постановления, тариф)
+   на время сборки подменяется вымышленным, а потом возвращается на место
+   и экран пересчитывается заново. Подмена и возврат происходят внутри одного
+   вызова, без ожиданий, поэтому человек не видит промежуточного состояния.
+   Событие «посчитал» на время подмены выключено — см. render().
+
+   Даты считаются от СЕГОДНЯ, а не записаны строками: образец с датами
+   из августа 2026 через полгода показывал бы истёкшие сроки и объяснял,
+   как их восстанавливать, — то есть демонстрировал бы не тот товар. */
+function dISO(n){ return addD(today(), n).toISOString().slice(0, 10); }
+
+function sampleRows(){
+  // Семь нарушений за год — карта человека из центрального сценария: тариф
+  // адресован тем, у кого 8 баллов и больше, значит и образец должен быть
+  // о них, а не о водителе с одним штрафом.
+  return [
+    { d:dISO(-320), v:"sp2", p:"" },
+    { d:dISO(-250), v:"red", p:"" },
+    { d:dISO(-180), v:"sp3", p:"" },
+    { d:dISO(-95),  v:"ovt", p:"" },
+    { d:dISO(-40),  v:"sp3", p:"" },
+    { d:dISO(-14),  v:"sp4", p:"" },
+    { d:dISO(-6),   v:"red", p:"" }
+  ];
+}
+
+/* Два постановления, и они РАЗНЫЕ по существу: первое вынес орган по камере,
+   второе — суд. От этого зависит норма, срок, точка отсчёта и адрес подачи,
+   и именно эту разницу человек покупает. Слово «namuna» / «образец» стоит
+   в самом номере постановления, то есть внутри текста документа, а не только
+   в заголовке над ним: образец, который можно спутать с готовым документом,
+   рано или поздно кто-нибудь подаст. */
+function samplePosts(){
+  var uz = lang === "uz";
+  return [
+    { got:dISO(-6), post:dISO(-9),
+      num: uz ? "AB 0000000 — NAMUNA" : "АВ 0000000 — ОБРАЗЕЦ",
+      org: uz ? "Toshkent shahar IIB Yo‘l harakati xavfsizligi boshqarmasi"
+              : "Управление безопасности дорожного движения ГУВД города Ташкента",
+      art: uz ? "128-3, 2-qism" : "128-3 ч.2",
+      fix:"cam", rep:false, appeal:false, court:false,
+      why:{ drv:true, term:true } },
+    { got:dISO(-4), post:dISO(-5),
+      num: uz ? "AB 0000001 — NAMUNA" : "АВ 0000001 — ОБРАЗЕЦ",
+      org: uz ? "Toshkent shahri Yunusobod tumani sudi"
+              : "Юнусабадский районный суд города Ташкента",
+      art: uz ? "128-3, 1-qism" : "128-3 ч.1",
+      fix:"insp", rep:false, appeal:false, court:true,
+      why:{ tech:true, regl:true } }
+  ];
+}
+
+function buildObrazec(){
+  var d1 = document.getElementById("obDraft1");
+  if(!d1) return;
+  var keepRows = rows, keepPosts = POSTS, keepTier = TIER;
+  var uz = lang === "uz";
+
+  SAMPLE = {
+    name: uz ? "Rahimov Sardor Baxtiyorovich" : "Рахимов Сардор Бахтиёрович",
+    addr: uz ? "Toshkent sh., Chilonzor tumani, 12-mavze, 3-uy, 45-xonadon"
+             : "г. Ташкент, Чиланзарский район, квартал 12, дом 3, кв. 45"
+  };
+  rows  = sampleRows();
+  POSTS = samplePosts();
+  TIER  = "paid";                    // образец показывает верхний тариф целиком
+  render();                          // считает LAST по вымышленной карте
+
+  d1.textContent = buildDraft(POSTS[0]);
+  document.getElementById("obDraft2").textContent = buildDraft(POSTS[1]);
+  var sh = document.getElementById("sheet");
+  document.getElementById("obSheet").innerHTML = buildSheet() ? sh.innerHTML : "";
+  sh.innerHTML = "";                 // печатный узел возвращаем в исходное состояние
+
+  SAMPLE = null;
+  rows = keepRows; POSTS = keepPosts; TIER = keepTier;
+  render();                          // экран человека — на место
 }
 
 $("#addPost").onclick = function(){
@@ -3416,6 +3752,9 @@ document.querySelectorAll('a[href="#paket"]').forEach(function(a){
 load();
 POSTS.push(newPost());
 applyLang(); paintTable(); paintFaq(); paintQuick(); paintRows(); paintForm(); paintPosts(); render();
+// Образец — после первого расчёта: он подменяет карту на вымышленную
+// и возвращает её обратно, значит настоящий расчёт должен быть уже сделан.
+buildObrazec();
 leadOnce();
 ev("open", { lang:lang, tier:TIER });
 </script>

@@ -15,6 +15,25 @@
      Редирект, который теряет одно из двух, хуже 404: он выглядит работающим. -->
 <meta name="robots" content="noindex, nofollow">
 <title>Toʻy-Daftar</title>
+<!-- Превью ссылки. Этот файл существует именно потому, что адрес обрезают
+     до папки: /tma-uz/toy/ — самая короткая ссылка на продукт, и в чат
+     пересылают чаще всего её. Значит превью должно быть ровно у неё,
+     а не только у страниц с длинными адресами. «noindex» превью не мешает:
+     он про поиск, а Telegram читает og вне зависимости от него.
+     Картинка рисуется tools/og-draw.html. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Toʻy-Daftar">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="uz_UZ">
+<meta property="og:title" content="Toʻy-Daftar — кабинет тоя">
+<meta property="og:description" content="Приглашения по ссылке, ответы за всю семью, точное число для тойханы. Открывается в Telegram.">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/toy/">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/toy/og/og-ru.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Toʻy-Daftar. Тойхона берёт за приглашённых, а не за пришедших: 4 750 000 сум за 19 мест, которые держат за восемью молчащими семьями.">
+<meta name="twitter:card" content="summary_large_image">
 <script>
   (function () {
     var to = "organizer.html" + window.location.search + window.location.hash;

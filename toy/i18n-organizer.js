@@ -186,6 +186,10 @@ const T_ORG = {
     sLockText:"Столы, распределение семей и подсчёт свободных мест — на тарифе Premium. Больше не нужны бумажки и переписывание списка от руки.",
     zProgTitle:"Ответы гостей",
     zProgText:(a,n)=>`${plural(a,"Ответила","Ответили","Ответили")} <b>${a}</b> ${plural(a,"семья","семьи","семей")} из ${n}. Кто именно — на вкладке «Гости», там же напоминания.`,
+    // Ссылка на образец стоит на каждом замке. Замок — это ровно тот экран,
+    // где человек упирается в «заплати и увидишь»; показать товар надо здесь,
+    // а не только на сайте, куда он уже не вернётся.
+    lockSample:"Сначала посмотреть, что именно откроется — образец целиком",
     zLockTitle:"Счёт для зала",
     zLockText:"Тойхона просит одно число — сколько человек придёт. Premium собирает его из ответов: картинка, которую пересылают администратору в WhatsApp, файл для Excel, документ по столам. Плюс рассадка, шесть закрытых оформлений и второй хозяин тоя. 49 000 сум за той, не подписка.",
     zPngBtn:"📸 Картинка для тойхоны",
@@ -454,6 +458,7 @@ const T_ORG = {
     sLockText:"Stollar, oilalarni taqsimlash va boʻsh joylarni sanash — Premium tarifida. Endi qogʻozlar va roʻyxatni qoʻlda koʻchirish shart emas.",
     zProgTitle:"Mehmonlar javoblari",
     zProgText:(a,n)=>`${n} tadan <b>${a}</b> ta oila javob berdi. Kimlar ekani — «Mehmonlar» boʻlimida, eslatmalar ham oʻsha yerda.`,
+    lockSample:"Avval aynan nima ochilishini koʻrish — namuna toʻliq",
     zLockTitle:"Toʻyxona uchun hisob",
     zLockText:"Toʻyxona bitta raqamni soʻraydi — necha kishi keladi. Premium uni javoblardan yigʻadi: maʼmurga WhatsApp orqali yuboriladigan rasm, Excel uchun fayl, stollar boʻyicha hujjat. Ustiga stollarga joylashtirish, oltita yopiq bezak va toʻyning ikkinchi egasi. Bitta toʻy uchun 49 000 soʻm, obuna emas.",
     zPngBtn:"📸 Toʻyxona uchun rasm",

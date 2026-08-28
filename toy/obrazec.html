@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta name="robots" content="noindex, nofollow">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Образец — что именно вы получаете за деньги · Toʻy-Daftar</title>
+<meta name="description" content="Полный образец платного: счёт для тойханы картинкой, рассадка по столам, список для печати и книга подарков. Всё целиком, на выдуманном тое, до оплаты и без регистрации.">
+<!-- Превью ссылки — то же, что у сайта: страницу пересылают вместо ответа
+     на вопрос «а что там за деньги?». Рисуется tools/og-draw.html. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Toʻy-Daftar">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="uz_UZ">
+<meta property="og:title" content="Образец: что именно вы получаете за 49 000">
+<meta property="og:description" content="Счёт для тойханы, рассадка по столам, список для печати и книга подарков — целиком, на выдуманном тое, до оплаты.">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/toy/obrazec.html">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/toy/og/og-ru.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Toʻy-Daftar. Тойхона берёт за приглашённых, а не за пришедших: 4 750 000 сум за 19 мест, которые держат за восемью молчащими семьями.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#F6F1E8">
+<link rel="icon" href="../brand/logo-toy.svg" type="image/svg+xml">
+<link rel="icon" href="../brand/toy-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="../brand/toy-apple.png">
+<!-- Шрифты свои: страница не обращается наружу ни одним запросом. -->
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+/* Палитра — с demo.html, без единого нового значения: образец и демо стоят
+   рядом в одном пути, и разъехавшиеся оттенки читались бы как два продукта. */
+:root{
+  --bg:#F6F1E8; --panel:#FFFFFF; --ink:#2A211C; --ink2:#5A4B41; --muted:#8B7A6C;
+  --line:#E4D9C9; --line2:#F0E8DC; --gold:#B08D3F; --gold-bg:#FBF3E2; --deep:#7D1F38;
+  --ok:#2E7D4F; --ok-bg:#E8F3EC; --warn:#A86B00;
+  --shadow:0 18px 50px rgba(90,60,25,.10);
+  --display:"Cormorant Garamond",Georgia,serif;
+  --body:Manrope,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#151109; --panel:#1F1912; --ink:#F1E8DB; --ink2:#CDBCA8; --muted:#9A8875;
+    --line:#33291D; --line2:#282015; --gold:#D5B366; --gold-bg:#2A2213; --deep:#D98AA0;
+    --ok:#5CB584; --ok-bg:#17251C; --warn:#D6A34A;
+    --shadow:0 18px 50px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#151109; --panel:#1F1912; --ink:#F1E8DB; --ink2:#CDBCA8; --muted:#9A8875;
+  --line:#33291D; --line2:#282015; --gold:#D5B366; --gold-bg:#2A2213; --deep:#D98AA0;
+  --ok:#5CB584; --ok-bg:#17251C; --warn:#D6A34A;
+  --shadow:0 18px 50px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);
+  font-size:15.5px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+.wrap{max-width:940px;margin:0 auto;padding:26px 18px 70px}
+.col{max-width:660px}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.14;margin:0;text-wrap:balance}
+h1{font-size:clamp(30px,6vw,46px)}
+h2{font-size:clamp(23px,3.6vw,32px);margin-bottom:10px}
+h3{font-size:19px;margin:0 0 6px}
+p{margin:0 0 14px}
+a{color:var(--gold)}
+.lbl{font:600 11px var(--body);letter-spacing:.19em;text-transform:uppercase;color:var(--gold);margin:0 0 8px}
+.mut{color:var(--muted)}
+.sm{font-size:13.5px}
+section{padding:34px 0;border-top:1px solid var(--line)}
+section:first-of-type{border-top:0}
+
+.pagelang{display:flex;justify-content:center;gap:3px;margin-bottom:20px}
+.pagelang button{border:1px solid var(--line);background:var(--panel);color:var(--muted);
+  font:600 12px var(--body);padding:6px 14px;border-radius:20px;cursor:pointer}
+.pagelang button.on{background:var(--ink);color:var(--panel);border-color:var(--ink)}
+
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:18px;
+  padding:20px;box-shadow:var(--shadow)}
+.tag{display:inline-block;border:1px solid var(--gold);color:var(--gold);
+  background:var(--gold-bg);border-radius:999px;padding:3px 11px;font:600 12px var(--body);
+  margin-bottom:10px}
+.note{background:var(--gold-bg);border-left:3px solid var(--gold);padding:13px 16px;
+  border-radius:0 10px 10px 0;font-size:14.5px;margin:16px 0}
+
+/* Картинка счёта — та самая, 1080×1440. Показываем её целиком и в рамке,
+   потому что именно её организатор пересылает администратору тойханы. */
+.shot{max-width:380px;margin:0 auto;display:block}
+.shot img{width:100%;height:auto;display:block;border:1px solid var(--line);
+  border-radius:14px;box-shadow:var(--shadow)}
+
+.tgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px;margin:14px 0}
+.t{border:1px solid var(--line);border-radius:12px;padding:9px 6px;text-align:center;background:var(--panel)}
+.t b{display:block;font-family:var(--display);font-size:19px;font-weight:600}
+.t span{font-size:11.5px;color:var(--muted)}
+.t.full{border-color:var(--gold);background:var(--gold-bg)}
+
+/* Лист документа: показываем ровно то, что уходит на печать, — белая бумага,
+   Times, рамки таблиц. Подкрашивать его под тему страницы значило бы показать
+   не документ, а его пересказ. */
+.sheet{background:#fff;color:#14110d;border:1px solid var(--line);border-radius:12px;
+  padding:22px 20px;overflow-x:auto;font-family:"Times New Roman",Georgia,serif}
+.sheet h1{font-size:17px;text-align:center;font-family:inherit;font-weight:700;margin:0 0 10px}
+.sheet h3{font-size:14px;font-family:inherit;font-weight:700;margin:14px 0 5px}
+.sheet p{font-size:13.5px;margin:0 0 8px}
+.sheet table{border-collapse:collapse;width:100%;font-size:13px}
+.sheet td,.sheet th{border:1px solid #444;padding:4px 6px;text-align:left}
+.sheet b{font-weight:700}
+
+.gifts{width:100%;border-collapse:collapse;margin-top:10px;font-size:14.5px}
+.gifts td,.gifts th{border-bottom:1px solid var(--line2);padding:8px 6px;text-align:left}
+.gifts th{color:var(--muted);font:600 12px var(--body);letter-spacing:.06em;text-transform:uppercase}
+.gifts td:last-child,.gifts th:last-child{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.gifts tfoot td{font-weight:700;border-bottom:0;border-top:1px solid var(--line)}
+.wish{border-left:3px solid var(--gold);padding:8px 0 8px 14px;margin:10px 0;color:var(--ink2);font-size:14.5px}
+.wish b{display:block;font-size:13px;color:var(--muted);font-weight:600}
+
+.cta{display:inline-block;background:var(--deep);color:#fff;text-decoration:none;
+  font:700 15.5px var(--body);padding:14px 26px;border-radius:14px}
+.cta.sec{background:transparent;color:var(--ink);border:1px solid var(--line);margin-left:8px}
+footer{border-top:1px solid var(--line);padding-top:22px;margin-top:34px;color:var(--muted);font-size:13px}
+footer a{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="pagelang" id="pagelang"></div>
+
+<section>
+  <p class="lbl" data-t="kick">Образец</p>
+  <h1 data-t="h1">Вот что именно вы получаете за деньги</h1>
+  <p class="col" style="margin-top:14px;font-size:17px;color:var(--ink2)" data-t="lede">Ниже — не скриншоты
+    и не обрезки, а те самые документы, которые продукт выдаёт заплатившему. Они
+    собраны прямо на этой странице тем же кодом, что работает в кабинете, —
+    только на выдуманном тое. Ничего вводить и никуда входить не нужно.</p>
+  <!-- Числа обязаны сходиться на странице, которая продаёт умение считать.
+       Здесь стояло «72 приглашённых человека»: 72 — это счёт тойханы
+       (53 подтверждённых + 19 придержанных мест), а приглашённых в FAMS
+       ровно 84 (56 + 19 + 9 по invited_count). Читатель, который сложит
+       53 + 19 + 9 из карточки счёта, получал 81 и не сходился ни с чем.
+       Теперь названы оба числа и сказано, чем они отличаются: 84 позвали,
+       72 уйдёт в счёт. Оба считаются из FAMS ниже в этом же файле. -->
+  <div class="note" data-t="dataNote">Выдуманный той: <b>Aziz &amp; Nilufar</b>, 18 октября 2026,
+    Toʻyxona «Zarafshon». 29 семей, 84 приглашённых человека. 18 семей ответили
+    «придём» — это 53 места (кто-то придёт не всем составом); 8 семей молчат —
+    за ними держат 19 мест; 3 семьи отказались. Тойхоне уходит 72 места.
+    Столов десять по восемь мест.</div>
+</section>
+
+<section>
+  <span class="tag" data-t="tag1">Premium · 49 000 сум</span>
+  <p class="lbl" data-t="d1k">Лист 1</p>
+  <h2 data-t="d1t">Счёт для тойханы одной картинкой</h2>
+  <p class="col" data-t="d1p">Это единственный документ, который тойхона и правда
+    просит: одно число. Картинку пересылают администратору в WhatsApp — она
+    открывается у него без приложений и без ссылок. Ниже она нарисована целиком,
+    в настоящем размере 1080×1440.</p>
+  <div class="shot"><img id="zalimg" alt="" width="1080" height="1440"></div>
+</section>
+
+<section>
+  <span class="tag" data-t="tag2">Premium · 49 000 сум</span>
+  <p class="lbl" data-t="d2k">Лист 2</p>
+  <h2 data-t="d2t">Рассадка по столам</h2>
+  <p class="col" data-t="d2p">Раскладка ниже посчитана тем же кодом, что и в кабинете:
+    семью не режут между столами, келин томон и куёв томон садятся группами,
+    молчащим место держат по числу приглашённых. Занятые полностью столы выделены.</p>
+  <div class="tgrid" id="tgrid"></div>
+  <p class="sm mut" id="seatsum"></p>
+  <div class="panel" style="margin-top:14px"><div id="seatlist"></div></div>
+</section>
+
+<section>
+  <span class="tag" data-t="tag3">Premium · 49 000 сум</span>
+  <p class="lbl" data-t="d3k">Лист 3</p>
+  <h2 data-t="d3t">Список по столам для печати</h2>
+  <p class="col" data-t="d3p">Тот же документ, что уходит в файл: его печатают
+    и отдают администратору зала на входе. Строка про уведомление махалли стоит
+    в самом документе, а не только на экране, — про неё забывают чаще всего.
+    Тем же текстом он вставляется в Excel и Google Таблицы.</p>
+  <div class="sheet" id="doc"></div>
+</section>
+
+<section>
+  <span class="tag" data-t="tag4">Полный · 149 000 сум</span>
+  <p class="lbl" data-t="d4k">Лист 4</p>
+  <h2 data-t="d4t">Книга подарков и пожелания гостей</h2>
+  <p class="col" data-t="d4p">Кто что подарил и на какую сумму — чтобы через год знать,
+    что дарить в ответ. Через 90 дней после тоя данные гостей удаляются, но перед
+    удалением книга приходит вам файлом и остаётся у вас.</p>
+  <div class="panel">
+    <table class="gifts" id="gifts"></table>
+    <div id="wishes" style="margin-top:18px"></div>
+  </div>
+</section>
+
+<section>
+  <h2 data-t="restT">Что сюда не поместилось</h2>
+  <div class="col">
+    <p data-t="restP">Три вещи из платного — не документы, и показать их листом нельзя,
+      поэтому они названы словами, а не спрятаны.</p>
+    <p><b data-t="rest1t">Шесть закрытых оформлений.</b>
+      <span data-t="rest1">Их видно целиком и без оплаты — в демо: выберите любое
+      с замком, приглашение перерисуется сразу.</span>
+      <a href="demo.html" data-t="rest1a">Посмотреть оформления</a></p>
+    <p><b data-t="rest2t">Второй хозяин тоя.</b>
+      <span data-t="rest2">Это доступ, а не файл: вторая сторона получает ссылку
+      и ведёт общий список вместе с вами. Показать листом нечего.</span></p>
+    <p><b data-t="rest3t">Выгрузка в Excel.</b>
+      <span data-t="rest3">Те же строки, что на листе 3, только файлом CSV —
+      отдельного вида у них нет.</span></p>
+  </div>
+</section>
+
+<section>
+  <h2 data-t="ctaT">Собрать свой той</h2>
+  <p class="col" data-t="ctaP">Приглашения и ответы бесплатны, семей сколько угодно.
+    Платить есть смысл в тот день, когда тойхона просит точное число.</p>
+  <a class="cta" id="cta" href="#" data-t="ctaB">Открыть в Telegram</a>
+  <a class="cta sec" href="demo.html" data-t="ctaD">Сначала посмотреть приглашения</a>
+</section>
+
+<footer>
+  <div data-t="f1">Индивидуальный предприниматель Епихин Кирилл Николаевич,
+    регистрационный номер 7875577, Шайхантахурский район, г. Ташкент.
+    СТИР — по запросу в боте. Отвечаю обычно в тот же день,
+    предельный срок — 3 рабочих дня.</div>
+  <div style="margin-top:8px">
+    <a href="oferta.html" data-t="f2">Публичная оферта и обработка данных</a></div>
+</footer>
+
+</div>
+
+<script src="config.js"></script>
+<script src="i18n-organizer.js"></script>
+<script src="zal.js"></script>
+<script>
+/* ============================================================================
+ * Образец платного. Устройство взято у kontrakt-12/app/obrazec.html: листы
+ * целиком, до всякой формы, без регистрации.
+ *
+ * ГЛАВНОЕ ПРАВИЛО ЭТОЙ СТРАНИЦЫ. Всё, что здесь показано, рисует НАСТОЯЩИЙ
+ * код продукта — toyZalPng, toyPlanSeating и toyZalDoc из zal.js, те же,
+ * что вызывает кабинет за замком тарифа. Если бы образец собирал свою копию,
+ * у продукта было бы два счёта для зала — один для заплативших, другой для
+ * витрины, — и первая же правка развела бы их. Тогда витрина показывала бы
+ * не товар, а его портрет.
+ *
+ * Свои здесь только выдуманные данные и подписи вокруг листов.
+ * ==========================================================================*/
+
+const $ = s => document.querySelector(s);
+const BOT = window.TOY_BOT || "toy_daftar_bot";
+
+/* ── Выдуманный той ──────────────────────────────────────────────────────────
+   Числа не случайные: 53 подтверждённых места, 8 молчащих семей и 19 мест
+   за ними — это ровно тот пример, что стоит на сайте в блоке про счёт
+   тойханы. Разные числа на сайте и в образце читались бы как разные продукты. */
+const EV = {
+  couple: "Aziz & Nilufar",
+  date: "2026-10-18",
+  time: "18:00",
+  venue: "Toʻyxona «Zarafshon»",
+};
+
+// Столы: десять по восемь. Больше не нужно — 72 места помещаются с запасом.
+const TABLES = Array.from({length:10}, (_,i) => ({ id:i+1, num:i+1, capacity:8 }));
+
+/* Семьи. side: kelin — со стороны невесты, kuyov — со стороны жениха.
+   Восемнадцать ответивших дают 53 места, восемь молчащих держат 19,
+   трое отказались. У троих ответивших пришли не все — так бывает чаще,
+   чем «придём все», и образец не должен это приглаживать. */
+const FAMS = [
+  { id:1,  name:"Karimovlar oilasi",     side:"kelin", invited_count:4, rsvp_status:"yes", rsvp_count:4, rsvp_note:"Baxtli boʻlinglar!" },
+  { id:2,  name:"Toshmatovlar oilasi",   side:"kuyov", invited_count:3, rsvp_status:"yes", rsvp_count:3 },
+  { id:3,  name:"Aliyevlar oilasi",      side:"kelin", invited_count:2, rsvp_status:"yes", rsvp_count:2 },
+  { id:4,  name:"Yusupovlar oilasi",     side:"kuyov", invited_count:6, rsvp_status:"yes", rsvp_count:5, rsvp_note:"Uzoq umr va mustahkam oila tilaymiz!" },
+  { id:5,  name:"Rahimovlar oilasi",     side:"kelin", invited_count:3, rsvp_status:"yes", rsvp_count:3 },
+  { id:6,  name:"Ergashevlar oilasi",    side:"kuyov", invited_count:2, rsvp_status:"yes", rsvp_count:2 },
+  { id:7,  name:"Nazarovlar oilasi",     side:"kelin", invited_count:4, rsvp_status:"yes", rsvp_count:4 },
+  { id:8,  name:"Qodirovlar oilasi",     side:"kuyov", invited_count:2, rsvp_status:"yes", rsvp_count:2 },
+  { id:9,  name:"Xolmatovlar oilasi",    side:"kelin", invited_count:4, rsvp_status:"yes", rsvp_count:3 },
+  { id:10, name:"Sultonovlar oilasi",    side:"kuyov", invited_count:2, rsvp_status:"yes", rsvp_count:2 },
+  { id:11, name:"Islomovlar oilasi",     side:"kelin", invited_count:4, rsvp_status:"yes", rsvp_count:4, rsvp_note:"Toʻyingiz muborak boʻlsin!" },
+  { id:12, name:"Jalilovlar oilasi",     side:"kuyov", invited_count:2, rsvp_status:"yes", rsvp_count:2 },
+  { id:13, name:"Umarovlar oilasi",      side:"kelin", invited_count:3, rsvp_status:"yes", rsvp_count:3 },
+  { id:14, name:"Saidovlar oilasi",      side:"kuyov", invited_count:3, rsvp_status:"yes", rsvp_count:2 },
+  { id:15, name:"Boboyevlar oilasi",     side:"kelin", invited_count:4, rsvp_status:"yes", rsvp_count:4 },
+  { id:16, name:"Mirzayevlar oilasi",    side:"kuyov", invited_count:3, rsvp_status:"yes", rsvp_count:3 },
+  { id:17, name:"Hasanovlar oilasi",     side:"kelin", invited_count:2, rsvp_status:"yes", rsvp_count:2 },
+  { id:18, name:"Abdullayevlar oilasi",  side:"kuyov", invited_count:3, rsvp_status:"yes", rsvp_count:3, rsvp_note:"Ikki mashinada kelamiz." },
+
+  { id:19, name:"Ismoilovlar oilasi",    side:"kelin", invited_count:3, rsvp_status:"pending", rsvp_count:null },
+  { id:20, name:"Turgʻunovlar oilasi",   side:"kuyov", invited_count:2, rsvp_status:"pending", rsvp_count:null },
+  { id:21, name:"Yoʻldoshevlar oilasi",  side:"kelin", invited_count:4, rsvp_status:"pending", rsvp_count:null },
+  { id:22, name:"Normatovlar oilasi",    side:"kuyov", invited_count:2, rsvp_status:"pending", rsvp_count:null },
+  { id:23, name:"Salimovlar oilasi",     side:"kelin", invited_count:2, rsvp_status:"pending", rsvp_count:null },
+  { id:24, name:"Rasulovlar oilasi",     side:"kuyov", invited_count:3, rsvp_status:"pending", rsvp_count:null },
+  { id:25, name:"Xudoyberdiyevlar oilasi", side:"kelin", invited_count:2, rsvp_status:"pending", rsvp_count:null },
+  { id:26, name:"Oripovlar oilasi",      side:"kuyov", invited_count:1, rsvp_status:"pending", rsvp_count:null },
+
+  { id:27, name:"Sobirovlar oilasi",     side:"kelin", invited_count:4, rsvp_status:"no", rsvp_count:0 },
+  { id:28, name:"Mahmudovlar oilasi",    side:"kuyov", invited_count:3, rsvp_status:"no", rsvp_count:0 },
+  { id:29, name:"Zokirovlar oilasi",     side:"kelin", invited_count:2, rsvp_status:"no", rsvp_count:0 },
+];
+
+/* Подарки. Книга заполняется на следующий день после тоя — поэтому здесь
+   не все 18 семей, а те, кого успели записать. */
+const GIFTS = [
+  { family_id:1,  gift_text:"Konvert",        amount_uzs:2000000 },
+  { family_id:4,  gift_text:"Gilam",          amount_uzs:1800000 },
+  { family_id:7,  gift_text:"Servis, 12 kishilik", amount_uzs:900000 },
+  { family_id:11, gift_text:"Konvert",        amount_uzs:1500000 },
+  { family_id:2,  gift_text:"Choy servizi",   amount_uzs:450000 },
+  { family_id:15, gift_text:"Konvert",        amount_uzs:1000000 },
+  { family_id:5,  gift_text:"Koʻrpa-toʻshak", amount_uzs:1200000 },
+];
+
+/* ── Язык страницы ───────────────────────────────────────────────────────────
+   То же устройство, что в demo.html: узбекский словарём, русский снимается
+   с самой разметки. Держать русский вторым словарём значило бы гарантированно
+   разойтись с тем, что написано в HTML. */
+const PAGE_UZ = {
+  /* Заголовок вкладки тоже переводится: без него человек, переключивший
+     страницу на узбекский, видит русское имя во вкладке, в закладке
+     и в списке открытых страниц. */
+  docTitle:"Namuna — pul evaziga aynan nima olishingiz · Toʻy-Daftar",
+  kick:"Namuna",
+  h1:"Pul evaziga aynan nima olishingiz",
+  lede:"Quyida skrinshot yoki qirqim emas — mahsulot toʻlagan odamga beradigan haqiqiy hujjatlar. Ular shu sahifada kabinetdagi bilan bir xil kod bilan yigʻilgan, faqat oʻylab topilgan toʻy ustida. Hech narsa kiritish va hech qayerga kirish shart emas.",
+  dataNote:"Oʻylab topilgan toʻy: <b>Aziz &amp; Nilufar</b>, 2026-yil 18-oktabr, Toʻyxona «Zarafshon». 29 oila, 84 taklif qilingan kishi. 18 oila «kelamiz» dedi — bu 53 joy (baʼzi oila toʻliq tarkibda kelmaydi); 8 oila javob bermayapti — ular uchun 19 joy band; 3 oila kelolmaydi. Toʻyxonaga 72 joy ketadi. Stollar oʻnta, sakkiz joydan.",
+  tag1:"Premium · 49 000 soʻm",
+  d1k:"1-varaq",
+  d1t:"Toʻyxona uchun hisob — bitta rasm",
+  d1p:"Toʻyxona chindan ham soʻraydigan yagona hujjat: bitta raqam. Rasm maʼmurga WhatsApp orqali yuboriladi — u hech qanday ilova va havolasiz ochiladi. Quyida u toʻliq, haqiqiy 1080×1440 oʻlchamda chizilgan.",
+  tag2:"Premium · 49 000 soʻm",
+  d2k:"2-varaq",
+  d2t:"Stollarga joylashtirish",
+  d2p:"Quyidagi taqsimot kabinetdagi bilan bir xil kod bilan hisoblangan: oila stollar orasida boʻlinmaydi, kelin tomon va kuyov tomon guruh boʻlib oʻtiradi, javob bermaganlarga taklif qilinganlar soni boʻyicha joy band turadi. Toʻlgan stollar ajratib koʻrsatilgan.",
+  tag3:"Premium · 49 000 soʻm",
+  d3k:"3-varaq",
+  d3t:"Chop etish uchun stollar roʻyxati",
+  d3p:"Faylga ketadigan oʻsha hujjat: uni chop etib, kirishda zal maʼmuriga berishadi. Mahallani xabardor qilish haqidagi qator ekranda emas, hujjatning oʻzida turadi — aynan u koʻpincha esdan chiqadi. Xuddi shu matn Excel va Google Jadvallarga ham qoʻyiladi.",
+  tag4:"Toʻliq · 149 000 soʻm",
+  d4k:"4-varaq",
+  d4t:"Sovgʻalar daftari va mehmonlar tilaklari",
+  d4p:"Kim nima va qancha sovgʻa qilgani — bir yildan keyin javobiga nima berishni bilish uchun. Toʻydan 90 kun oʻtgach mehmonlar maʼlumotlari oʻchiriladi, lekin oʻchirishdan oldin daftar sizga fayl boʻlib keladi va sizda qoladi.",
+  restT:"Bu yerga sigʻmagani",
+  restP:"Pulli tarifdagi uchta narsa hujjat emas, ularni varaq qilib koʻrsatib boʻlmaydi — shuning uchun ular yashirilmagan, balki soʻz bilan aytilgan.",
+  rest1t:"Oltita yopiq bezak.",
+  rest1:"Ular toʻlovsiz ham toʻliq koʻrinadi — demoda: qulfli istaganini tanlang, taklifnoma darrov qayta chiziladi.",
+  rest1a:"Bezaklarni koʻrish",
+  rest2t:"Toʻyning ikkinchi egasi.",
+  rest2:"Bu fayl emas, kirish huquqi: ikkinchi tomon havola oladi va roʻyxatni siz bilan birga yuritadi. Varaq qilib koʻrsatadigan narsa yoʻq.",
+  rest3t:"Excelʼga yuklab olish.",
+  rest3:"3-varaqdagi oʻsha qatorlar, faqat CSV fayl koʻrinishida — ularning alohida koʻrinishi yoʻq.",
+  ctaT:"Oʻz toʻyingizni yigʻing",
+  ctaP:"Taklifnomalar va javoblar bepul, oilalar istagancha. Toʻlashning maʼnosi toʻyxona aniq sonni soʻragan kuni paydo boʻladi.",
+  ctaB:"Telegramda ochish",
+  ctaD:"Avval taklifnomalarni koʻrish",
+  f1:"Yakka tartibdagi tadbirkor Epixin Kirill Nikolayevich, roʻyxatdan oʻtish raqami 7875577, Shayxontohur tumani, Toshkent shahri. STIR — botdagi soʻrov boʻyicha. Odatda oʻsha kuni javob beraman, eng koʻpi bilan — 3 ish kuni.",
+  f2:"Ommaviy oferta va maʼlumotlarni qayta ishlash",
+};
+const PAGE_RU = {};
+document.querySelectorAll("[data-t]").forEach(el => { PAGE_RU[el.dataset.t] = el.innerHTML; });
+const TITLE_RU = document.title;
+
+let pageLang = (() => {
+  /* lang= из адреса выше всего: на образец приходят по ссылке с русской
+     или с узбекской страницы сайта, и язык той страницы — это выбор человека,
+     а не настройка его телефона. Та же развилка, что в demo.html. */
+  try { const u = new URLSearchParams(location.search).get("lang");
+        if(u === "ru" || u === "uz"){ try{ localStorage.setItem("td_demo_lang", u); }catch(e){} return u; } } catch(e){}
+  try { const v = localStorage.getItem("td_demo_lang"); if(v === "ru" || v === "uz") return v; } catch(e){}
+  return (navigator.language || "").startsWith("ru") ? "ru" : "uz";
+})();
+
+function applyPageLang(){
+  const dict = pageLang === "uz" ? PAGE_UZ : PAGE_RU;
+  document.querySelectorAll("[data-t]").forEach(el => {
+    const v = dict[el.dataset.t];
+    if(v !== undefined) el.innerHTML = v;
+  });
+  document.documentElement.lang = pageLang === "uz" ? "uz" : "ru";
+  document.title = (pageLang === "uz" && PAGE_UZ.docTitle) ? PAGE_UZ.docTitle : TITLE_RU;
+  $("#pagelang").innerHTML = [["uz","Oʻzbekcha"],["ru","Русский"]]
+    .map(([k,l]) => `<button type="button" data-p="${k}"${k===pageLang?' class="on"':''}>${l}</button>`).join("");
+  $("#pagelang").querySelectorAll("button").forEach(b => b.onclick = () => {
+    pageLang = b.dataset.p;
+    try { localStorage.setItem("td_demo_lang", pageLang); } catch(e){}
+    /* Адрес обязан догонять выбор. `lang=` из адреса стоит выше localStorage
+       (см. вычисление pageLang), поэтому без этой строки человек, пришедший
+       по ссылке `?lang=uz`, нажимал «Русский», обновлял страницу — и получал
+       обратно узбекскую, а его выбор при этом ещё и затирался в localStorage
+       обратно на uz. То же ломало пересылку ссылки: скопированный адрес нёс
+       не тот язык, который человек видел на экране. replaceState, а не
+       pushState: «назад» должно вести на страницу, с которой пришли,
+       а не перебирать языки. Та же правка в demo.html. */
+    try { const u = new URL(location.href); u.searchParams.set("lang", pageLang);
+          history.replaceState(null, "", u.toString()); } catch(e){}
+    applyPageLang(); build();
+  });
+}
+
+/* ── Сборка листов ───────────────────────────────────────────────────────── */
+
+const esc = toyEsc;
+const T = () => T_ORG[pageLang];
+
+function counts(){
+  const yes = FAMS.filter(f=>f.rsvp_status==="yes").reduce((a,f)=>a+(f.rsvp_count||0),0);
+  const no  = FAMS.filter(f=>f.rsvp_status==="no").reduce((a,f)=>a+(f.invited_count||0),0);
+  const pend = FAMS.filter(f=>f.rsvp_status==="pending");
+  const pendInv = pend.reduce((a,f)=>a+(f.invited_count||0),0);
+  return { yes, no, pend, pendInv };
+}
+const sideSum = s => FAMS.filter(f=>f.side===s&&f.rsvp_status==="yes").reduce((a,f)=>a+(f.rsvp_count||0),0);
+/* Дата словами — через toyDateLong из zal.js, тем же вызовом, что в кабинете.
+   Через Intl локаль uz-UZ отдаёт «2026 M10 18»; именно здесь это и всплыло. */
+const dateStr = () => toyDateLong(EV.date, pageLang);
+
+/* Дата уведомления махалли: не позднее чем за неделю до тоя (Низом № 2736-III).
+   Сдвиг считает тот же toyDateLong — образец обязан показать ровно ту строку,
+   что попадёт в настоящий документ. */
+const mahDate = () => toyDateLong(EV.date, pageLang, { shiftDays: -7 });
+
+async function sheetZal(){
+  const t = T(), c = counts();
+  const est = c.yes + Math.round(c.pendInv * 0.6);
+  try { await document.fonts.ready; } catch(e) {}
+  const cv = toyZalPng({
+    couple: EV.couple, dateStr: dateStr(), time: EV.time, venue: EV.venue,
+    est, yes: c.yes, pendInv: c.pendInv, no: c.no,
+    kuyov: sideSum("kuyov"), kelin: sideSum("kelin"),
+    answered: FAMS.filter(f=>f.rsvp_status!=="pending").length,
+    total: FAMS.length,
+    tables: TABLES.length, cap: TABLES[0].capacity,
+    // Дата составления — сегодняшняя, как и в кабинете: счёт живой, и подпись
+    // под ним говорит именно это.
+    today: toyDateLong(new Date().toISOString().slice(0,10), pageLang),
+    t,
+  });
+  const img = $("#zalimg");
+  img.src = cv.toDataURL("image/png");
+  img.alt = t.zPngEyebrow + " · " + EV.couple;
+}
+
+function sheetSeating(){
+  const t = T();
+  // Раскладываем копию: настоящий toyPlanSeating не трогает входные записи,
+  // но образец перерисовывается при смене языка, и вторая раскладка поверх
+  // первой дала бы другой результат.
+  const fams = FAMS.map(f => ({ ...f, table_id:null }));
+  const r = toyPlanSeating(fams, TABLES);
+  const byTable = new Map(TABLES.map(x => [x.id, []]));
+  for(const p of r.plan){
+    const f = fams.find(x => x.id === p.family_id);
+    byTable.get(p.table_id).push({ f, seats:p.seats });
+  }
+  $("#tgrid").innerHTML = TABLES.map(x => {
+    const used = byTable.get(x.id).reduce((a,i)=>a+i.seats,0);
+    return `<div class="t${used>=x.capacity?" full":""}"><b>${x.num}</b><span>${used}/${x.capacity}</span></div>`;
+  }).join("");
+  $("#seatsum").textContent = t.saDone(r.plan.length, r.seats, r.tables)
+    + (r.left.length ? " · " + t.saLeft(r.left.length, r.leftSeats) : " · " + t.saAllFit);
+  $("#seatlist").innerHTML = TABLES.map(x => {
+    const items = byTable.get(x.id);
+    if(!items.length) return "";
+    const used = items.reduce((a,i)=>a+i.seats,0);
+    return `<h3>${t.zDocBlock(t.zDocTable(x.num), used)}</h3><div class="sm mut">${
+      items.map(i => `${esc(i.f.name)} — ${i.seats} · ${i.f.side==="kelin"?t.zKelin:t.zKuyov}`).join("<br>")}</div>`;
+  }).join("");
+}
+
+function sheetDoc(){
+  const t = T(), c = counts();
+  const est = c.yes + Math.round(c.pendInv * 0.6);
+  const fams = FAMS.map(f => ({ ...f, table_id:null }));
+  const r = toyPlanSeating(fams, TABLES);
+  // Документ печатается уже рассаженным — иначе он был бы списком «без стола»,
+  // то есть не тем, что получает заплативший.
+  for(const p of r.plan) fams.find(x => x.id === p.family_id).table_id = p.table_id;
+  const d = toyZalDoc({ couple:EV.couple, dateStr:dateStr(), venue:EV.venue,
+    fams, tables:TABLES, yes:c.yes, pendFams:c.pend.length, pendInv:c.pendInv,
+    est, mah:mahDate(), t });
+  $("#doc").innerHTML = d.head + d.blocks;
+}
+
+function sheetGifts(){
+  const t = T();
+  const total = GIFTS.reduce((a,g)=>a+(+g.amount_uzs||0),0);
+  const nm = id => (FAMS.find(f=>f.id===id)||{}).name || "—";
+  $("#gifts").innerHTML =
+    `<thead><tr><th>${t.fFamily}</th><th>${t.fWhat}</th><th>${t.fAmount}</th></tr></thead>` +
+    `<tbody>${GIFTS.map(g=>`<tr><td>${esc(nm(g.family_id))}</td><td>${esc(g.gift_text)}</td>` +
+      `<td>${(+g.amount_uzs).toLocaleString(t.num)}</td></tr>`).join("")}</tbody>` +
+    `<tfoot><tr><td>${GIFTS.length} ${t.fCount}</td><td></td>` +
+      `<td>${total.toLocaleString(t.num)}</td></tr></tfoot>`;
+  const wishes = FAMS.filter(f => (f.rsvp_note||"").trim());
+  $("#wishes").innerHTML = `<h3>${t.wTitle}</h3>` + wishes.map(f =>
+    `<div class="wish"><b>${esc(f.name)}</b>${esc(f.rsvp_note)}</div>`).join("");
+}
+
+function build(){
+  sheetZal(); sheetSeating(); sheetDoc(); sheetGifts();
+  // Хвост языка в коде канала — то же соглашение, что у сайта и у демо:
+  // бот пишет первое письмо на языке страницы, с которой человек пришёл.
+  $("#cta").href = `https://t.me/${BOT}?start=obrazec_${pageLang}`;
+}
+
+applyPageLang();
+build();
+</script>
+</body>
+</html>

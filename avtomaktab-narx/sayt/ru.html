@@ -16,14 +16,83 @@
 <meta property="og:title" content="Сколько стоят права в 2026 году: полная смета с пунктами нормы">
 <meta property="og:description" content="Названная автошколой цена — примерно две трети счёта. И отдельно: норма требует для категории B не менее 69 часов вождения, а договоры пишут 40.">
 <meta property="og:url" content="https://gordondr.github.io/tma-uz/avtomaktab-narx/sayt/ru.html">
-<meta name="twitter:card" content="summary">
+<meta property="og:site_name" content="Avtomaktab Ochiq-Narx">
+<!-- Превью ссылки, русская картинка. Две картинки, а не одна: сайт двуязычный
+     разными адресами, и человек, которому прислали русскую страницу, должен
+     увидеть русское превью — иначе первое, что он читает, написано не на его
+     языке. Файл лежит в site/og/ продукта и уезжает деплоем в подпапку sayt/. -->
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/avtomaktab-narx/sayt/og/og-ru.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Avtomaktab Ochiq-Narx: норма требует для категории B не менее 69 часов вождения, а в договорах пишут 40">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#F3F5F3">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F6B57'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' font-weight='700' fill='%23fff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<!-- Шрифты лежат рядом с продуктом, в shrift/, а не у Google. ПОЧЕМУ ЭТО
+     ВАЖНЕЕ, ЧЕМ СКОРОСТЬ: до этой правки самым первым запросом каждой загрузки
+     — раньше всякого действия человека и раньше всякого согласия — уходило
+     обращение к fonts.googleapis.com, а следом к fonts.gstatic.com. Это была
+     единственная передача данных третьему лицу, которая происходила сама:
+     Google видел IP, User-Agent и адрес страницы у каждого, кто её открыл.
+     Абзац «Что уходит со страницы» об этом честно писал — но перечислять
+     чужой запрос и не делать его вовсе это разные обещания, и второе сильнее.
+     Внешних запросов при загрузке у страницы теперь нет ни одного.
+     БЫСТРЕЕ ТОЖЕ: сами файлы те же самые, но перед ними стояли два разрешения
+     имени и два рукопожатия TLS к чужим хостам плюс отдельный запрос за самим
+     css2 — четыре обращения до первой буквы шрифта. Теперь всё с того же
+     адреса, с которого пришла страница. В Узбекистане на медленном интернете
+     это не мелочь.
+     Гарнитуры Bitter и IBM Plex Sans — обе под SIL OFL 1.1, тексты лицензий
+     лежат рядом с файлами (../shrift/OFL-Bitter.txt, ../shrift/OFL-IBMPlexSans.txt),
+     как лицензия и требует. Файлы переменные — один на всё семейство весов, —
+     поэтому их шесть, а не четырнадцать.
+     ПУТЬ «../shrift/» — не описка. deploy.sh кладёт app/ в корень адреса
+     продукта, а site/ — в подпапку sayt/ внутри того же адреса; значит
+     из sayt/ файлы шрифтов лежат ровно на этаж выше. Так они скачиваются
+     один раз на обе страницы: человек приходит из поиска сюда и уходит
+     в калькулятор, и второй раз браузер их уже не тянет. -->
 <style>
+/* unicode-range повторяет разбиение Google дословно, и это не украшение:
+   браузер тянет только тот кусок, который нужен странице. Узбекская латиница
+   берёт latin (в нём же лежит U+02BB — та самая ʻ в «oʻ» и «gʻ»), русский
+   текст — cyrillic, цитаты из нормы узбекской кириллицей — cyrillic-ext
+   (ғ, қ, ҳ). Подмножества latin-ext, greek и vietnamese не скачаны вовсе:
+   ни одного знака из них на страницах продукта нет — проверено перебором
+   всех символов всех четырёх файлов. */
+@font-face{font-family:Bitter;font-style:normal;font-weight:500 700;font-display:swap;
+  src:url(../shrift/bitter-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Bitter;font-style:normal;font-weight:500 700;font-display:swap;
+  src:url(../shrift/bitter-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Bitter;font-style:normal;font-weight:500 700;font-display:swap;
+  src:url(../shrift/bitter-cyrillic-ext.woff2) format("woff2");
+  unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(../shrift/plex-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(../shrift/plex-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(../shrift/plex-cyrillic-ext.woff2) format("woff2");
+  unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+/* Два знака узбекской латиницы берутся у Bitter, а не у Plex, и это не вкус.
+   ʻ (U+02BB) — часть букв «oʻ» и «gʻ», ʼ (U+02BC) — твёрдый знак; в узбекском
+   тексте они стоят почти в каждом втором слове. У IBM Plex Sans оба нарисованы
+   с широкими боковыми отбивками, и «toʻliq» на странице читается как
+   «to ʻ liq», «boʻyicha» — как «bo ʻ yicha»: слово разваливается на три куска.
+   У Bitter те же знаки набраны плотно.
+   Правило работает через unicode-range внутри того же семейства: объявление
+   стоит ПОСЛЕ основного latin-набора, поэтому на этих двух знаках побеждает
+   оно, а на всех остальных — Plex. Лишнего веса ноль: bitter-latin.woff2
+   страница качает в любом случае, им набраны заголовки и суммы.
+   Проверено живьём на 375px: до правки в карточке тарифа семь разорванных
+   слов, после — ни одного. */
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(../shrift/bitter-latin.woff2) format("woff2");
+  unicode-range:U+02BB-02BC}
 /* Стиль в точности как у узбекской версии: это одна страница на двух языках,
    а не два разных сайта. Файл второй только потому, что поисковику нужны две
    разные страницы с разными hreflang, а не одна с переключателем. */
@@ -115,6 +184,14 @@ details[open] summary::after{content:"–"}
 details .a{margin:10px 0 0;color:var(--ink2);font-size:15px}
 footer{border-top:1px solid var(--rule);padding:26px 0 44px;color:var(--muted);font-size:13.5px}
 footer a{color:var(--muted)}
+/* Блок продавца в подвале. Карточкой, а не мелким текстом среди оговорок:
+   он отвечает на возражение, а не отбывает формальность. */
+.seller{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+  padding:20px;margin:0 0 22px;color:var(--ink2);font-size:14.5px}
+.seller h3{font:600 17px var(--display);color:var(--ink);margin:0 0 10px}
+.seller p{margin:0 0 10px}
+.seller p:last-child{margin-bottom:0}
+.seller a{color:var(--green)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
@@ -488,7 +565,15 @@ footer a{color:var(--muted)}
       (<a href="https://realprotection.uz/price" target="_blank" rel="noopener">realprotection.uz</a>,
       прайс снят 26.08.2026; даты публикации страница не показывает). Мы делаем не то же самое:
       это не правовая экспертиза и не юридическая услуга.</p>
-    <p><a class="btn" href="../index.html?lang=ru&amp;src=sayt#ariza">Оставить заявку на пакет</a></p>
+    <!-- Образец стоит ПЕРЕД кнопкой заявки, а не после неё: человек решает,
+         оставлять ли заявку, и в этот момент он ещё не видел ни строчки того,
+         за что платит. Ссылка ведёт в приложение (../namuna.html): образец
+         лежит рядом со страницей расчёта, а не в папке сайта, — один файл
+         на оба входа, а не две расходящиеся копии одного документа. -->
+    <p><a class="btn sec" href="../namuna.html?lang=ru&amp;src=sayt">Посмотреть образец целиком</a>
+      <a class="btn" href="../index.html?lang=ru&amp;src=sayt#ariza">Оставить заявку на пакет</a></p>
+    <p class="after">В образце оба документа целиком, на выдуманном договоре: открывается
+      без заявки и без оплаты.</p>
   </div>
 </section>
 
@@ -662,11 +747,36 @@ footer a{color:var(--muted)}
 
 <footer>
   <div class="col">
+    <!-- Блок продавца. Текст общий на все шесть продуктов и взят
+         из products/_obshee/PRODAVETS.md. Стоит первым в подвале, а не среди
+         оговорок: возражение «откуда я знаю, что вы не пропадёте с деньгами»
+         возникает раньше, чем человек дочитывает условия.
+         ОДНО ОТСТУПЛЕНИЕ ОТ ОБЩЕГО ТЕКСТА, намеренное: он зовёт писать в бота,
+         а у этого продукта бота нет. Единственная связь — форма заявки
+         на странице расчёта, она приходит владельцу в Telegram. Обещать
+         канал, которого нет, в блоке доверия нельзя. Общий файл не правим:
+         чужая папка, расхождение снимает владелец.
+         СТИР записан одним способом — «по запросу в заявке». Прочерков
+         `__________` под номер в продукте нет ни одного. -->
+    <div class="seller">
+      <h3>Кто это делает</h3>
+      <p>Индивидуальный предприниматель Епихин Кирилл Николаевич, регистрационный номер
+        <b>7875577</b>, город Ташкент, Шайхантахурский район. СТИР — назову по запросу в заявке.</p>
+      <p>Я делаю это один и делаю сам. Ещё у меня работает
+        <a href="https://t.me/rulchi_bot" target="_blank" rel="noopener">Rulchi</a> — правила
+        дорожного движения Узбекистана в Telegram; он живой, им пользуются каждый день,
+        и по нему видно, как я делаю продукты.</p>
+      <p><b>Отвечаю в течение рабочего дня</b>, обычно быстрее. Связь здесь одна —
+        <a href="../index.html?lang=ru&amp;src=sayt#ariza">форма заявки на странице расчёта</a>:
+        она приходит мне в Telegram, и я вижу её сразу.</p>
+      <p><b>Если не ответил в этот срок — значит я ошибся, и вы ничего не теряете: платить до разговора не за что.</b>
+        </p>
+    </div>
     <p>Avtomaktab Ochiq-Narx — калькулятор и список вопросов для того, кто выбирает автошколу.
       Не юридическая услуга, не экспертиза, не оценка конкретных автошкол.</p>
     <p>Государственные ставки взяты из нормы, с указанием пункта; там, где нормы нет, — из открытых
       обзоров, и это сказано прямо в строке. Ставки заданы долями БРВ, поэтому смена БРВ 1 сентября
-      2026 года их не ломает. Страница обновлена 27 августа 2026 года.</p>
+      2026 года их не ломает. Страница обновлена 28 августа 2026 года.</p>
     <p id="usloviya"><strong>Об условиях и оплате.</strong> Онлайн-оплаты на странице нет:
       страница принимает не деньги, а заявку. Разбор платный — 49 000 сум, и счёт
       выставляется вручную в переписке. Порядок такой: вы оставляете заявку, мы пишем,

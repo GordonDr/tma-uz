@@ -15,7 +15,35 @@
 <meta property="og:site_name" content="Avtomaktab Ochiq-Narx">
 <meta property="og:locale" content="uz_UZ">
 <meta property="og:locale:alternate" content="ru_RU">
-<meta name="twitter:card" content="summary">
+<!-- Превью ссылки. До этой правки og:image не было ни одного, и ссылка,
+     отправленная в Telegram или в чат, разворачивалась серым прямоугольником —
+     а это первое, что человек видит, и по нему он решает, открывать ли вообще.
+     Картинка нарисована 1200×630 и лежит в products/avtomaktab-narx/site/og/,
+     то есть уезжает деплоем в подпапку sayt/. В общую папку brand/ она
+     не кладётся: чужую папку править нельзя.
+     ПОЧЕМУ В site/, А НЕ В app/, хотя ссылается на неё прежде всего эта
+     страница: tools/prevyu.pl проверяет, что файл превью существует, и
+     раскладку папок знает не такую, как tools/deploy.sh — адрес вида
+     «<продукт>/og/x.png» он ищет в products/<продукт>/og/, куда деплой
+     ничего не кладёт вовсе, а «<продукт>/sayt/og/x.png» — в
+     products/<продукт>/site/og/, и вот это совпадает с деплоем точно.
+     Из двух мест выбрано то, где проверка и выкатка говорят одно и то же:
+     тогда «файл превью на месте» проверяется машиной до деплоя, а не глазами
+     после него. Тем же расхождением сейчас покрашены в красное превью
+     ball-qalqon и kontrakt-12 — у них картинки лежат в app/.
+     Адрес абсолютный, а не относительный: Telegram и другие читатели превью
+     разрешают относительный путь по-разному, и «og/og-uz.png» у части из них
+     не открывается вовсе.
+     Картинка узбекская, потому что og:locale страницы — uz_UZ; русская
+     (og-ru.png) стоит на русской версии сайта, у которой свой адрес.
+     Число на ней одно и то же — 69 часов против 40 в договоре: это самое
+     точное и самое проверяемое утверждение продукта, у него есть пункт нормы,
+     и оно же стоит в описании обеих версий сайта. -->
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/avtomaktab-narx/sayt/og/og-uz.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Avtomaktab Ochiq-Narx: meʼyor B toifa uchun kamida 69 soat haydashni talab qiladi, shartnomalarda esa 40 yoziladi">
+<meta name="twitter:card" content="summary_large_image">
 <!-- canonical нужен именно этой странице, а не только сайту: все ссылки посева
      уезжают с меткой канала «?src=», и без canonical поисковик считает
      /?src=telegram и /?src=sayt разными страницами. Метка нужна замеру,
@@ -27,10 +55,65 @@
      то есть у приложения, которое и уходит ссылкой в посев, во вкладке
      висел пустой значок, хотя у его же сайта значок был. -->
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F6B57'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' font-weight='700' fill='%23fff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
+<!-- Шрифты лежат рядом с продуктом, в shrift/, а не у Google. ПОЧЕМУ ЭТО
+     ВАЖНЕЕ, ЧЕМ СКОРОСТЬ: до этой правки самым первым запросом каждой загрузки
+     — раньше всякого действия человека и раньше всякого согласия — уходило
+     обращение к fonts.googleapis.com, а следом к fonts.gstatic.com. Это была
+     единственная передача данных третьему лицу, которая происходила сама:
+     Google видел IP, User-Agent и адрес страницы у каждого, кто её открыл.
+     Абзац «Что уходит со страницы» об этом честно писал — но перечислять
+     чужой запрос и не делать его вовсе это разные обещания, и второе сильнее.
+     Внешних запросов при загрузке у страницы теперь нет ни одного.
+     БЫСТРЕЕ ТОЖЕ: сами файлы те же самые, но перед ними стояли два разрешения
+     имени и два рукопожатия TLS к чужим хостам плюс отдельный запрос за самим
+     css2 — четыре обращения до первой буквы шрифта. Теперь всё с того же
+     адреса, с которого пришла страница. В Узбекистане на медленном интернете
+     это не мелочь.
+     Гарнитуры Bitter и IBM Plex Sans — обе под SIL OFL 1.1, тексты лицензий
+     лежат рядом с файлами (shrift/OFL-Bitter.txt, shrift/OFL-IBMPlexSans.txt),
+     как лицензия и требует. Файлы переменные — один на всё семейство весов, —
+     поэтому их шесть, а не четырнадцать. -->
 <style>
+/* unicode-range повторяет разбиение Google дословно, и это не украшение:
+   браузер тянет только тот кусок, который нужен странице. Узбекская латиница
+   берёт latin (в нём же лежит U+02BB — та самая ʻ в «oʻ» и «gʻ»), русский
+   текст — cyrillic, цитаты из нормы узбекской кириллицей — cyrillic-ext
+   (ғ, қ, ҳ). Подмножества latin-ext, greek и vietnamese не скачаны вовсе:
+   ни одного знака из них на страницах продукта нет — проверено перебором
+   всех символов всех четырёх файлов. */
+@font-face{font-family:Bitter;font-style:normal;font-weight:500 700;font-display:swap;
+  src:url(shrift/bitter-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:Bitter;font-style:normal;font-weight:500 700;font-display:swap;
+  src:url(shrift/bitter-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Bitter;font-style:normal;font-weight:500 700;font-display:swap;
+  src:url(shrift/bitter-cyrillic-ext.woff2) format("woff2");
+  unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(shrift/plex-latin.woff2) format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(shrift/plex-cyrillic.woff2) format("woff2");
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(shrift/plex-cyrillic-ext.woff2) format("woff2");
+  unicode-range:U+0460-052F,U+1C80-1C8A,U+20B4,U+2DE0-2DFF,U+A640-A69F,U+FE2E-FE2F}
+/* Два знака узбекской латиницы берутся у Bitter, а не у Plex, и это не вкус.
+   ʻ (U+02BB) — часть букв «oʻ» и «gʻ», ʼ (U+02BC) — твёрдый знак; в узбекском
+   тексте они стоят почти в каждом втором слове. У IBM Plex Sans оба нарисованы
+   с широкими боковыми отбивками, и «toʻliq» на странице читается как
+   «to ʻ liq», «boʻyicha» — как «bo ʻ yicha»: слово разваливается на три куска.
+   У Bitter те же знаки набраны плотно.
+   Правило работает через unicode-range внутри того же семейства: объявление
+   стоит ПОСЛЕ основного latin-набора, поэтому на этих двух знаках побеждает
+   оно, а на всех остальных — Plex. Лишнего веса ноль: bitter-latin.woff2
+   страница качает в любом случае, им набраны заголовки и суммы.
+   Проверено живьём на 375px: до правки в карточке тарифа семь разорванных
+   слов, после — ни одного. */
+@font-face{font-family:"IBM Plex Sans";font-style:normal;font-weight:400 700;font-display:swap;
+  src:url(shrift/bitter-latin.woff2) format("woff2");
+  unicode-range:U+02BB-02BC}
 /* Направление — расчётный лист, счёт-фактура. Продукт про одно: сумма, которую
    назвали, и сумма, которую заплатишь. Поэтому язык страницы — язык сметы:
    линованные строки, цифры справа, табличные начертания, итог отбит толстой
@@ -171,6 +254,14 @@ label.chk input{width:19px;height:19px;max-width:19px;accent-color:var(--green);
   border-radius:0 10px 10px 0;font-size:15px;margin:20px 0}
 .note.warn{background:var(--amber-bg);border-left-color:var(--amber)}
 
+/* Блок продавца. Карточкой, как тарифы над ним: это часть того же разговора
+   о деньгах, а не сноска мелким шрифтом. */
+.seller{background:var(--card);border:1px solid var(--rule);border-radius:14px;
+  padding:20px;margin:16px 0 0}
+.seller h3{font:600 17px var(--display);margin:0 0 10px}
+.seller p{font-size:14.5px;color:var(--ink2);margin:0 0 10px}
+.seller p:last-child{margin-bottom:0}
+
 /* ── Чек-лист вопросов ───────────────────────────────────────────────────── */
 .qs{counter-reset:q;list-style:none;padding:0;margin:22px 0 0}
 .qs li{counter-increment:q;background:var(--card);border:1px solid var(--rule);
@@ -248,7 +339,7 @@ form input[type=text],form textarea{max-width:100%}
 .ok{background:var(--green-bg);border:1px solid var(--green);border-radius:12px;padding:18px;
   font-size:15.5px}
 #copybox{margin-top:4px;font-size:14px}
-.hide{display:none}
+.hide{display:none!important}
 
 details{border-bottom:1px solid var(--rule2);padding:14px 0}
 details summary{cursor:pointer;font-weight:600;font-size:16px;list-style:none;padding-right:24px;
@@ -601,7 +692,7 @@ footer p{margin:0 0 10px}
 <section id="varaqa">
   <div class="col">
     <h2 data-ru="Лист, с которым идут в автошколу">Avtomaktabga olib boriladigan varaqa</h2>
-    <p data-ru="У стойки администратор говорит быстро, а вы уходите с тем, что запомнили. Лист печатается на один лист А4: ваш расчёт по строкам, семь вопросов с пустыми линейками под ответы, место для даты и для имени того, кто ответил, и таблица трёх школ, если вы её заполнили. Дальше это ваша запись: что записано на бумаге, вы потом не забудете и сможете сверить со счётом.">Stoyka oldida administrator tez gapiradi, siz esa yodingizda qolgani bilan chiqib ketasiz. Varaqa bitta A4 varagʻiga chiqadi: qatorlar boʻyicha hisobingiz, javob uchun boʻsh chiziqlari bilan yettita savol, sana va kim javob bergani uchun joy va toʻldirgan boʻlsangiz — uchta avtomaktab jadvali. Keyingisi sizning yozuvingiz: qogʻozga tushgan narsani keyin unutmaysiz va hisob bilan solishtira olasiz.</p>
+    <p data-ru="У стойки администратор говорит быстро, а вы уходите с тем, что запомнили. Лист печатается на две страницы А4: ваш расчёт по строкам, семь вопросов с пустыми линейками под ответы, место для даты и для имени того, кто ответил, и таблица трёх школ, если вы её заполнили. Дальше это ваша запись: что записано на бумаге, вы потом не забудете и сможете сверить со счётом.">Stoyka oldida administrator tez gapiradi, siz esa yodingizda qolgani bilan chiqib ketasiz. Varaqa ikkita A4 varagʻiga chiqadi: qatorlar boʻyicha hisobingiz, javob uchun boʻsh chiziqlari bilan yettita savol, sana va kim javob bergani uchun joy va toʻldirgan boʻlsangiz — uchta avtomaktab jadvali. Keyingisi sizning yozuvingiz: qogʻozga tushgan narsani keyin unutmaysiz va hisob bilan solishtira olasiz.</p>
     <p><a class="btn" href="varaqa.html" target="_blank" rel="noopener" id="varaqabtn" data-ru="Открыть лист для печати">Chop etish uchun varaqani ochish</a></p>
     <p class="after" data-ru="Лист собирается на вашем устройстве из того, что вы ввели выше, и не отправляет никуда ничего — в нём нет ни одного сетевого запроса. Печать и сохранение в PDF — обычной кнопкой браузера.">Varaqa siz yuqorida kiritgan maʼlumotlardan qurilmangizda yigʻiladi va hech qayerga hech narsa yubormaydi — unda birorta ham tarmoq soʻrovi yoʻq. Chop etish va PDF ga saqlash — brauzerning odatdagi tugmasi bilan.</p>
   </div>
@@ -691,6 +782,20 @@ footer p{margin:0 0 10px}
         <li><strong data-ru="Документ 2. Заполненный лист расчёта">2-hujjat. Toʻldirilgan hisob varaqasi</strong> <span data-ru="— тот же лист, что печатается выше, но собранный по настоящим числам из вашего договора, с пометкой по каждой строке: входит она в вашу цену или нет.">— yuqorida chop etiladigan oʻsha varaqa, lekin shartnomangizdagi haqiqiy raqamlar boʻyicha yigʻilgan va har bir qatorida belgisi bor: u narxingizga kiradimi yoki yoʻqmi.</span></li>
         <li><strong data-ru="Не документ, а право: один вопрос вдогонку">Hujjat emas, huquq: bitta qoʻshimcha savol</strong> <span data-ru="— в течение 14 дней после разбора: если в школе ответили не то, что вы ожидали, спросите ещё раз без доплаты. Отвечает человек в переписке, поэтому третьим файлом это не приходит — документов по-прежнему два.">— tahlildan keyingi 14 kun ichida: avtomaktabda kutganingizdan boshqa javob berishsa, qoʻshimcha toʻlovsiz yana soʻrang. Javobni odam yozishmada beradi, shuning uchun bu uchinchi fayl boʻlib kelmaydi — hujjat baribir ikkita.</span></li>
       </ul>
+      <!-- Образец — прямо в карточке тарифа, а не ссылкой в FAQ (A-50).
+           ПОЧЕМУ ЗДЕСЬ: до этой правки за 49 000 обещались два документа,
+           которых человек не видел ни строчки. Устройство скопировано
+           у kontrakt-12/app/obrazec.html: оба листа целиком, на выдуманных
+           данных, ДО всякой формы и до всякой оплаты. -->
+      <p style="margin:14px 0 0"><a class="btn sec" href="namuna.html" data-ru="Посмотреть образец целиком">Namunani toʻliq koʻrish</a></p>
+      <p style="margin:8px 0 0;font-size:13.5px;color:var(--muted)" data-ru="Оба документа на выдуманном договоре, целиком и без заявки. За деньги вы получаете ровно это, только по своему договору.">Ikkala hujjat ham oʻylab topilgan shartnoma boʻyicha, toʻlaligicha va arizasiz. Pulga aynan shuni olasiz, faqat oʻz shartnomangiz boʻyicha.</p>
+      <!-- Что понадобится — сказано ДО заявки, а не после (A-83). Список
+           дословно тот же, что в shablon/README.md, шаг 2: он и есть правило
+           работы, и расходиться этим двум текстам нельзя. Раньше это
+           выяснялось перепиской — заявка, письмо, «пришлите ещё», ожидание, —
+           то есть лишняя итерация на каждой заявке у единственного человека,
+           который их разбирает. -->
+      <p style="margin:8px 0 0;font-size:13.5px;color:var(--muted)" data-ru="Что понадобится: фотографии договора целиком — все страницы, включая приложения и прейскурант, если договор на него ссылается. Без приложений разбор будет неполным, и мы скажем об этом сразу, а не после оплаты.">Nima kerak boʻladi: shartnomaning toʻliq surati — barcha betlar, shu jumladan ilovalar va shartnoma havola qilgan boʻlsa, narxnoma. Ilovalarsiz tahlil toʻliq boʻlmaydi, va buni biz toʻlovdan keyin emas, darhol aytamiz.</p>
     </div>
     <div class="card">
       <h3 data-ru="Почему столько">Nega shuncha</h3>
@@ -700,6 +805,38 @@ footer p{margin:0 0 10px}
         <li data-ru="29 недостающих часов вождения, если в договоре стоит 40 вместо 69, — это цена, которую назовут после подписи. Пакет — способ увидеть эту строку до неё.">Shartnomada 69 oʻrniga 40 tursa, yetishmayotgan 29 soat — imzodan keyin aytiladigan narx. Paket — shu qatorni imzodan oldin koʻrish usuli.</li>
         <li><span data-ru="В прайсе адвокатской фирмы правовая экспертиза одного документа — 100 000–150 000 сум, устная консультация до 30 минут — 200 000, письменная на одну страницу — 400 000.">Advokatlik firmasi narxnomasida bitta hujjatning huquqiy ekspertizasi — 100 000–150 000 soʻm, ofisdagi 30 daqiqagacha ogʻzaki maslahat — 200 000, bir sahifalik yozma maslahat — 400 000.</span> <a href="https://realprotection.uz/price" target="_blank" rel="noopener">realprotection.uz</a> <span data-ru="(прайс снят 26.08.2026; даты публикации страница не показывает). Мы делаем не то же самое и дешевле: не экспертизу и не юридическую услугу, а разбор по семи пунктам своими словами.">(narxnoma 26.08.2026 da olingan; sahifada eʼlon sanasi koʻrsatilmagan). Biz aynan shuni qilmaymiz va arzonroq turamiz: ekspertiza ham, yuridik xizmat ham emas, yettita band boʻyicha oddiy tilda tahlil.</span></li>
       </ul>
+    </div>
+  </div>
+
+  <!-- Блок продавца. Текст общий на все шесть продуктов портфеля и взят
+       из products/_obshee/PRODAVETS.md — чтобы один и тот же факт
+       не разошёлся шестью формулировками в шести папках.
+       ОДНО ОТСТУПЛЕНИЕ ОТ ОБЩЕГО ТЕКСТА, и оно намеренное. Общий текст зовёт
+       писать в бота. У этого продукта бота нет: единственная ссылка на бота
+       на странице ведёт в Rulchi — это другой продукт, правила дорожного
+       движения, и человек с вопросом про договор автошколы там ничего
+       не найдёт. Невыполнимое обещание в блоке доверия хуже отсутствия блока,
+       поэтому здесь названа связь, которая у продукта действительно есть, —
+       форма заявки ниже, она приходит владельцу в Telegram. Общий файл
+       не правим: это чужая папка, расхождение снимает владелец.
+       ПОЧЕМУ ЗДЕСЬ, А НЕ В ОФЕРТЕ: оферту открывают после решения, а
+       возражение «откуда я знаю, что вы не пропадёте с деньгами» возникает
+       до него. Поэтому блок стоит вплотную к цене — на расстоянии взгляда
+       от числа 49 000, а не через две страницы от него.
+       Проверяемого в нём четыре, и только четыре: имя и регистрационный
+       номер (сверяются в реестре ИП), живой продукт по ссылке, срок ответа
+       числом и возврат числом. «Мы надёжные» здесь нет и быть не может —
+       оно не проверяется ничем.
+       СТИР записан ОДНИМ способом — «по запросу в заявке». Второго состояния
+       этого факта в продукте нет: прочерков `__________` под номер здесь
+       не заводили ни разу — проверено grep по app/, site/ и marketing/. -->
+  <div class="col">
+    <div class="seller">
+      <h3 data-ru="Кто это делает">Buni kim qiladi</h3>
+      <p data-ru="Индивидуальный предприниматель Епихин Кирилл Николаевич, регистрационный номер <b>7875577</b>, город Ташкент, Шайхантахурский район. СТИР — назову по запросу в заявке.">Yakka tartibdagi tadbirkor Epixin Kirill Nikolayevich, roʻyxatdan oʻtish raqami <b>7875577</b>, Toshkent shahri, Shayxontohur tumani. STIR — arizadagi soʻrov boʻyicha aytaman.</p>
+      <p data-ru="Я делаю это один и делаю сам. Ещё у меня работает <a href='https://t.me/rulchi_bot' target='_blank' rel='noopener'>Rulchi</a> — правила дорожного движения Узбекистана в Telegram; он живой, им пользуются каждый день, и по нему видно, как я делаю продукты.">Men buni yolgʻiz va oʻzim qilaman. Yana <a href="https://t.me/rulchi_bot" target="_blank" rel="noopener">Rulchi</a> ishlaydi — Oʻzbekiston yoʻl harakati qoidalari Telegramda; u tirik, undan har kuni foydalanishadi, va men mahsulotlarni qanday qilishim oʻsha yerdan koʻrinadi.</p>
+      <p data-ru="<b>Отвечаю в течение рабочего дня</b>, обычно быстрее. Связь здесь одна — <a href='#ariza'>форма заявки ниже</a>: она приходит мне в Telegram, и я вижу её сразу."><b>Ish kuni davomida javob beraman</b>, odatda tezroq. Bu yerda aloqa bitta — <a href="#ariza">quyidagi ariza formasi</a>: u menga Telegramga keladi va men uni darhol koʻraman.</p>
+      <p data-ru="Если не ответил в этот срок — значит я ошибся, и вы ничего не теряете: платить до разговора не за что.">Agar shu muddatda javob bermasam — demak men xato qildim, va siz hech narsa yoʻqotmaysiz: suhbatgacha toʻlaydigan narsa yoʻq.</p>
     </div>
   </div>
 
@@ -761,7 +898,7 @@ footer p{margin:0 0 10px}
 
   <div class="ok hide" id="f_ok">
     <strong data-ru="Заявка принята.">Ariza qabul qilindi.</strong>
-    <span data-ru="Мы свяжемся с вами по оставленному контакту. Если ответа долго нет — напишите ещё раз, значит контакт не разобрали.">Qoldirgan aloqangiz orqali bogʻlanamiz. Javob uzoq vaqt kelmasa — yana bir marta yozing, demak aloqa maʼlumoti oʻqilmagan.</span>
+    <span data-ru="Мы свяжемся с вами по оставленному контакту. Если ответа долго нет — напишите ещё раз, значит контакт не разобрали. Пока ждёте, сфотографируйте договор целиком: все страницы, включая приложения и прейскурант, если договор на него ссылается. Без приложений разбор будет неполным.">Qoldirgan aloqangiz orqali bogʻlanamiz. Javob uzoq vaqt kelmasa — yana bir marta yozing, demak aloqa maʼlumoti oʻqilmagan. Kutib turgan vaqtingizda shartnomani toʻliq suratga oling: barcha betlar, shu jumladan ilovalar va shartnoma havola qilgan boʻlsa, narxnoma. Ilovalarsiz tahlil toʻliq boʻlmaydi.</span>
   </div>
 </section>
 
@@ -819,6 +956,7 @@ footer p{margin:0 0 10px}
 
     <details data-q="pay">
       <summary data-ru="Что происходит после заявки?">Arizadan keyin nima boʻladi?</summary>
+      <p class="a" style="margin-bottom:10px" data-ru="Что именно придёт, можно посмотреть прямо сейчас: <a href='namuna.html'>образец обоих документов</a> открыт целиком, без заявки и без оплаты.">Aynan nima kelishini hozir koʻrish mumkin: <a href="namuna.html">ikkala hujjatning namunasi</a> arizasiz va toʻlovsiz, toʻlaligicha ochiq.</p>
       <p class="a" data-ru="Мы пишем вам на оставленный контакт и договариваемся, как передать фотографии договора. Дальше — счёт: если разбор вам нужен, мы выставляем его вручную в той же переписке, на 49 000 сум. Сумма одна для всех и не зависит от того, какой вариант цены вы отметили в заявке: там мы спрашивали, сколько это стоит для вас, а не назначали цену. Разбор делается после оплаты и возвращается в течение 2 рабочих дней с того момента, когда у нас есть и оплата, и фотографии. Если не успеваем — пишем об этом сами и называем новый срок, а не молчим. Вместе со счётом приходит текст условий: что входит, какой срок, в каком случае деньги возвращаются и что происходит с фотографиями — они остаются в переписке, на сайт их загружать некуда: мы храним их 14 дней, пока действует право на вопрос вдогонку, и удаляем раньше по первой просьбе. Если вам нужен документ для отчётности — скажите об этом до оплаты: мы ответим, что можем дать, а чего не можем, и если не можем — счёт не выставляем. Онлайн-оплаты на странице нет: пока вы не оплатили счёт, заявка ничего не списывает и ни к чему вас не обязывает — от счёта можно отказаться.">Qoldirgan aloqangizga yozamiz va shartnoma suratlarini qanday yuborishni kelishamiz. Keyingisi — hisob: tahlil kerak boʻlsa, biz uni oʻsha yozishmada qoʻlda yuboramiz, 49 000 soʻmga. Summa hamma uchun bitta va arizada qaysi narx variantini belgilaganingizga bogʻliq emas: u yerda biz narx belgilamadik, bu siz uchun qancha turishini soʻradik. Tahlil toʻlovdan keyin qilinadi va toʻlov ham, suratlar ham bizda boʻlgan paytdan boshlab 2 ish kuni ichida qaytadi. Ulgurmasak — jim qolmay, oʻzimiz yozamiz va yangi muddatni aytamiz. Hisob bilan birga shartlar matni keladi: nima kiradi, muddat qancha, pul qaysi holatda qaytariladi va suratlar bilan nima boʻladi — ular yozishmada qoladi, saytga yuklanmaydi: qoʻshimcha savol huquqi amal qiladigan 14 kun davomida saqlaymiz va birinchi soʻrovingizga koʻra ertaroq oʻchiramiz. Hisobot uchun hujjat kerak boʻlsa — buni toʻlovdan oldin ayting: nima bera olishimizni va nimani bera olmasligimizni aytamiz, bera olmasak — hisobni yubormaymiz. Sahifada onlayn toʻlov yoʻq: hisobni toʻlamaguningizcha ariza hech narsani yechmaydi va sizni hech narsaga majburlamaydi — hisobdan voz kechish mumkin.</p>
     </details>
 
@@ -866,7 +1004,7 @@ footer p{margin:0 0 10px}
 <footer>
   <div class="col">
     <p data-ru="Avtomaktab Ochiq-Narx — калькулятор и чек-лист для того, кто выбирает автошколу. Не юридическая услуга, не экспертиза, не оценка конкретных автошкол. Цифры взяты из открытых источников, каждый со ссылкой и датой; проверяйте их перед оплатой — они меняются.">Avtomaktab Ochiq-Narx — avtomaktab tanlayotgan odam uchun hisoblagich va savollar roʻyxati. Yuridik xizmat emas, ekspertiza emas, aniq avtomaktablarga baho emas. Raqamlar ochiq manbalardan olingan, har biri havola va sana bilan; toʻlashdan oldin tekshiring — ular oʻzgarib turadi.</p>
-    <p id="maxfiylik"><strong data-ru="Что уходит со страницы.">Sahifadan nima yuboriladi.</strong> <span data-ru="Эта страница — проверка спроса, и мы считаем, доходят ли люди до пользы. Поэтому на наш сервер уходят: открытие страницы, а с ним язык, на котором вы читаете, метка канала из ссылки (часть «?src=» в адресе) — она запоминается в памяти вашего браузера при первом заходе и уходит с последующими записями тоже, чтобы было видно, из какого канала вы пришли изначально, — и адрес страницы, с которой вы пришли, — первые 80 символов, столько же, сколько видит любой сайт в интернете; при изменении калькулятора, не чаще раза в 6 секунд, — три числа: названная вам цена, итог и разница между ними; копирование списка вопросов; какой вопрос вы раскрыли в FAQ; клик по кнопкам-переходам вверху страницы и первое касание формы заявки; название инструмента, который вы открыли, — сравнение школ, журнал занятий или лист для печати: одно слово, без ваших чисел. Что не уходит никогда: названия школ и суммы из сравнения, все записи журнала занятий и всё, что попадает в лист для печати, — они лежат только в памяти вашего браузера, и сам лист печати не делает ни одного сетевого запроса. Рядом с каждой записью лежит случайная строка из памяти вашего браузера — она склеивает шаги одного браузера. Ни имени, ни номера в самих записях нет, но обезличенными мы их не называем: если вы оставите заявку, эта же строка уйдёт вместе с контактом, и тогда весь след этого браузера окажется связан с вашим контактом одной строкой. Нужно это ровно для одного — понять, из какого канала пришёл человек, оставивший заявку; без такой связи проверять каналы нечем. Пока заявки нет, связывать записи не с чем. Контакт появляется только в заявке и только если вы нажали кнопку; вместе с ним уходит ваш расчёт — те же три числа — и язык, на котором вы читаете страницу, чтобы ответить вам на нём же. Заявка приходит владельцу в Telegram — иначе ответить вам было бы нечем, а значит контакт и текст заявки проходят через серверы Telegram. Попросите удалить — удалим и заявку, и связанные с ней записи, и напишем, что удалили. Если не хотите отправлять и это, просто не оставляйте заявку: калькулятор и список вопросов работают без неё. И ещё одно, что уходит до всякого вашего действия: шрифты страница берёт с серверов Google — fonts.googleapis.com и fonts.gstatic.com, — поэтому самый первый запрос при каждой загрузке идёт туда. Никаких ваших данных мы Google не передаём, но сам факт открытия страницы он видит.">Bu sahifa — talabni tekshirish, biz odamlar foydagacha yetadimi-yoʻqmi shuni sanaymiz. Shuning uchun serverimizga quyidagilar yuboriladi: sahifa ochilgani, u bilan birga oʻqiyotgan tilingiz, havoladagi kanal belgisi (manzildagi «?src=» qismi) — u birinchi kirishda brauzeringiz xotirasida saqlanadi va keyingi yozuvlar bilan ham yuboriladi, dastlab qaysi kanaldan kelganingiz koʻrinib tursin uchun, — va siz kelgan sahifaning manzili — birinchi 80 belgi, internetdagi har qanday sayt koʻradigan narsaning oʻzi; hisoblagich oʻzgarganda, 6 soniyada bir martadan koʻp emas, — uchta raqam: sizga aytilgan narx, jami va ular orasidagi farq; savollar roʻyxatidan nusxa olingani; FAQ da qaysi savolni ochganingiz; sahifa yuqorisidagi oʻtish tugmalariga bosilgani va ariza formasiga birinchi marta tegilgani; siz ochgan asbobning nomi — avtomaktablarni solishtirish, darslar daftari yoki chop etish varaqasi: bitta soʻz, raqamlaringizsiz. Hech qachon yuborilmaydigan narsalar: solishtirishdagi avtomaktab nomlari va summalar, darslar daftaridagi barcha yozuvlar va chop etish varaqasiga tushadigan hamma narsa — bular faqat brauzeringiz xotirasida turadi, varaqaning oʻzi esa birorta tarmoq soʻrovi qilmaydi. Har bir yozuv yonida brauzeringiz xotirasidagi tasodifiy satr turadi — u bitta brauzerning qadamlarini bogʻlaydi. Yozuvlarning oʻzida na ism, na raqam bor, lekin biz ularni «shaxsga bogʻlanmagan» deb atamaymiz: ariza qoldirsangiz, oʻsha satr aloqa maʼlumotingiz bilan birga yuboriladi va shunda bu brauzerning butun izi aloqangiz bilan bitta satr orqali bogʻlanadi. Bu faqat bitta narsa uchun kerak — ariza qoldirgan odam qaysi kanaldan kelganini bilish uchun; bunday bogʻlanishsiz kanallarni tekshirib boʻlmaydi. Ariza boʻlmasa, yozuvlarni bogʻlaydigan narsaning oʻzi yoʻq. Aloqa maʼlumoti faqat arizada va faqat siz tugmani bosgan boʻlsangiz paydo boʻladi; u bilan birga hisobingiz — oʻsha uchta raqam — va sahifani qaysi tilda oʻqiyotganingiz yuboriladi, oʻsha tilda javob berishimiz uchun. Ariza egasiga Telegram orqali keladi — boshqacha javob berib boʻlmasdi, demak aloqangiz va ariza matni Telegram serverlaridan oʻtadi. Oʻchirishni soʻrasangiz — arizani ham, u bilan bogʻliq yozuvlarni ham oʻchiramiz va oʻchirganimizni yozamiz. Buni ham yubormoqchi boʻlmasangiz, shunchaki ariza qoldirmang: hisoblagich ham, savollar roʻyxati ham usiz ishlaydi. Va yana bitta narsa, u siz hech nima qilmasingizdan oldin yuboriladi: shriftlarni sahifa Google serverlaridan oladi — fonts.googleapis.com va fonts.gstatic.com, — shuning uchun har bir yuklanishdagi eng birinchi soʻrov oʻsha yerga ketadi. Maʼlumotlaringizni Google ga bermaymiz, lekin sahifa ochilgani faktini u koʻradi.</span></p>
+    <p id="maxfiylik"><strong data-ru="Что уходит со страницы.">Sahifadan nima yuboriladi.</strong> <span data-ru="Эта страница — проверка спроса, и мы считаем, доходят ли люди до пользы. Поэтому на наш сервер уходят: открытие страницы, а с ним язык, на котором вы читаете, метка канала из ссылки (часть «?src=» в адресе) — она запоминается в памяти вашего браузера при первом заходе и уходит с последующими записями тоже, чтобы было видно, из какого канала вы пришли изначально, — и адрес страницы, с которой вы пришли, — первые 80 символов, столько же, сколько видит любой сайт в интернете; при изменении калькулятора, не чаще раза в 6 секунд, — три числа: названная вам цена, итог и разница между ними; копирование списка вопросов; какой вопрос вы раскрыли в FAQ; клик по кнопкам-переходам вверху страницы и первое касание формы заявки; название инструмента, который вы открыли, — сравнение школ, журнал занятий, лист для печати или образец разбора: одно слово, без ваших чисел. Что не уходит никогда: названия школ и суммы из сравнения, все записи журнала занятий и всё, что попадает в лист для печати, — они лежат только в памяти вашего браузера, и сам лист печати не делает ни одного сетевого запроса. Рядом с каждой записью лежит случайная строка из памяти вашего браузера — она склеивает шаги одного браузера. Ни имени, ни номера в самих записях нет, но обезличенными мы их не называем: если вы оставите заявку, эта же строка уйдёт вместе с контактом, и тогда весь след этого браузера окажется связан с вашим контактом одной строкой. Нужно это ровно для одного — понять, из какого канала пришёл человек, оставивший заявку; без такой связи проверять каналы нечем. Пока заявки нет, связывать записи не с чем. Контакт появляется только в заявке и только если вы нажали кнопку; вместе с ним уходит ваш расчёт — те же три числа — и язык, на котором вы читаете страницу, чтобы ответить вам на нём же. Заявка приходит владельцу в Telegram — иначе ответить вам было бы нечем, а значит контакт и текст заявки проходят через серверы Telegram. Попросите удалить — удалим и заявку, и связанные с ней записи, и напишем, что удалили. Если не хотите отправлять и это, просто не оставляйте заявку: калькулятор и список вопросов работают без неё. И то, чего на этой странице больше нет. Раньше шрифты она брала с серверов Google, и самый первый запрос каждой загрузки уходил туда — раньше всякого вашего действия и раньше всего, что перечислено выше. Теперь шрифты лежат по тому же адресу, что и сама страница: при загрузке она не обращается ни к одному чужому серверу, и всё, что с неё вообще уходит, — это записи, перечисленные выше, и все они идут нам. Это не просьба поверить: откройте в браузере вкладку «Сеть» и посчитайте адреса — других там нет.">Bu sahifa — talabni tekshirish, biz odamlar foydagacha yetadimi-yoʻqmi shuni sanaymiz. Shuning uchun serverimizga quyidagilar yuboriladi: sahifa ochilgani, u bilan birga oʻqiyotgan tilingiz, havoladagi kanal belgisi (manzildagi «?src=» qismi) — u birinchi kirishda brauzeringiz xotirasida saqlanadi va keyingi yozuvlar bilan ham yuboriladi, dastlab qaysi kanaldan kelganingiz koʻrinib tursin uchun, — va siz kelgan sahifaning manzili — birinchi 80 belgi, internetdagi har qanday sayt koʻradigan narsaning oʻzi; hisoblagich oʻzgarganda, 6 soniyada bir martadan koʻp emas, — uchta raqam: sizga aytilgan narx, jami va ular orasidagi farq; savollar roʻyxatidan nusxa olingani; FAQ da qaysi savolni ochganingiz; sahifa yuqorisidagi oʻtish tugmalariga bosilgani va ariza formasiga birinchi marta tegilgani; siz ochgan asbobning nomi — avtomaktablarni solishtirish, darslar daftari, chop etish varaqasi yoki tahlil namunasi: bitta soʻz, raqamlaringizsiz. Hech qachon yuborilmaydigan narsalar: solishtirishdagi avtomaktab nomlari va summalar, darslar daftaridagi barcha yozuvlar va chop etish varaqasiga tushadigan hamma narsa — bular faqat brauzeringiz xotirasida turadi, varaqaning oʻzi esa birorta tarmoq soʻrovi qilmaydi. Har bir yozuv yonida brauzeringiz xotirasidagi tasodifiy satr turadi — u bitta brauzerning qadamlarini bogʻlaydi. Yozuvlarning oʻzida na ism, na raqam bor, lekin biz ularni «shaxsga bogʻlanmagan» deb atamaymiz: ariza qoldirsangiz, oʻsha satr aloqa maʼlumotingiz bilan birga yuboriladi va shunda bu brauzerning butun izi aloqangiz bilan bitta satr orqali bogʻlanadi. Bu faqat bitta narsa uchun kerak — ariza qoldirgan odam qaysi kanaldan kelganini bilish uchun; bunday bogʻlanishsiz kanallarni tekshirib boʻlmaydi. Ariza boʻlmasa, yozuvlarni bogʻlaydigan narsaning oʻzi yoʻq. Aloqa maʼlumoti faqat arizada va faqat siz tugmani bosgan boʻlsangiz paydo boʻladi; u bilan birga hisobingiz — oʻsha uchta raqam — va sahifani qaysi tilda oʻqiyotganingiz yuboriladi, oʻsha tilda javob berishimiz uchun. Ariza egasiga Telegram orqali keladi — boshqacha javob berib boʻlmasdi, demak aloqangiz va ariza matni Telegram serverlaridan oʻtadi. Oʻchirishni soʻrasangiz — arizani ham, u bilan bogʻliq yozuvlarni ham oʻchiramiz va oʻchirganimizni yozamiz. Buni ham yubormoqchi boʻlmasangiz, shunchaki ariza qoldirmang: hisoblagich ham, savollar roʻyxati ham usiz ishlaydi. Va bu sahifada endi boʻlmagan narsa. Ilgari shriftlarni u Google serverlaridan olardi va har bir yuklanishdagi eng birinchi soʻrov oʻsha yerga ketardi — siz hech nima qilmasingizdan ham, yuqorida sanab oʻtilgan hamma narsadan ham oldin. Endi shriftlar sahifaning oʻzi turgan manzilda yotadi: yuklanishda sahifa birorta begona serverga murojaat qilmaydi, va undan umuman chiqadigan narsa — yuqorida sanalgan yozuvlar, ularning hammasi bizga boradi. Bu ishonishni soʻrash emas: brauzerda «Tarmoq» yorligʻini oching va manzillarni sanang — u yerda boshqasi yoʻq.</span></p>
     <p><span data-ru="Тема оформления:">Mavzu:</span> <a href="#" id="themebtn" data-ru="переключить светлую и тёмную">yorugʻ va qorongʻini almashtirish</a></p>
   </div>
 </footer>
@@ -1788,6 +1926,21 @@ function saveSheet() {
 document.getElementById("varaqabtn").addEventListener("click", function () {
   saveSheet();
   ev("cta", { where: "tool_varaqa" });
+});
+
+/* Открытие образца разбора. Метка where — "tool_namuna": приставку "tool_"
+   запрос воронки в PROVERKA.md §4 уже разбирает, поэтому серверную функцию
+   править не нужно и список имён событий не меняется (A-50, A-67).
+
+   ПОЧЕМУ ДЕЛЕГИРОВАНИЕ, А НЕ ОБРАБОТЧИК НА КАЖДОЙ ССЫЛКЕ. Ссылок на образец
+   две, и вторая живёт внутри узла с data-ru: при переключении языка её
+   innerHTML пересобирается, и обработчик, повешенный на саму ссылку,
+   исчезает вместе со старым узлом. Событие терялось бы ровно у тех, кто
+   переключил язык, — то есть у части, которую замер и должен различать. */
+document.addEventListener("click", function (e) {
+  var t = e.target;
+  if (!t || !t.closest) return;
+  if (t.closest('a[href^="namuna.html"]')) ev("cta", { where: "tool_namuna" });
 });
 
 /* ── Цена в карточке — из одного места ─────────────────────────────────────

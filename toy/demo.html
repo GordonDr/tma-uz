@@ -9,13 +9,31 @@
 <link rel="apple-touch-icon" href="../brand/toy-apple.png">
 <title>Toʻy-Daftar — соберите приглашение</title>
 <meta name="description" content="Соберите приглашение на той за минуту: повод, имена, дата, зал. Гости отвечают по ссылке, вы видите точное число человек.">
-<meta property="og:title" content="Соберите приглашение на той">
-<meta property="og:description" content="Повод, имена, дата — и приглашение готово. Гости отвечают по ссылке, вы видите точное число.">
-<meta property="og:image" content="og/toy-og.png">
+<!-- Превью ссылки. Здесь стоял адрес og/toy-og.png — файла с таким именем
+     в папке нет и не было: превью этой страницы было пустым прямоугольником
+     всё время, что она живёт. Проверки этого не ловили: og:image — это meta,
+     а не href, и ssylki.pl такие адреса не смотрит.
+     Картинка рисуется tools/og-draw.html, лежит в app/og/, адрес абсолютный:
+     Telegram и остальные читатели превью относительный путь берут не всегда. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Toʻy-Daftar">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="uz_UZ">
+<meta property="og:title" content="Соберите приглашение на той — прямо на странице">
+<meta property="og:description" content="Повод, имена, дата — и приглашение готово. Десять оформлений, три письменности. Гости отвечают по ссылке, вы видите точное число.">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/toy/demo.html">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/toy/og/og-ru.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Toʻy-Daftar. Тойхона берёт за приглашённых, а не за пришедших: 4 750 000 сум за 19 мест, которые держат за восемью молчащими семьями.">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#F6F1E8">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Manrope:wght@400;500;600;700&display=swap">
+<!-- Шрифты свои: fonts/fonts.css. На этой странице написано «ничего не
+     сохраняется и никуда не уходит», и пока шрифты тянулись с Google, это
+     было неправдой — первым запросом загрузки уходило обращение к нему.
+     Теперь фраза верна буквально: страница не обращается наружу вовсе. -->
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 /* Полная светлая палитра — в голом :root. Тёмную задаём только переопределением
    токенов, иначе при системной теме страница берёт фон хоста и текст пропадает. */
@@ -138,11 +156,17 @@ footer a{color:var(--muted)}
       <div class="chips" id="theme"></div>
       <p class="hint" style="margin:10px 0 0" data-t="themeH">Четыре оформления бесплатны. Шесть с замком входят в Premium —
         49 000 сум за той, разово. Посмотреть можно любое, прямо сейчас.</p>
+      <!-- Оформления — не всё, за что берут деньги, и демо это показывать
+           не умеет: счёт для тойханы, рассадка и книга подарков собираются
+           из ответов, которых на этой странице нет. Их целиком показывает
+           образец, тоже до оплаты. -->
+      <p class="hint" style="margin:8px 0 0"><a href="obrazec.html" data-t="sampleA">Что ещё входит
+        в платное — образец целиком</a></p>
     </div>
 
     <div class="panel">
       <h2 data-t="evT">Ваш той</h2>
-      <p class="hint" data-t="evH">Ничего не сохраняется и никуда не уходит — это просто предпросмотр.</p>
+      <p class="hint" data-t="evH">Ничего не сохраняется и никуда не уходит: кроме собственных файлов страницы, отсюда не уходит ни один запрос — ни к нам, ни к Google. Всё рисуется прямо у вас в браузере.</p>
       <label for="couple" data-t="lblNames">Имена</label>
       <input id="couple" value="Aziz &amp; Nilufar" autocomplete="off">
       <div class="two">
@@ -204,34 +228,40 @@ const D = { occ: D_OCC[0]?.id || "nikoh_toy", lang:"uz_latin", theme:"zar", touc
    переключатель страницы стоит отдельно наверху и выглядит иначе.
    По умолчанию узбекский: свадебная тема резко более узбекоязычная. */
 const PAGE_UZ = {
-  h1:'Taklifnomani <em>shu yerda</em> yig\u2018ing',
-  lede:'Sababni, ismlarni va sanani o\u2018zgartiring — taklifnoma darrov qayta chiziladi. Mehmonlaringiz havolani ochganda aynan shuni ko\u2018radi.',
+  /* Заголовок вкладки тоже переводится: без него человек, переключивший
+     страницу на узбекский, видит русское имя во вкладке, в закладке
+     и в списке открытых страниц. */
+  docTitle:'Toʻy-Daftar — taklifnomani yigʻing',
+  h1:'Taklifnomani <em>shu yerda</em> yig\u02BBing',
+  lede:'Sababni, ismlarni va sanani o\u02BBzgartiring — taklifnoma darrov qayta chiziladi. Mehmonlaringiz havolani ochganda aynan shuni ko\u02BBradi.',
   occT:'Sabab',
-  occH:'Bezak va matn sababga bog\u2018liq — to\u2018y, beshik to\u2018yi va yubiley uchun ular har xil.',
+  occH:'Bezak va matn sababga bog\u02BBliq — to\u02BBy, beshik to\u02BByi va yubiley uchun ular har xil.',
   lblLang:'Taklifnoma tili',
   lblTheme:'Bezak',
-  themeH:'To\u2018rtta bezak bepul. Qulfli oltitasi Premium tarkibida — bir to\u2018y uchun 49 000 so\u2018m, bir martalik. Istaganini hozir ham ko\u2018rsangiz bo\u2018ladi.',
-  evT:'Sizning to\u2018yingiz',
-  evH:'Hech narsa saqlanmaydi va hech qayerga ketmaydi — bu shunchaki ko\u2018rib chiqish.',
-  lblNames:'Ismlar', lblDate:'Sana', lblTime:'Vaqt', lblVenue:'To\u2018yxona', lblAddr:'Manzil',
-  f1t:'Oila bo\u2018yicha hisoblaydi',
-  f1:'Mehmon butun oila nomidan javob beradi: «to\u2018rt kishi kelamiz», «to\u2018rttadan uchtasi keladi».',
-  f2t:'To\u2018yxona uchun son',
-  f2:'Necha kishi va necha stol — bitta rasm bilan, uni ma\u2019murga yuborishadi.',
+  themeH:'To\u02BBrtta bezak bepul. Qulfli oltitasi Premium tarkibida — bir to\u02BBy uchun 49 000 so\u02BBm, bir martalik. Istaganini hozir ham ko\u02BBrsangiz bo\u02BBladi.',
+  sampleA:'Pulli tarifga yana nima kiradi \u2014 namunani to\u02BBliq ko\u02BBrish',
+  evT:'Sizning to\u02BByingiz',
+  evH:'Hech narsa saqlanmaydi va hech qayerga ketmaydi: sahifaning o\u02BBz fayllaridan boshqa bu yerdan birorta ham so\u02BBrov ketmaydi — na bizga, na Google\u02BCga. Hammasi brauzeringizda chiziladi.',
+  lblNames:'Ismlar', lblDate:'Sana', lblTime:'Vaqt', lblVenue:'To\u02BByxona', lblAddr:'Manzil',
+  f1t:'Oila bo\u02BByicha hisoblaydi',
+  f1:'Mehmon butun oila nomidan javob beradi: «to\u02BBrt kishi kelamiz», «to\u02BBrttadan uchtasi keladi».',
+  f2t:'To\u02BByxona uchun son',
+  f2:'Necha kishi va necha stol — bitta rasm bilan, uni ma\u02BCmurga yuborishadi.',
   f3t:'Taklifnomalar bepul',
-  f3:'Oilalar istagancha. Faqat to\u2018yxona uchun hisob va stollarga joylashtirish uchun to\u2018lanadi — bir to\u2018y uchun 49 000 so\u2018m.',
+  f3:'Oilalar istagancha. Faqat to\u02BByxona uchun hisob va stollarga joylashtirish uchun to\u02BBlanadi — bir to\u02BBy uchun 49 000 so\u02BBm.',
   f4t:'Uchta alifbo',
-  f4:'Lotin, kirill va rus — har bir oilaga o\u2018qishga qulayrog\u2018ida.',
-  cap:'Mehmon buni shunday ko\u2018radi',
-  cta:'Telegramda o\u2018z to\u2018yingizni yig\u2018ing',
-  ctaN:'Telegramda ochiladi. Ro\u2018yxatdan o\u2018tish shart emas.',
+  f4:'Lotin, kirill va rus — har bir oilaga o\u02BBqishga qulayrog\u02BBida.',
+  cap:'Mehmon buni shunday ko\u02BBradi',
+  cta:'Telegramda o\u02BBz to\u02BByingizni yig\u02BBing',
+  ctaN:'Telegramda ochiladi. Ro\u02BByxatdan o\u02BBtish shart emas.',
   city:'Toshkent',
-  oferta:'Shartlar va ma\u2019lumotlarni qayta ishlash',
+  oferta:'Shartlar va ma\u02BClumotlarni qayta ishlash',
 };
 // Русский снимаем с самой разметки: держать его вторым словарём значило бы
 // гарантированно разойтись с тем, что написано в HTML.
 const PAGE_RU = {};
 document.querySelectorAll("[data-t]").forEach(el => { PAGE_RU[el.dataset.t] = el.innerHTML; });
+const TITLE_RU = document.title;
 
 let pageLang = (() => {
   /* lang= из адреса выше всего: демо открывают ссылкой с русской или с узбекской
@@ -253,11 +283,22 @@ function applyPageLang(){
     if(v !== undefined) el.innerHTML = v;
   });
   document.documentElement.lang = pageLang === "uz" ? "uz" : "ru";
-  $("#pagelang").innerHTML = [["uz","O\u2018zbekcha"],["ru","\u0420\u0443\u0441\u0441\u043a\u0438\u0439"]]
+  document.title = (pageLang === "uz" && PAGE_UZ.docTitle) ? PAGE_UZ.docTitle : TITLE_RU;
+  $("#pagelang").innerHTML = [["uz","O\u02BBzbekcha"],["ru","\u0420\u0443\u0441\u0441\u043a\u0438\u0439"]]
     .map(([k,l]) => `<button type="button" data-p="${k}"${k===pageLang?' class="on"':''}>${l}</button>`).join("");
   $("#pagelang").querySelectorAll("button").forEach(b => b.onclick = () => {
     pageLang = b.dataset.p;
     try { localStorage.setItem("td_demo_lang", pageLang); } catch(e){}
+    /* Адрес обязан догонять выбор. `lang=` из адреса стоит выше localStorage
+       (см. вычисление pageLang), поэтому без этой строки человек, пришедший
+       по ссылке `?lang=uz`, нажимал «Русский», обновлял страницу — и получал
+       обратно узбекскую, а его выбор при этом ещё и затирался в localStorage
+       обратно на uz. То же ломало пересылку ссылки: скопированный адрес нёс
+       не тот язык, который человек видел на экране. replaceState, а не
+       pushState: «назад» должно вести на страницу, с которой пришли,
+       а не перебирать языки. */
+    try { const u = new URL(location.href); u.searchParams.set("lang", pageLang);
+          history.replaceState(null, "", u.toString()); } catch(e){}
     // Язык страницы тянет за собой язык приглашения только если человек его
     // ещё не трогал сам — иначе мы затрём его выбор.
     if(!D.touchedLang) D.lang = pageLang === "uz" ? "uz_latin" : "ru";

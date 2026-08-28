@@ -15,13 +15,19 @@
 <meta property="og:locale:alternate" content="uz_UZ">
 <meta property="og:title" content="Сколько добавит к окладу сертификат B+ — учителю начальных классов">
 <meta property="og:description" content="Надбавка по категориям, взнос за экзамен по датам и шкала баллов — с источниками. Калькулятор и тренировка на 20 вопросов бесплатны.">
-<!-- og:image здесь НЕТ намеренно. Единственная нарисованная картинка превью
-     сделана до переименования, и на ней стоит старое имя «Ustoz-Sertifikat» —
-     то самое, по которому поиск уводит к чужой платформе. В канале превью
-     крупнее заголовка, поэтому чужое имя там хуже, чем его отсутствие.
-     Перерисовка вынесена владельцу (Р15). twitter:card тоже снят: без
-     картинки summary_large_image рисует пустой прямоугольник. -->
-<meta name="twitter:card" content="summary">
+<!-- Превью перерисовано 28.08.2026, и у русской страницы оно СВОЁ: og-ru.png.
+     Русская ссылка, развёрнутая узбекской картинкой, читается как чужая —
+     а именно превью человек видит в канале раньше заголовка.
+     Число на картинке одно и это 15 процентов из п. 6, а не сумма из
+     калькулятора: суммы считаются от оклада, а оклады 1 сентября растут
+     на 7 процентов (ПФ-115), и статическая картинка сама не пересчитается. -->
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/ustoz-sertifikat/sayt/og-ru.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Ustamam: учителю начальных классов 15 процентов оклада каждый месяц, с сертификатом B+">
+<meta property="og:site_name" content="Ustamam">
+<meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="https://gordondr.github.io/tma-uz/ustoz-sertifikat/sayt/ru.html">
 <meta name="theme-color" content="#F6F4EE">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230E5C46'/><path d='M17 33l10 11 20-24' stroke='%23fff' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
@@ -131,6 +137,16 @@ summary:before{content:"+ ";color:var(--acc);font-weight:700}
 details[open] summary:before{content:"– "}
 details p{margin:10px 0 2px;color:var(--ink2);font-size:15px}
 footer{border-top:1px solid var(--line);padding:30px 0 46px;color:var(--muted);font-size:13.5px}
+/* Блок продавца в подвале. Рамка, а не заливка: подвал набран мелким серым,
+   и заливка сделала бы его похожим на рекламный врез. Цвет текста здесь
+   поднят до основного — это единственное место в подвале, которое читают
+   не как сноску. */
+footer .kim{border:1px solid var(--line);border-radius:14px;padding:16px 17px;margin:0 0 24px;
+  color:var(--ink2);font-size:14.5px;max-width:680px}
+footer .kim h2{font-size:18px;margin:0 0 10px}
+footer .kim p{margin:0 0 10px}
+footer .kim p:last-child{margin-bottom:0}
+footer .kim strong{color:var(--ink)}
 footer a{color:var(--muted)}
 footer ol{padding-left:18px;margin:10px 0 0}
 footer li{margin-bottom:7px}
@@ -143,7 +159,10 @@ footer li{margin-bottom:7px}
 <header>
   <div class="top">
     <span class="mark"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12.5l5 5 11-13" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-    <div><b>Ustamam</b> <span>· для учителя начальных классов</span></div>
+    <!-- Точка убрана — то же, что в узбекской версии. `.top b` объявлен
+         display:block, поэтому имя и подпись стоят друг под другом при любой
+         ширине, и разделитель всегда начинал собой строку. -->
+    <div><b>Ustamam</b> <span>для учителя начальных классов</span></div>
     <div class="langs"><a id="lang-top" href="./" hreflang="uz">O‘zbekcha</a></div>
   </div>
 </header>
@@ -226,7 +245,7 @@ footer li{margin-bottom:7px}
       постановления, абзац третий: расходы 2026 года финансируются в пределах средств,
       уже выделенных Министерству дошкольного и школьного образования, а
       «2027-yildan boshlab esa budjet qonunchiligi talablariga muvofiq taqdim etilgan
-      budjet so'rovnomalariga asosan Davlat budjeti parametrlarida nazarda tutiladi» —
+      budjet soʻrovnomalariga asosan Davlat budjeti parametrlarida nazarda tutiladi» —
       то есть с 2027 года надбавка предусматривается в параметрах Госбюджета по
       представленным бюджетным заявкам. Сертификат действует три года, и колонка
       «За 12 месяцев» почти целиком лежит за 2026 годом. Это наш расчёт по
@@ -554,6 +573,14 @@ footer li{margin-bottom:7px}
         <li class="no"><strong>Не обещаем:</strong> сдачу экзамена, получение надбавки
           и «официальные вопросы»</li>
       </ul>
+      <!-- Ссылка на образец стоит внутри карточки цены, а не отдельным разделом:
+           вопрос «а что я, собственно, куплю» возникает у человека ровно на
+           числе 99 000, и ответ должен лежать в одном нажатии от него. -->
+      <p class="after"><strong><a href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/obrazec.html?lang=ru">Образец
+        полного плана — целиком, от первого дня до последнего</a>.</strong>
+        Без регистрации и без оплаты: он построен для выдуманного учителя, но тем же
+        кодом — каждый день, календарь и список тем, ничего не обрезано. Банка вопросов
+        в образце нет, потому что он ещё не написан. Страница образца — на узбекском.</p>
       <p class="after">Сегодня оплату не принимаем: вторая вещь из набора не написана.
         Вы оставляете заявку, и когда набор будет готов, напишем вам первыми.
         99 000 сум — меньше одной пятой взноса за попытку и меньше четверти
@@ -692,7 +719,13 @@ footer li{margin-bottom:7px}
         вы раскрыли первым — номер, а не текст; какие кнопки вы нажали и нажали ли
         кнопку заявки из блока цены или из плана; по какой ссылке вы пришли и случайный
         код сессии, который выдаётся вашему браузеру. Этот список можно пересчитать
-        самому во вкладке «Сеть». Контакт и ваши ответы в форме отправляются, только
+        самому во вкладке «Сеть».
+        <strong>Третьей стороне не уходит ни одного запроса:</strong> на этой странице
+        нет ни внешнего шрифта, ни счётчика, ни виджета — Google Fonts здесь были
+        и сняты. При открытии приложения браузер берёт всего четыре вещи: три его
+        собственных файла и наш собственный адрес, куда уходят числа. Побочный
+        эффект — на медленном интернете страница открывается быстрее.
+        Контакт и ваши ответы в форме отправляются, только
         если вы сами её заполните; они хранятся в нашей базе (Supabase, сервер во Франкфурте)
         и приходит нам в Telegram — то есть он оказывается и на серверах за пределами
         Узбекистана. Попросите удалить — удалим.</p>
@@ -776,6 +809,35 @@ footer li{margin-bottom:7px}
       и мы прочитали её сами.</p>
     <p><a id="lang-foot" href="./" hreflang="uz">O‘zbekcha</a> ·
       <a id="cta-foot" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/?lang=ru">Калькулятор и тренировка</a></p>
+
+    <!-- БЛОК ПРОДАВЦА (products/_obshee/PRODAVETS.md), текст дословный. В подвале
+         он стоит ниже источников намеренно: источники отвечают на «правда ли это»,
+         а этот блок — на «кто это говорит», и второй вопрос человек задаёт после
+         первого. Он лежит внутри того же <footer> и той же .col: отдельным
+         подвалом он давал бы на странице два элемента footer и вложенный
+         второй .wrap — лишний отступ там, где колонка уже задана.
+         Две приписки — те же, что в приложении: у Ustamam своего бота нет
+         (единственный живой входящий адрес владельца назван прямо в тексте), а
+         обещание возврата относится к деньгам, которых сегодня не берут. -->
+    <div class="kim">
+      <h2>Кто это делает</h2>
+      <p><strong>Кто это делает.</strong> Индивидуальный предприниматель Епихин Кирилл
+      Николаевич, регистрационный номер <strong>7875577</strong>, город Ташкент,
+      Шайхантахурский район. Полные реквизиты, включая СТИР, — в оферте и по запросу вместе с заявкой.</p>
+      <p>Я делаю это один и делаю сам. Ещё у меня работает
+      <a href="https://t.me/rulchi_bot" rel="noopener" target="_blank">Rulchi</a> —
+      правила дорожного движения Узбекистана в Telegram; он живой, им пользуются
+      каждый день, и по нему видно, как я делаю продукты.</p>
+      <p><strong>Отвечаю в течение рабочего дня</strong>, предельный срок — три рабочих дня. Оставьте заявку в форме на странице — она приходит мне сразу.</p>
+      <p><strong>Если не ответил в этот срок — значит я ошибся, и вы ничего не теряете: платить до разговора не за что.</strong>
+      </p>
+      <p style="font-size:13px">Две точности. <strong>В какого бота:</strong> у Ustamam
+      своего бота пока нет, поэтому написать сегодня можно в
+      <a href="https://t.me/rulchi_bot" rel="noopener" target="_blank">@rulchi_bot</a> —
+      сообщения там читаю я сам; СТИР спрашивается там же.
+      <strong>Обещание вернуть деньги</strong> вступает в силу со дня, когда откроется
+      оплата: сегодня оплата не принимается, на странице приложения — заявка.</p>
+    </div>
   </div>
 </footer>
 </div>

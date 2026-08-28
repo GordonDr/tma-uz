@@ -4,18 +4,24 @@
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-<meta property="og:image" content="https://gordondr.github.io/tma-uz/brand/kvartira-og.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kvartira Qabul">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="uz_UZ">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/kvartira/">
+<meta property="og:title" content="Чек-лист приёмки квартиры — 48 пунктов с допусками">
+<meta property="og:description" content="10 зон, 48 пунктов, допуски из ШНҚ и КМК в миллиметрах. Работает без сети — прямо в пустой квартире. Бесплатно.">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/kvartira/og/og-ru.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kvartira Qabul: 48 пунктов в чек-листе приёмки. Квартира в новостройке, допуски из ШНҚ и КМК — в миллиметрах.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../brand/logo-kvartira.svg" type="image/svg+xml">
 <link rel="icon" href="../brand/kvartira-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../brand/kvartira-apple.png">
 <title>Kvartira Qabul — приёмка квартиры</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<link rel="stylesheet" href="fonts/fonts.css">
 <script src="config.js"></script>
 <script src="checklist-data.js"></script>
 <style>
@@ -152,6 +158,17 @@ h1,h2,h3{font-family:Rubik,system-ui,sans-serif;margin:0;line-height:1.2;letter-
   border-radius:10px;padding:8px 11px;margin:0 0 8px;font-size:12px;line-height:1.4;text-align:left}
 body.offline .offbar{display:block}
 .foot{text-align:center;font-size:11.5px;color:var(--muted);padding:16px 0 6px;line-height:1.5}
+/* Блок продавца. Стоит рядом с ценой, а не в оферте: оферту открывают после
+   решения, а возражение «откуда я знаю, что вы не пропадёте с деньгами»
+   возникает до. Текст живёт в словаре языков, а не в разметке, — иначе
+   переключение языка стёрло бы его, как стирало ссылку на оферту в подвале. */
+.seller{background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:15px 16px;margin:12px 0 0;font-size:13.5px;color:var(--ink2);line-height:1.55}
+.seller h3{font-size:14.5px;color:var(--ink);margin-bottom:7px}
+.seller p{margin:0 0 9px}
+.seller p:last-child{margin-bottom:0}
+.seller b{color:var(--ink)}
+.seller a{color:var(--amber-ink)}
 </style>
 </head>
 <style>
@@ -211,7 +228,9 @@ body.offline .offbar{display:block}
     <p id="t-doneP">Нашли дефекты? Оформим акт осмотра и претензию застройщику — вам останется только подать.</p>
   </div>
 
-  <div class="foot" id="t-foot">Kvartira Qabul · документы для самостоятельной подачи<br>Не является экспертизой. Исход спора не гарантируется.<br><a href="oferta.html" target="_blank" rel="noopener" style="color:inherit">Условия и обработка данных</a></div>
+  <div class="seller" id="t-seller"></div>
+
+  <div class="foot" id="t-foot"></div>
 </div>
 
 <div class="cta"><div class="inner">
@@ -294,12 +313,27 @@ const TXT={
    doneT:"🎉 Осмотр завершён",doneP:"Нашли дефекты? Оформим акт осмотра и претензию застройщику — вам останется только подать.",
    foot:"Kvartira Qabul · документы для самостоятельной подачи<br>Не является экспертизой. Исход спора не гарантируется.",
    sampleLink:"Посмотреть образец акта",
+   footLink:"Условия и обработка данных",
+   seller:"<h3>Кто это делает</h3>"+
+     "<p>Индивидуальный предприниматель Епихин Кирилл Николаевич, регистрационный номер <b>7875577</b>, "+
+     "город Ташкент, Шайхантахурский район. СТИР — по запросу в боте.</p>"+
+     "<p>Я делаю это один и делаю сам. Ещё у меня работает "+
+     "<a href='https://t.me/rulchi_bot' target='_blank' rel='noopener'>Rulchi</a> — правила дорожного "+
+     "движения Узбекистана в Telegram; он живой, им пользуются каждый день, и по нему видно, "+
+     "как я делаю продукты.</p>"+
+     "<p><b>Отвечаю в течение рабочего дня</b>, обычно быстрее. Пишите в бота — там я вижу сообщение сразу.</p>"+
+     "<p><b>Не подойдёт результат — верну деньги полностью, без объяснений.</b> Деньги приходят "+
+     "в течение 10 дней с обращения, обычно в тот же день. Не «рассмотрю обращение», а верну.</p>",
    how:"как проверить",flag:"здесь дефект",flagOn:"дефект отмечен",
    foundT:n=>`Отмечено замечаний: ${n}`,
    foundP:"Эти пункты попадут в акт осмотра — переносить их вручную не придётся. Сфотографируйте каждое: общий план и крупно.",
    foundMore:n=>`… и ещё ${n} ${plural(n,"замечание","замечания","замечаний")}`,
    buyBad:n=>`Оформить ${n} ${plural(n,"замечание","замечания","замечаний")} в акт`,
-   noteBad:"Акт осмотра + претензия застройщику · 24 часа"},
+   /* Цена стояла только в состоянии «дефектов ещё нет»: как только человек
+      отмечал первое замечание — то есть ровно тогда, когда он ближе всего
+      к покупке, — и кнопка, и подпись под ней переставали называть 99 000 сум.
+      Геттер, а не строка: PRICE_RU присваивается ниже по файлу. */
+   get noteBad(){ return `Акт осмотра + претензия — ${PRICE_RU} · 24 часа` }},
  uz:{title:"Kvartirani qabul qilish",sub:"Koʻrik davomida bandlarni belgilang",bag:"Oʻzingiz bilan oling",
    warn:"<b>Kamchiliklar hujjatga yozilmaguncha qabul dalolatnomasini imzolamang.</b> Har bir nuqson — joyiga stiker va ikkita surat: umumiy va yaqin plan.",
    get buy(){ return `Dalolatnoma + pretenziya — ${PRICE_UZ}` },note:"Nuqson suratlari → 24 soatda tayyor hujjatlar",
@@ -314,12 +348,23 @@ const TXT={
    doneT:"🎉 Koʻrik yakunlandi",doneP:"Nuqson topdingizmi? Dalolatnoma va pretenziyani tayyorlaymiz — sizga faqat topshirish qoladi.",
    foot:"Kvartira Qabul · oʻzingiz topshirishingiz uchun hujjatlar<br>Ekspertiza emas. Nizo natijasi kafolatlanmaydi.",
    sampleLink:"Dalolatnoma namunasini koʻrish",
+   footLink:"Shartlar va maʼlumotlarni qayta ishlash",
+   seller:"<h3>Buni kim qiladi</h3>"+
+     "<p>Yakka tartibdagi tadbirkor Epixin Kirill Nikolayevich, roʻyxatdan oʻtish raqami <b>7875577</b>, "+
+     "Toshkent shahri, Shayxontohur tumani. STIR — botdagi soʻrov boʻyicha.</p>"+
+     "<p>Men buni yolgʻiz va oʻzim qilaman. Yana "+
+     "<a href='https://t.me/rulchi_bot' target='_blank' rel='noopener'>Rulchi</a> ishlaydi — "+
+     "Oʻzbekiston yoʻl harakati qoidalari Telegramda; u tirik, undan har kuni foydalanishadi, "+
+     "va men mahsulotlarni qanday qilishim oʻsha yerdan koʻrinadi.</p>"+
+     "<p><b>Ish kuni davomida javob beraman</b>, odatda tezroq. Botga yozing — xabarni darhol koʻraman.</p>"+
+     "<p><b>Natija toʻgʻri kelmasa — pulni toʻliq qaytaraman, izohsiz.</b> Pul murojaatdan keyin "+
+     "10 kun ichida, odatda oʻsha kuni keladi. «Murojaatni koʻrib chiqaman» emas, qaytaraman.</p>",
    how:"qanday tekshirish",flag:"bu yerda nuqson",flagOn:"nuqson belgilandi",
    foundT:n=>`Belgilangan kamchiliklar: ${n}`,
    foundP:"Bu bandlar koʻrik dalolatnomasiga kiradi — qoʻlda koʻchirish shart emas. Har birini suratga oling: umumiy va yaqin plan.",
    foundMore:n=>`… va yana ${n} ta kamchilik`,
    buyBad:n=>`${n} ta kamchilikni dalolatnomaga kiritish`,
-   noteBad:"Koʻrik dalolatnomasi + pretenziya · 24 soat"}
+   get noteBad(){ return `Koʻrik dalolatnomasi + pretenziya — ${PRICE_UZ} · 24 soat` }}
 };
 // Русские окончания для счётчика: «1 замечание / 2 замечания / 5 замечаний».
 function plural(n,one,few,many){
@@ -405,8 +450,15 @@ function renderStatic(){
   document.getElementById("t-offbar").textContent=t.offbar;
   document.getElementById("t-doneT").textContent=t.doneT;
   document.getElementById("t-doneP").textContent=t.doneP;
-  document.getElementById("t-foot").innerHTML=t.foot;
+  document.getElementById("t-seller").innerHTML=t.seller;
+  /* Ссылка на оферту стояла в разметке, а этот же узел переписывался из словаря —
+     то есть исчезала при первой же отрисовке, и из чек-листа оферту было
+     не открыть. Источник правды один: словарь. */
+  document.getElementById("t-foot").innerHTML =
+    t.foot + "<br><a href='oferta.html' target='_blank' rel='noopener' style='color:inherit'>"
+    + t.footLink + "</a>";
   document.getElementById("t-sample").textContent=t.sampleLink;
+  stampLang();
   document.getElementById("lru").classList.toggle("on",lang==="ru");
   document.getElementById("luz").classList.toggle("on",lang==="uz");
   document.getElementById("bagItems").innerHTML=bagList().map(x=>`<span class="it">${x}</span>`).join("");
@@ -596,6 +648,18 @@ function update(){
    чек-лист на узбекский, возвращается в бот и снова читает русский.
    Заодно это замер: переключение языка внутри продукта значит, что открылся
    он не на том языке, на котором человека звали. */
+/* Соседние страницы — образец и оферта — читают язык из ?lang=, а без него
+   берут язык браузера. Ссылки на них стояли голыми, и человек, переключивший
+   чек-лист на узбекский, открывал русский образец и русский договор: проверено
+   живьём, при navigator.language = ru. Штампуем язык в момент отрисовки,
+   а не в разметке: в разметке он был бы вторым хозяином языка. */
+function stampLang(root){
+  (root||document).querySelectorAll("a[href]").forEach(a=>{
+    const h=a.getAttribute("href")||"";
+    if(!/^(sample|oferta)\.html(\?|$)/.test(h)) return;
+    a.setAttribute("href", h.replace(/\?.*$/,"")+"?lang="+lang);
+  });
+}
 const setLang=(v)=>{lang=v;store.set("kq_lang",lang);document.documentElement.lang=lang;
   track("lang_set",{lang:v,was:urlLang||null});renderStatic();renderList();update();};
 document.getElementById("lru").onclick=()=>setLang("ru");
@@ -621,7 +685,7 @@ const CONSENT_TXT={
            "Метраж, если посчитаете, уходит вместе с замечаниями: он нужен для отдельного абзаца акта.",
            "Если закажете акт — попросим ФИО, телефон и реквизиты договора. Только чтобы претензия была именной. Можно отказаться.",
            "Стереть всё о себе — команда <b>/delete</b> в боте, в любой момент.",
-           "И то, что уходит до всякого вашего действия: шрифты страница берёт с серверов Google (fonts.googleapis.com, fonts.gstatic.com), поэтому самый первый запрос при каждой загрузке идёт туда."],
+           "И то, что уходит до всякого вашего действия: <b>ничего постороннего</b>. Раньше первым запросом каждой загрузки страница ходила за шрифтами на серверы Google (fonts.googleapis.com, fonts.gstatic.com) — теперь шрифты лежат здесь же, и этого запроса нет. Из внешнего при загрузке остаётся только код мини-аппа с telegram.org."],
        ok:"Понятно, начать", more:"Условия и обработка данных" },
   uz:{ h:"Boshlashdan oldin", sub:"Qisqa va yuridik tilsiz.",
        li:["Cheklist <b>bepul</b>. Belgilar telefoningizda saqlanadi va hech qayerga yuborilmaydi.",
@@ -629,7 +693,7 @@ const CONSENT_TXT={
            "Maydonni hisoblasangiz, u ham eʼtirozlar bilan birga boradi: dalolatnomaning alohida bandi uchun kerak.",
            "Dalolatnoma buyurtma qilsangiz — F.I.Sh., telefon va shartnoma rekvizitlarini soʻraymiz. Faqat pretenziya ismli boʻlishi uchun. Rad etish mumkin.",
            "Oʻzingiz haqingizdagi hamma narsani oʻchirish — botdagi <b>/delete</b> buyrugʻi, istalgan vaqtda.",
-           "Va siz hech nima qilmasingizdan oldin yuboriladigan narsa: shriftlarni sahifa Google serverlaridan oladi (fonts.googleapis.com, fonts.gstatic.com), shuning uchun har bir yuklanishdagi eng birinchi soʻrov oʻsha yerga ketadi."],
+           "Va siz hech nima qilmasingizdan oldin yuboriladigan narsa: <b>begona hech narsa</b>. Ilgari har bir yuklanishdagi eng birinchi soʻrov shriftlar uchun Google serverlariga (fonts.googleapis.com, fonts.gstatic.com) ketardi — endi shriftlar shu yerning oʻzida, va bu soʻrov yoʻq. Yuklanishda tashqi narsadan faqat telegram.org dagi mini-ilova kodi qoladi."],
        ok:"Tushunarli, boshlaymiz", more:"Shartlar va maʼlumotlarni qayta ishlash" },
 };
 /* ── R-01 · «Приложение открыли» — до экрана согласия ────────────────────────
@@ -664,6 +728,7 @@ function showConsent(){
     <button class="ok" id="cok">${t.ok}</button>
     <a class="more" href="oferta.html" target="_blank" rel="noopener">${t.more}</a></div>`;
   document.body.appendChild(ov);
+  stampLang(ov);
   ov.querySelector("#cok").onclick=()=>{
     store.set("kq_consent","1");
     ov.remove();

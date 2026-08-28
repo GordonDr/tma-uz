@@ -28,7 +28,7 @@
 // Версия кэша подставляется скриптом деплоя. Без этого старая оболочка
 // пережила бы выкатку и человек чинил бы её очисткой браузера — то есть никогда.
 
-const VERSION = "20260828-131814";
+const VERSION = "20260828-153926";
 const CACHE = "kq-" + VERSION;
 
 // Точный список, а не «всё, что попросят»: так на установке видно, если файл
@@ -39,6 +39,28 @@ const SHELL = [
   "./checklist-data.js",
   "./config.js",
   "./favicon.png",
+  // Шрифты лежат у нас, а не на серверах Google. Раз они свои — они попадают
+  // в тот же точный список, что и всё остальное: в пустой квартире без сети
+  // страница должна выглядеть так же, как дома. Пока шрифты были чужими,
+  // офлайн-вид отличался от онлайн-вида, и никто этого не проверял.
+  // 226 КБ разом, один раз, в фоне установки.
+  "./fonts/fonts.css",
+  "./fonts/manrope-400-700-cyrillic-ext.woff2",
+  "./fonts/manrope-400-700-cyrillic.woff2",
+  "./fonts/manrope-400-700-latin-ext.woff2",
+  "./fonts/manrope-400-700-latin.woff2",
+  "./fonts/plexmono-400-cyrillic-ext.woff2",
+  "./fonts/plexmono-400-cyrillic.woff2",
+  "./fonts/plexmono-400-latin-ext.woff2",
+  "./fonts/plexmono-400-latin.woff2",
+  "./fonts/plexmono-500-cyrillic-ext.woff2",
+  "./fonts/plexmono-500-cyrillic.woff2",
+  "./fonts/plexmono-500-latin-ext.woff2",
+  "./fonts/plexmono-500-latin.woff2",
+  "./fonts/rubik-500-700-cyrillic-ext.woff2",
+  "./fonts/rubik-500-700-cyrillic.woff2",
+  "./fonts/rubik-500-700-latin-ext.woff2",
+  "./fonts/rubik-500-700-latin.woff2",
 ];
 
 self.addEventListener("install", (e) => {
@@ -64,9 +86,10 @@ self.addEventListener("fetch", (e) => {
   if (req.method !== "GET") return;
 
   const url = new URL(req.url);
-  // Чужой домен — не наше дело: функции, Telegram, шрифты. Пусть идут в сеть
-  // как шли. Молча закэшировать чужой ответ — верный способ однажды показать
-  // человеку чужие устаревшие данные и не понять, откуда они взялись.
+  // Чужой домен — не наше дело: функции и Telegram. Пусть идут в сеть как шли.
+  // Молча закэшировать чужой ответ — верный способ однажды показать человеку
+  // чужие устаревшие данные и не понять, откуда они взялись.
+  // (Шрифты в этом списке больше не значатся: они свои и лежат рядом.)
   if (url.origin !== self.location.origin) return;
 
   // Страница — это переход по ссылке или запрос .html. Всё остальное считаем

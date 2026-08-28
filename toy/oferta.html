@@ -4,17 +4,29 @@
 <meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta property="og:image" content="https://gordondr.github.io/tma-uz/brand/toy-og.png">
+<!-- Превью ссылки. Оферту пересылают в спорах и в переписке с подрядчиками —
+     ссылка на неё живёт своей жизнью. Картинка рисуется tools/og-draw.html. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Toʻy-Daftar">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:locale:alternate" content="uz_UZ">
+<meta property="og:title" content="Toʻy-Daftar — публичная оферта и обработка данных">
+<meta property="og:description" content="Кто исполнитель, за что берутся деньги, что происходит с данными гостей и как вернуть оплату. Обе языковые версии на одной странице.">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/toy/oferta.html">
+<meta property="og:image" content="https://gordondr.github.io/tma-uz/toy/og/og-ru.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Toʻy-Daftar. Тойхона берёт за приглашённых, а не за пришедших: 4 750 000 сум за 19 мест, которые держат за восемью молчащими семьями.">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../brand/logo-toy.svg" type="image/svg+xml">
 <link rel="icon" href="../brand/toy-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../brand/toy-apple.png">
 <title>Toʻy-Daftar — условия и данные</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600;700&display=swap">
+<!-- Шрифты свои: fonts/fonts.css. Документ, который перечисляет, кому и что
+     передаётся, не может сам передавать что-то третьему лицу мимо этого
+     перечня. Пока шрифты шли с Google, он именно это и делал. -->
+<link rel="stylesheet" href="fonts/fonts.css">
 <style>
 :root{
   --bg:#FBF7F2; --card:#FFFFFF; --ink:#2A211C; --ink2:#5C4C42; --muted:#8B7A6C;
@@ -343,6 +355,11 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;back
   <h2>6. Rekvizitlar</h2>
   <div class="req">
     <div><span>Ijrochi</span><span>YTT Epixin Kirill Nikolayevich</span></div>
+    <!-- Регистрационный номер здесь не стоял, а в русских реквизитах стоял.
+         Узбекоязычный читает узбекскую версию — то есть ровно ту, по которой
+         исполнителя проверить было нельзя. Один и тот же факт в двух языках
+         обязан быть одним фактом. TD-13. -->
+    <div><span>Roʻyxatdan oʻtish raqami</span><span>7875577</span></div>
     <div><span>STIR</span><span>botda soʻrov boʻyicha</span></div>
     <div><span>Manzil</span><span>Shayxontohur tumani, Toshkent</span></div>
     <div><span>Telegram-bot</span><span>@toy_daftar_bot</span></div>
@@ -363,7 +380,21 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;back
 
 <script>
 const LK="td_oferta_lang";
-let lang=(()=>{ try{ const v=localStorage.getItem(LK); if(v==="ru"||v==="uz") return v; }catch(e){}
+/* Порядок тот же, что в demo.html и obrazec.html, и по той же причине:
+   язык страницы, с которой человек пришёл, — это его выбор, а настройка
+   телефона — нет. Здесь этого порядка не было: оферта смотрела только
+   в navigator.language, и читатель узбекской страницы сайта или узбекского
+   демо открывал ссылку «Ommaviy oferta» и получал русский договор — на
+   телефоне с ru-локалью, то есть почти всегда. Это единственный документ,
+   который человек принимает оплатой, и язык у него обязан совпадать
+   с языком, на котором человека уговорили.
+   td_demo_lang читается третьим: если человек уже выбрал язык в демо или
+   в образце, оферту незачем спрашивать заново. */
+let lang=(()=>{
+  try{ const u=new URLSearchParams(location.search).get("lang");
+       if(u==="ru"||u==="uz"){ try{localStorage.setItem(LK,u);}catch(e){} return u; } }catch(e){}
+  try{ const v=localStorage.getItem(LK); if(v==="ru"||v==="uz") return v; }catch(e){}
+  try{ const d=localStorage.getItem("td_demo_lang"); if(d==="ru"||d==="uz") return d; }catch(e){}
   return (navigator.language||"").startsWith("uz") ? "uz" : "ru"; })();
 function apply(){
   document.getElementById("ru").classList.toggle("hide", lang!=="ru");
@@ -376,7 +407,13 @@ function apply(){
   bar.innerHTML=[["ru","Ру"],["uz","Oʻz"]].map(([k,t])=>
     `<button data-l="${k}" class="${k===lang?"on":""}">${t}</button>`).join("");
   bar.querySelectorAll("button").forEach(b=>b.onclick=()=>{
-    lang=b.dataset.l; try{localStorage.setItem(LK,lang);}catch(e){} apply(); window.scrollTo({top:0});
+    lang=b.dataset.l; try{localStorage.setItem(LK,lang);}catch(e){}
+    /* Адрес догоняет выбор: `lang=` выше localStorage, и без этой строки
+       обновление страницы вернуло бы прежний язык, а пересланная ссылка
+       унесла бы не тот договор, который человек читал. */
+    try{ const u=new URL(location.href); u.searchParams.set("lang",lang);
+         history.replaceState(null,"",u.toString()); }catch(e){}
+    apply(); window.scrollTo({top:0});
   });
 }
 apply();
