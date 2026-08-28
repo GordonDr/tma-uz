@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Вход в кабинет называется organizer.html — так его открывает Telegram,
+     и так он стоит в APP_URL у бота. Но человек, которому переслали ссылку,
+     обрезает её до папки чаще, чем кажется: адрес длинный, а хвост выглядит
+     техническим. Без этого файла /tma-uz/toy/ отдавал 404 — у живого продукта,
+     посев которого начинается 03.09.
+
+     Почему переносим и «?», и «#». В query приезжает метка канала (?from=rem7)
+     — по ней считается, какое напоминание вернуло человека. В hash Telegram
+     кладёт tgWebAppData с подписью: потеряв его, кабинет не откроется вовсе.
+     Редирект, который теряет одно из двух, хуже 404: он выглядит работающим. -->
+<meta name="robots" content="noindex, nofollow">
+<title>Toʻy-Daftar</title>
+<script>
+  (function () {
+    var to = "organizer.html" + window.location.search + window.location.hash;
+    window.location.replace(to);
+  })();
+</script>
+<style>
+  body{margin:0;display:flex;align-items:center;justify-content:center;
+    min-height:100vh;background:#faf8f5;color:#4a4038;
+    font:15px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  @media (prefers-color-scheme:dark){body{background:#17151a;color:#cfc7bd}}
+  a{color:#9a6b4f;font-weight:600}
+</style>
+</head>
+<body>
+  <!-- Виден только если скрипт не отработал. Язык страницы — русский,
+       как у самого кабинета (organizer.html): у продукта один язык входа,
+       а дальше человек переключает сам. Разные языки у соседних входов
+       выглядят как две разные программы. -->
+  <p><a href="organizer.html">Toʻy-Daftar</a> · кабинет тоя</p>
+</body>
+</html>

@@ -39,7 +39,7 @@ const T_ORG = {
     tierFree:"Бесплатный", tierPremium:"Premium", tierFull:"Полный",
 
     /* вкладки */
-    tabGuests:"👨‍👩‍👧 Гости", tabSeating:"🪑 Рассадка", tabZal:"📊 Для зала",
+    tabGuests:"👪 Гости", tabSeating:"💺 Рассадка", tabZal:"📊 Для зала",
     tabPrep:"✅ Подготовка", tabGifts:"🎁 Подарки", tabEvent:"⚙️ Той",
     tabSwitch:(n)=>`🔀 Тои (${n})`, tabSwitchNew:"＋ Ещё той",
 
@@ -65,7 +65,7 @@ const T_ORG = {
 
     newErrNames:"Введите имена",
     newOccasion:"Что за событие", newLang:"Язык приглашения",
-    newPreviewBtn:"👁 Посмотреть, как увидит гость",
+    newPreviewBtn:"👁️ Посмотреть, как увидит гость",
     newPreviewNote:"Так выглядит приглашение. Можно посмотреть до того, как что-то заполнять.",
     newPrice:"Приглашения и ответы — бесплатно, семей сколько угодно · Premium 49 000 сум за той: счёт для зала и рассадка · Полный 149 000 сум. Разово, не подписка.",
 
@@ -89,13 +89,13 @@ const T_ORG = {
     qStart:(n)=>`📨 Разослать приглашения (${n})`,
     qStartRemind:(n)=>`🔔 Напомнить тем, кто не ответил (${n})`,
     qStartMoved:(n)=>`📅 Сообщить о переносе (${n})`,
-    qStartThanks:(n)=>`🤍 Поблагодарить гостей (${n})`,
+    qStartThanks:(n)=>`🙏 Поблагодарить гостей (${n})`,
     qProgress:(a,b)=>`Отправлено ${a} из ${b}`,
     pInvBtn:"🖼 Приглашение картинкой",
     pInvNote:"Одна картинка вместо ссылки — для тех, у кого нет телеграма. Пересылается в WhatsApp и печатается: A5, с QR для ответа. Здесь образец; чтобы напечатать конкретной семье, нажмите 🖼 в её строке — тогда QR будет её.",
     pInvLocked:"Приглашение картинкой — для родни без телеграма, её пересылают в WhatsApp или печатают. Входит в Premium.",
     pInvHint:"Задержите палец на картинке, чтобы сохранить или переслать. Для печати — «Сохранить», размер A5.",
-    wTitle:"🤍 Пожелания гостей",
+    wTitle:"🙏 Пожелания гостей",
     wEmpty:"Пока пусто. Гости пишут пожелание сразу после того, как ответят «придём» — они появятся здесь сами.",
     wExport:"📊 Выгрузить пожелания",
     wLockHave:(n)=>`Гости уже оставили <b>${n}</b> ${plural(n,"пожелание","пожелания","пожеланий")} — они ждут вас здесь.`,
@@ -131,12 +131,12 @@ const T_ORG = {
     dlTitle:"Скопируйте таблицу",
     dlSub:"Telegram на телефоне не сохраняет файлы из мини-приложений. Скопируйте текст и вставьте в Excel или Google Таблицы — колонки разделятся сами.",
     dlCopy:"Скопировать", dlCopied:"Скопировано ✓",
-    fSave:"Сохранить", fEdit:"Поправить", fDelete:"🗑 Удалить запись",
+    fSave:"Сохранить", fEdit:"Поправить", fDelete:"🗑️ Удалить запись",
     fConfirmDel:"Удалить эту запись из книги подарков?",
     fExport:"📊 Выгрузить книгу подарков",
     cntCancel:"Отмена",
     qSendFor:(k)=>({first:"📨 Отправить этой семье",remind:"🔔 Напомнить этой семье",
-      moved:"📅 Сообщить этой семье",thanks:"🤍 Поблагодарить эту семью"})[k],
+      moved:"📅 Сообщить этой семье",thanks:"🙏 Поблагодарить эту семью"})[k],
     qSkip:"Пропустить",
     qStop:"Закончить",
     qHint:"Откроется список чатов Telegram — выберите семью и отправьте. Вернётесь сюда — подтвердите, что ушло.",
@@ -179,7 +179,7 @@ const T_ORG = {
     impApplying:"Применяем…",
     impDone:(c,u)=>`Готово. Добавлено: ${c}, обновлено: ${u}.`,
     impMissing:(n)=>`В файле нет ${n} ${plural(n,"семьи","семей","семей")} из вашего списка`,
-    impMissingNote:"Они останутся как есть — загрузка ничего не удаляет. Удалить семью можно только вручную, по кнопке 🗑.",
+    impMissingNote:"Они останутся как есть — загрузка ничего не удаляет. Удалить семью можно только вручную, по кнопке 🗑️.",
 
     /* рассадка */
     sLockTitle:"Рассадка по столам",
@@ -217,7 +217,7 @@ const T_ORG = {
     sEmptyAll:"Все рассажены 👌", sAlertPick:"Сначала выберите стол",
 
     /* авто-раскладка */
-    saBtn:"🪑 Разложить всех по столам",
+    saBtn:"💺 Разложить всех по столам",
     saBtnNote:"Семья садится целиком, келин томон и куёв томон сидят группами, уже рассаженные остаются на своих местах.",
     saSaving:(d,n)=>`Рассаживаем… ${d} из ${n}`,
     saUndoing:(d,n)=>`Отменяем… ${d} из ${n}`,
@@ -285,7 +285,7 @@ const T_ORG = {
     /* настройки тоя */
     eThemeTitle:"Оформление приглашения",
     eThemeNote:"Так его увидят гости. Оформление можно менять в любой момент — ссылки не ломаются.",
-    ePreviewBtn:"👁 Посмотреть, как выглядит",
+    ePreviewBtn:"👁️ Посмотреть, как выглядит",
     eDataTitle:"Данные тоя", eNames:"Имена", eMap:"Карта",
     ePresetLabel:"Готовый текст (подставится ниже)", ePresetNone:"— выбрать шаблон —",
     eLangLabel:"Язык приглашения", eOccasionLabel:"Повод",
@@ -293,7 +293,7 @@ const T_ORG = {
     eTierTitle:(t)=>`Тариф: ${t}`,
     eTierFreeText:"<b>Premium, 49 000 за той.</b> Шесть закрытых оформлений · второй хозяин: обе стороны ведут общий список · счёт для тойханы картинкой · рассадка по столам · выгрузки.<br><br><b>Полный, 149 000.</b> Всё то же и книга подарков с пожеланиями гостей.<br><br>Приглашения и ответы бесплатны всегда, семей сколько угодно.",
     eTierPremiumText:"<b>Полный, 149 000.</b> Книга подарков — кто что подарил и на какую сумму. И пожелания, которые гости пишут после ответа: их вы перечитаете через год, когда всё остальное забудется.",
-    eDeleteBtn:"🗑 Удалить той со всеми данными",
+    eDeleteBtn:"🗑️ Удалить той со всеми данными",
     eDeleteNote:"Удалятся семьи, ответы гостей, рассадка и подарки. Ссылки перестанут открываться. Отменить нельзя.",
 
     /* оплата */
@@ -312,7 +312,7 @@ const T_ORG = {
     errAccess:"Kirishda xatolik",
     tierFree:"Bepul", tierPremium:"Premium", tierFull:"Toʻliq",
 
-    tabGuests:"👨‍👩‍👧 Mehmonlar", tabSeating:"🪑 Joylashtirish", tabZal:"📊 Toʻyxona uchun",
+    tabGuests:"👪 Mehmonlar", tabSeating:"💺 Joylashtirish", tabZal:"📊 Toʻyxona uchun",
     tabPrep:"✅ Tayyorgarlik", tabGifts:"🎁 Sovgʻalar", tabEvent:"⚙️ Toʻy",
     tabSwitch:(n)=>`🔀 Toʻylar (${n})`, tabSwitchNew:"＋ Yana toʻy",
 
@@ -335,7 +335,7 @@ const T_ORG = {
 
     newErrNames:"Ismlarni kiriting",
     newOccasion:"Qanday tadbir", newLang:"Taklifnoma tili",
-    newPreviewBtn:"👁 Mehmon qanday koʻrishini koʻrish",
+    newPreviewBtn:"👁️ Mehmon qanday koʻrishini koʻrish",
     newPreviewNote:"Taklifnoma shunday koʻrinadi. Hech narsa toʻldirmasdan oldin koʻrsangiz boʻladi.",
     newPrice:"Taklifnomalar va javoblar — bepul, istagancha oila · Premium bitta toʻy uchun 49 000 soʻm: toʻyxona uchun hisob va stollar · Toʻliq 149 000 soʻm. Bir martalik, obuna emas.",
 
@@ -358,13 +358,13 @@ const T_ORG = {
     qStart:(n)=>`📨 Taklifnomalarni yuborish (${n})`,
     qStartRemind:(n)=>`🔔 Javob bermaganlarga eslatish (${n})`,
     qStartMoved:(n)=>`📅 Sana oʻzgargani haqida xabar berish (${n})`,
-    qStartThanks:(n)=>`🤍 Mehmonlarga rahmat aytish (${n})`,
+    qStartThanks:(n)=>`🙏 Mehmonlarga rahmat aytish (${n})`,
     qProgress:(a,b)=>`${b} tadan ${a} tasi yuborildi`,
     pInvBtn:"🖼 Taklifnoma rasm bilan",
     pInvNote:"Havola oʻrniga bitta rasm — telegrami yoʻqlar uchun. WhatsApp orqali yuboriladi va chop etiladi: A5, javob uchun QR bilan. Bu yerda namuna; aniq oilaga chop etish uchun uning qatoridagi 🖼 ni bosing — shunda QR oʻsha oilaniki boʻladi.",
     pInvLocked:"Rasm koʻrinishidagi taklifnoma — telegrami yoʻq qarindoshlar uchun, uni WhatsApp orqali yuborishadi yoki chop etishadi. Premium tarkibida.",
     pInvHint:"Saqlash yoki yuborish uchun rasmni barmoq bilan bosib turing. Chop etish uchun — «Saqlash», oʻlchami A5.",
-    wTitle:"🤍 Mehmonlar tilaklari",
+    wTitle:"🙏 Mehmonlar tilaklari",
     wEmpty:"Hozircha boʻsh. Mehmonlar «kelamiz» deb javob bergandan keyin darrov tilak yozadi — ular shu yerda oʻzi paydo boʻladi.",
     wExport:"📊 Tilaklarni yuklab olish",
     wLockHave:(n)=>`Mehmonlar allaqachon <b>${n}</b> ta tilak qoldirgan — ular shu yerda sizni kutyapti.`,
@@ -400,12 +400,12 @@ const T_ORG = {
     dlTitle:"Jadvalni nusxalang",
     dlSub:"Telefondagi Telegram mini-ilovadan fayllarni saqlamaydi. Matnni nusxalab, Excel yoki Google Jadvallarga qoʻying — ustunlar oʻzi ajraladi.",
     dlCopy:"Nusxalash", dlCopied:"Nusxalandi ✓",
-    fSave:"Saqlash", fEdit:"Toʻgʻrilash", fDelete:"🗑 Yozuvni oʻchirish",
+    fSave:"Saqlash", fEdit:"Toʻgʻrilash", fDelete:"🗑️ Yozuvni oʻchirish",
     fConfirmDel:"Bu yozuv sovgʻalar daftaridan oʻchirilsinmi?",
     fExport:"📊 Sovgʻalar daftarini yuklab olish",
     cntCancel:"Bekor qilish",
     qSendFor:(k)=>({first:"📨 Shu oilaga yuborish",remind:"🔔 Shu oilaga eslatish",
-      moved:"📅 Shu oilaga xabar berish",thanks:"🤍 Shu oilaga rahmat aytish"})[k],
+      moved:"📅 Shu oilaga xabar berish",thanks:"🙏 Shu oilaga rahmat aytish"})[k],
     qSkip:"Oʻtkazib yuborish",
     qStop:"Tugatish",
     qHint:"Telegram chatlari roʻyxati ochiladi — oilani tanlab yuboring. Qaytganingizda yuborilganini tasdiqlaysiz.",
@@ -448,7 +448,7 @@ const T_ORG = {
     impApplying:"Qoʻllanmoqda…",
     impDone:(c,u)=>`Tayyor. Qoʻshildi: ${c} ta, yangilandi: ${u} ta.`,
     impMissing:(n)=>`Faylda roʻyxatingizdagi ${n} ta oila yoʻq`,
-    impMissingNote:"Ular oʻz holicha qoladi — yuklash hech narsani oʻchirmaydi. Oilani faqat qoʻlda, 🗑 tugmasi bilan oʻchirish mumkin.",
+    impMissingNote:"Ular oʻz holicha qoladi — yuklash hech narsani oʻchirmaydi. Oilani faqat qoʻlda, 🗑️ tugmasi bilan oʻchirish mumkin.",
 
     sLockTitle:"Stollarga joylashtirish",
     sLockText:"Stollar, oilalarni taqsimlash va boʻsh joylarni sanash — Premium tarifida. Endi qogʻozlar va roʻyxatni qoʻlda koʻchirish shart emas.",
@@ -485,7 +485,7 @@ const T_ORG = {
     sEmptyAll:"Hamma joylashtirildi 👌", sAlertPick:"Avval stolni tanlang",
 
     /* avtomatik joylashtirish */
-    saBtn:"🪑 Hammani stollarga joylashtirish",
+    saBtn:"💺 Hammani stollarga joylashtirish",
     saBtnNote:"Oila butunicha oʻtiradi, kelin tomon va kuyov tomon guruh boʻlib joylashadi, qoʻlda joylashtirilganlar joyida qoladi.",
     saSaving:(d,n)=>`Joylashtirilmoqda… ${n} tadan ${d}`,
     saUndoing:(d,n)=>`Bekor qilinmoqda… ${n} tadan ${d}`,
@@ -543,7 +543,7 @@ const T_ORG = {
 
     eThemeTitle:"Taklifnoma koʻrinishi",
     eThemeNote:"Mehmonlar uni shunday koʻradi. Bezakni istalgan payt oʻzgartirsa boʻladi — havolalar buzilmaydi.",
-    ePreviewBtn:"👁 Qanday koʻrinishini koʻrish",
+    ePreviewBtn:"👁️ Qanday koʻrinishini koʻrish",
     eDataTitle:"Toʻy maʼlumotlari", eNames:"Ismlar", eMap:"Xarita",
     ePresetLabel:"Tayyor matn (pastga qoʻyiladi)", ePresetNone:"— shablonni tanlang —",
     eLangLabel:"Taklifnoma tili", eOccasionLabel:"Tadbir turi",
@@ -551,7 +551,7 @@ const T_ORG = {
     eTierTitle:(t)=>`Tarif: ${t}`,
     eTierFreeText:"<b>Premium, bitta toʻy uchun 49 000.</b> Oltita yopiq bezak · ikkinchi ega: ikki tomon umumiy roʻyxat yuritadi · toʻyxona uchun hisob rasm bilan · stollarga joylashtirish · yuklab olish.<br><br><b>Toʻliq, 149 000.</b> Shularning hammasi va sovgʻalar daftari hamda mehmonlar tilaklari.<br><br>Taklifnomalar va javoblar doim bepul, oilalar istagancha.",
     eTierPremiumText:"<b>Toʻliq, 149 000.</b> Sovgʻalar daftari — kim nima va qancha sovgʻa qilgani. Va mehmonlar javobdan keyin yozadigan tilaklar: bir yildan keyin, qolgani unutilganda, siz ularni qayta oʻqiysiz.",
-    eDeleteBtn:"🗑 Toʻyni barcha maʼlumotlari bilan oʻchirish",
+    eDeleteBtn:"🗑️ Toʻyni barcha maʼlumotlari bilan oʻchirish",
     eDeleteNote:"Oilalar, mehmon javoblari, stol taqsimoti va sovgʻalar oʻchadi. Havolalar ochilmay qoladi. Ortga qaytarib boʻlmaydi.",
 
     payPremium:"Premium — 49 000 soʻm", payFull:"Toʻliq — 149 000 soʻm",

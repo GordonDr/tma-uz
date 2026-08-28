@@ -13,6 +13,12 @@
 <title>Ballim — jarima ballari xaritasi · Карта штрафных баллов</title>
 <meta name="description" content="Qoidabuzarliklaringizni sana bilan kiriting: hozir nechta jarima balli bor, qaysi kuni qancha kuyadi va 12 balldan qachon uzoqlashasiz. Xarita bepul. · Внесите свои нарушения с датами: сколько штрафных баллов сейчас, какого числа сколько сгорит и когда вы отойдёте от 12. Карта бесплатная. В комплекте защиты — черновик обращения, календарь и лист A4.">
 <meta name="theme-color" content="#F4F6F9">
+<!-- Значок вкладки. Был единственным из опубликованных продуктов без него:
+     браузер просил /favicon.ico, получал 404 и рисовал пустой глобус, а ссылку
+     на продукт человек ищет во вкладках среди десятка других. Data-URI, а не
+     файл, — деплой этих продуктов копирует app/ как есть и лишний файл не
+     кладёт; ровно так сделано у avtomaktab-narx. Цвет — --brand страницы. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23103A6B'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' font-weight='700' fill='%23fff' text-anchor='middle'%3EB%3C/text%3E%3C/svg%3E" type="image/svg+xml">
 <meta property="og:title" content="Jarima ballari xaritasi · Карта штрафных баллов">
 <meta property="og:description" content="12 balldan ORTIQ bo‘lsa — sud guvohnomadan mahrum qiladi. · Если баллов БОЛЬШЕ 12 — прав лишает суд. Сколько у вас баллов, когда они сгорят и какое нарушение закроет границу.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -366,7 +372,7 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
     har bir kelgusi hisobdan chiqarishni va 12 balldan qachon uzoqlashayotganingizni ko‘rsatadi.
     Bepul, ro‘yxatdan o‘tmasdan. Xarita brauzeringizda hisoblanadi: sanalar va moddalar
     ro‘yxati siz o‘zingiz arizaga biriktirmaguningizcha hech qayerga ketmaydi, serverga
-    esa faqat nomsiz belgi — hisoblandi va umumiy ball — boradi.</p>
+    esa faqat nomsiz belgi — hisoblandi va umumiy ball — boradi. Va yana bitta narsa, u siz hech nima qilmasingizdan oldin yuboriladi: shriftlarni sahifa Google serverlaridan oladi — fonts.googleapis.com va fonts.gstatic.com, — shuning uchun har bir yuklanishdagi eng birinchi so‘rov o‘sha yerga ketadi. Ma’lumotlaringizni Google ga bermaymiz, lekin sahifa ochilgani faktini u ko‘radi.</p>
   <ul class="tags">
     <li data-t="tag1"><b>12 balldan ORTIQ</b> — sud guvohnomadan mahrum qiladi: 6 oydan 3 yilgacha</li>
     <li data-t="tag2"><b>8 ball</b> — SMS-ogohlantirish keladi</li>
@@ -1074,22 +1080,50 @@ var QUICK = ["sp2","red","park","ovt"];
    sess — случайная строка в localStorage. Она склеивает шаги одного браузера
    и ничего не утверждает про личность: в отчётах это «сессии», а не «люди».
    Каждому событию свой потолок за загрузку страницы — база на бесплатном тарифе
-   общая с живыми продуктами, и залипший обработчик не должен её съесть. */
+   общая с живыми продуктами, и залипший обработчик не должен её съесть.
+
+   ПОЧЕМУ sess ТЕПЕРЬ СЧИТАЕТСЯ ОДИН РАЗ ЗА ЗАГРУЗКУ. Прежняя ветка на случай
+   недоступного localStorage возвращала "nostore-" + Date.now(), и время бралось
+   в момент ВЫЗОВА. То есть у человека в приватном окне каждое событие уезжало
+   под своим ключом: одна загрузка — до двадцати «сессий». Порог теста читается
+   по числу людей, а колонка «открыли» — по числу разных sess; такой браузер
+   в одиночку двигал обе. Теперь ключ вычисляется один раз и лежит в SESS. */
+var SESS = null;
 function sess(){
+  if(SESS) return SESS;
   try{
     var v = localStorage.getItem("bq_sess");
     if(!v){ v = Math.random().toString(36).slice(2, 10) + Date.now().toString(36); localStorage.setItem("bq_sess", v); }
-    return v;
-  }catch(e){ return "nostore-" + Date.now().toString(36); }
+    SESS = v;
+  }catch(e){
+    SESS = "nostore-" + Math.random().toString(36).slice(2, 10) + Date.now().toString(36);
+  }
+  return SESS;
 }
+/* Метка канала. ПЕРВАЯ ПОБЕЖДАЕТ, и она переживает возвраты без «?src=».
+   Раньше здесь стояло обратное правило: пришедший «?src=» затирал сохранённый.
+   Ломало это не тех, кто пришёл без метки, а как раз помеченных. Человек
+   открывает ссылку из поста (src=rulchi), закрывает, назавтра заходит из
+   истории браузера — адрес уже без «?src=» — и весь его расчёт и заявка
+   ложились в «(без метки)». Подпись поломки видна прямо в разрезе по каналам:
+   у «без метки» расчётов больше, чем открытий. Дальше по такому разрезу
+   решают, куда нести единственный пуш по базе Rulchi.
+   Первая, а не последняя, потому что канал отвечает на вопрос «кто привёл»,
+   а привёл человека тот, по чьей ссылке он пришёл впервые; вторая метка —
+   это уже наш собственный ретаргет, и записывать его себе в заслугу нельзя. */
+var SRC = null, srcDone = false;
 function source(){
-  var s = null;
+  if(srcDone) return SRC;
+  srcDone = true;
+  var q = null;
+  try{ q = new URLSearchParams(location.search).get("src"); }catch(e){}
+  if(q) q = q.slice(0, 40);
   try{
-    var q = new URLSearchParams(location.search).get("src");
-    if(q){ s = q.slice(0, 40); localStorage.setItem("bq_src", s); }
-    else { s = localStorage.getItem("bq_src"); }
-  }catch(e){}
-  return s || null;
+    var saved = localStorage.getItem("bq_src");
+    if(saved){ SRC = saved; }
+    else if(q){ SRC = q; localStorage.setItem("bq_src", q); }
+  }catch(e){ SRC = q || null; }
+  return SRC || null;
 }
 // cta поднят с 4 до 8: кроме кнопки в результате, теперь есть три замка
 // в комплекте документов, и потолок 4 обрезал бы ровно тот разрез, ради
@@ -1311,6 +1345,9 @@ var T = {
   errContact:["Aloqa ma’lumotini kiriting — busiz javob bera olmaymiz","Укажите контакт — без него мы не сможем ответить"],
   errNet:["Yuborilmadi. Aloqani tekshirib, qayta urinib ko‘ring","Не отправилось. Проверьте связь и попробуйте ещё раз"],
   sent:["Ariza qabul qilindi. Egasiga darhol ketdi — bir ish kuni ichida yozamiz. Rahmat.","Заявка принята. Она сразу ушла владельцу — напишем в течение рабочего дня. Спасибо."],
+  sentAgain:["Arizangiz allaqachon yuborilgan — egasi u bilan ishlayapti, javob bir ish kuni ichida keladi. Ikkinchi marta yuborishning hojati yo‘q. Aloqa ma’lumotida xato ketgan bo‘lsa — formani qayta oching.",
+             "Заявка с этого браузера уже отправлена — владелец с ней работает, ответ придёт в течение рабочего дня. Второй раз отправлять не нужно. Если ошиблись в контакте — откройте форму снова."],
+  againB:["Formani qayta ochish","Открыть форму снова"],
   copied:["Havola nusxalandi","Ссылка скопирована"],
   // ── Красный список. Бесплатный намеренно: это и есть довод заплатить ──────
   // «{n} балла» ломается ровно на единице — «До порога 1 балла». Падеж после
@@ -1621,7 +1658,27 @@ var FAQ = [
         "Нет. Мы не представляем в суде, не оказываем юридическую помощь и ничего не подаём от вашего имени. Мы считаем и даём черновик текста, подаёте вы сами. Если это ДТП с пострадавшими, алкоголь или уголовный состав — вам нужен адвокат, такие дела мы не берём."] }
 ];
 
+/* Язык. Порядок источников: «?lang=» из адреса → сохранённый выбор →
+   настройки браузера.
+
+   ПОЧЕМУ АДРЕС ГЛАВНЕЕ ВСЕГО ОСТАЛЬНОГО. Между сайтом и этой страницей стоит
+   ровно то место, где считается конверсия теста. Ссылка с сайта несла метку
+   канала «?src=», а языка не несла: человек читал русскую страницу, нажимал
+   русскую кнопку «посчитать» — и попадал на узбекский калькулятор, потому что
+   у половины телефонов в Узбекистане navigator.language узбекский. Он уходил,
+   решив, что ошибся адресом, а в замере это выглядело как «страница плохая».
+   Теперь язык едет вместе с меткой канала («?src=site&lang=ru»), и приезжает
+   человек туда же, откуда ушёл.
+   Пришедший «?lang=» запоминаем: иначе он потерялся бы на первом же переходе
+   внутри страницы, а нажатие языковой кнопки по-прежнему главнее адреса —
+   это последний по времени явный выбор человека. */
 var lang = (function(){
+  var q = null;
+  try{ q = new URLSearchParams(location.search).get("lang"); }catch(e){}
+  if(q === "ru" || q === "uz"){
+    try{ localStorage.setItem("bq_lang", q); }catch(e){}
+    return q;
+  }
   try{
     var v = localStorage.getItem("bq_lang");
     if(v === "ru" || v === "uz") return v;
@@ -2116,7 +2173,20 @@ function paintFaq(){
   });
 }
 var WANTS = [["paket99","wantPak"],["razbor49","wantOne"],["vopros","wantAsk"]];
-var PRICES = [49000, 99000, 149000, 0];
+/* ЗАЧЕМ ЗДЕСЬ ПОЯВИЛОСЬ 29 000 — ЭТО НЕ ЦЕНА, ЭТО УСЛОВИЕ ИЗМЕРИМОСТИ.
+   Порог теста в PROVERKA.md звучит «названа цена ≥ 49 000». В прежнем наборе
+   [49 000, 99 000, 149 000, «другая сумма»] это условие не могло стать ложным
+   иначе как через «другую сумму»: промежуточных вариантов не было вовсе.
+   То есть фильтр price_pick >= 49000 на самом деле означал «не выбрал „другую
+   сумму“» — вопрос сам себе подтверждал ответ, а порог, который нельзя
+   провалить, не меряет ничего.
+   29 000 — настоящий вариант ниже нижнего тарифа (примерно его половина),
+   и выбрать его человек может, только если он и правда готов платить, но
+   меньше. С ним ответ «49 000 или 29 000» становится выбором, а порог —
+   проверяемым утверждением. Продукт заодно узнаёт то, чего не знал: сколько
+   людей готовы платить, но не столько. «Другая сумма» осталась и пишется как
+   0 — это по-прежнему ответ, а не пропуск. */
+var PRICES = [29000, 49000, 99000, 149000, 0];
 
 /* НИЧЕГО НЕ ВЫБРАНО ЗАРАНЕЕ — и это не мелочь оформления, а условие теста.
    Раньше «Пакет 99 000» и цена 99 000 стояли отмеченными по умолчанию. Порог
@@ -2131,6 +2201,10 @@ var PRICES = [49000, 99000, 149000, 0];
    уже сделанный выбор. */
 var selWant = null, selPrice = null;
 function paintForm(){
+  // Форма могла быть уже отправлена и заменена благодарностью — тогда рисовать
+  // нечего. Без этой строки переключение языка после отправки роняло скрипт
+  // на null, и вместе с ним умирала вся страница, а не только форма.
+  if(!document.getElementById("want")) return;
   $("#want").innerHTML = WANTS.map(function(w){
     return '<label><input type="radio" name="want" value="' + w[0] + '"' +
            (selWant === w[0] ? " checked" : "") + "><span>" + t(w[1]) + "</span></label>";
@@ -2146,6 +2220,44 @@ function paintForm(){
   $("#price").querySelectorAll("input").forEach(function(el){
     el.addEventListener("change", function(){ selPrice = +el.value; });
   });
+  againBox();
+}
+
+/* ── Заявка — один раз с браузера ────────────────────────────────────────────
+   Порог теста — «≥15 заявок за 14 дней», и до этой правки он считался строками.
+   Форма после отправки заменялась благодарностью, но благодарность жила
+   до первой перезагрузки: обновил страницу — форма снова тут, отправил ещё раз.
+   На проверочном наборе 28.08.2026 одиннадцать строк заявок дали восемь
+   человек, и квалифицированных среди них было пять, а старый запрос печатал
+   семь. То есть в вердикт уходило число на сорок процентов больше настоящего,
+   и вся разница — строки одного человека. Платят люди, а не строки.
+   Почему кнопка «отправить ещё раз» всё-таки есть. Человек мог ошибиться
+   в контакте — и молча запертая форма стоила бы нам живой заявки ради
+   красоты счётчика. Теперь повтор возможен, но он осознанный, а не побочный
+   эффект перезагрузки; а считаются в PROVERKA.md всё равно люди — по контакту,
+   при пустом контакте по sess. */
+function againBox(){
+  var d = document.getElementById("leadAgain");
+  if(!d) return;
+  d.innerHTML = t("sentAgain") +
+    ' <button class="btn" type="button" id="again" style="margin-top:10px">' + t("againB") + "</button>";
+  document.getElementById("again").onclick = function(){
+    var f = document.getElementById("lead");
+    d.remove();
+    if(f){ f.hidden = false; f.scrollIntoView({ behavior:"smooth", block:"center" }); }
+  };
+}
+function leadOnce(){
+  var f = document.getElementById("lead");
+  if(!f) return;
+  var was = false;
+  try{ was = localStorage.getItem("bq_lead") === "1"; }catch(e){}
+  if(!was) return;
+  f.hidden = true;
+  var d = document.createElement("div");
+  d.className = "sent"; d.id = "leadAgain";
+  f.parentNode.insertBefore(d, f);
+  againBox();
 }
 
 function mapSummary(){
@@ -2158,11 +2270,19 @@ function mapSummary(){
     if(!isFinite(p)) p = vx.p;
     var accD2 = d2u(rows[i].a || "");
     if(accD2 && (accD2 < d || accD2 > now)) accD2 = null;
+    // Строки этого текста — по-русски намеренно: note читает не человек, а владелец,
+    // и artStr ниже вызывается с forceRu ровно поэтому. Единственное место, где
+    // forceRu вообще используется. Расхождение было не здесь, а в шапке (см. ниже).
     list.push({ date:d, points:(vx.nopt ? 0 : p), title:vx.ru, art:artStr(vx, true), acc:accD2, nopt:!!vx.nopt });
   }
   if(!list.length) return "";
   var res = run(list, now);
-  return t("mapFor") + ": " + num(res.total) + "/" + LIMIT + "\n" +
+  // Шапка тоже по-русски. Здесь стояло t("mapFor"), то есть язык экрана, — и у
+  // узбекского водителя владелец получал в Телеграм заголовок «Ball xaritasi»
+  // над строками «Превышение скорости…»: один текст на двух языках сразу.
+  // Направление выбрано не наугад: строки ниже уже forceRu, значит адресат
+  // этого текста — владелец, а не водитель. T[..][1] — русская половина пары.
+  return (T.mapFor || ["", ""])[1] + ": " + num(res.total) + "/" + LIMIT + "\n" +
     list.sort(function(a, b){ return a.date - b.date; }).map(function(x){
       return dstr(x.date) + " · " + x.title + (x.art ? " (" + x.art + ")" : "") + " · " + num(x.points);
     }).join("\n");
@@ -3256,6 +3376,11 @@ $("#lead").addEventListener("submit", function(e){
     .then(function(j){
       if(!j || !j.ok) throw new Error("no");
       ev("lead", { want:want, price:price });
+      // Отметка «с этого браузера заявка уже ушла» — она и переживает
+      // перезагрузку, в отличие от заменённой формы. Вторая половина той же
+      // починки лежит в PROVERKA.md: запросы считают людей, а не строки.
+      // Одной отметки мало — localStorage чистят, а браузеров у человека два.
+      try{ localStorage.setItem("bq_lead", "1"); }catch(e){}
       $("#lead").outerHTML = '<div class="sent">' + t("sent") + "</div>";
     })
     .catch(function(){
@@ -3265,7 +3390,10 @@ $("#lead").addEventListener("submit", function(e){
 });
 
 $("#share").onclick = function(){
-  var url = location.origin + location.pathname + "?src=share";
+  // Ссылка другу несёт и метку канала, и язык. Без языка человек, отправивший
+  // русскую страницу, отправляет узбекскую — и получатель видит не то, что ему
+  // показывали в переписке.
+  var url = location.origin + location.pathname + "?src=share&lang=" + lang;
   ev("share", {});
   if(navigator.share){ navigator.share({ title:"Ballim", url:url }).catch(function(){}); return; }
   var done = function(){ $("#share").textContent = t("copied"); };
@@ -3288,6 +3416,7 @@ document.querySelectorAll('a[href="#paket"]').forEach(function(a){
 load();
 POSTS.push(newPost());
 applyLang(); paintTable(); paintFaq(); paintQuick(); paintRows(); paintForm(); paintPosts(); render();
+leadOnce();
 ev("open", { lang:lang, tier:TIER });
 </script>
 </body>

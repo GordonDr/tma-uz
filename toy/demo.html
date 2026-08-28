@@ -234,6 +234,14 @@ const PAGE_RU = {};
 document.querySelectorAll("[data-t]").forEach(el => { PAGE_RU[el.dataset.t] = el.innerHTML; });
 
 let pageLang = (() => {
+  /* lang= из адреса выше всего: демо открывают ссылкой с русской или с узбекской
+     страницы сайта, и язык страницы, с которой человек пришёл, — это его выбор,
+     а не настройки браузера. Раньше здесь стоял navigator.language, то есть
+     читавший русскую страницу и нажавший русскую кнопку попадал в узбекское
+     демо. Демо названо главным маркетинговым активом продукта — терять его
+     на языке значит терять сам актив. */
+  try { const u = new URLSearchParams(location.search).get("lang");
+        if(u === "ru" || u === "uz"){ try{ localStorage.setItem("td_demo_lang", u); }catch(e){} return u; } } catch(e){}
   try { const v = localStorage.getItem("td_demo_lang"); if(v === "ru" || v === "uz") return v; } catch(e){}
   return (navigator.language || "").startsWith("ru") ? "ru" : "uz";
 })();
@@ -296,7 +304,11 @@ function preview(){
   // запись в историю, и «назад» уводит человека по своим же правкам.
   const fr = $("#pv");
   fr.contentWindow ? fr.contentWindow.location.replace(url) : (fr.src = url);
-  $("#cta").href = `https://t.me/${BOT}?start=demo_${D.occ}`;
+  // Хвост языка в коде канала — то же соглашение, что у постов и у сайта
+  // (marketing/posts.md: узбекский пост несёт «_uz»). Бот читает хвост и
+  // пишет первое письмо на языке той страницы, с которой человек пришёл,
+  // а не на языке, который стоит у него в Telegram.
+  $("#cta").href = `https://t.me/${BOT}?start=demo_${D.occ}_${pageLang}`;
 }
 
 let timer = null;

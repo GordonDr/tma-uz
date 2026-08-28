@@ -233,7 +233,26 @@ tg?.onEvent?.("themeChanged", applyTheme);
    Русский и узбекская латиница. Переключатель висит поверх всех вкладок,
    поэтому язык меняется с любого экрана, а не только из настроек. */
 const LANG_KEY="td_org_lang";
-let lang = (()=>{ try{ const v=localStorage.getItem(LANG_KEY); if(v==="ru"||v==="uz") return v; }catch(e){}
+/* Порядок такой, и он не косметический.
+
+   1. lang= из адреса. Бот знает язык человека — тот выбрал его сам кнопкой
+      «Ру/Oʻz» или командой /til, — и кладёт его в каждую свою кнопку.
+      Раньше кабинет этой метки не читал вовсе и брал язык из настроек
+      Telegram. У половины телефонов в Узбекистане интерфейс узбекский:
+      значит организатор, читавший русское письмо бота и нажавший русскую
+      кнопку, попадал в узбекский кабинет — и решал, что ошибся адресом.
+      Между письмом и кабинетом стоит ровно то место, где считается
+      конверсия, и потеря здесь читается в замере как «продукт плохой».
+   2. Сохранённый выбор — если метки нет (открыли по прямой ссылке).
+   3. Настройки Telegram — последний запасной вариант, а не первый.
+
+   Пришедшую метку сразу сохраняем: иначе следующий вход без неё вернул бы
+   человека на прежний язык, и переключение выглядело бы самопроизвольным. */
+let lang = (()=>{
+  var u = null;
+  try{ u = new URLSearchParams(location.search).get("lang"); }catch(e){}
+  if(u==="ru"||u==="uz"){ try{ localStorage.setItem(LANG_KEY,u); }catch(e){} return u; }
+  try{ const v=localStorage.getItem(LANG_KEY); if(v==="ru"||v==="uz") return v; }catch(e){}
   return (tg?.initDataUnsafe?.user?.language_code === "uz") ? "uz" : "ru"; })();
 const L = () => (window.T_ORG ? T_ORG[lang] : {});
 // Подпись под ссылкой на условия живёт в разметке, а не в render(): переводим отдельно.
@@ -1048,7 +1067,7 @@ function tabGuests(){
         <button class="pri" data-a="send">${f.rsvp_status==="pending"&&S.onlyPending?t.gBtnRemind:f.sent_at?t.gBtnAgain:t.gBtnSend}</button>
         <button data-a="mark">✍️</button><button data-a="copy">🔗</button>${
           S.ev.tier==="free"?"":`<button data-a="print" title="${t.pInvBtn}">🖼</button>`
-        }<button data-a="del">🗑</button>
+        }<button data-a="del">🗑️</button>
       </div></div>`;
   }).join("");
   list.querySelectorAll(".fam").forEach(el=>{
@@ -2081,7 +2100,7 @@ async function coRefresh(){
     <div class="fam" data-co="${x.tg_id}"><div class="r1">
       <div><div class="nm">${esc(x.name)}</div>
         <div class="sb">${x.side==="kelin"?t.gSideKelin:t.gSideKuyov}</div></div>
-      ${r.is_co?"":`<button class="ic" data-a="cordel" aria-label="${t.coRemove}">🗑</button>`}
+      ${r.is_co?"":`<button class="ic" data-a="cordel" aria-label="${t.coRemove}">🗑️</button>`}
     </div></div>`).join("");
   box.querySelectorAll("[data-co]").forEach(el=>{
     const b = el.querySelector('[data-a="cordel"]'); if(!b) return;

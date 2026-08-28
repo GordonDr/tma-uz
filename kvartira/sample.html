@@ -375,10 +375,15 @@ document.getElementById("buy").href="https://t.me/"+bot+"?start=sample";
 // Язык обвязки. Сам документ остаётся русским — так и написано в FAQ и в узбекской врезке;
 // переводим то, что человеку нужно понять, чтобы решиться купить.
 const LK="kq_sample_lang";
+/* Z-03. Адрес выше сохранённого выбора, а не наоборот. Бот открывает образец
+   кнопкой и ставит в адрес язык, который человек выбрал В БОТЕ; сохранённое
+   здесь — это выбор, сделанный когда-то на этом телефоне, возможно ещё
+   до того, как человек переключил язык у бота. Порядок был обратный,
+   и выигрывала более старая запись. */
 let lang=(()=>{
-  try{ const v=localStorage.getItem(LK); if(v==="ru"||v==="uz") return v; }catch(e){}
   const p=new URLSearchParams(location.search).get("lang");
   if(p==="ru"||p==="uz") return p;
+  try{ const v=localStorage.getItem(LK); if(v==="ru"||v==="uz") return v; }catch(e){}
   return (navigator.language||"").startsWith("uz") ? "uz" : "ru";
 })();
 const i18n=[...document.querySelectorAll("[data-uz]")];

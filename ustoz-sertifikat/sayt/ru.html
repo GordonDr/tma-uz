@@ -157,9 +157,15 @@ footer li{margin-bottom:7px}
       сертификата, из государственного бюджета. Сколько это в сумах по вашей категории,
       сколько стоит попытка и сколько нужно баллов — ниже, каждая цифра со ссылкой
       на источник.</p>
-    <a class="cta" id="cta-top" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/">Посчитать надбавку</a>
+    <a class="cta" id="cta-top" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/?lang=ru">Посчитать надбавку</a>
     <a class="cta sec" href="#tabl">Таблица по категориям</a>
-    <p class="after">Калькулятор и тренировка на 20 вопросов — бесплатно, без регистрации.</p>
+    <!-- Про язык приложения сказано и здесь, у ПЕРВОЙ кнопки, а не только
+         в середине страницы. Оговорка стояла у «Открыть бесплатную часть» —
+         на семнадцатом экране, — а нажимают чаще всего верхнюю кнопку, и
+         русскоязычная учительница попадала в приложение, где по-русски нет
+         ни слова, без единого предупреждения. -->
+    <p class="after">Калькулятор и тренировка на 20 вопросов — бесплатно, без регистрации.
+      Приложение и вопросы — на узбекском языке.</p>
   </div>
 </div>
 
@@ -555,7 +561,7 @@ footer li{margin-bottom:7px}
     </div>
   </div>
   <div class="col">
-    <a class="cta" id="cta-mid" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/">Открыть бесплатную часть</a>
+    <a class="cta" id="cta-mid" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/?lang=ru">Открыть бесплатную часть</a>
     <p class="after">Приложение и вопросы — на узбекском языке.</p>
   </div>
 </section>
@@ -769,7 +775,7 @@ footer li{margin-bottom:7px}
       <a href="https://lex.uz/uz/docs/-8362485" rel="nofollow noopener" target="_blank">lex.uz</a>,
       и мы прочитали её сами.</p>
     <p><a id="lang-foot" href="./" hreflang="uz">O‘zbekcha</a> ·
-      <a id="cta-foot" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/">Калькулятор и тренировка</a></p>
+      <a id="cta-foot" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/?lang=ru">Калькулятор и тренировка</a></p>
   </div>
 </footer>
 </div>
@@ -777,14 +783,23 @@ footer li{margin-bottom:7px}
 <script>
 /* Метка канала переносится с сайта в мини-апп: замер стоит там, а человек
    приходит сюда. Без переноса разрез по каналам показал бы «direct» на всём,
-   что пришло через сайт, и по нему приняли бы неверное решение о посеве. */
+   что пришло через сайт, и по нему приняли бы неверное решение о посеве.
+
+   Отсюда же уезжает язык — «?lang=ru» прописан прямо в разметке ссылок.
+   Это самая дорогая потеря на этой странице: приложение написано по-узбекски,
+   и русскоязычный учитель, нажавший русскую кнопку, попадал на узбекский экран
+   без единого слова объяснения и уходил. В замере это выглядело как «страница
+   плохая» — ровно там, где считается конверсия сайт → приложение. Теперь
+   приложение видит метку и показывает предупреждение по-русски.
+   Метка канала приклеивается через «&»: со вторым «?» приложение прочитало бы
+   «lang=ru?src=tg» одним значением и потеряло бы оба. */
 (function () {
   var bor = new URLSearchParams(location.search).get("src");
   var src = (bor || "sayt_ru").replace(/[^a-z0-9_]/gi, "").slice(0, 24) || "sayt_ru";
+  function qosh(a, kv) { if (a) a.href += (a.href.indexOf("?") >= 0 ? "&" : "?") + kv; }
   var ids = ["cta-top", "cta-mid", "cta-foot"];
   for (var i = 0; i < ids.length; i++) {
-    var a = document.getElementById(ids[i]);
-    if (a) a.href = a.href + "?src=" + src;
+    qosh(document.getElementById(ids[i]), "src=" + src);
   }
   // Переключатель языка тоже несёт метку. Без этого посетитель платного поста,
   // нажавший «O‘zbekcha», приходил на вторую страницу с пустым search, она
@@ -793,8 +808,7 @@ footer li{margin-bottom:7px}
   if (bor) {
     var lang = ["lang-top", "lang-foot"];
     for (var j = 0; j < lang.length; j++) {
-      var l = document.getElementById(lang[j]);
-      if (l) l.href = l.href + "?src=" + src;
+      qosh(document.getElementById(lang[j]), "src=" + src);
     }
   }
 })();

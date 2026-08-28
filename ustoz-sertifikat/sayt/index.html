@@ -162,7 +162,7 @@ footer li{margin-bottom:7px}
       butun davrda, davlat byudjeti hisobidan. Toifangiz bo'yicha bu necha so'm bo'lishi,
       imtihon uchun qancha to'lanishi va necha ball kerakligi — pastda, har bir raqam
       manbasi bilan.</p>
-    <a class="cta" id="cta-top" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/">Ustamani hisoblash</a>
+    <a class="cta" id="cta-top" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/?lang=uz">Ustamani hisoblash</a>
     <a class="cta sec" href="#jadval">Toifalar jadvali</a>
     <p class="after">Kalkulyator va 20 savollik mashq bepul, ro'yxatdan o'tish shart emas.</p>
   </div>
@@ -545,7 +545,7 @@ footer li{margin-bottom:7px}
     </div>
   </div>
   <div class="col">
-    <a class="cta" id="cta-mid" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/">Bepul qismini ochish</a>
+    <a class="cta" id="cta-mid" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/?lang=uz">Bepul qismini ochish</a>
   </div>
 </section>
 
@@ -754,7 +754,7 @@ footer li{margin-bottom:7px}
       <a href="https://lex.uz/uz/docs/-8362485" rel="nofollow noopener" target="_blank">lex.uz</a> da,
       va biz uni o'zimiz o'qidik.</p>
     <p><a id="lang-foot" href="ru.html" hreflang="ru">По-русски</a> ·
-      <a id="cta-foot" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/">Kalkulyator va mashq</a></p>
+      <a id="cta-foot" href="https://gordondr.github.io/tma-uz/ustoz-sertifikat/?lang=uz">Kalkulyator va mashq</a></p>
   </div>
 </footer>
 </div>
@@ -764,14 +764,20 @@ footer li{margin-bottom:7px}
    по ссылке с ?src=, а замер стоит в мини-аппе — если метку не перенести,
    в отчёте все переходы с сайта станут «direct», и разрез по каналам
    (PROVERKA §4.3) покажет неправду. Поэтому она приклеивается ко всем
-   ссылкам на приложение. */
+   ссылкам на приложение.
+
+   Язык едет РЯДОМ с меткой и прописан прямо в разметке ссылки («?lang=uz»),
+   а не приклеивается скриптом: он не зависит ни от какого «?src=» и должен
+   работать при выключенном JS. Отсюда «&» вместо «?» ниже — со вторым знаком
+   вопроса приложение прочитало бы «lang=uz?src=tg» одним значением и потеряло
+   бы оба. */
 (function () {
   var bor = new URLSearchParams(location.search).get("src");
   var src = (bor || "sayt").replace(/[^a-z0-9_]/gi, "").slice(0, 24) || "sayt";
+  function qosh(a, kv) { if (a) a.href += (a.href.indexOf("?") >= 0 ? "&" : "?") + kv; }
   var ids = ["cta-top", "cta-mid", "cta-foot"];
   for (var i = 0; i < ids.length; i++) {
-    var a = document.getElementById(ids[i]);
-    if (a) a.href = a.href + "?src=" + src;
+    qosh(document.getElementById(ids[i]), "src=" + src);
   }
   // Переключатель языка тоже несёт метку, и это не мелочь: посетитель платного
   // поста, нажавший «По-русски», приходил на вторую страницу с пустым search,
@@ -782,8 +788,7 @@ footer li{margin-bottom:7px}
   if (bor) {
     var lang = ["lang-top", "lang-foot"];
     for (var j = 0; j < lang.length; j++) {
-      var l = document.getElementById(lang[j]);
-      if (l) l.href = l.href + "?src=" + src;
+      qosh(document.getElementById(lang[j]), "src=" + src);
     }
   }
 })();

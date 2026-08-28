@@ -194,7 +194,7 @@ body.offline .offbar{display:block}
   </div>
 
   <div class="bag">
-    <h3>🧰 <span id="t-bag">Возьмите с собой</span></h3>
+    <h3>🎒 <span id="t-bag">Возьмите с собой</span></h3>
     <div class="items" id="bagItems"></div>
   </div>
 
@@ -249,7 +249,21 @@ if (!online()) document.body.classList.add("offline");
 const store={mem:{},get(k){try{return localStorage.getItem(k)}catch(e){return this.mem[k]??null}},
   set(k,v){try{localStorage.setItem(k,v)}catch(e){this.mem[k]=v}},del(k){try{localStorage.removeItem(k)}catch(e){delete this.mem[k]}}};
 const LS="kq_done_v1", LSB="kq_bad_v1";
-let lang = store.get("kq_lang") || (tg?.initDataUnsafe?.user?.language_code === "uz" ? "uz" : "ru");
+/* Z-03 · Язык приезжает В АДРЕСЕ и стоит выше всего остального.
+
+   Было: сохранённый выбор, иначе настройки Telegram. Про язык, выбранный
+   в БОТЕ, мини-апп не знал вовсе — а человек, прочитавший узбекскую страницу
+   сайта и нажавший узбекскую кнопку, открывал русский чек-лист, потому что
+   в его телефоне Telegram стоит русским. Ровно здесь меряется конверсия,
+   и потеря выглядит в замере как «чек-лист плохой», а не как «не тот язык».
+
+   Теперь язык один на бот и на чек-лист, живёт на сервере, и бот подставляет
+   его в адрес кнопки. Настройки Telegram — последний запасной вариант,
+   на случай открытия мини-аппа не из бота, а кнопкой меню. */
+const urlLang = new URLSearchParams(location.search).get("lang");
+let lang = (urlLang === "ru" || urlLang === "uz") ? urlLang
+         : (store.get("kq_lang") || (tg?.initDataUnsafe?.user?.language_code === "uz" ? "uz" : "ru"));
+if (urlLang === "ru" || urlLang === "uz") store.set("kq_lang", lang);
 document.documentElement.lang = lang;   // в разметке жёстко стоит ru, а язык мог сохраниться узбекским
 let done = new Set(JSON.parse(store.get(LS) || "[]"));
 // Пункты, где человек нашёл дефект. Это мост от бесплатного чек-листа к платному акту:
@@ -493,7 +507,7 @@ function renderList(){
             <div class="meta">
               <button class="flag${bad.has(it.id)?" on":""}">${bad.has(it.id)?"⚠ "+t.flagOn:"⚠ "+t.flag}</button>
               ${it.how?`<button class="hint">💡 ${t.how}</button>`:""}
-              ${it.tool?`<span class="chip">🧰 ${toolName(it.tool)}</span>`:""}
+              ${it.tool?`<span class="chip">🎒 ${toolName(it.tool)}</span>`:""}
             </div>
             ${it.how?`<div class="how">${lang==="uz"&&it.how_uz?it.how_uz:it.how}</div>`:""}
             ${it.id===AREA_ID?areaBox(t):""}
@@ -577,7 +591,13 @@ function update(){
 // и текст кнопки заказа рисуются только оттуда. Без него человек, переключивший
 // язык на узбекский после того, как отметил дефекты, продолжал видеть весь этот
 // блок по-русски — заголовок, пояснение и строку «… и ещё N».
-const setLang=(v)=>{lang=v;store.set("kq_lang",lang);document.documentElement.lang=lang;renderStatic();renderList();update();};
+/* Z-03. Выбор языка уезжает на сервер: иначе у языка два хозяина — карточка
+   человека в базе и localStorage этого телефона, — и человек, переключивший
+   чек-лист на узбекский, возвращается в бот и снова читает русский.
+   Заодно это замер: переключение языка внутри продукта значит, что открылся
+   он не на том языке, на котором человека звали. */
+const setLang=(v)=>{lang=v;store.set("kq_lang",lang);document.documentElement.lang=lang;
+  track("lang_set",{lang:v,was:urlLang||null});renderStatic();renderList();update();};
 document.getElementById("lru").onclick=()=>setLang("ru");
 document.getElementById("luz").onclick=()=>setLang("uz");
 document.getElementById("buy").onclick=()=>{

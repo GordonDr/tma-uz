@@ -11,6 +11,22 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Avtomaktab aslida qancha turadi">
 <meta property="og:description" content="Aytilgan narx ustiga nima qoʻshiladi — raqamlar bilan, meʼyor bandi koʻrsatilgan holda. Va shartnoma imzolashdan oldin beriladigan 7 ta savol.">
+<meta property="og:url" content="https://gordondr.github.io/tma-uz/avtomaktab-narx/">
+<meta property="og:site_name" content="Avtomaktab Ochiq-Narx">
+<meta property="og:locale" content="uz_UZ">
+<meta property="og:locale:alternate" content="ru_RU">
+<meta name="twitter:card" content="summary">
+<!-- canonical нужен именно этой странице, а не только сайту: все ссылки посева
+     уезжают с меткой канала «?src=», и без canonical поисковик считает
+     /?src=telegram и /?src=sayt разными страницами. Метка нужна замеру,
+     а не выдаче. -->
+<link rel="canonical" href="https://gordondr.github.io/tma-uz/avtomaktab-narx/">
+<!-- Знак страницы — data-URI, тот же, что на сайте продукта. ПОЧЕМУ файлом
+     нельзя: своего логотипа в brand/ у продукта нет, а /favicon.ico в корне
+     gordondr.github.io отдаёт 404 (страница «Site not found» GitHub Pages) —
+     то есть у приложения, которое и уходит ссылкой в посев, во вкладке
+     висел пустой значок, хотя у его же сайта значок был. -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230F6B57'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='19' font-weight='700' fill='%23fff' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap">
@@ -694,7 +710,15 @@ footer p{margin:0 0 10px}
     </div>
   </div>
 
-  <form id="lead" autocomplete="off">
+  <!-- novalidate: проверку полей делает сама страница, а не браузер.
+       ПОЧЕМУ. У required-полей браузер рисует свой пузырь и до кода дело
+       не доходит — а пузырь этот на языке БРАУЗЕРА, не страницы. Узбекоязычный
+       человек с русским или английским Chrome получал «Заполните это поле»
+       посреди узбекской страницы, а написанные здесь узбекские подсказки
+       («Aloqa maʼlumotini qoldiring, aks holda javob berib boʻlmaydi»)
+       не показывались никогда. Атрибуты required оставлены: они нужны
+       для доступности и на случай, если скрипт не выполнился. -->
+  <form id="lead" autocomplete="off" novalidate>
     <div class="fld">
       <label for="f_contact" data-ru="Как с вами связаться">Siz bilan qanday bogʻlanamiz</label>
       <input type="text" id="f_contact" maxlength="120" placeholder="@username, +998…" required>
@@ -737,7 +761,7 @@ footer p{margin:0 0 10px}
 
   <div class="ok hide" id="f_ok">
     <strong data-ru="Заявка принята.">Ariza qabul qilindi.</strong>
-    <span data-ru="Мы свяжемся с вами по оставленному контакту. Если ответа долго нет — напишите ещё раз, значит контакт не разобрали.">Qoldirgan aloqangiz orqali bogʻlanamiz. Javob uzoq boʻlmasa — yana bir marta yozing, demak aloqa maʼlumoti oʻqilmagan.</span>
+    <span data-ru="Мы свяжемся с вами по оставленному контакту. Если ответа долго нет — напишите ещё раз, значит контакт не разобрали.">Qoldirgan aloqangiz orqali bogʻlanamiz. Javob uzoq vaqt kelmasa — yana bir marta yozing, demak aloqa maʼlumoti oʻqilmagan.</span>
   </div>
 </section>
 
@@ -842,7 +866,7 @@ footer p{margin:0 0 10px}
 <footer>
   <div class="col">
     <p data-ru="Avtomaktab Ochiq-Narx — калькулятор и чек-лист для того, кто выбирает автошколу. Не юридическая услуга, не экспертиза, не оценка конкретных автошкол. Цифры взяты из открытых источников, каждый со ссылкой и датой; проверяйте их перед оплатой — они меняются.">Avtomaktab Ochiq-Narx — avtomaktab tanlayotgan odam uchun hisoblagich va savollar roʻyxati. Yuridik xizmat emas, ekspertiza emas, aniq avtomaktablarga baho emas. Raqamlar ochiq manbalardan olingan, har biri havola va sana bilan; toʻlashdan oldin tekshiring — ular oʻzgarib turadi.</p>
-    <p id="maxfiylik"><strong data-ru="Что уходит со страницы.">Sahifadan nima yuboriladi.</strong> <span data-ru="Эта страница — проверка спроса, и мы считаем, доходят ли люди до пользы. Поэтому на наш сервер уходят: открытие страницы, а с ним язык, на котором вы читаете, метка канала из ссылки (часть «?src=» в адресе) и адрес страницы, с которой вы пришли, — первые 80 символов, столько же, сколько видит любой сайт в интернете; при изменении калькулятора, не чаще раза в 6 секунд, — три числа: названная вам цена, итог и разница между ними; копирование списка вопросов; какой вопрос вы раскрыли в FAQ; клик по кнопкам-переходам вверху страницы и первое касание формы заявки; название инструмента, который вы открыли, — сравнение школ, журнал занятий или лист для печати: одно слово, без ваших чисел. Что не уходит никогда: названия школ и суммы из сравнения, все записи журнала занятий и всё, что попадает в лист для печати, — они лежат только в памяти вашего браузера, и сам лист печати не делает ни одного сетевого запроса. Рядом с каждой записью лежит случайная строка из памяти вашего браузера — она склеивает шаги одного браузера. Ни имени, ни номера в самих записях нет, но обезличенными мы их не называем: если вы оставите заявку, эта же строка уйдёт вместе с контактом, и тогда весь след этого браузера окажется связан с вашим контактом одной строкой. Нужно это ровно для одного — понять, из какого канала пришёл человек, оставивший заявку; без такой связи проверять каналы нечем. Пока заявки нет, связывать записи не с чем. Контакт появляется только в заявке и только если вы нажали кнопку; вместе с ним уходит ваш расчёт — те же три числа — и язык, на котором вы читаете страницу, чтобы ответить вам на нём же. Заявка приходит владельцу в Telegram — иначе ответить вам было бы нечем, а значит контакт и текст заявки проходят через серверы Telegram. Попросите удалить — удалим и заявку, и связанные с ней записи, и напишем, что удалили. Если не хотите отправлять и это, просто не оставляйте заявку: калькулятор и список вопросов работают без неё. И ещё одно, что уходит до всякого вашего действия: шрифты страница берёт с серверов Google — fonts.googleapis.com и fonts.gstatic.com, — поэтому самый первый запрос при каждой загрузке идёт туда. Никаких ваших данных мы Google не передаём, но сам факт открытия страницы он видит.">Bu sahifa — talabni tekshirish, biz odamlar foydagacha yetadimi-yoʻqmi shuni sanaymiz. Shuning uchun serverimizga quyidagilar yuboriladi: sahifa ochilgani, u bilan birga oʻqiyotgan tilingiz, havoladagi kanal belgisi (manzildagi «?src=» qismi) va siz kelgan sahifaning manzili — birinchi 80 belgi, internetdagi har qanday sayt koʻradigan narsaning oʻzi; hisoblagich oʻzgarganda, 6 soniyada bir martadan koʻp emas, — uchta raqam: sizga aytilgan narx, jami va ular orasidagi farq; savollar roʻyxatidan nusxa olingani; FAQ da qaysi savolni ochganingiz; sahifa yuqorisidagi oʻtish tugmalariga bosilgani va ariza formasiga birinchi marta tegilgani; siz ochgan asbobning nomi — avtomaktablarni solishtirish, darslar daftari yoki chop etish varaqasi: bitta soʻz, raqamlaringizsiz. Hech qachon yuborilmaydigan narsalar: solishtirishdagi avtomaktab nomlari va summalar, darslar daftaridagi barcha yozuvlar va chop etish varaqasiga tushadigan hamma narsa — bular faqat brauzeringiz xotirasida turadi, varaqaning oʻzi esa birorta tarmoq soʻrovi qilmaydi. Har bir yozuv yonida brauzeringiz xotirasidagi tasodifiy satr turadi — u bitta brauzerning qadamlarini bogʻlaydi. Yozuvlarning oʻzida na ism, na raqam bor, lekin biz ularni «shaxsga bogʻlanmagan» deb atamaymiz: ariza qoldirsangiz, oʻsha satr aloqa maʼlumotingiz bilan birga yuboriladi va shunda bu brauzerning butun izi aloqangiz bilan bitta satr orqali bogʻlanadi. Bu faqat bitta narsa uchun kerak — ariza qoldirgan odam qaysi kanaldan kelganini bilish uchun; bunday bogʻlanishsiz kanallarni tekshirib boʻlmaydi. Ariza boʻlmasa, yozuvlarni bogʻlaydigan narsaning oʻzi yoʻq. Aloqa maʼlumoti faqat arizada va faqat siz tugmani bosgan boʻlsangiz paydo boʻladi; u bilan birga hisobingiz — oʻsha uchta raqam — va sahifani qaysi tilda oʻqiyotganingiz yuboriladi, oʻsha tilda javob berishimiz uchun. Ariza egasiga Telegram orqali keladi — boshqacha javob berib boʻlmasdi, demak aloqangiz va ariza matni Telegram serverlaridan oʻtadi. Oʻchirishni soʻrasangiz — arizani ham, u bilan bogʻliq yozuvlarni ham oʻchiramiz va oʻchirganimizni yozamiz. Buni ham yubormoqchi boʻlmasangiz, shunchaki ariza qoldirmang: hisoblagich ham, savollar roʻyxati ham usiz ishlaydi. Va yana bitta narsa, u siz hech nima qilmasingizdan oldin yuboriladi: shriftlarni sahifa Google serverlaridan oladi — fonts.googleapis.com va fonts.gstatic.com, — shuning uchun har bir yuklanishdagi eng birinchi soʻrov oʻsha yerga ketadi. Maʼlumotlaringizni Google ga bermaymiz, lekin sahifa ochilgani faktini u koʻradi.</span></p>
+    <p id="maxfiylik"><strong data-ru="Что уходит со страницы.">Sahifadan nima yuboriladi.</strong> <span data-ru="Эта страница — проверка спроса, и мы считаем, доходят ли люди до пользы. Поэтому на наш сервер уходят: открытие страницы, а с ним язык, на котором вы читаете, метка канала из ссылки (часть «?src=» в адресе) — она запоминается в памяти вашего браузера при первом заходе и уходит с последующими записями тоже, чтобы было видно, из какого канала вы пришли изначально, — и адрес страницы, с которой вы пришли, — первые 80 символов, столько же, сколько видит любой сайт в интернете; при изменении калькулятора, не чаще раза в 6 секунд, — три числа: названная вам цена, итог и разница между ними; копирование списка вопросов; какой вопрос вы раскрыли в FAQ; клик по кнопкам-переходам вверху страницы и первое касание формы заявки; название инструмента, который вы открыли, — сравнение школ, журнал занятий или лист для печати: одно слово, без ваших чисел. Что не уходит никогда: названия школ и суммы из сравнения, все записи журнала занятий и всё, что попадает в лист для печати, — они лежат только в памяти вашего браузера, и сам лист печати не делает ни одного сетевого запроса. Рядом с каждой записью лежит случайная строка из памяти вашего браузера — она склеивает шаги одного браузера. Ни имени, ни номера в самих записях нет, но обезличенными мы их не называем: если вы оставите заявку, эта же строка уйдёт вместе с контактом, и тогда весь след этого браузера окажется связан с вашим контактом одной строкой. Нужно это ровно для одного — понять, из какого канала пришёл человек, оставивший заявку; без такой связи проверять каналы нечем. Пока заявки нет, связывать записи не с чем. Контакт появляется только в заявке и только если вы нажали кнопку; вместе с ним уходит ваш расчёт — те же три числа — и язык, на котором вы читаете страницу, чтобы ответить вам на нём же. Заявка приходит владельцу в Telegram — иначе ответить вам было бы нечем, а значит контакт и текст заявки проходят через серверы Telegram. Попросите удалить — удалим и заявку, и связанные с ней записи, и напишем, что удалили. Если не хотите отправлять и это, просто не оставляйте заявку: калькулятор и список вопросов работают без неё. И ещё одно, что уходит до всякого вашего действия: шрифты страница берёт с серверов Google — fonts.googleapis.com и fonts.gstatic.com, — поэтому самый первый запрос при каждой загрузке идёт туда. Никаких ваших данных мы Google не передаём, но сам факт открытия страницы он видит.">Bu sahifa — talabni tekshirish, biz odamlar foydagacha yetadimi-yoʻqmi shuni sanaymiz. Shuning uchun serverimizga quyidagilar yuboriladi: sahifa ochilgani, u bilan birga oʻqiyotgan tilingiz, havoladagi kanal belgisi (manzildagi «?src=» qismi) — u birinchi kirishda brauzeringiz xotirasida saqlanadi va keyingi yozuvlar bilan ham yuboriladi, dastlab qaysi kanaldan kelganingiz koʻrinib tursin uchun, — va siz kelgan sahifaning manzili — birinchi 80 belgi, internetdagi har qanday sayt koʻradigan narsaning oʻzi; hisoblagich oʻzgarganda, 6 soniyada bir martadan koʻp emas, — uchta raqam: sizga aytilgan narx, jami va ular orasidagi farq; savollar roʻyxatidan nusxa olingani; FAQ da qaysi savolni ochganingiz; sahifa yuqorisidagi oʻtish tugmalariga bosilgani va ariza formasiga birinchi marta tegilgani; siz ochgan asbobning nomi — avtomaktablarni solishtirish, darslar daftari yoki chop etish varaqasi: bitta soʻz, raqamlaringizsiz. Hech qachon yuborilmaydigan narsalar: solishtirishdagi avtomaktab nomlari va summalar, darslar daftaridagi barcha yozuvlar va chop etish varaqasiga tushadigan hamma narsa — bular faqat brauzeringiz xotirasida turadi, varaqaning oʻzi esa birorta tarmoq soʻrovi qilmaydi. Har bir yozuv yonida brauzeringiz xotirasidagi tasodifiy satr turadi — u bitta brauzerning qadamlarini bogʻlaydi. Yozuvlarning oʻzida na ism, na raqam bor, lekin biz ularni «shaxsga bogʻlanmagan» deb atamaymiz: ariza qoldirsangiz, oʻsha satr aloqa maʼlumotingiz bilan birga yuboriladi va shunda bu brauzerning butun izi aloqangiz bilan bitta satr orqali bogʻlanadi. Bu faqat bitta narsa uchun kerak — ariza qoldirgan odam qaysi kanaldan kelganini bilish uchun; bunday bogʻlanishsiz kanallarni tekshirib boʻlmaydi. Ariza boʻlmasa, yozuvlarni bogʻlaydigan narsaning oʻzi yoʻq. Aloqa maʼlumoti faqat arizada va faqat siz tugmani bosgan boʻlsangiz paydo boʻladi; u bilan birga hisobingiz — oʻsha uchta raqam — va sahifani qaysi tilda oʻqiyotganingiz yuboriladi, oʻsha tilda javob berishimiz uchun. Ariza egasiga Telegram orqali keladi — boshqacha javob berib boʻlmasdi, demak aloqangiz va ariza matni Telegram serverlaridan oʻtadi. Oʻchirishni soʻrasangiz — arizani ham, u bilan bogʻliq yozuvlarni ham oʻchiramiz va oʻchirganimizni yozamiz. Buni ham yubormoqchi boʻlmasangiz, shunchaki ariza qoldirmang: hisoblagich ham, savollar roʻyxati ham usiz ishlaydi. Va yana bitta narsa, u siz hech nima qilmasingizdan oldin yuboriladi: shriftlarni sahifa Google serverlaridan oladi — fonts.googleapis.com va fonts.gstatic.com, — shuning uchun har bir yuklanishdagi eng birinchi soʻrov oʻsha yerga ketadi. Maʼlumotlaringizni Google ga bermaymiz, lekin sahifa ochilgani faktini u koʻradi.</span></p>
     <p><span data-ru="Тема оформления:">Mavzu:</span> <a href="#" id="themebtn" data-ru="переключить светлую и тёмную">yorugʻ va qorongʻini almashtirish</a></p>
   </div>
 </footer>
@@ -872,7 +896,31 @@ var SESS = (function () {
 })();
 
 var QS = new URLSearchParams(location.search);
-var SOURCE = (QS.get("src") || "").slice(0, 40) || null;
+
+// ── Метка канала. Первая, а не текущая.
+//
+// ПОЧЕМУ ЭТО НЕ МЕЛОЧЬ: раньше метка жила только в location.search текущей
+// загрузки. Человек приходил из поста «?src=telegram», считал смету, закрывал
+// вкладку, назавтра открывал страницу из истории — уже без строки запроса —
+// и заявку оставлял оттуда. Заявка уезжала «без метки», а расчёт с меткой
+// оставался в другом дне. То есть атрибуция теряла не безметочных, а ровно
+// помеченных: канал, который сработал, выглядел бы слабее органики.
+// Подпись поломки в разрезе по каналам (PROVERKA.md §4): у «без метки»
+// расчётов больше, чем открытий.
+//
+// Первая метка побеждает и все следующие. ПОЧЕМУ так, а не последняя: посев
+// платит за первое касание. Человек, пришедший из Telegram и вернувшийся
+// по пересылке «?src=share», приведён Телеграмом — share его только вернул.
+var SRCK = "avtomaktab_src";
+var SOURCE = (function () {
+  var q = (QS.get("src") || "").slice(0, 40) || null;
+  try {
+    var was = localStorage.getItem(SRCK);
+    if (was) return was;
+    if (q) localStorage.setItem(SRCK, q);
+  } catch (e) {}
+  return q;
+})();
 
 // Ограничитель: посев идёт в чаты, и один любопытный с открытой вкладкой
 // не должен перекосить воронку. Считаем по типам событий.
@@ -912,9 +960,28 @@ function ev(name, meta) {
    бывает ключа, который есть в одном словаре и потерян в другом. */
 var LK = "avtomaktab_lang";
 var lang = (function () {
-  try { var v = localStorage.getItem(LK); if (v === "ru" || v === "uz") return v; } catch (e) {}
+  // Порядок именно такой: адрес, потом сохранённый выбор, потом браузер.
+  //
+  // ПОЧЕМУ АДРЕС ВЫШЕ ВСЕГО ОСТАЛЬНОГО. Ссылка со страницы сайта несёт язык
+  // той страницы, с которой человек её нажал. Раньше сохранённый выбор стоял
+  // первым, и метка приезжала, чтобы быть проигнорированной: человек читал
+  // русскую страницу, жал русскую кнопку — и попадал на узбекский калькулятор,
+  // потому что месяц назад один раз открыл узбекскую версию. А у того, кто
+  // ничего не выбирал, язык брался из настроек телефона: у половины телефонов
+  // в Узбекистане это узбекский.
+  //
+  // Между сайтом и калькулятором стоит ровно то место, где считается
+  // конверсия. Потеря здесь выглядит в замере как «страница плохая» —
+  // то есть чинили бы текст, а сломан переход.
+  //
+  // Язык из адреса ещё и запоминается: иначе он терялся бы на листе печати
+  // (varaqa.html) и при возврате назад.
   var p = QS.get("lang");
-  if (p === "ru" || p === "uz") return p;
+  if (p === "ru" || p === "uz") {
+    try { localStorage.setItem(LK, p); } catch (e) {}
+    return p;
+  }
+  try { var v = localStorage.getItem(LK); if (v === "ru" || v === "uz") return v; } catch (e) {}
   return (navigator.language || "").indexOf("ru") === 0 ? "ru" : "uz";
 })();
 
@@ -1199,6 +1266,28 @@ function calcChanged() {
     el.addEventListener("change", calcChanged);
   });
 
+/* Число в поле обязано совпадать с числом в строке сметы.
+   ПОЧЕМУ это отдельная правка: val() молча зажимает значение по max и по нулю,
+   а поле продолжает показывать введённое. Лишний ноль в «названной вам цене» —
+   43 500 000 вместо 4 350 000, самая частая опечатка ровно на этой строке —
+   оставлял в поле 43 500 000, а в смету и в итог клал 30 000 000. Минус
+   в поле показывал «−500 000», а считался нулём. Страница про то, что вам
+   называют одну сумму, а считают другую, не имеет права делать это сама.
+   Правим по change (уход из поля), а не по input: на input значение прыгало бы
+   под пальцем на середине набора — «4» из «4 350 000» стало бы «0». */
+["i_kurs", "i_dog_hours", "i_hours", "i_hour_v", "i_fuel_n", "i_fuel_v"]
+  .forEach(function (id) {
+    var el = document.getElementById(id);
+    el.addEventListener("change", function () {
+      if (el.value === "") return;   // пустое поле — это ноль и так, не мешаем
+      var v = parseFloat(el.value);
+      var mx = parseFloat(el.max);
+      if (!isFinite(v) || v < 0) v = 0;
+      if (isFinite(mx) && v > mx) v = mx;
+      if (String(v) !== el.value) { el.value = v; calcChanged(); }
+    });
+  });
+
 /* ── Чек-лист: копирование ─────────────────────────────────────────────────
    Список вопросов нужен не на экране, а в кармане у входа в автошколу.
    Поэтому его можно унести текстом — и это же самый честный сигнал пользы:
@@ -1220,7 +1309,11 @@ document.getElementById("copyq").onclick = function () {
   // У получателя такой адрес кладёт весь хвост в hash, location.search остаётся
   // пустым, SOURCE = null — и канал share выглядел бы мёртвым ровно там, где он
   // живее всего: на органике и на второй пересылке подряд.
-  var txt = head + "\n\n" + items.join("\n\n") + "\n\n" + location.href.split(/[?#]/)[0] + "?src=share";
+  // Язык в ссылке — не украшение. Список вопросов человек уносит на том языке,
+  // на котором читал, и получатель должен открыть страницу на нём же:
+  // без «lang=» приложение возьмёт язык из настроек телефона получателя.
+  var txt = head + "\n\n" + items.join("\n\n") + "\n\n" +
+    location.href.split(/[?#]/)[0] + "?src=share&lang=" + lang;
   var done = function () {
     var b = document.getElementById("copyq");
     var old = b.textContent;
@@ -1242,9 +1335,27 @@ document.getElementById("copyq").onclick = function () {
     if (ok) { done(); }
     else {
       // Скопировать нечем — показываем текст, чтобы человек унёс его руками.
+      //
+      // ОТСЮДА СОБЫТИЕ НЕ ШЛЁТСЯ. Раньше шло — прямо здесь, в ветке ОТКАЗА
+      // буфера, то есть до всякого действия человека. В воронке PROVERKA.md §4
+      // колонка «унесли список» названа единственным действием, у которого нет
+      // другого объяснения, кроме намерения выбирать школу, — а посев идёт
+      // в Telegram, где буфер отказывает чаще всего. Колонка показывала два,
+      // скопировал один: считался наш отказ, а не его выбор.
+      //
+      // Шлём на настоящем копировании: событие copy браузер даёт и на Ctrl+C,
+      // и на «Копировать» из длинного нажатия на телефоне. Если какой-то вебвью
+      // его не даст, колонка недосчитает — и это правильная сторона ошибки:
+      // недосчёт занижает диагностику, приписка врёт в решении.
       var box = document.getElementById("copybox");
-      box.value = txt; box.classList.remove("hide"); box.select();
-      ev("share", { what: "questions_manual" });
+      box.value = txt;
+      box.classList.remove("hide");
+      box.removeAttribute("aria-hidden");
+      box.select();
+      if (box.dataset.wired !== "1") {
+        box.dataset.wired = "1";
+        box.addEventListener("copy", function () { ev("share", { what: "questions_manual" }); });
+      }
     }
   };
   if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1574,7 +1685,13 @@ function logRender() {
         if (isFinite(mx) && v > mx) v = mx;
         cur[idx][k] = v;
         logSave(cur);
-        logRender();
+        // Пересчитываем ИТОГИ, а не перерисовываем строки. ПОЧЕМУ это правка,
+        // а не мелочь: здесь стоял logRender(), а он стирает #logrows и
+        // собирает строки заново. Поле, в котором человек печатает, исчезало
+        // после ПЕРВОЙ цифры — фокус улетал на body, экранная клавиатура
+        // закрывалась, и в журнал попадало «2» вместо «25 000». Журнал был
+        // не неудобным, а нерабочим: заполнить его было нельзя вообще.
+        logSums();
       });
     });
     node.querySelector(".del").addEventListener("click", function () {
@@ -1586,10 +1703,20 @@ function logRender() {
     box.appendChild(node);
   });
 
-  var t = logTotals(a);
+  // Переведены могут быть только что склонированные строки — поэтому applyLang
+  // остаётся здесь, при перерисовке, и НЕ уезжает в logSums(): там он гонялся
+  // бы по всей странице на каждое нажатие клавиши.
+  applyLang();
+  logSums();
+}
+
+/* Итоги журнала отдельно от перерисовки строк: их надо обновлять на каждую
+   цифру, а строки — только когда занятие добавили или убрали. */
+function logSums() {
+  var t = logTotals(logLoad());
   document.getElementById("logsum").textContent = t.sum ? money(t.sum) : "—";
   var hint = document.getElementById("loghint");
-  if (!a.length) {
+  if (!t.n) {
     hint.textContent = lang === "ru"
       ? "Пока пусто. Нажмите «Добавить занятие» после первого занятия — дата подставится сама."
       : "Hozircha boʻsh. Birinchi darsdan keyin «Dars qoʻshish» ni bosing — sana oʻzi qoʻyiladi.";
@@ -1598,7 +1725,6 @@ function logRender() {
       ? "Занятий записано: " + t.n + ". Бензин — " + money(t.fuel) + ", дополнительные часы — " + money(t.hours) + ". Эта сумма попадёт в лист для печати."
       : "Yozilgan darslar: " + t.n + ". Yoqilgʻi — " + money(t.fuel) + ", qoʻshimcha soatlar — " + money(t.hours) + ". Bu summa chop etish varaqasiga tushadi.";
   }
-  applyLang();
   saveSheet();
 }
 
@@ -1682,6 +1808,23 @@ cmpRestore();
 cmpCalc();
 logRender();
 ev("open", { lang: lang, ref: (document.referrer || "").slice(0, 80) });
+
+/* Возврат «назад» обязан пересчитать смету заново.
+   ПОЧЕМУ это не мелочь: страница сама уводит человека на лист печати
+   (varaqa.html), и обратно он приходит кнопкой «назад». Браузер восстанавливает
+   значения полей ПОСЛЕ того, как отработал скрипт, поэтому calc() успевает
+   посчитать по заводским умолчаниям. Человек видит свои 4 350 000 и 40 часов
+   в полях — и итог 10 475 480 под ними, без предупреждения о нехватке 29 часов.
+   Хуже: saveSheet() тем же проходом затирает сохранённый лист печати
+   умолчаниями, то есть теряет ровно те числа, ради которых на лист и уходили.
+   pageshow срабатывает и при обычной загрузке, и при возврате из bfcache,
+   и после восстановления полей — все три случая нам и нужны. */
+window.addEventListener("pageshow", function () {
+  calc();
+  cmpRestore();
+  cmpCalc();
+  logRender();
+});
 </script>
 </body>
 </html>

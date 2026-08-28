@@ -74,6 +74,12 @@ h2{font-size:clamp(22px,4.4vw,30px);margin-bottom:10px}
 h3{font-size:18px;margin-bottom:6px}
 p{margin:0 0 14px}
 a{color:var(--acc)}
+/* Кнопка, которая выглядит ссылкой. Настоящая кнопка — потому что действие
+   происходит на этой же странице и никуда не ведёт; вид ссылки — потому что
+   рядом уже стоит «Hamkasbga yuborish», и две одинаковые кнопки читались бы
+   как два равных предложения, хотя одно из них поправка опечатки. */
+.lnk{background:none;border:0;padding:0;font:inherit;color:var(--acc);
+  text-decoration:underline;cursor:pointer}
 strong{font-weight:600}
 .num{font-variant-numeric:tabular-nums}
 .lbl{font:600 11px var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
@@ -301,6 +307,12 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
   #varaqa tr{break-inside:avoid}
 }
 .hide{display:none}
+/* Предупреждение тому, кто пришёл с русской страницы. Показывается только по
+   метке «?lang=ru» — то есть человеку, который русскую страницу действительно
+   читал и сам нажал русскую кнопку. */
+.ogoh{display:block;margin:16px 0 0;padding:14px 16px;border:1px solid var(--line);
+  border-radius:12px;background:var(--acc-bg);font-size:14px;line-height:1.5}
+.ogoh b{font-weight:600}
 </style>
 </head>
 <body>
@@ -315,6 +327,22 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
     </span>
   </div>
 </header>
+
+<!-- Показывается только по метке «?lang=ru» — то есть тому, кто русскую страницу
+     действительно читал и сам нажал русскую кнопку. Текст лежит в разметке, а не
+     собирается скриптом: так он не мигает при загрузке у тех девяти из десяти,
+     кому не адресован, и его видно в исходнике страницы без запуска кода.
+     Скрыт классом, а не отсутствием в DOM: без JS баннера не будет — но без JS
+     на этой странице не будет и калькулятора, так что терять нечего. -->
+<div id="ru-ogoh" class="hide">
+  <b>Эта страница дальше — на узбекском языке.</b>
+  Вопросы тренировки написаны по узбекской программе начальных классов, и русской
+  версии банка у нас пока нет — обещать её сегодня было бы неправдой.
+  Что работает без языка: <b>калькулятор надбавки</b> ниже — это числа, выберите
+  категорию или впишите оклад в сумах. Все расчёты, суммы взноса, скидки и сроки
+  разобраны по-русски на странице
+  <a href="sayt/ru.html?lang=ru">«Надбавка за национальный сертификат»</a>.
+</div>
 
 <div class="hero">
   <span class="tag">VMQ № 411, 29.07.2026</span>
@@ -499,8 +527,9 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
       savol-javobda birinchi bo'lib nechanchi savolni ochganingiz — matni emas, tartib
       raqami; qaysi tugmalarni bosganingiz (zayavka, bosib chiqarish, hamkasbga
       yuborish) va zayavka tugmasini narx blokidan bosdingizmi yoki rejadanmi;
-      qaysi havoladan kelganingiz va brauzeringizga beriladigan tasodifiy
-      sessiya kodi. Ro'yxat shu yerda tugaydi: brauzerdagi «Tarmoq» oynasini ochib
+      qaysi havoladan kelganingiz, sahifani qaysi tilda ochganingiz (o'zbekcha
+      yoki ruscha) va brauzeringizga beriladigan tasodifiy sessiya kodi.
+      Ro'yxat shu yerda tugaydi: brauzerdagi «Tarmoq» oynasini ochib
       o'zingiz sanab chiqing. Ismingiz, telefoningiz yoki @nikingiz va shu formada
       o'zingiz tanlagan javoblar (nima kerak, qancha to'lashga tayyorsiz, izohingiz)
       faqat pastdagi zayavka formasini to'ldirib yuborsangiz ketadi.</p>
@@ -582,6 +611,12 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
       <button class="btn sec" id="r-copy" type="button">Matn sifatida nusxalash</button>
       <button class="btn sec hide" id="r-take" type="button">To'liq rejani olish — to'plam</button>
     </div>
+    <!-- Ответ кнопки «скопировать» живёт в СВОЁМ абзаце. Раньше он писался
+         в r-hint, а там стоит единственная дата, пропуск которой обнуляет
+         и подготовку, и деньги: рубеж оплаты за 12 дней до экзамена. Одно
+         нажатие «Matn sifatida nusxalash» стирало её до следующей перерисовки
+         плана — то есть до того, как человек снова тронет дату. -->
+    <p class="small" id="r-copy-izoh" style="margin-top:12px"></p>
     <p class="small" id="r-hint" style="margin-top:12px"></p>
     <!-- Доступ к набору — это ССЫЛКА С КЛЮЧОМ, а не запись о человеке: касс нет,
          аккаунтов нет, метка живёт в localStorage одного браузера. Значит очистка
@@ -812,6 +847,8 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
       spetsifikatsiyasi yoki jadvali e'lon qilinsa, u haqda ham xabar beramiz.
       Shu orada rejangizni bosib chiqaring — u bugundan ishlaydi.</p>
       <button class="btn sec" id="ok-share" type="button">Hamkasbga yuborish</button>
+      <p class="small" style="margin-top:12px">Aloqa ma'lumotingizni noto'g'ri yozgan
+        bo'lsangiz — <button class="lnk" id="lead-yana" type="button">qaytadan yuboring</button>.</p>
     </div>
   </div>
 </section>
@@ -1087,14 +1124,69 @@ var LS = window.localStorage;
 function ls(k, v) {
   try { if (v === undefined) return LS.getItem(k); LS.setItem(k, v); return v; } catch (e) { return null; }
 }
+var qs = new URLSearchParams(location.search);
+
+/* Метка канала: правило — ПЕРВАЯ НАСТОЯЩАЯ МЕТКА, и «direct» настоящей не считается.
+   Прежний код читался как первое касание, а работал как последнее:
+   `qs.get("src") || ls(...)` ставил адресную строку выше запомненного и тут же
+   перезаписывал память. Ломалось это в двух местах сразу.
+   Во-первых, человек, вернувшийся на страницу без «?src=» ПОСЛЕ первого захода
+   без метки, навсегда получал «direct»: строка «direct» ложилась в память
+   первой же загрузкой и переживала любой последующий переход по меченой ссылке.
+   Подпись этой поломки в разрезе по каналам (PROVERKA §4.3) — у «без метки»
+   расчётов больше, чем открытий.
+   Во-вторых, одна сессия, пришедшая дважды с разными метками, записывала строки
+   под обеими, и разрез по каналам считал её ДВА раза — по одному в каждом канале.
+   Теперь: запоминается только настоящая метка и только первая; «direct» — это
+   ответ «метки не было ни разу», а не запись в памяти. */
+var qsSrc = String(qs.get("src") || "").replace(/[^a-z0-9_]/gi, "").slice(0, 24);
+var source = ls("ustoz_src");
+if (!source && qsSrc) { source = qsSrc; ls("ustoz_src", source); }
+if (!source) source = "direct";
+
+/* Прогон владельца помечается В КЛЮЧЕ СЕССИИ, а не в канале, и это не мелочь.
+   Прежняя отсечка тестовых строк стояла на `source <> 'sinov'`, то есть на
+   значении, которое ставится ссылкой. Событие `open` уходит при загрузке —
+   раньше, чем человек успевает что-либо пометить, — поэтому первое открытие
+   каждого проверочного прогона приезжало как живой канал. В PROVERKA §3
+   это записано трижды подряд как случившееся: строки с `source='priemka2'`,
+   `direct`, `proba` и `tg_test` пережили чистку и попали бы в отчёт.
+   Префикс в `sess` от этого свободен: он проставляется ДО первого ev() и едет
+   со ВСЕМИ строками сессии, включая `open`. Отсечка в запросах — одна и та же
+   регулярка `sess !~ '^(probe|local|sinov)-'` в КАЖДОМ запросе §4 без
+   исключения (числа запросов здесь нарочно нет: оно уже один раз протухло
+   и превратило проверку в неправду — считать их надо grep-ом, как описано
+   в «Трёх правилах»). */
+var sinov = qs.get("sinov") === "1" || qsSrc === "sinov" || ls("ustoz_sinov") === "1";
+if (sinov) ls("ustoz_sinov", "1");
 var sess = ls("ustoz_sess");
-if (!sess) {
-  sess = "u" + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+if (!sess || (sinov && sess.indexOf("sinov-") !== 0)) {
+  sess = (sinov ? "sinov-" : "u") + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   ls("ustoz_sess", sess);
 }
-var qs = new URLSearchParams(location.search);
-var source = qs.get("src") || ls("ustoz_src") || "direct";
-ls("ustoz_src", source);
+
+/* Язык, с которым человек пришёл. Страница приложения одна и она узбекская,
+   но сайт двуязычен: русскую страницу читает русскоязычный учитель, и кнопка
+   «Посчитать надбавку» приводила его на полностью узбекский экран без единого
+   слова объяснения. В замере эта потеря выглядит как «страница плохая» —
+   ровно в том месте, где считается конверсия сайт → приложение.
+   Метка едет в `?lang=` со всех ссылок сайта, запоминается так же, как канал,
+   и уходит в `open`. Тогда разрыв видно отдельной колонкой, а не гаданием. */
+var qsLang = String(qs.get("lang") || "").toLowerCase().replace(/[^a-z]/g, "").slice(0, 2);
+var lang = ls("ustoz_lang");
+if (qsLang === "ru" || qsLang === "uz") { lang = qsLang; ls("ustoz_lang", lang); }
+/* Знаем ли мы язык НА САМОМ ДЕЛЕ — отдельно от того, каким языком рисуем экран.
+   Экран без метки рисуется по-узбекски, других вариантов у приложения нет.
+   Но написать из-за этого «lang=uz» в событие значит подписать колонку разреза
+   §4.7 языком, которого человек не выбирал: половина посева ведёт ссылками
+   ПРЯМО в приложение (`?src=tg_milliy`, `?src=lichka` в marketing/posts.md),
+   и языка эти ссылки не несут. Тогда в «uz» складываются те, кто прочитал
+   узбекскую страницу, и те, кто вообще никакой страницы не видел, — а весь
+   смысл §4.7 в том, чтобы сравнить именно ДВЕ СТРАНИЦЫ. Поэтому метка едет
+   в событие только когда она есть, а пришедшие без неё честно ложатся
+   в «nomalum» — ветку, которая до этой правки была недостижима. */
+var langBor = !!lang;
+if (!lang) lang = "uz";
 
 /* Событий шесть и они закрыты списком на сервере. Поэтому «начал тест» и
    «закончил тест» едут внутри calc через meta.kind, а не новым именем события:
@@ -1118,7 +1210,19 @@ function ev(name, meta) {
    не помещается, а канал у нас и так есть: ?src= запоминается первым касанием
    и едет отдельным полем source. Обещание в разделе «Xatolar daftari» должно
    выдерживать вкладку «Сеть», а не только чтение. */
-ev("open", {});
+ev("open", langBor ? { lang: lang } : {});
+
+/* Русскоязычному — предупреждение на его языке и дорога обратно. Переводить
+   весь экран нечем: вопросы написаны под узбекскую программу и русской версии
+   банка не существует, а подсунуть человеку узбекский текст под русской
+   кнопкой — это и есть та потеря, которую замер потом спишет на страницу.
+   Поэтому честный минимум: сказать по-русски, что дальше по-узбекски, назвать
+   то единственное, что работает вне языка (калькулятор — это числа), и дать
+   ссылку обратно на русскую страницу. */
+if (lang === "ru") {
+  var rb = document.getElementById("ru-ogoh");
+  if (rb) rb.className = "ogoh";
+}
 
 /* ── Числа ─────────────────────────────────────────────────────────────────── */
 function fmt(n) {
@@ -1363,7 +1467,15 @@ function calc(how) {
     out.appendChild(s0);
     document.getElementById("yiliga").textContent = "—";
     document.getElementById("qoplash").textContent = "—";
-    document.getElementById("taqqos").textContent = "";
+    // Введённое, но слишком маленькое число — не то же самое, что пустое поле.
+    // Учительница, набравшая оклад в тысячах («3 842») или оборвавшая ввод,
+    // видела ровно то же, что и не начинавшая: три прочерка и молчание.
+    // Молчащий калькулятор человек читает как «сломано», а не как «я ошиблась»,
+    // и уходит со страницы на первом же шаге.
+    document.getElementById("taqqos").textContent = b
+      ? "Summani to'liq yozing: lavozim maoshi so'mda, masalan 3 390 824 — ming so'mda emas. " +
+        "Uni hisob varaqangizdagi «lavozim maoshi» (bazaviy tarif stavkasi) qatoridan oling."
+      : "";
     document.getElementById("yiliga-izoh").textContent = "";
     return;
   }
@@ -1689,6 +1801,36 @@ document.getElementById("lead-btn").addEventListener("click", function () {
   if (!ctaSent) { ctaSent = true; ev("cta", { where: "bank" }); }
 });
 
+/* Ключ человека — по контакту, а не по сессии.
+   `sess` это браузер: один учитель с телефона и с компьютера даёт две сессии,
+   и порог, посчитанный по сессиям, всё равно считал бы его дважды.
+   Телефон приводится к последним девяти цифрам: «+998 90 123 45 67»,
+   «998901234567» и «90 123 45 67» — один и тот же номер, и в базе они лягут
+   тремя разными строками. Всё остальное (@ник, имя) — в нижний регистр без знаков.
+   Ровно та же нормализация повторена выражением в PROVERKA §4.2: правка только
+   в браузере не помогла бы, потому что два браузера одного человека сюда
+   не смотрят, а правка только в запросе не остановила бы дубль от перезагрузки.
+
+   КИРИЛЛИЦА ОСТАЁТСЯ В КЛЮЧЕ, И ЭТО НЕ МЕЛОЧЬ. Первая версия вычищала всё,
+   кроме «[^a-z0-9]», то есть кириллическое имя превращала в ПУСТУЮ строку.
+   Дальше в PROVERKA §4.2 пустой ключ откатывается на `sess` — и человек,
+   написавший «Алишер Каримов», снова считался по браузеру, ровно так, как
+   считался до всей этой правки. Проверено на своём наборе: один такой человек
+   с трёх браузеров давал ТРИ «человека» и три голоса за 99 000. Причём бьёт
+   это именно по русскоязычному учителю — по тому самому, ради которого
+   заведены ru.html и предупреждение выше. Диапазон U+0400..U+04FF берёт и
+   узбекскую кириллицу (ў, ғ, қ, ҳ); toLowerCase() приводит её сам. Записан
+   escape-ами, а не буквами: класс символов, набранный кириллицей внутри
+   HTML-файла, зависит от того, что скажет заголовок кодировки, а ключ
+   человека не должен зависеть ни от чего, кроме самого контакта. В запросе
+   тому же соответствует класс «[^[:alnum:]]» — он в UTF-8 базе кириллицу
+   тоже оставляет, это проверено отдельным запросом, а не предположено. */
+function odamKalit(c) {
+  var raqam = String(c || "").replace(/[^0-9]/g, "");
+  if (raqam.length >= 9) return raqam.slice(-9);
+  return String(c || "").toLowerCase().replace(/[^a-z0-9\u0400-\u04ff]/g, "");
+}
+
 function leadErr(msg, el) {
   var e = document.getElementById("lead-err");
   e.textContent = msg;
@@ -1700,9 +1842,20 @@ document.getElementById("lead").addEventListener("submit", function (e) {
   e.preventDefault();
   var contact = String(document.getElementById("contact").value || "").trim();
   var err = document.getElementById("lead-err");
-  if (contact.length < 4) {
+  if (contact.length < 5) {
     leadErr("Aloqa ma'lumotini yozing — busiz sizga javob bera olmaymiz.",
             document.getElementById("contact"));
+    return;
+  }
+  /* «+998» проходило прежнюю проверку целиком: ровно четыре знака, все свои.
+     Заявка с одним кодом страны — это строка в базе, до которой нельзя
+     дозвониться, а второй порог теста (PROVERKA §4.2) считается по числу
+     заявок. Недостижимая заявка завышает вердикт ровно так же, как дубль.
+     Проверяем только то, что похоже на телефон: @ник и имя латиницей
+     сюда не попадают и остаются разрешёнными как были. */
+  if (/^[0-9+()\-.\s]+$/.test(contact) && contact.replace(/[^0-9]/g, "").length < 9) {
+    leadErr("Telefon raqamini to'liq yozing — masalan +998 90 123 45 67. " +
+            "Yoki @telegram nikingizni qoldiring.", document.getElementById("contact"));
     return;
   }
   // Пока человек не выбрал сам — заявка не уходит. Иначе измеряемая величина
@@ -1715,6 +1868,28 @@ document.getElementById("lead").addEventListener("submit", function (e) {
   if (pricePick < 0) {
     leadErr("Qancha to'lashga tayyorligingizni o'zingiz tanlang — biz sizning o'rningizga tanlamaymiz.",
             elPrice.children[0]);
+    return;
+  }
+  /* Тот же контакт с той же сессии второй раз — это не вторая заявка, а тот же
+     человек. Порог теста считается по ЛЮДЯМ (PROVERKA §2), и вторая строка
+     двигала бы вердикт вверх на нуле нового спроса. Кнопка «отправить заново»
+     ниже существует ради опечатки в контакте — значит запрещать надо не
+     повторную отправку, а повторную отправку ТОГО ЖЕ.
+
+     В ключ входит НЕ ТОЛЬКО КОНТАКТ, и вот почему. PROVERKA §4.2 обещает, что
+     цена берётся ПОСЛЕДНЯЯ НАЗВАННАЯ: «человек, поправивший себя с 49 000 на
+     99 000, назвал 99 000». Пока ключом был один контакт, это обещание нельзя
+     было выполнить в принципе: человек нажимал «Yana», менял чип цены, отправлял
+     — и страница молча показывала ему «спасибо», не отправив ничего. Последней
+     названной ценой навсегда оставалась ПЕРВАЯ, а колонка `narx` мерила не то,
+     что подписано. Теперь повтором считается только буквальный повтор: тот же
+     контакт, тот же ответ «что нужно» и та же цена. Дубль от перезагрузки это
+     по-прежнему ловит — при перезагрузке не меняется ничего. */
+  var leadK = odamKalit(contact) + "|" + wantPick + "|" + pricePick;
+  if (ls("ustoz_lead_k") && ls("ustoz_lead_k") === leadK) {
+    err.className = "err hide";
+    document.getElementById("lead").className = "hide";
+    document.getElementById("lead-ok").className = "";
     return;
   }
   err.className = "err hide";
@@ -1738,6 +1913,9 @@ document.getElementById("lead").addEventListener("submit", function (e) {
       if (!res || res.ok === false) throw new Error("no");
       document.getElementById("lead").className = "hide";
       document.getElementById("lead-ok").className = "";
+      // Метка «эта сессия уже оставила заявку» — см. блок восстановления ниже.
+      ls("ustoz_lead", "1");
+      ls("ustoz_lead_k", leadK);
       ev("lead", { want: WANT[wantPick], price: PRICES[pricePick] });
     })
     .catch(function () {
@@ -1748,6 +1926,25 @@ document.getElementById("lead").addEventListener("submit", function (e) {
     });
 });
 
+
+/* Повторная заявка с той же сессии — это вторая строка в mvp_leads от одного
+   человека: перезагрузил страницу, увидел пустую форму, отправил ещё раз.
+   Порог теста считается по числу заявок, поэтому дубль — не «лишняя запись»,
+   а завышенный вердикт, купленный за настоящие деньги на посеве.
+   Форма при этом не отнимается: поправить неверно набранный контакт человек
+   имеет право, а вот случайно продублировать себя ему помогать не надо. */
+if (ls("ustoz_lead") === "1") {
+  document.getElementById("lead").className = "hide";
+  document.getElementById("lead-ok").className = "";
+}
+document.getElementById("lead-yana").addEventListener("click", function () {
+  document.getElementById("lead-ok").className = "hide";
+  document.getElementById("lead").className = "";
+  var b2 = document.getElementById("lead-btn");
+  b2.disabled = false;
+  b2.textContent = "Zayavka qoldirish";
+  document.getElementById("contact").focus();
+});
 
 /* ── Тариф ───────────────────────────────────────────────────────────────────
    Касс нет и в этом круге не будет (Р-07): тариф включается руками. Ключ
@@ -1867,7 +2064,32 @@ document.getElementById("x-drill").addEventListener("click", function () {
   ev("calc", { kind: "xato_drill", n: list.length });
   document.getElementById("testcard").scrollIntoView({ block: "start" });
 });
+/* «Тетрадь ошибок» стиралась с одного нажатия, без вопроса и без возврата.
+   Кнопка стоит вплотную к «Faqat xatolarim ustida mashq» — к той, ради которой
+   на этот экран и приходят, — а сама тетрадь живёт только в этом браузере
+   и восстановиться ей неоткуда. Промах пальцем на 375 px стоил бы человеку
+   всего, что он накопил за недели подготовки.
+
+   Спрашиваем не диалогом, а самой кнопкой: confirm() во встроенном браузере
+   Telegram выглядит системной ошибкой и его закрывают не читая. Взвод снимается
+   через пять секунд сам — иначе кнопка осталась бы заряженной до конца сессии
+   и второе случайное нажатие через минуту опять стёрло бы тетрадь. */
+var xTozaTayyor = 0, xTozaVaqt = 0;
 document.getElementById("x-clear").addEventListener("click", function () {
+  var b = this;
+  if (!xTozaTayyor) {
+    xTozaTayyor = 1;
+    b.textContent = "Rostdan tozalansinmi? Yana bosing";
+    clearTimeout(xTozaVaqt);
+    xTozaVaqt = setTimeout(function () {
+      xTozaTayyor = 0;
+      b.textContent = "Daftarni tozalash";
+    }, 5000);
+    return;
+  }
+  clearTimeout(xTozaVaqt);
+  xTozaTayyor = 0;
+  b.textContent = "Daftarni tozalash";
   xatoYoz({});
   xatoChiz();
 });
@@ -2467,6 +2689,18 @@ function rejaChiz() {
   varaqaTayyorla();
 }
 
+/* Прошедшая дата — тупик, а не подсказка: план обнуляется целиком, вместе
+   с бесплатными тремя днями, которые человек уже видел. Проверка в sanaOqi()
+   остаётся (в старом WebView дату набирают руками), но самый частый способ
+   в неё попасть — прокрутить нативный выбор не туда — убирается тем, что
+   вчерашних дней в этом выборе просто нет. */
+(function () {
+  var el = document.getElementById("r-sana");
+  var t = new Date();
+  t.setDate(t.getDate() + 1);
+  var mm = t.getMonth() + 1, dd = t.getDate();
+  el.min = t.getFullYear() + "-" + (mm < 10 ? "0" : "") + mm + "-" + (dd < 10 ? "0" : "") + dd;
+})();
 document.getElementById("r-sana").addEventListener("change", function () { rejaOdam = true; rejaSent = false; rejaChiz(); });
 document.getElementById("r-sana").addEventListener("input", function () {
   clearTimeout(rejaChiz.t);
@@ -2488,11 +2722,22 @@ document.getElementById("r-copy").addEventListener("click", function () {
     t += ddmm(k.sana) + " " + k.hafta + " — " + k.ish + (k.daq ? " (" + k.daq + " daq)" : "") + "\n";
   }
   if (!toliq && rejaKunlar.length > n) t += "... yana " + (rejaKunlar.length - n) + " kun to'plamda\n";
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(t).then(function () {
-      document.getElementById("r-hint").textContent = "Reja nusxalandi — hamkasbingizga yoki o'zingizga yuboring.";
-    }).catch(function () {});
+  var say = document.getElementById("r-copy-izoh");
+  // Буфер отказывает чаще, чем кажется: встроенный браузер Telegram, iOS
+  // и любая ситуация, когда страница не в фокусе, дают NotAllowedError.
+  // Пустой catch превращал кнопку в мёртвую — нажатие не делало ровно ничего
+  // и не говорило ни слова, а это человек читает как поломку сайта.
+  if (!navigator.clipboard) {
+    say.textContent = "Brauzeringiz nusxalashni qo'llab-quvvatlamadi. Rejani " +
+      "«Bosib chiqarish yoki PDF qilib saqlash» tugmasi orqali saqlang.";
+    return;
   }
+  navigator.clipboard.writeText(t).then(function () {
+    say.textContent = "Reja nusxalandi — hamkasbingizga yoki o'zingizga yuboring.";
+  }).catch(function () {
+    say.textContent = "Nusxalanmadi — brauzer ruxsat bermadi. Rejani " +
+      "«Bosib chiqarish yoki PDF qilib saqlash» tugmasi orqali saqlang.";
+  });
 });
 
 /* Печатный лист собирается из тех же переменных, что нарисованы на экране.
@@ -2820,8 +3065,13 @@ function share() {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text + " " + url).then(function () {
       alert("Havola nusxalandi. Hamkasbingizga yuboring.");
-    }).catch(function () {});
+    }).catch(function () { alert("Havolani qo'lda nusxalang:\n" + url); });
+    return;
   }
+  // Ни navigator.share, ни буфера — а событие share уже посчитано. Кнопка,
+  // которая ничего не делает и молчит, хуже отсутствующей кнопки: человек
+  // жмёт её второй и третий раз и решает, что сломана вся страница.
+  alert("Havolani qo'lda nusxalang:\n" + url);
 }
 document.getElementById("t-share").addEventListener("click", share);
 document.getElementById("ok-share").addEventListener("click", share);
