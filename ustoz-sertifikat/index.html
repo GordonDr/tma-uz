@@ -3,8 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Ustamam — ustama kalkulyatori, mashq va imtihongacha reja</title>
-<meta name="description" content="Boshlangʻich sinf oʻqituvchisi uchun: milliy sertifikat ustamasi har oy necha soʻm boʻlishini hisoblang, 20 ta savolda izohli mashq qiling va imtihon kuningizgacha kun-ba-kun reja oling. Bepul.">
+<!-- В <title> и в description стояло «imtihongacha reja» — обещание, которого
+     механика не даёт: расписание для начальных классов не опубликовано, даты
+     у человека нет, и без даты план строится на выбранный им срок. Экран,
+     печатный лист и блок цены это уже говорят обоими вариантами; заголовок
+     вкладки и снипетт в поиске оставались с одним. Превью ссылки здесь ни при
+     чём — его собирают og:title и og:description ниже, и prevyu.pl смотрит
+     только на них. -->
+<title>Ustamam — ustama kalkulyatori, mashq va kun-ba-kun reja</title>
+<meta name="description" content="Boshlangʻich sinf oʻqituvchisi uchun: milliy sertifikat ustamasi har oy necha soʻm boʻlishini hisoblang, 20 ta savolda izohli mashq qiling va kun-ba-kun reja oling — imtihon kuningizgacha yoki siz tanlagan muddatga. Bepul.">
 <meta name="keywords" content="milliy sertifikat, boshlangʻich sinf oʻqituvchisi, ustama, malaka imtihoni, 411-son qaror, test, mashq">
 <!-- Canonical. Он стоял на obrazec.html и не стоял здесь, хотя вариантов адреса
      у этой страницы БОЛЬШЕ, а не меньше: посев ведёт сюда с «?src=tg_milliy»
@@ -197,6 +204,11 @@ textarea{min-height:80px;resize:vertical}
 .btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:600}
 .btn.wide{display:block;width:100%}
 .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px;align-items:center}
+/* Мостик между шагами — не стрелка «дальше», а отдельный блок с одной мыслью
+   и одной кнопкой. Отделён чертой сверху, потому что он не продолжение абзаца
+   над ним, а ответ на вопрос «и что мне теперь с этим числом делать». */
+.korpu{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line)}
+.korpu p{margin:0 0 12px}
 
 .price{display:flex;flex-wrap:wrap;gap:10px;align-items:baseline;margin:4px 0 2px}
 .price b{font-family:var(--display);font-size:30px;font-variant-numeric:tabular-nums}
@@ -388,7 +400,8 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
   sertifikatga ega boshlangʻich sinf oʻqituvchisiga <strong>har oy lavozim maoshining
   15 foizi</strong> miqdorida ustama toʻlanadi. Maoshingizni tanlang — bu necha soʻm
   ekanini koʻrasiz. Keyin 20 ta savolda oʻzingizni sinab koʻring, xatolaringiz daftarga
-  yigʻiladi, imtihon kuningizgacha esa kun-ba-kun reja tuziladi — bosib chiqarsa boʻladi.</p>
+  yigʻiladi, imtihon kuningizgacha — sana hali eʼlon qilinmagan boʻlsa, siz tanlagan
+  muddatga — kun-ba-kun reja tuziladi va uni bosib chiqarsa boʻladi.</p>
 </div>
 </div>
 
@@ -477,6 +490,20 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
       hisob, kafolat emas: 2027-yildan keyingi toʻlovlar budjet jarayoniga bogʻliq.</p>
       <p class="small" style="margin-top:14px" id="yiliga-izoh"></p>
       <p class="small" style="margin-top:14px" id="taqqos"></p>
+      <!-- МОСТИК В МАШҚ (U-72). Стоит ВНУТРИ #out, то есть под самими числами,
+           а не под карточкой: решение идти дальше человек принимает в ту секунду,
+           когда увидел свою надбавку. Раньше из калькулятора в тренировку не вело
+           ничего — войти в неё можно было только скроллом, — а доля «калькулятор →
+           тест» и есть цифра, по которой читается вердикт продукта (PROVERKA §4.1).
+           Событий кнопка не шлёт ни одного: шаги воронки уже считаются по
+           calc{kind:"ustama"} и calc{kind:"test_done"}, а новое число сделало бы
+           перечень «что уходит на сервер» в разделе «Xatolar daftari» неправдой.
+           Блок показывается только когда сумма посчитана: текст называет её вслух,
+           а под тремя прочерками он читался бы как поломка. -->
+      <div class="korpu hide" id="k-mashq">
+        <p class="small" id="k-mashq-izoh"></p>
+        <button class="btn wide" id="k-mashq-btn" type="button">Hozir tekshiraman — 20 ta savol</button>
+      </div>
     </div>
   </div>
 
@@ -531,8 +558,17 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
            попытками», а показывала только последнюю: единственный ключ в хранилище
            перезаписывался. Теперь история попыток есть, и разница считается здесь. -->
       <p class="small hide" id="t-trend"></p>
+      <!-- МОСТИК В СДАЧУ НА ВРЕМЯ (U-73). С экрана «20 из 20 пройдено» в сдачу
+           не вело ни одной кнопки, и попасть туда можно было только скроллом мимо
+           тетради ошибок. Строка над кнопкой говорит, зачем идти: в машқе разбор
+           выходит сразу и человек чувствует себя знающим, на экзамене разбора нет.
+           Сумма взноса подставляется тем же кодом, что и в калькуляторе (yigim()),
+           а не набрана руками: 1 сентября она меняется, и у каждого её меняет
+           своя скидка. -->
+      <p class="small" id="t-sinov-izoh"></p>
       <div class="btns">
-        <button class="btn" id="t-again" type="button">Yana bir bor</button>
+        <button class="btn" id="t-sinov" type="button">Endi vaqt bilan sinab koʻring</button>
+        <button class="btn sec" id="t-again" type="button">Yana bir bor</button>
         <button class="btn sec" id="t-share" type="button">Hamkasbga yuborish</button>
       </div>
     </div>
@@ -632,6 +668,15 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
         yaʼni B+ daraja kerak. Bu bizning mashqimiz bahosi, imtihon bahosi emas — imtihonda
         ball Rash modeli boʻyicha hisoblanadi.</p>
       <p class="small hide" id="m-trend"></p>
+      <!-- ТРИ ЧИСЛА НА ОДНОМ ЭКРАНЕ. Мостик с экрана машқа зовёт сюда словами
+           «проверьте себя до того, как платить», и это обещание выполняется
+           именно здесь: свой балл, невозвратный взнос за попытку и цена набора
+           стоят рядом. Числа считаются кодом, а не набраны в разметке: взнос
+           меняется 1 сентября и меняется скидкой, цена набора живёт в config.js.
+           Кнопки заявки тут нет намеренно — она шлёт cta{where}, а новое значение
+           where это новое число в замере, и перечень «что уходит на сервер»
+           пришлось бы переписывать. -->
+      <p class="small" id="m-pul"></p>
       <div class="btns">
         <button class="btn sec" id="m-izoh" type="button">Barcha izohlarni koʻrish</button>
         <button class="btn sec" id="m-again" type="button">Yana bir bor</button>
@@ -643,18 +688,42 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
 
 <section id="reja">
   <span class="lbl">5-qadam</span>
-  <h2>Imtihon kuningizgacha kun-ba-kun reja</h2>
-  <p class="small">Imtihon sanangizni kiriting. Reja shu kungacha kun-ba-kun tuziladi:
+  <h2>Kun-ba-kun reja: imtihon kuningizgacha yoki tanlagan muddatingizga</h2>
+  <p class="small">Imtihon sanangiz maʼlum boʻlsa — reja oʻsha kungacha tuziladi.
+    Maʼlum boʻlmasa — siz tanlagan muddatga: 1, 2 yoki 3 oy. Ikkala holatda ham
     eng boʻsh bloklaringizga koʻproq kun, yakshanbaga — faqat xatolar daftari,
     oxirgi uch kunga — takrorlash va hujjatlar. Bu <strong>bizning mashq rejamiz</strong>,
     imtihon dasturi emas: dastur eʼlon qilinmagan.</p>
 
   <div class="card">
-    <label for="r-sana">Imtihon sanasi</label>
-    <input type="date" id="r-sana">
-    <p class="small" style="margin-top:8px">Sana hali maʼlum boʻlmasa, boʻsh qoldiring —
-      reja 30 kunga tuziladi. Boshlangʻich sinf oʻqituvchilari uchun imtihon jadvali
-      26.08.2026 holatiga eʼlon qilinmagan.</p>
+    <!-- ВОПРОС СТОИТ ПЕРЕД ПОЛЕМ, А НЕ ПОДПИСЬЮ ПОД НИМ (U-74). Раньше пустое поле
+         молча давало план на 30 дней. Товар называется «план до дня экзамена», а
+         расписание для начальных классов на 28.08.2026 не опубликовано — то есть
+         у подавляющего большинства план строился до дня, которого никто не
+         назначал. Теперь спрашиваем прямо, и оба ответа ведут к настоящему плану:
+         с датой — до дня, без даты — на выбранный человеком срок.
+         Молчаливых тридцати дней не осталось ни в одной ветке: при ответе «Ha»
+         и пустом поле план не строится вовсе, а подсказка просит дату. -->
+    <label>Imtihon sanangiz maʼlummi?</label>
+    <div class="chips" id="r-bor"></div>
+
+    <div id="r-sana-blok" class="hide">
+      <label for="r-sana" style="margin-top:18px">Imtihon sanasi</label>
+      <input type="date" id="r-sana">
+    </div>
+
+    <div id="r-ufq-blok">
+      <label style="margin-top:18px">Reja qancha muddatga tuzilsin?</label>
+      <div class="chips" id="r-ufq"></div>
+      <p class="small" style="margin-top:8px">Boshlangʻich sinf oʻqituvchilari uchun
+        imtihon jadvali <strong>28.08.2026 holatiga eʼlon qilinmagan</strong> — biz
+        bilmaydigan kunni oʻylab topmaymiz va sizga «imtihongacha 30 kun» deb
+        yozmaymiz. Shuning uchun sanasiz reja siz tanlagan muddatga tuziladi.
+        Jadval eʼlon qilingach, yuqorida «Ha» ni bosing va sanani kiriting — reja
+        oʻsha kungacha qayta tuziladi. <strong>Diqqat:</strong> toʻlov va roʻyxatdan
+        oʻtishning oxirgi kunini (imtihondan kamida 12 kun oldin) sanasiz hisoblab
+        boʻlmaydi — u sana kiritilgandan keyin chiqadi.</p>
+    </div>
 
     <div class="plan-sum" id="r-sum"></div>
     <div class="tw"><table class="plan" id="r-table"></table></div>
@@ -829,7 +898,8 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
     hali eʼlon qilinmagan. Biz kurs emas, mashq va reja sotamiz — dars jadvalisiz, telefonda.</p>
 
     <ul class="plain">
-      <li><strong>1. Toʻliq shaxsiy reja — imtihon kuningizgacha. Bugun ishlab turibdi.</strong>
+      <li><strong>1. Toʻliq shaxsiy reja — imtihon kuningizgacha, sana hali eʼlon
+        qilinmagan boʻlsa esa siz tanlagan 1, 2 yoki 3 oyga. Bugun ishlab turibdi.</strong>
         Kun-ba-kun, eng boʻsh bloklaringizga eng koʻp kun (buni mashq natijangizdan
         hisoblaymiz), bosib chiqarsa yoki PDF qilib saqlasa boʻladi — taqvim
         koʻrinishida, uni jurnalga qoʻyasiz. <strong>Nechta varaq boʻlishini
@@ -1144,8 +1214,12 @@ table.plan tr.lock td{color:var(--muted);text-align:center;font-weight:600}
       qaysi kuni qaysi blok, yakshanbada faqat xatolar daftari, har yettinchi kuni
       vaqt bilan sinov, oxirgi uch kunda takrorlash va hujjatlar. Boʻsh bloklaringizga
       koʻproq kun ajratiladi — buni mashq natijangizdan hisoblaymiz.
+      <strong>Sana hali eʼlon qilinmagan boʻlsa</strong> — boshlangʻich sinf
+      oʻqituvchilari uchun jadval 28.08.2026 holatiga yoʻq — reja muddatini oʻzingiz
+      tanlaysiz: 1, 2 yoki 3 oy. Boʻlmagan kunni biz oʻylab topmaymiz.
       Rejaning <strong>birinchi uch kuni bepul</strong> va ular haqiqiy: bosib chiqarsa
-      ham, PDF qilib saqlasa ham boʻladi. Toʻliq reja imtihon kuningizgacha — toʻplamda.
+      ham, PDF qilib saqlasa ham boʻladi. Toʻliq reja — imtihon kuningizgacha yoki
+      siz tanlagan muddatga — toʻplamda.
       Reja bizniki, imtihon dasturi emas: dastur eʼlon qilinmagan.</p>
     </details>
   </div>
@@ -1576,6 +1650,9 @@ function calc(how) {
         "Uni hisob varaqangizdagi «lavozim maoshi» (bazaviy tarif stavkasi) qatoridan oling."
       : "";
     document.getElementById("yiliga-izoh").textContent = "";
+    // Мостик прячется вместе с числами: под тремя прочерками фраза «эта надбавка»
+    // не имеет к чему относиться, а кнопка без причины — это стрелка «дальше».
+    document.getElementById("k-mashq").className = "korpu hide";
     return;
   }
   if (!SENTABR && elPlus7.checked) b = b * RAISE;
@@ -1622,6 +1699,18 @@ function calc(how) {
     "«Ona tili | Milliy sertifikat kursi» butun kursga " + fmt(KURS) + " soʻm; " +
     "bizning toʻplam — " + fmt(window.MVP.PRICE_FULL) + " soʻm, bir marta.";
 
+  // МОСТИК В МАШҚ. Текст называет три вещи и именно в этом порядке: только что
+  // посчитанную надбавку, условие, при котором её платят (B+, то есть 60 баллов),
+  // и цену одной попытки. Без них кнопка была бы стрелкой «дальше», а «дальше»
+  // из награды в угрозу («сейчас выяснится, что я не готов») человек не идёт.
+  // Все три числа берутся из того же кода, что и плитки над ними.
+  document.getElementById("k-mashq-izoh").textContent =
+    "Bu " + fmt(oy) + " soʻm faqat B+ va undan yuqori daraja uchun toʻlanadi — " +
+    "imtihonda kamida 60 ball. Urinishning oʻzi " + fmt(Y) + " soʻm va bu pul " +
+    "qaytarilmaydi. Hozir nechta ball olishingizni bilasizmi? 20 ta savol, bepul, " +
+    "har javobdan keyin izoh bilan.";
+  document.getElementById("k-mashq").className = "korpu";
+
   if (how) {
     if (!calc.fired) { calc.fired = 0; }
     if (calc.fired < 3) {   // трёх событий хватает, чтобы увидеть «пользовался»; дальше это шум
@@ -1638,6 +1727,21 @@ elOklad.addEventListener("input", function () {
 });
 elPlus7.addEventListener("change", function () { calc(0); });
 calc(0);
+
+/* Кнопка мостика НЕ ЗАПУСКАЕТ машқ сама. Над кнопкой «Mashqni boshlash» стоит
+   оговорка о том, что это не экзаменационные вопросы и официальный банк закрыт;
+   запуск в один тап пронёс бы человека мимо неё, а это ровно то обещание,
+   которое продукту нельзя нарушать. Поэтому мостик довозит до экрана и ставит
+   фокус на кнопку старта — решает человек.
+   Если прогон уже идёт или уже закончен, ничего не раскрываем: сбросить чужой
+   прогон кнопкой «проверь себя» было бы хуже скролла, от которого мы уходим. */
+document.getElementById("k-mashq-btn").addEventListener("click", function () {
+  document.getElementById("test").scrollIntoView({ block: "start" });
+  var intro = document.getElementById("t-intro");
+  if (intro && intro.className !== "hide") {
+    try { document.getElementById("t-start").focus({ preventScroll: true }); } catch (e) {}
+  }
+});
 
 /* ── Машқ (демо-тест) ───────────────────────────────────────────────────────
 
@@ -1826,10 +1930,31 @@ function finish() {
   if (rejim === "mashq" && order.length === QUESTIONS.length) {
     natijaYoz({ ball: right, jami: order.length, blok: perBlok, qayerdan: "mashq", korgan: korgan });
   }
+  // Строка мостика в сдачу на время. Взнос считается тем же yigim(), что и
+  // в калькуляторе: одна мысль в двух местах не имеет права держаться на двух
+  // источниках чисел — именно так расходятся экран и печатный лист.
+  document.getElementById("t-sinov-izoh").textContent =
+    "Mashqda har javobdan keyin izoh chiqadi va odam oʻzini bilganday his qiladi. " +
+    "Imtihonda izoh yoʻq, orqaga qaytish yoʻq, vaqt esa ketmoqda. Urinish " +
+    fmt(yigim(sentHisob())) + " soʻm turadi va qaytarilmaydi — shu farqni imtihon " +
+    "kuni emas, bugun bilib qoʻygan maʼqul.";
   xatoChiz();
   rejaOdam = true;          // прогон машқа — действие; план после него перестроен по-настоящему
   rejaChiz();
 }
+
+/* МОСТИК В СДАЧУ НА ВРЕМЯ. Как и мостик из калькулятора, он не запускает сдачу
+   сам: у m-intro стоят условия («20 вопросов, по минуте на каждый, ответ не
+   переигрывается, разборы только в конце»), и человек обязан прочитать их до
+   старта, а не после. Событий не шлёт ни одного: sinov_start и sinov_done уже
+   считаются, и §4.6 увидит эффект без единой правки SQL. */
+document.getElementById("t-sinov").addEventListener("click", function () {
+  document.getElementById("sinov").scrollIntoView({ block: "start" });
+  var mi = document.getElementById("m-intro");
+  if (mi && mi.className !== "hide") {
+    try { document.getElementById("m-start").focus({ preventScroll: true }); } catch (e) {}
+  }
+});
 
 document.getElementById("t-again").addEventListener("click", function () {
   // Порядок собирается заново: «ещё раз» по тому же списку — это проверка
@@ -2278,6 +2403,32 @@ function mFinish() {
     box.appendChild(row);
   });
 
+  // ТРИ ЧИСЛА РЯДОМ, и все три считаются здесь, а не набраны в разметке: взнос
+  // меняется 1 сентября и меняется скидкой, цена набора живёт в config.js.
+  // Мостик с экрана машқа обещал именно это — «узнай свой балл до того, как
+  // платить», — и обещание выполняется на том экране, куда он привёл.
+  // Шкалы НЕ СМЕШИВАЮТСЯ. Здесь стоит только наш счёт «столько из двадцати»:
+  // «60 ball» — это официальная стобалльная шкала, и рядом с дробью 7 / 20 она
+  // читалась бы как «семь из шестидесяти». О пороге B+ говорит абзац ниже, там
+  // же, где сказано, что наша оценка — не оценка экзамена.
+  //
+  // И ЧЕТВЁРТОЕ ПРЕДЛОЖЕНИЕ, БЕЗ КОТОРОГО ТРЕТЬЕ ЧИСЛО — ОБЕЩАНИЕ БЕЗ МЕХАНИКИ.
+  // «Наш набор — 99 000, решение принимаете вы» читается как приглашение купить,
+  // а купить сегодня нечем: касс нет, и блок цены прямо говорит «bugun toʻlov
+  // ham qabul qilinmayapti». Человек, который принял решение прямо здесь,
+  // проскроллит до прайса и обнаружит, что решение принять негде — а это тот же
+  // разрыв «текст обещает, механика не делает», ради которого сюда и ставили
+  // настоящие числа. Поэтому рядом с ценой сразу сказано, что за ней стоит
+  // сегодня: заявка, а не оплата. Кнопки здесь по-прежнему нет намеренно —
+  // она слала бы cta{where}, а новое значение where это новое число в замере.
+  document.getElementById("m-pul").textContent =
+    "Sizning natijangiz — " + mRight + " / " + mOrder.length +
+    ". Imtihon urinishi " +
+    fmt(yigim(sentHisob())) + " soʻm va bu pul qaytarilmaydi: oʻta olmasangiz, " +
+    "keyingi urinish uchun yana shuncha. Bizning toʻplam — " +
+    fmt(window.MVP.PRICE_FULL) + " soʻm, bir marta. Uchala raqam yonma-yon turibdi — " +
+    "qarorni oʻzingiz qabul qilasiz. Toʻplam uchun bugun toʻlov qabul qilinmaydi: " +
+    "quyida rejangiz, undan keyin esa zayavka shakli turibdi.";
   // Сдача — самый честный вход в план: человек только что увидел свою цифру.
   natijaYoz({ ball: mRight, jami: mOrder.length, blok: mBlok, qayerdan: "sinov", korgan: mKorgan });
   xatoChiz();
@@ -2444,6 +2595,20 @@ var rejaKunlar = [], rejaSana = null, rejaWallSent = false, rejaSent = false, re
 // на экране и цифра в PDF расходятся.
 var rejaMuddat = null, rejaMuddatOtgan = false;
 
+/* СОСТОЯНИЕ ВОПРОСА «дата известна?» и выбранного горизонта (U-74).
+   sanaBor начинается ложью не потому, что «так удобнее», а потому что это
+   правда про сегодняшний день: расписание экзамена для начальных классов
+   не опубликовано, и у подавляющего большинства даты нет. Чип «Yoʻq» нажат
+   с самого начала и виден — тридцать дней перестали быть молчаливыми,
+   они стали одним из трёх названных сроков, который можно сменить в один тап.
+   В замер отсюда НЕ уходит ни одного нового поля: событие reja уже везёт и kun,
+   и sana, а перечень «что уходит на сервер» закрыт списком и проверяется
+   человеком во вкладке «Сеть». Выбор человека читается по kun: 60 и 90 дней
+   не получаются ничем, кроме нажатия на чип. */
+var sanaBor = false;
+var rejaUfq = 30;
+var UFQ = [{ k: "1 oy", v: 30 }, { k: "2 oy", v: 60 }, { k: "3 oy", v: 90 }];
+
 // kun0() и ddmm() тоже в reja.js: их зовёт и образец.
 /* Собрать дату и проверить, что она существует. «31.02.2026» браузер молча
    превращает в 3 марта — это не та дата, которую набрал человек, и принимать
@@ -2490,12 +2655,17 @@ function ogirlik() {
    obrazec.html. Пока он стоял здесь, образец пришлось бы считать вторым
    кодом, и «что человек получит за 99 000» имело бы два ответа. */
 function rejaTuz() {
+  // Человек сказал «даты нет» — строим на выбранный им горизонт и ни на что
+  // другое. Поле даты в этой ветке спрятано и очищено, спрашивать его нечего.
+  if (!sanaBor) return rejaQur(new Date(), null, Object.keys(BLOKLAR), ogirlik(), rejaUfq);
   var holat = sanaOqi();
-  // Непонятая и прошедшая дата — это ДВА РАЗНЫХ ответа человеку, и оба он
-  // обязан увидеть. Молча подставлять 30 дней нельзя ни в том, ни в другом.
-  // «Прошедшая» разбирается уже внутри rejaQur(): там же, где считаются дни.
+  // Непонятая, ПУСТАЯ и прошедшая дата — это ТРИ РАЗНЫХ ответа человеку, и все
+  // три он обязан увидеть. Молча подставлять 30 дней нельзя ни в одном из них:
+  // именно так товар «план до дня экзамена» превращался в план до выдуманного
+  // дня. «Прошедшая» разбирается внутри rejaQur(): там же, где считаются дни.
   if (holat.tushunarsiz) return { kun: [], imtihon: null, kesildi: false, xato: "tushunarsiz" };
-  return rejaQur(new Date(), holat.sana || null, Object.keys(BLOKLAR), ogirlik());
+  if (holat.bosh) return { kun: [], imtihon: null, kesildi: false, xato: "sanasiz" };
+  return rejaQur(new Date(), holat.sana, Object.keys(BLOKLAR), ogirlik(), rejaUfq);
 }
 
 function tile(b, t) {
@@ -2530,8 +2700,14 @@ function rejaChiz() {
   document.getElementById("r-kalit").className = tarif() === "full" ? "small" : "small hide";
 
   if (r.xato) {
+    // Три разных ответа, а не один. «Дата не введена» появилась вместе с вопросом
+    // «известна ли дата»: человек, ответивший «Ha», обещал дату — и пока её нет,
+    // план не строится, вместо него стоит просьба. Раньше на этом месте молча
+    // возникали тридцать дней, и человек об этом не узнавал.
     hint.textContent = r.xato === "otgan"
       ? "Imtihon sanasi oʻtib ketgan yoki bugungi kun — reja tuzilmadi. Kelgusi sanani tanlang."
+      : r.xato === "sanasiz"
+      ? "Imtihon sanasini kiriting — reja oʻsha kungacha tuziladi. Sana hali maʼlum boʻlmasa, yuqorida «Yoʻq» ni tanlang: u holda reja siz koʻrsatgan muddatga tuziladi."
       : "Sanani tushunmadik — reja tuzilmadi. Kun-oy-yil tartibida yozing: 15.10.2026 yoki 15.10.26.";
     varaqaTayyorla();   // лист тоже обязан опустеть: иначе на печать уйдёт вчерашний план
     return;
@@ -2543,7 +2719,11 @@ function rejaChiz() {
     if (k.tur === "mock") sinov++;
     daq += k.daq || 0;
   });
-  sum.appendChild(tile(r.kun.length + " kun", r.imtihon ? "imtihongacha, " + ddmm(r.imtihon) : "reja uzunligi"));
+  // Подпись плитки называет РЕЖИМ плана. Прежнее «reja uzunligi» не отвечало
+  // на вопрос, до какого дня план, и читалось как «до экзамена».
+  sum.appendChild(tile(r.kun.length + " kun", r.imtihon
+    ? "imtihongacha, " + ddmm(r.imtihon)
+    : "imtihon sanasi belgilanmagan — siz tanlagan muddat"));
   // Сводка считает часы, а не вопросы: вопросов у нас двадцать, и обещать
   // больше нечем. Часы план распределяет сам и они не врут.
   sum.appendChild(tile(Math.round(daq / 60) + " soat", "jami mashq vaqti"));
@@ -2606,7 +2786,30 @@ function rejaChiz() {
       "yaʼni allaqachon toʻlagan boʻlsangizgina bu sanaga tayyorlanish mantiqli. " +
       "Aks holda keyingi imtihon sanasini kiriting: imtihonlar yil davomida oʻtkaziladi.");
   }
-  if (r.kesildi) izohlar.push("Imtihongacha " + REJA_MAX + " kundan koʻp qolgan, shuning uchun reja oxirgi " + REJA_MAX + " kunga tuzildi.");
+  // ОБРЕЗАННЫЙ ПЛАН НАЧИНАЕТСЯ НЕ СЕГОДНЯ, И ЭТО НАДО НАЗВАТЬ ЧИСЛОМ.
+  // Плитка сводки говорит «90 kun · imtihongacha, 01.02», и человек читает её
+  // как «девяносто дней начиная с сегодня». На самом деле берутся ПОСЛЕДНИЕ
+  // девяносто дней перед экзаменом, то есть у человека с датой через полгода
+  // план стартует через три месяца — вместе с бесплатными тремя днями,
+  // о которых прямо здесь написано «ular haqiqiy va bosib chiqarsa boʻladi».
+  // Дату старта видно только в первой строке таблицы, а её закрывает замок
+  // не у всех и читают не все.
+  if (r.kesildi) izohlar.push("Imtihongacha " + REJA_MAX + " kundan koʻp qolgan, shuning uchun reja oxirgi " +
+    REJA_MAX + " kunga tuzildi: u " + ddmm(r.kun[0].sana) + " dan boshlanadi, bugundan emas — " +
+    "bepul birinchi uch kun ham oʻsha kundan.");
+  // План без даты обязан сказать о себе ДВЕ вещи, и вторая дороже первой:
+  // дня экзамена мы не знаем, а значит рубеж оплаты — единственная дата,
+  // пропуск которой обнуляет и подготовку, и деньги, — не считается ни из чего.
+  // Промолчать об этом значит продать план, который человек примет за полный.
+  if (!r.imtihon) {
+    izohlar.push("Imtihon sanasi belgilanmagan, shuning uchun reja siz tanlagan " +
+      r.kun.length + " kunga tuzildi — imtihon kunigacha emas. Boshlangʻich sinf " +
+      "oʻqituvchilari uchun jadval hali eʼlon qilinmagan; eʼlon qilingach sanani " +
+      "kiriting, reja oʻsha kungacha qayta tuziladi.");
+    izohlar.push("Toʻlov va roʻyxatdan oʻtishning oxirgi kuni (imtihondan kamida " +
+      "12 kun oldin, VMQ № 411, Nizomga 1-ilova, SXEMA) bu rejada koʻrsatilmagan: " +
+      "uni imtihon sanasisiz hisoblab boʻlmaydi.");
+  }
   if (!natija) izohlar.push("Mashq yoki sinovdan oʻtsangiz, reja boʻsh bloklaringizga koʻproq kun ajratadi. Hozircha bloklar teng.");
   else izohlar.push("Reja «" + (natija.qayerdan === "sinov" ? "vaqt bilan sinov" : "20 savollik mashq") +
                     "» natijangizga qarab tuzildi: boʻsh bloklarga koʻproq kun.");
@@ -2631,6 +2834,92 @@ function rejaChiz() {
   var mm = t.getMonth() + 1, dd = t.getDate();
   el.min = t.getFullYear() + "-" + (mm < 10 ? "0" : "") + mm + "-" + (dd < 10 ? "0" : "") + dd;
 })();
+/* ДВА ВОПРОСА — ДВА РЯДА ЧИПОВ. Первый ряд переключает то, чем считается план,
+   и прячет ненужную половину карточки: поле даты человеку без даты не нужно,
+   а три срока человеку с датой — тем более. Поле при переключении на «Yoʻq»
+   ОЧИЩАЕТСЯ, а не просто прячется: спрятанное непустое поле — это второй ответ
+   на тот же вопрос, и однажды он вылезет.
+   rejaWallSent здесь не сбрасывается: «упёрся в замок» отмечается один раз
+   за сессию, иначе перебор сроков накрутил бы главного кандидата в точку оплаты. */
+(function () {
+  var elBor = document.getElementById("r-bor");
+  var elUfq = document.getElementById("r-ufq");
+  var BOR = ["Ha, maʼlum", "Yoʻq, hali eʼlon qilinmagan"];
+  function borChiz() {
+    var k = elBor.children;
+    for (var i = 0; i < k.length; i++) {
+      k[i].setAttribute("aria-pressed", (i === 0) === sanaBor ? "true" : "false");
+    }
+    document.getElementById("r-sana-blok").className = sanaBor ? "" : "hide";
+    document.getElementById("r-ufq-blok").className = sanaBor ? "hide" : "";
+  }
+  function ufqChiz() {
+    var k = elUfq.children;
+    for (var i = 0; i < k.length; i++) {
+      k[i].setAttribute("aria-pressed", UFQ[i].v === rejaUfq ? "true" : "false");
+    }
+  }
+  BOR.forEach(function (t, i) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip";
+    b.setAttribute("aria-pressed", "false");
+    b.appendChild(document.createTextNode(t));
+    b.addEventListener("click", function () {
+      sanaBor = (i === 0);
+      if (!sanaBor) document.getElementById("r-sana").value = "";
+      borChiz();
+      rejaOdam = true; rejaSent = false;
+      rejaChiz();
+    });
+    elBor.appendChild(b);
+  });
+  UFQ.forEach(function (u) {
+    var b = document.createElement("button");
+    b.type = "button"; b.className = "chip";
+    b.setAttribute("aria-pressed", "false");
+    b.appendChild(document.createTextNode(u.k));
+    var c = document.createElement("span");
+    c.className = "c";
+    c.appendChild(document.createTextNode(u.v + " kun"));
+    b.appendChild(c);
+    b.addEventListener("click", function () {
+      rejaUfq = u.v;
+      ufqChiz();
+      rejaOdam = true; rejaSent = false;
+      rejaChiz();
+    });
+    elUfq.appendChild(b);
+  });
+  /* КНОПКА «НАЗАД» — ТОТ САМЫЙ СЛУЧАЙ, ОТ КОТОРОГО ПОЛЕ ОЧИЩАЕТСЯ ВРУЧНУЮ.
+     Браузер при возврате по истории восстанавливает значения полей формы,
+     а переменную sanaBor не восстанавливает: скрипт исполняется заново и она
+     снова false. Воспроизведено живьём 28.08.2026: «Ha» → дата 20.10 → план
+     до 20.10 с рубежом оплаты 08.10 → ссылка «Toʻliq rejaning namunasi»,
+     которая стоит здесь же, рядом с планом → «назад». Возвращается страница,
+     где нажат чип «Yoʻq», план на 30 дней, рубежа оплаты нет вовсе, в шапке
+     печатного листа «Imtihon sanasi belgilanmagan» — а введённая дата лежит
+     в СПРЯТАННОМ поле. Это и есть «второе состояние одного ответа», ради
+     которого поле при переключении на «Yoʻq» очищается.
+     Значит непустое поле на входе сильнее умолчания: показываем то, что
+     человек ввёл, а не то, что удобно переменной. Событий это не шлёт —
+     rejaOdam здесь не поднимается, поднимает его только действие человека. */
+  function sanaTiklash() {
+    if (sanaBor) return false;
+    if (!String(document.getElementById("r-sana").value || "").trim()) return false;
+    sanaBor = true;
+    borChiz();
+    return true;
+  }
+  borChiz(); ufqChiz();
+  sanaTiklash();
+  // Если браузер вернул страницу из bfcache, скрипт заново не исполняется —
+  // тогда и расхождения нет. Но проверить дешевле, чем полагаться на то,
+  // какой из двух механизмов возврата сработал у конкретного телефона.
+  window.addEventListener("pageshow", function () {
+    if (sanaTiklash()) rejaChiz();
+  });
+})();
+
 document.getElementById("r-sana").addEventListener("change", function () { rejaOdam = true; rejaSent = false; rejaChiz(); });
 document.getElementById("r-sana").addEventListener("input", function () {
   clearTimeout(rejaChiz.t);
@@ -2687,9 +2976,19 @@ function varaqaTayyorla() {
   } else if (rejaMuddatOtgan) {
     muddatMatn = " · DIQQAT: imtihongacha 12 kundan kam qoldi — roʻyxatdan oʻtish muddati oʻtgan";
   }
+  // Шапка листа называет РЕЖИМ плана, а не только отсутствие даты. Лист уносят
+  // в школу, экрана рядом нет: «Imtihon sanasi kiritilmagan» без числа дней
+  // читается как «план ни до чего», хотя план настоящий и его длину человек
+  // выбрал сам.
+  var sanaMatn = " · Imtihon sanasi kiritilmagan";
+  if (rejaSana) {
+    sanaMatn = " · Imtihon sanasi: " + ddmm(rejaSana) + "." + rejaSana.getFullYear();
+  } else if (rejaKunlar.length) {
+    sanaMatn = " · Imtihon sanasi belgilanmagan — " + rejaKunlar.length + " kunlik tayyorgarlik rejasi";
+  }
   document.getElementById("v-head").textContent =
     "Tuzilgan sana: " + ddmm(new Date()) + "." + new Date().getFullYear() +
-    (rejaSana ? " · Imtihon sanasi: " + ddmm(rejaSana) + "." + rejaSana.getFullYear() : " · Imtihon sanasi kiritilmagan") +
+    sanaMatn +
     muddatMatn +
     " · gordondr.github.io/tma-uz/ustoz-sertifikat/";
   document.getElementById("v-oyiga").textContent = b ? fmt(oy) + " soʻm" : "—";
@@ -2862,8 +3161,9 @@ function varaqaReja() {
   document.getElementById("v-reja-h").textContent = "Reja";
 
   if (!rejaKunlar.length) {
-    izoh.textContent = "Reja tuzilmadi: 5-qadamda imtihon sanangizni kiriting " +
-      "yoki boʻsh qoldiring — u holda reja 30 kunga tuziladi.";
+    izoh.textContent = "Reja tuzilmadi: 5-qadamda imtihon sanangizni kiriting, " +
+      "sana hali maʼlum boʻlmasa esa «Yoʻq» ni tanlab muddatni koʻrsating — " +
+      "1, 2 yoki 3 oy.";
     return;
   }
 
@@ -2954,8 +3254,17 @@ function varaqaReja() {
     ? "Reja " + rejaKunlar.length + " kunga. "
     : "Bepul qism — birinchi " + ochiq + " kun, ular haqiqiy. Toʻliq reja (" +
       rejaKunlar.length + " kun) toʻplamda: " + fmt(window.MVP.PRICE_FULL) + " soʻm. ") +
+    // РАСШИФРОВКА КЛЕТКИ ОБЯЗАНА СОВПАДАТЬ С ТЕКСТОМ ДНЯ. Здесь стояло
+    // «Hujjatlar — ariza va toʻlovni tekshirish», то есть ровно тот совет,
+    // который reja.js убрал из самого дня и объяснил почему: до этого дня
+    // остаются сутки, а по СХЕМЕ (приложение 1 к Низому) и оплата,
+    // и регистрация закрылись за 12 дней до экзамена — совет опаздывает
+    // на одиннадцать суток. В дне теперь стоит «Ruxsatnoma va shaxsni
+    // tasdiqlovchi hujjatni tayyorlab qoʻying», а лист человек уносит в школу,
+    // экрана рядом нет, и легенда на нём была единственным объяснением клетки.
     "Sinov — imtihon shaklida, vaqt bilan; Daftar — faqat xatolar daftari; " +
-    "Hujjatlar — ariza va toʻlovni tekshirish. Kunlar savol soni bilan emas, vaqt " +
+    "Hujjatlar — ruxsatnoma va shaxsni tasdiqlovchi hujjatni tayyorlash. " +
+    "Kunlar savol soni bilan emas, vaqt " +
     "bilan oʻlchanadi: bugun bizda 20 ta savol bor va biz koʻproqni vaʼda qilmaymiz.";
 }
 

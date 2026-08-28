@@ -11,18 +11,18 @@
 // блоков стоял бы в двух файлах — та же ошибка, от которой этот файл и заведён.
 
 var MAVZULAR = {
-  "ona-tili": ["Tovush va harf: sh, ch, ng", "So'z turkumlari", "Bo'g'in va satrdan satrga ko'chirish",
-               "Kelishiklar", "So'z tarkibi: o'zak va qo'shimcha", "O'qish savodxonligi: matn bo'yicha savol"],
-  "matematika": ["Og'zaki hisob va amallar tartibi", "Perimetr va yuza", "Ulush va qism",
-                 "Masala: «nechta ko'p» va «necha marta ko'p»", "Uzunlik, massa, vaqt birliklari",
-                 "Katakli qog'ozda geometriya"],
-  "tabiiy": ["Tirik va notirik tabiat", "Suvning holatlari", "O'simlik qismlari va vazifasi",
+  "ona-tili": ["Tovush va harf: sh, ch, ng", "Soʻz turkumlari", "Boʻgʻin va satrdan satrga koʻchirish",
+               "Kelishiklar", "Soʻz tarkibi: oʻzak va qoʻshimcha", "Oʻqish savodxonligi: matn boʻyicha savol"],
+  "matematika": ["Ogʻzaki hisob va amallar tartibi", "Perimetr va yuza", "Ulush va qism",
+                 "Masala: «nechta koʻp» va «necha marta koʻp»", "Uzunlik, massa, vaqt birliklari",
+                 "Katakli qogʻozda geometriya"],
+  "tabiiy": ["Tirik va notirik tabiat", "Suvning holatlari", "Oʻsimlik qismlari va vazifasi",
              "Ob-havo va fasllar", "Inson organizmi va salomatlik", "Tabiatni muhofaza qilish"],
-  "tarbiya": ["Oila va mahalla", "Mehnat va kasblar", "Yo'l harakati qoidalari",
-              "Muomala odobi", "Vatan va bayramlar", "Sog'lom turmush tarzi"],
-  "texnologiya": ["Materiallar va ularning xossalari", "O'lchash va belgilash", "Qog'oz bilan ishlash",
-                  "Xavfsizlik qoidalari", "Ish o'rnini tashkil qilish", "Loyiha ishi bosqichlari"],
-  "metodika": ["Dars maqsadini qo'yish", "Baholash: joriy, oraliq, yakuniy", "Differensial yondashuv",
+  "tarbiya": ["Oila va mahalla", "Mehnat va kasblar", "Yoʻl harakati qoidalari",
+              "Muomala odobi", "Vatan va bayramlar", "Sogʻlom turmush tarzi"],
+  "texnologiya": ["Materiallar va ularning xossalari", "Oʻlchash va belgilash", "Qogʻoz bilan ishlash",
+                  "Xavfsizlik qoidalari", "Ish oʻrnini tashkil qilish", "Loyiha ishi bosqichlari"],
+  "metodika": ["Dars maqsadini qoʻyish", "Baholash: joriy, oraliq, yakuniy", "Differensial yondashuv",
                "Juftlik va guruhda ishlash", "Savol berish texnikasi", "Uy vazifasi va qayta aloqa"],
 };
 var HAFTA = ["Yakshanba", "Dushanba", "Seshanba", "Chorshanba", "Payshanba", "Juma", "Shanba"];
@@ -97,16 +97,26 @@ function ogirlikHisobla(blok, keys) {
 }
 
 /* Собственно план. Чистая функция: день «сегодня», день экзамена (или null),
-   ключи блоков и их веса на входе — массив дней на выходе.
+   ключи блоков, их веса и — когда даты нет — горизонт в днях на входе;
+   массив дней на выходе.
    Возвращает тот же объект, что раньше возвращал rejaTuz():
    { kun, imtihon, kesildi, xato, muddat, muddatOtgan }. */
-function rejaQur(bugunRaw, imtihonRaw, keys, w) {
+function rejaQur(bugunRaw, imtihonRaw, keys, w, ufqKun) {
   var bugun = kun0(bugunRaw);
   var imtihon = imtihonRaw ? kun0(imtihonRaw) : null;
   if (imtihon && imtihon <= bugun) {
     return { kun: [], imtihon: null, kesildi: false, xato: "otgan" };
   }
-  var oxir = imtihon || new Date(bugun.getTime() + 30 * 86400000);
+  /* ГОРИЗОНТ БЕЗ ДАТЫ ПРИХОДИТ ПАРАМЕТРОМ, а не зашит числом 30. Расписание
+     экзамена для начальных классов не опубликовано; «тридцать дней» были
+     сроком, который мы придумали и о котором молчали. Теперь его выбирает
+     человек — 30, 60 или 90 дней. Значение по умолчанию оставлено ровно для
+     одного вызова: образец товара (obrazec.html) зовёт функцию с датой,
+     и горизонт там не участвует вовсе. Потолок общий с REJA_MAX: дальше
+     девяноста дней план становится враньём про мотивацию, и обойти это
+     правило через параметр нельзя. */
+  var ufq = ufqKun && ufqKun > 0 ? Math.min(Math.round(ufqKun), REJA_MAX) : 30;
+  var oxir = imtihon || new Date(bugun.getTime() + ufq * 86400000);
   // Дни считаются от сегодняшнего включительно до дня ПЕРЕД экзаменом:
   // в день экзамена не готовятся, а если экзамен завтра — один день всё же есть,
   // и он не должен превращаться в «дата прошла».
@@ -157,15 +167,15 @@ function rejaQur(bugunRaw, imtihonRaw, keys, w) {
     if (tur[i2] === "rest") {
       row.tur = "rest"; row.daq = DAQIQA_DAM;
       var qolgan2 = kunlar - i2;
-      // Раньше здесь стояло «Ariza, to'lov va hujjatlarni tekshirish» — совет,
+      // Раньше здесь стояло «Ariza, toʻlov va hujjatlarni tekshirish» — совет,
       // который к этому дню опаздывает на одиннадцать суток: по СХЕМЕ (приложение 1
       // к Низому) платёж делается не позднее чем за 12 дней до экзамена, а
       // регистрация к тому же сроку уже закрыта. План, который ведёт человека
       // к дате экзамена и предлагает «проверить оплату» накануне, доводит его
       // до дня, когда подать уже нельзя.
       row.ish = qolgan2 === 1
-        ? "Yengil takrorlash. Ruxsatnoma va shaxsni tasdiqlovchi hujjatni tayyorlab qo'ying"
-        : (qolgan2 === 3 ? "Barcha bloklar bo'yicha xatolar daftari" : "Dam kuni: faqat xatolar daftari");
+        ? "Yengil takrorlash. Ruxsatnoma va shaxsni tasdiqlovchi hujjatni tayyorlab qoʻying"
+        : (qolgan2 === 3 ? "Barcha bloklar boʻyicha xatolar daftari" : "Dam kuni: faqat xatolar daftari");
       row.qisqa = qolgan2 === 1 ? "Hujjatlar" : "Daftar";
     } else if (tur[i2] === "mock") {
       row.tur = "mock"; row.daq = DAQIQA_SINOV;
@@ -202,7 +212,7 @@ function rejaQur(bugunRaw, imtihonRaw, keys, w) {
     if (kunlar >= 12) {
       muddat = new Date(oxir.getTime() - 12 * 86400000);
       out[kunlar - 12].muddat = true;
-      out[kunlar - 12].ish += ". OXIRGI KUN: to'lov va ro'yxatdan o'tish (imtihondan 12 kun oldin)";
+      out[kunlar - 12].ish += ". OXIRGI KUN: toʻlov va roʻyxatdan oʻtish (imtihondan 12 kun oldin)";
     } else {
       // До экзамена меньше двенадцати дней — значит либо всё уже оплачено,
       // либо на этот экзамен податься уже нельзя. Промолчать здесь означает

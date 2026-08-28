@@ -106,10 +106,16 @@ ol.q .ask{color:var(--ink2);display:block;margin-bottom:6px}
 .hide{display:none}
 
 /* Печать: не тратить краску на интерфейс. Влезть в один А4 лист не может
-   и не пытается: расчёт по строкам, семь вопросов с линейками под ответы
-   и таблица трёх школ — это две страницы, и так и написано на странице
-   расчёта. Обещание «на один лист» стояло там до 28.08.2026 и было ложным:
-   ни в одном сочетании заполненных полей лист в одну страницу не влезал. */
+   и не пытается. Сколько выходит на самом деле — замерено при ширине полосы
+   182 мм (A4 минус поля @page 14 мм), высота полосы 269 мм ≈ 1017 px:
+   расчёт, семь вопросов, таблица школ и журнал без раздела 3 — 1768 px, то есть
+   две страницы; с разделом 3 каждый недостающий пункт добавляет ≈76 px,
+   и уже трёх недостающих пунктов при заполненном сравнении хватает, чтобы
+   перевалить за 2034 px, то есть на третью страницу; предел (12 пунктов,
+   три школы, журнал) — 2677 px, три страницы. Поэтому на странице расчёта
+   написано «две–три». Обещание «на один лист» стояло там до 28.08.2026,
+   обещание «две страницы» — до 28.08.2026 вечера: раздел 3 появился, а
+   число страниц осталось прежним. Меняя состав листа, меняйте и это число. */
 @media print{
   :root{--paper:#fff;--ink:#000;--ink2:#222;--muted:#555;--rule:#888;--rule2:#ccc;
         --green:#000;--amber:#000}
@@ -191,8 +197,20 @@ ol.q .ask{color:var(--ink2);display:block;margin-bottom:6px}
   <span><span data-ru="Название автошколы">Avtomaktab nomi</span><i></i></span>
 </div>
 
+<!-- Чего не хватает в договоре. Раздел появляется только если человек отметил
+     на странице расчёта хотя бы один пункт как отсутствующий: пустой раздел
+     «в вашем договоре всё есть» занял бы на А4 место и выглядел бы как
+     обвинение школы, которого мы не делали. Печатается СРАЗУ ПОСЛЕ семи
+     вопросов и до сравнения школ: это разговор у той же стойки и в ту же
+     минуту, а сравнение — дома. -->
+<div id="svwrap" class="hide">
+  <h2 data-ru="3. Чего не хватает в вашем договоре">3. Shartnomangizda nima yetishmaydi</h2>
+  <p class="sub" data-ru="Отмечено вами на странице расчёта. Под каждым пунктом — строка для ответа: что скажет администратор и допишет ли он это в договор.">Hisob sahifasida oʻzingiz belgilagansiz. Har bir band ostida javob uchun qator: administrator nima deydi va buni shartnomaga yozib beradimi.</p>
+  <ol class="q" id="svrows"></ol>
+</div>
+
 <div id="cmpwrap" class="hide">
-  <h2 data-ru="3. Три школы рядом">3. Uchta avtomaktab yonma-yon</h2>
+  <h2 data-ru="4. Три школы рядом">4. Uchta avtomaktab yonma-yon</h2>
   <table>
     <thead><tr>
       <th data-ru="Школа">Avtomaktab</th>
@@ -204,7 +222,7 @@ ol.q .ask{color:var(--ink2);display:block;margin-bottom:6px}
 </div>
 
 <div id="logwrap" class="hide">
-  <h2 data-ru="4. Журнал занятий">4. Darslar daftari</h2>
+  <h2 data-ru="5. Журнал занятий">5. Darslar daftari</h2>
   <table>
     <tbody id="logrows"></tbody>
   </table>
@@ -345,6 +363,31 @@ function render() {
   document.getElementById("date").textContent =
     two(d.getDate()) + "." + two(d.getMonth() + 1) + "." + d.getFullYear();
 
+  // Чего не хватает в договоре: только пункты, отмеченные «нет». Заголовки
+  // лежат в записи на обоих языках сразу — лист умеет переключаться сам,
+  // и узбекский пункт, сохранённый по-русски, стал бы здесь дырой.
+  var svm = ((data && data.svera && data.svera.miss) || []).filter(function (m) {
+    return m && (m.ru || m.uz);
+  });
+  document.getElementById("svwrap").classList.toggle("hide", !svm.length);
+  var sb = document.getElementById("svrows");
+  sb.innerHTML = "";
+  svm.forEach(function (m) {
+    var li = document.createElement("li");
+    var t = document.createElement("span");
+    t.className = "t";
+    t.textContent = lang === "ru" ? (m.ru || m.uz) : (m.uz || m.ru);
+    var a = document.createElement("span");
+    a.className = "ask";
+    a.textContent = lang === "ru"
+      ? "Что отвечает школа и допишет ли она это в договор:"
+      : "Avtomaktab nima deydi va buni shartnomaga yozib beradimi:";
+    var l = document.createElement("span");
+    l.className = "line";
+    li.appendChild(t); li.appendChild(a); li.appendChild(l);
+    sb.appendChild(li);
+  });
+
   // Сравнение печатается только если школ хотя бы две: одна строка «сравнения»
   // на листе выглядит как ошибка и занимает место, которого на А4 нет.
   var cmp = ((data && data.cmp) || []).filter(function (s) { return s && s.total > 0; });
@@ -380,6 +423,27 @@ function render() {
       lb.appendChild(row);
     });
   }
+
+  numberSections();
+}
+
+/* Номера разделов проставляются здесь, а не в разметке. Разделы 3 (чего
+   не хватает в договоре), 4 (три школы) и 5 (журнал) прячутся независимо
+   друг от друга, а номера в заголовках стояли жёстко — и человек, у которого
+   в договоре нашлось всё, уносил администратору лист с разделами «1, 2, 4, 5».
+   Пропущенный номер на бумаге читается как потерянная страница, а лист и так
+   не документ: доверия ему это не добавляет. applyLang() возвращает в каждый
+   h2 исходный текст вместе с жёстким номером, поэтому старый номер сначала
+   снимаем и только потом ставим свой; render() зовётся после applyLang()
+   в обоих путях — и на старте, и при переключении языка. */
+function numberSections() {
+  var k = 0;
+  [].slice.call(document.querySelectorAll(".sheet h2")).forEach(function (h) {
+    var box = h.parentElement;
+    if (box && box.classList.contains("hide")) return;
+    k++;
+    h.textContent = k + ". " + h.textContent.replace(/^\s*\d+\.\s*/, "");
+  });
 }
 
 document.getElementById("print").onclick = function () { window.print(); };

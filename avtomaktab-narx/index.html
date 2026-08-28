@@ -274,6 +274,47 @@ label.chk input{width:19px;height:19px;max-width:19px;accent-color:var(--green);
 .qs .risk{font-size:14px;color:var(--ink2);background:var(--amber-bg);border-radius:9px;
   padding:10px 13px;margin:0}
 .qs .risk b{color:var(--amber)}
+/* Самопроверка договора. У каждого пункта ТРИ состояния, и «не смотрел» —
+   состояние по умолчанию. ПОЧЕМУ НЕ ГАЛОЧКА: галочка знает только «да» и «нет»,
+   и снятая галочка на свежей странице означала бы «в договоре этого нет»
+   у человека, который договор ещё не открывал. Вывод «не хватает двенадцати
+   пунктов» появлялся бы до первого действия — и появлялся бы в нашу пользу.
+   Условие, которое нельзя провалить, ничего не измеряет; условие, которое
+   выполняется само, измеряет ещё меньше. */
+.sv{margin-top:20px}
+.svgrp{margin-top:22px}
+.svgrp h3{font:600 17px var(--display);margin:0 0 6px}
+.svgrp .svh{color:var(--ink2);font-size:14.5px;margin:0 0 12px}
+.svlist{list-style:none;padding:0;margin:0}
+.svi{background:var(--card);border:1px solid var(--rule);border-radius:13px;
+  padding:15px 16px;margin-bottom:10px}
+.svi.miss{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber)}
+.svi.have{border-color:var(--green)}
+.svt{font-weight:600;font-size:15.5px;display:block;margin-bottom:5px}
+.svn{display:block;font-size:12.5px;color:var(--muted);font-weight:400;margin-top:3px}
+.svn a{color:var(--muted)}
+.svm{font-size:14px;color:var(--ink2);background:var(--amber-bg);border-radius:9px;
+  padding:10px 12px;margin:0 0 11px}
+.svm b{color:var(--amber)}
+.svb{display:flex;flex-wrap:wrap;gap:8px}
+.svb button{background:transparent;border:1px solid var(--rule);border-radius:9px;
+  color:var(--ink2);font:600 13.5px var(--body);padding:8px 13px;cursor:pointer;
+  min-height:38px}
+.svb button.on.yes{background:var(--green-bg);border-color:var(--green);color:var(--green)}
+.svb button.on.no{background:var(--amber-bg);border-color:var(--amber);color:var(--amber)}
+.svb button.on.skip{background:var(--rule2);border-color:var(--rule);color:var(--ink)}
+.svsum{background:var(--card);border:1px solid var(--rule);border-radius:13px;
+  padding:16px;margin-top:18px}
+.svsum .svc{font:600 15px var(--body);margin:0 0 8px}
+.svsum .svc i{font-style:normal;font-variant-numeric:tabular-nums}
+.svsum .svv{font-size:14.5px;color:var(--ink2);margin:0}
+.svsum.good{border-color:var(--green);box-shadow:0 0 0 1px var(--green)}
+.svsum.good .svc{color:var(--green)}
+.svsum.gap{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber)}
+.svsum.gap .svc{color:var(--amber)}
+.svfacts{margin:12px 0 0;padding-left:20px;font-size:14.5px;color:var(--ink2)}
+.svfacts li{margin-bottom:7px}
+
 
 /* ── Сравнение школ ────────────────────────────────────────────────────────
    Три школы стоят колонками только на широком экране. На 375px колонка шириной
@@ -384,7 +425,8 @@ footer p{margin:0 0 10px}
     <a class="btn" href="#hisob" data-ev="calc_top" data-ru="Посчитать полную цену">Toʻliq narxni hisoblash</a>
     <a class="btn sec" href="#solish" data-ev="cmp_top" data-ru="Сравнить три школы">Uchta maktabni solishtirish</a>
     <a class="btn sec" href="#savollar" data-ev="q_top" data-ru="Семь вопросов">Yettita savol</a>
-    <p class="after"><span data-ru="Бесплатно и без регистрации: калькулятор, сравнение трёх школ, семь вопросов, журнал занятий и лист для печати. Платный — только разбор вашего договора, 49 000 сум. Контакт спрашиваем в заявке. Сам расчёт считается в браузере, но три числа из него — названную вам цену, итог и разницу — мы сохраняем у себя: имени и номера в этих записях нет, но если вы оставите заявку, они окажутся связаны с ней:">Bepul va roʻyxatdan oʻtmasdan: hisoblagich, uchta avtomaktabni solishtirish, yettita savol, darslar daftari va chop etish varaqasi. Pullik qism bitta — shartnomangiz tahlili, 49 000 soʻm. Aloqa maʼlumotini arizada soʻraymiz. Hisobning oʻzi brauzerda bajariladi, lekin undan uchta raqamni — sizga aytilgan narx, jami va farq — oʻzimizda saqlaymiz: bu yozuvlarda na ism, na raqam bor, lekin ariza qoldirsangiz, ular ariza bilan bogʻlanadi:</span> <a href="#maxfiylik" data-ru="что уходит со страницы и зачем">sahifadan nima yuboriladi va nima uchun</a></p>
+    <a class="btn sec" href="#shartnoma" data-ev="dog_top" data-ru="Сверить свой договор">Shartnomani solishtirish</a>
+    <p class="after"><span data-ru="Бесплатно и без регистрации: калькулятор, сравнение трёх школ, семь вопросов, разбор состава договора, журнал занятий и лист для печати. Платный — только разбор вашего договора, 49 000 сум. Контакт спрашиваем в заявке. Сам расчёт считается в браузере, но три числа из него — названную вам цену, итог и разницу — мы сохраняем у себя: имени и номера в этих записях нет, но если вы оставите заявку, они окажутся связаны с ней:">Bepul va roʻyxatdan oʻtmasdan: hisoblagich, uchta avtomaktabni solishtirish, yettita savol, shartnoma tarkibining tahlili, darslar daftari va chop etish varaqasi. Pullik qism bitta — shartnomangiz tahlili, 49 000 soʻm. Aloqa maʼlumotini arizada soʻraymiz. Hisobning oʻzi brauzerda bajariladi, lekin undan uchta raqamni — sizga aytilgan narx, jami va farq — oʻzimizda saqlaymiz: bu yozuvlarda na ism, na raqam bor, lekin ariza qoldirsangiz, ular ariza bilan bogʻlanadi:</span> <a href="#maxfiylik" data-ru="что уходит со страницы и зачем">sahifadan nima yuboriladi va nima uchun</a></p>
   </div>
 </section>
 
@@ -689,10 +731,161 @@ footer p{margin:0 0 10px}
   <textarea id="copybox" class="hide" rows="8" readonly aria-hidden="true"></textarea>
 </section>
 
+<!-- ═══ Из чего состоит договор автошколы ════════════════════════════════════
+     Платное у продукта одно: живой человек читает конкретный договор. Главный
+     риск этого продукта записан заранее — «у всех школ договор типовой»: если
+     это правда, читать нечего и платить не за что. Проверить риск можно двумя
+     способами: разобрать десяток настоящих договоров (их у нас нет ни одного)
+     или дать человеку сверить свой договор самому. Второй способ не требует
+     ни одного живого договора, ни одного посева и ни одной строки в базе —
+     и он же отдаёт бесплатному человеку ровно то, за чем он пришёл.
+
+     ЧЕМ ЭТОТ РАЗДЕЛ ОТЛИЧАЕТСЯ ОТ СЕМИ ВОПРОСОВ ВЫШЕ. Семь вопросов — для
+     того, у кого договора ещё НЕТ: их задают у стойки до подписи. Этот
+     раздел — для того, у кого договор УЖЕ на руках: он не спрашивает, а
+     сверяет. Это разные люди и разные моменты, и в беклоге они разведены
+     как сегмент 2 и сегмент 1.
+
+     ПОЧЕМУ ЗДЕСЬ НЕТ НИ ОДНОГО СОБЫТИЯ ЗАМЕРА. Раздел ничего не отправляет:
+     ни ev(), ни fetch. Отметки живут в localStorage и уезжают только на лист
+     печати, который собирается на устройстве. Иначе у нас появилась бы база
+     «чего нет в договоре такой-то школы» — данные о третьих лицах, которых
+     никто не спрашивал (то же соображение, что у журнала занятий).
+
+     ЧТО ЭТОТ РАЗДЕЛ НЕ ДЕЛАЕТ. Он не оценивает договор и не заменяет юриста.
+     Он перечисляет то, что задаёт норма, и то, чего норма не задаёт вовсе, —
+     и говорит, что означает пустое место. Вывод делает человек. ═══════════ -->
+<section id="shartnoma">
+  <div class="col">
+    <h2 data-ru="Из чего состоит договор автошколы">Avtomaktab shartnomasi nimalardan iborat</h2>
+    <p data-ru="Семь вопросов выше — для того, у кого договора ещё нет. Этот раздел — для того, у кого он уже на руках. Здесь не спрашивают, а сверяют: что норма задаёт числом, чего норма не задаёт вовсе и что означает пустое место в договоре. Отметьте по каждому пункту — есть он у вас или нет. Отметки хранятся в вашем браузере и никуда не уходят; то, чего не хватило, попадёт на лист А4 отдельным разделом.">Yuqoridagi yettita savol — shartnomasi hali yoʻq odam uchun. Bu boʻlim — shartnomasi allaqachon qoʻlida boʻlgan odam uchun. Bu yerda soʻralmaydi, solishtiriladi: meʼyor nimani raqam bilan belgilaydi, nimani umuman belgilamaydi va shartnomadagi boʻsh joy nimani anglatadi. Har bir band boʻyicha belgilang — u sizda bormi yoki yoʻq. Belgilar brauzeringizda saqlanadi va hech qayerga ketmaydi; yetishmagani A4 varaqasiga alohida boʻlim boʻlib tushadi.</p>
+    <p class="after" data-ru="Мы не оказываем юридических услуг и не проводим экспертизу. Этот список — перечень того, что говорит норма, а не оценка вашего договора.">Biz yuridik xizmat koʻrsatmaymiz va ekspertiza qilmaymiz. Bu roʻyxat — meʼyor nima deyishining sanogʻi, sizning shartnomangizga baho emas.</p>
+  </div>
+
+  <div class="sv" id="sv">
+
+    <div class="svgrp">
+      <h3 data-ru="A. Что норма задаёт числом">A. Meʼyor raqam bilan nimani belgilaydi</h3>
+      <p class="svh" data-ru="Эти пять чисел не зависят от школы и не обсуждаются. Договор может быть выше нормы, но не ниже её.">Bu beshta raqam avtomaktabga bogʻliq emas va muhokama qilinmaydi. Shartnoma meʼyordan yuqori boʻlishi mumkin, lekin undan past emas.</p>
+      <ol class="svlist">
+
+        <li class="svi" data-k="a1">
+          <span class="svt"><b data-ru="Срок обучения — не менее 18 недель">Oʻqish muddati — kamida 18 hafta</b><span class="svn" data-ru="ПКМ № 408, приложение 3, пункт 11¹ (введён ПКМ № 393 от 20.07.2022)">408-son qaror, 3-ilova, 11¹-band (20.07.2022 dagi 393-son qaror bilan kiritilgan)</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="обещание «права за два месяца» ничем не связано — срок нигде не записан, и растянувшийся курс окажется вашей проблемой. Отзывы называют 2,5–3,5 месяца.">«ikki oyda guvohnoma» vaʼdasi hech narsa bilan bogʻlanmaydi — muddat hech qayerda yozilmagan, choʻzilib ketgan kurs esa sizning muammoyingiz boʻlib qoladi. Sharhlarda 2,5–3,5 oy deyiladi.</span></p>
+          <div class="svb"></div>
+        </li>
+
+        <li class="svi" data-k="a2">
+          <span class="svt"><b data-ru="Аудиторные занятия — не менее 216 часов, и в договоре стоит их число">Auditoriya darslari — kamida 216 soat, va ularning soni shartnomada turadi</b><span class="svn" data-ru="ПКМ № 408, приложение 3, пункт 11¹; самостоятельная теория по A и B — приложение 2, пункты 9¹–9³ (введены ПКМ № 125 от 30.03.2026, действуют с 01.04.2026)">408-son qaror, 3-ilova, 11¹-band; A va B boʻyicha mustaqil nazariya — 2-ilova, 9¹–9³-bandlar (30.03.2026 dagi 125-son qaror bilan kiritilgan, 01.04.2026 dan amalda)</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="с 01.04.2026 теорию по A и B разрешено осваивать самостоятельно (кроме учебных групп государственных образовательных учреждений — оговорка стоит в самом пункте), поэтому школа может теорию вам и не продавать. Но тогда это должно быть написано: за что вы платите — за практику одну или за практику с аудиторией. Молчание договора здесь означает, что аудиторию вам посчитают, а часов вы не увидите.">01.04.2026 dan A va B nazariyasini mustaqil oʻzlashtirishga ruxsat berilgan (davlat taʼlim muassasalarining oʻquv guruhlari bundan mustasno — istisno bandning oʻzida turadi), shuning uchun avtomaktab nazariyani sizga sotmasligi ham mumkin. Lekin unda buni yozish kerak: siz nima uchun toʻlayapsiz — faqat amaliyot uchunmi yoki amaliyot va auditoriya uchunmi. Shartnomaning bu yerdagi sukuti auditoriya sizga hisoblanadi-yu, soatlarni koʻrmaysiz degani.</span></p>
+          <div class="svb"></div>
+        </li>
+
+        <li class="svi" data-k="a3">
+          <span class="svt"><b data-ru="Практическое управление — не менее 69 часов, числом в договоре">Amaliy boshqaruv — kamida 69 soat, shartnomada raqam bilan</b><span class="svn" data-ru="ПКМ № 408, приложение 3, пункт 11¹">408-son qaror, 3-ilova, 11¹-band</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="это самая дорогая пустота в договоре. Договор на 40 часов уже ниже минимума, а недостающие 29 продадут потом как «дополнительные» — по цене, которой нет ни в одном источнике. Если числа часов нет вовсе, спорить будет не о чем: вы не сможете показать, чего вам недодали.">bu — shartnomadagi eng qimmat boʻshliq. 40 soatlik shartnoma allaqachon minimumdan past, yetishmagan 29 soatni esa keyin «qoʻshimcha» deb sotishadi — narxi biror manbada yoʻq. Agar soat soni umuman boʻlmasa, bahslashadigan narsa qolmaydi: sizga nima berilmaganini koʻrsata olmaysiz.</span></p>
+          <div class="svb"></div>
+        </li>
+
+        <li class="svi" data-k="a4">
+          <span class="svt"><b data-ru="Расписание укладывается в потолки нормы: до 20 часов в неделю всего, до 4 часов аудитории в день, до 8 часов практики в день у одного инструктора">Jadval meʼyor shiftlariga sigʻadi: haftasiga jami 20 soatgacha, kuniga 4 soatgacha auditoriya, bitta instruktorda kuniga 8 soatgacha amaliyot</b><span class="svn" data-ru="ПКМ № 408, приложение 3, пункт 11¹, тот же пункт">408-son qaror, 3-ilova, 11¹-band, oʻsha bandning oʻzi</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="этими тремя потолками проверяется обещание «быстрее всех». Недельный потолок в 20 часов держит курс не короче 18 недель, и обойти его нельзя. Единственное законное сокращение срока — пункт 11² того же приложения, и он только для призывников в центрах подготовки при управлениях по делам обороны.">bu uchta shift bilan «hammadan tez» vaʼdasi tekshiriladi. Haftalik 20 soatlik shift kursni 18 haftadan qisqa boʻlishiga yoʻl qoʻymaydi, uni aylanib oʻtib boʻlmaydi. Muddatni qisqartirishning yagona qonuniy yoʻli — oʻsha ilovaning 11²-bandi, u esa faqat mudofaa ishlari boshqarmalari huzuridagi tayyorlov markazlaridagi chaqiriluvchilar uchun.</span></p>
+          <div class="svb"></div>
+        </li>
+
+        <li class="svi" data-k="a5">
+          <span class="svt"><b data-ru="Написано, на какой коробке передач идёт практика">Amaliyot qanday uzatmalar qutisida oʻtishi yozilgan</b><span class="svn" data-ru="ПКМ № 408, приложение 2 к Положению о лицензировании, пункт 11, абзац 2 в редакции ПКМ № 125 от 30.03.2026; без исключения то же — приложение 2¹, пункт 40">408-son qaror, litsenziyalash nizomiga 2-ilova, 11-band, 2-xatboshi, 30.03.2026 dagi 125-son qaror tahririda; mustasnosiz oʻshanday talab — 2¹-ilova, 40-band</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="практический экзамен принимают на механической коробке — прямое исключение норма делает только для подкатегории A1 и категории A, там сдают на двухколёсном мопеде, скутере, мотоцикле или электромотоцикле. Если вас учили на автомате, а сдавать вы идёте на механике, переучиваться придётся за свой счёт, и в договоре этих денег не будет.">amaliy imtihon mexanik uzatmalar qutisida qabul qilinadi — meʼyor toʻgʻridan-toʻgʻri istisnoni faqat A1 kichik toifasi va A toifasi uchun qiladi, ular ikki gʻildirakli moped, skuter, mototsikl yoki elektromototsiklda topshiriladi. Sizni avtomatda oʻqitishgan boʻlsa, imtihonga esa mexanikada borsangiz, qayta oʻrganish oʻz hisobingizdan boʻladi va bu pul shartnomada koʻrsatilmaydi.</span></p>
+          <div class="svb"></div>
+        </li>
+
+      </ol>
+    </div>
+
+    <div class="svgrp">
+      <h3 data-ru="Б. Чего норма не задаёт вовсе">B. Meʼyor nimani umuman belgilamaydi</h3>
+      <p class="svh" data-ru="Здесь нормы нет — значит есть ровно то, что написано в вашем договоре, и ничего сверх. Пустое место в этой части не «по умолчанию как у всех», а «этого нет».">Bu yerda meʼyor yoʻq — demak shartnomangizda nima yozilgan boʻlsa, faqat shu bor, undan ortigʻi yoʻq. Bu qismdagi boʻsh joy «hammanikidek boʻlaveradi» emas, «bu yoʻq» degani.</p>
+      <ol class="svlist">
+
+        <li class="svi" data-k="b1">
+          <span class="svt"><b data-ru="Итоговая сумма до получения прав и список того, что в неё входит и что не входит">Guvohnoma olgunga qadar yakuniy summa va unga nima kirishi, nima kirmasligi roʻyxati</b><span class="svn" data-ru="нормы нет: цену договора закон не устанавливает">meʼyor yoʻq: shartnoma narxini qonun belgilamaydi</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="формулировка «дополнительные услуги по прейскуранту» выносит цену за пределы договора — в список, которого вы не видели и который школа меняет без вас.">«qoʻshimcha xizmatlar narxnoma boʻyicha» degan ibora narxni shartnomadan tashqariga — siz koʻrmagan va avtomaktab sizsiz oʻzgartira oladigan roʻyxatga koʻchiradi.</span></p>
+          <div class="svb"></div>
+        </li>
+
+        <li class="svi" data-k="b2">
+          <span class="svt"><b data-ru="Сказано, берут ли с вас деньги за регистрацию учебной группы">Oʻquv guruhini roʻyxatga olish uchun sizdan pul olinishi yoki olinmasligi aytilgan</b><span class="svn" data-ru="ПКМ № 408, приложение 2, пункт 9¹ (введён ПКМ № 125 от 30.03.2026)">408-son qaror, 2-ilova, 9¹-band (30.03.2026 dagi 125-son qaror bilan kiritilgan)</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="с 01.04.2026 учебные группы категорий A и B в ГСБДД не регистрируются — кроме учебных групп государственных образовательных учреждений, и эта оговорка стоит в самом пункте. Строка «регистрация группы» в вашем счёте — повод спросить основание, а не молча заплатить.">01.04.2026 dan A va B toifalarining oʻquv guruhlari DYHXX da roʻyxatga olinmaydi — davlat taʼlim muassasalarining oʻquv guruhlari bundan mustasno, va bu istisno bandning oʻzida turadi. Hisobingizdagi «guruhni roʻyxatga olish» qatori — jimgina toʻlash emas, asosini soʻrash uchun sabab.</span></p>
+          <div class="svb"></div>
+        </li>
+
+        <li class="svi" data-k="b3">
+          <span class="svt"><b data-ru="Бензин: за чей счёт и входит ли он в названную цену">Yoqilgʻi: kimning hisobidan va aytilgan narxga kiradimi</b><span class="svn" data-ru="нормы нет ни в одном источнике">biror manbada meʼyor yoʻq</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="платить будете наличными и помалу — двадцать-тридцать раз за два с половиной месяца, и в договоре этих денег не окажется. Ровно для них на этой странице есть журнал занятий.">naqd va oz-ozdan toʻlaysiz — ikki yarim oyda yigirma-oʻttiz marta, va bu pul shartnomada koʻrinmaydi. Aynan shular uchun bu sahifada darslar daftari bor.</span></p>
+          <div class="svb"></div>
+        </li>
+
+        <li class="svi" data-k="b4">
+          <span class="svt"><b data-ru="Цена одного дополнительного часа вождения — числом">Bitta qoʻshimcha haydash soatining narxi — raqam bilan</b><span class="svn" data-ru="нормы нет: часы докупаются по договорённости с инструктором">meʼyor yoʻq: soatlar instruktor bilan kelishuv asosida sotib olinadi</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="цену назовут тогда, когда отказаться уже нельзя, — на середине курса. Это тот же случай, что и строка про 69 часов, только с другой стороны: там не хватает часов, здесь не хватает цены.">narxni endi voz kechib boʻlmaydigan paytda — kurs oʻrtasida aytishadi. Bu 69 soat haqidagi qator bilan bir xil holat, faqat boshqa tomondan: u yerda soat yetishmaydi, bu yerda narx yetishmaydi.</span></p>
+          <div class="svb"></div>
+        </li>
+
+        <li class="svi" data-k="b5">
+          <span class="svt"><b data-ru="Перенос занятия, болезнь и пропуск: за сколько часов, платно ли, что при справке">Darsni koʻchirish, kasallik va dars qoldirish: necha soat oldin, pullikmi, maʼlumotnoma bilan qanday</b><span class="svn" data-ru="нормы нет">meʼyor yoʻq</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="пропущенное занятие просто исчезает, и вы платите за него второй раз — как за дополнительный час, цены которого в договоре тоже нет.">oʻtkazib yuborilgan dars shunchaki yoʻqoladi va siz uning uchun ikkinchi marta toʻlaysiz — narxi ham shartnomada yoʻq boʻlgan qoʻshimcha soat sifatida.</span></p>
+          <div class="svb"></div>
+        </li>
+
+        <li class="svi" data-k="b6">
+          <span class="svt"><b data-ru="Расторжение и возврат: по какой формуле считаются неиспользованные часы">Bekor qilish va pulni qaytarish: ishlatilmagan soatlar qaysi formula boʻyicha hisoblanadi</b><span class="svn" data-ru="нормы нет">meʼyor yoʻq</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="остаётся пункт «уплаченные деньги не возвращаются» — самый дорогой пункт договора. Увидеть его нужно до подписи: после подписи он уже не обсуждается.">«toʻlangan pul qaytarilmaydi» degan band qoladi — shartnomaning eng qimmat bandi. Uni imzodan oldin koʻrish kerak: imzodan keyin u muhokama qilinmaydi.</span></p>
+          <div class="svb"></div>
+        </li>
+
+        <li class="svi" data-k="b7">
+          <span class="svt"><b data-ru="Ответственность самой школы и место разрешения спора">Avtomaktabning oʻz javobgarligi va nizo qayerda hal qilinishi</b><span class="svn" data-ru="нормы нет">meʼyor yoʻq</span></span>
+          <p class="svm"><b data-ru="Если в договоре этого нет:">Shartnomada bu boʻlmasa:</b> <span data-ru="договор, где записаны только ваши обязанности, переносит на вас срыв расписания: инструктор не приехал — курс растянулся, часы вы докупаете сами, а спорить негде и не с кем.">faqat sizning majburiyatlaringiz yozilgan shartnoma jadvalning buzilishini sizga oʻtkazadi: instruktor kelmadi — kurs choʻzildi, soatlarni oʻzingiz sotib olasiz, bahslashadigan joy ham, odam ham yoʻq.</span></p>
+          <div class="svb"></div>
+        </li>
+
+      </ol>
+    </div>
+
+    <div class="svsum" id="sv_out">
+      <p class="svc" id="sv_count">—</p>
+      <p class="svv" id="sv_verd">—</p>
+    </div>
+
+    <div class="svgrp">
+      <h3 data-ru="В. Чего в договоре автошколы нет и быть не должно">V. Avtomaktab shartnomasida nima yoʻq va boʻlmasligi kerak</h3>
+      <p class="svh" data-ru="Эти деньги платятся не школе. Их отсутствие в договоре — не пробел, а норма. А вот их присутствие — повод спросить основание и документ.">Bu pullar avtomaktabga toʻlanmaydi. Ularning shartnomada yoʻqligi — kamchilik emas, shundoq boʻlishi kerak. Aksincha, ular bor boʻlsa — asosini va hujjatini soʻrash uchun sabab.</p>
+      <ul class="svfacts">
+        <li data-ru="Экзамен и пересдача. В органе ГСБДД ставка стоит в норме: 10% БРВ за экзамен и 15% за каждую пересдачу. Там, где работает лицензированный частный центр, экзамены принимает только он, и плату он назначает сам — опубликованные цены 1 500 000 и 1 600 000 с 06.01.2026. Выбора между этими путями у вас нет, он определяется вашей областью.">Imtihon va qayta topshirish. DYHXX organida stavka meʼyorda turadi: imtihon uchun BHM ning 10 foizi, har bir qayta topshirish uchun 15 foizi. Litsenziyalangan xususiy markaz ishlaydigan joyda imtihonni faqat oʻsha markaz qabul qiladi va toʻlovni oʻzi belgilaydi — eʼlon qilingan narxlar 1 500 000 va 06.01.2026 dan 1 600 000. Bu yoʻllar orasida sizda tanlov yoʻq, u viloyatingiz bilan belgilanadi.</li>
+        <li data-ru="Экзаменационный платёж вносится вперёд и не возвращается независимо от результата, а неявка без уважительной причины считается оказанной услугой. Документ об уважительной причине платёж спасает (ПКМ № 408, приложение 2¹, пункты 51–52). Какие именно документы центр примет, норма не задаёт — спрашивайте у центра, а не у школы.">Imtihon toʻlovi oldindan toʻlanadi va natijadan qatʼi nazar qaytarilmaydi, uzrli sababsiz kelmaslik esa xizmat koʻrsatilgan hisoblanadi. Uzrli sabab haqidagi hujjat toʻlovni saqlab qoladi (408-son qaror, 2¹-ilova, 51–52-bandlar). Markaz aynan qanday hujjatlarni qabul qilishini meʼyor belgilamaydi — buni avtomaktabdan emas, markazdan soʻrang.</li>
+        <li data-ru="Сбор за удостоверение — 79% БРВ: 325 480 сум при БРВ 412 000 (действует с 01.08.2025) и 347 600 сум с 01.09.2026. Это сбор административного регламента, а не государственная пошлина: ставки государственной пошлины за водительское удостоверение не существует вовсе.">Guvohnoma uchun yigʻim — BHM ning 79 foizi: BHM 412 000 boʻlganda 325 480 soʻm (01.08.2025 dan amalda) va 01.09.2026 dan 347 600 soʻm. Bu — maʼmuriy reglament yigʻimi, davlat boji emas: haydovchilik guvohnomasi uchun davlat boji stavkasi umuman mavjud emas.</li>
+        <li data-ru="Медицинская справка формы 083 и доставка пластикового удостоверения почтой. Их берёт поликлиника и почта, и в цену автошколы они не входят.">083-shakldagi tibbiy maʼlumotnoma va plastik guvohnomani pochta orqali yetkazish. Ularni poliklinika va pochta oladi, avtomaktab narxiga kirmaydi.</li>
+      </ul>
+    </div>
+
+    <div class="svgrp">
+      <h3 data-ru="Г. Что проверяется не в договоре, а у школы">G. Nima shartnomada emas, avtomaktabning oʻzida tekshiriladi</h3>
+      <p class="svh" data-ru="Это не пункты договора, и требовать их записи в договор незачем. Это лицензионные требования к самой школе: их нарушение — её проблема, но платить за него будете вы своим временем. Спрашивайте у администратора, а не ищите в бумаге.">Bular shartnoma bandlari emas, ularni shartnomaga yozishni talab qilish shart emas. Bular — avtomaktabning oʻziga qoʻyilgan litsenziya talablari: ularning buzilishi maktabning muammosi, lekin buning uchun siz oʻz vaqtingiz bilan toʻlaysiz. Qogʻozdan izlamang, administratordan soʻrang.</p>
+      <ul class="svfacts">
+        <li data-ru="Один водитель-инструктор — на каждые 12 обучающихся, один преподаватель — на 24; в группе не более 24 человек по паспорту лицензирования и не более 25 по приложению 2, пункту 11 и приложению 3, пункту 10. Оба показателя паспорта помечены звёздочкой, а сноска к ней читается «требования и условия, нарушение которых считается грубым».">Bitta haydovchi-yoʻriqchi — har 12 nafar taʼlim oluvchiga, bitta oʻqituvchi — 24 nafarga; guruhda litsenziyalash pasporti boʻyicha 24 nafardan, 2-ilovaning 11-bandi va 3-ilovaning 10-bandi boʻyicha 25 nafardan oshmasligi kerak. Pasportning ikkala koʻrsatkichi yulduzcha bilan belgilangan, izohi esa «qoʻpol ravishda buzish deb hisoblanadigan talab va shartlar» deb oʻqiladi.</li>
+        <li data-ru="Минимальный состав преподавателей (показатель 5 паспорта): один с высшим образованием по автотранспорту, один парамедик, один инструктор со стажем три года.">Oʻqituvchilarning minimal tarkibi (pasportning 5-koʻrsatkichi): bittasi avtotransport boʻyicha oliy maʼlumotli, bittasi paramedik, bittasi uch yillik tajribaga ega instruktor.</li>
+        <li data-ru="Учебный автомобиль категории B — не старше 10 лет (показатель 1 паспорта); для остальных категорий — не старше 20.">B toifasidagi oʻquv avtomobili — 10 yildan oshmagan (pasportning 1-koʻrsatkichi); qolgan toifalar uchun — 20 yildan oshmagan.</li>
+        <li data-ru="Повышение квалификации преподавателей и инструкторов — раз в три года в Академии МВД на платно-договорной основе, с выдачей специального сертификата (ПКМ № 408, приложение 3, пункт 15¹). Сертификат вашего инструктора можно попросить показать.">Oʻqituvchi va instruktorlarning malakasini oshirish — har uch yilda bir marta IIV Akademiyasida toʻlov-shartnoma asosida, maxsus sertifikat berilishi bilan (408-son qaror, 3-ilova, 15¹-band). Instruktoringizning sertifikatini koʻrsatishni soʻrash mumkin.</li>
+        <li data-ru="Первую помощь при ДТП преподаёт только человек с высшим или средним специальным медицинским образованием либо с сертификатом инструктора-парамедика по неотложной медицинской помощи (ПКМ № 408, приложение 3, пункт 18¹). Это отдельный пункт про отдельный предмет, и путать его с повышением квалификации не надо.">Yoʻl-transport hodisasida birinchi yordamni faqat tibbiyot ixtisosligi boʻyicha oliy yoki oʻrta maxsus maʼlumotga yoxud «Shoshilinch tibbiy yordam koʻrsatish» boʻyicha instruktor-paramedik malaka sertifikatiga ega shaxs oʻqitadi (408-son qaror, 3-ilova, 18¹-band). Bu — alohida predmet haqidagi alohida band, uni malaka oshirish bilan chalkashtirmaslik kerak.</li>
+      </ul>
+    </div>
+
+  </div>
+</section>
 <section id="varaqa">
   <div class="col">
     <h2 data-ru="Лист, с которым идут в автошколу">Avtomaktabga olib boriladigan varaqa</h2>
-    <p data-ru="У стойки администратор говорит быстро, а вы уходите с тем, что запомнили. Лист печатается на две страницы А4: ваш расчёт по строкам, семь вопросов с пустыми линейками под ответы, место для даты и для имени того, кто ответил, и таблица трёх школ, если вы её заполнили. Дальше это ваша запись: что записано на бумаге, вы потом не забудете и сможете сверить со счётом.">Stoyka oldida administrator tez gapiradi, siz esa yodingizda qolgani bilan chiqib ketasiz. Varaqa ikkita A4 varagʻiga chiqadi: qatorlar boʻyicha hisobingiz, javob uchun boʻsh chiziqlari bilan yettita savol, sana va kim javob bergani uchun joy va toʻldirgan boʻlsangiz — uchta avtomaktab jadvali. Keyingisi sizning yozuvingiz: qogʻozga tushgan narsani keyin unutmaysiz va hisob bilan solishtira olasiz.</p>
+    <p data-ru="У стойки администратор говорит быстро, а вы уходите с тем, что запомнили. Лист печатается на две–три страницы А4 — сколько выйдет, зависит от того, сколько вы заполнили: ваш расчёт по строкам, семь вопросов с пустыми линейками под ответы, место для даты и для имени того, кто ответил, отдельный раздел с тем, чего не хватило в вашем договоре (если вы прошли самопроверку выше), и таблица трёх школ, если вы её заполнили. Дальше это ваша запись: что записано на бумаге, вы потом не забудете и сможете сверить со счётом.">Stoyka oldida administrator tez gapiradi, siz esa yodingizda qolgani bilan chiqib ketasiz. Varaqa ikki-uchta A4 varagʻiga chiqadi — nechta boʻlishi qancha toʻldirganingizga bogʻliq: qatorlar boʻyicha hisobingiz, javob uchun boʻsh chiziqlari bilan yettita savol, sana va kim javob bergani uchun joy, yuqoridagi oʻzini-oʻzi tekshirishdan oʻtgan boʻlsangiz — shartnomangizda yetishmagan bandlar alohida boʻlim boʻlib, va toʻldirgan boʻlsangiz — uchta avtomaktab jadvali. Keyingisi sizning yozuvingiz: qogʻozga tushgan narsani keyin unutmaysiz va hisob bilan solishtira olasiz.</p>
     <p><a class="btn" href="varaqa.html" target="_blank" rel="noopener" id="varaqabtn" data-ru="Открыть лист для печати">Chop etish uchun varaqani ochish</a></p>
     <p class="after" data-ru="Лист собирается на вашем устройстве из того, что вы ввели выше, и не отправляет никуда ничего — в нём нет ни одного сетевого запроса. Печать и сохранение в PDF — обычной кнопкой браузера.">Varaqa siz yuqorida kiritgan maʼlumotlardan qurilmangizda yigʻiladi va hech qayerga hech narsa yubormaydi — unda birorta ham tarmoq soʻrovi yoʻq. Chop etish va PDF ga saqlash — brauzerning odatdagi tugmasi bilan.</p>
   </div>
@@ -769,7 +962,8 @@ footer p{margin:0 0 10px}
 <section id="ariza">
   <div class="col">
     <h2 data-ru="Что бесплатно и за что платят">Nima bepul va nima uchun pul toʻlanadi</h2>
-    <p data-ru="Граница проходит по одному признаку: всё, что страница может посчитать из ваших же цифр, бесплатно и останется бесплатным. Калькулятор, сравнение трёх школ, семь вопросов, журнал занятий и лист для печати — это машинная работа, она ничего нам не стоит. Платят за единственное, чего машина не сделает: за то, что человек прочитает ваш договор — конкретный, ваш, со всеми его пунктами — и напишет, что в нём есть, чего в нём нет и какими словами просить недостающее.">Chegara bitta belgi boʻyicha oʻtadi: sahifa sizning raqamlaringizdan hisoblab bera oladigan hamma narsa bepul va bepulligicha qoladi. Hisoblagich, uchta avtomaktabni solishtirish, yettita savol, darslar daftari va chop etish varaqasi — bu mashina ishi, u bizga hech narsaga tushmaydi. Pul faqat bitta narsa uchun toʻlanadi, uni mashina qilmaydi: odam sizning shartnomangizni — aynan sizning, hamma bandlari bilan — oʻqib chiqib, unda nima borligini, nima yoʻqligini va yetishmaganini qanday soʻrashni yozib beradi.</p>
+    <p data-ru="Граница проходит по одному признаку: всё, что страница может посчитать из ваших же цифр, бесплатно и останется бесплатным. Калькулятор, сравнение трёх школ, семь вопросов, разбор состава договора, журнал занятий и лист для печати — это машинная работа, она ничего нам не стоит. Платят за единственное, чего машина не сделает: за то, что человек прочитает ваш договор — конкретный, ваш, со всеми его пунктами — и напишет, что в нём есть, чего в нём нет и какими словами просить недостающее.">Chegara bitta belgi boʻyicha oʻtadi: sahifa sizning raqamlaringizdan hisoblab bera oladigan hamma narsa bepul va bepulligicha qoladi. Hisoblagich, uchta avtomaktabni solishtirish, yettita savol, shartnoma tarkibining tahlili, darslar daftari va chop etish varaqasi — bu mashina ishi, u bizga hech narsaga tushmaydi. Pul faqat bitta narsa uchun toʻlanadi, uni mashina qilmaydi: odam sizning shartnomangizni — aynan sizning, hamma bandlari bilan — oʻqib chiqib, unda nima borligini, nima yoʻqligini va yetishmaganini qanday soʻrashni yozib beradi.</p>
+    <p class="after" data-ru="И обратное сказано здесь же, а не мелким шрифтом. Пройдите раздел «Из чего состоит договор автошколы» выше: если все двенадцать пунктов в вашем договоре нашлись, разбор вам не нужен — не платите. Мы записали это до первой продажи, а не после неё: если у всех школ договор одинаково полный, платить действительно не за что, и продукт это признаёт вслух.">Va buning teskarisi ham mayda shriftda emas, shu yerda aytilgan. Yuqoridagi «Avtomaktab shartnomasi nimalardan iborat» boʻlimini oʻting: oʻn ikkita bandning hammasi shartnomangizdan topilsa, tahlil sizga kerak emas — toʻlamang. Buni birinchi sotuvdan keyin emas, undan oldin yozib qoʻydik: agar hamma avtomaktabda shartnoma bir xil toʻliq boʻlsa, toʻlaydigan narsa haqiqatan ham yoʻq, va mahsulot buni ovoz chiqarib tan oladi.</p>
   </div>
 
   <div class="cards">
@@ -962,12 +1156,12 @@ footer p{margin:0 0 10px}
 
     <details data-q="free">
       <summary data-ru="Что здесь бесплатно, а за что просят деньги?">Bu yerda nima bepul va nima uchun pul soʻraladi?</summary>
-      <p class="a" data-ru="Бесплатно всё, что страница считает сама из ваших чисел: калькулятор полной цены, сравнение трёх школ, семь вопросов со списком в буфер, журнал занятий и лист для печати. Ни одна из этих вещей никогда не станет платной — они не стоят нам ничего. Платный только разбор вашего договора: его читает человек, а не программа, и это единственное, за что мы просим деньги.">Sahifa sizning raqamlaringizdan oʻzi hisoblaydigan hamma narsa bepul: toʻliq narx hisoblagichi, uchta avtomaktabni solishtirish, yettita savol va roʻyxatdan nusxa olish, darslar daftari va chop etish varaqasi. Bularning birortasi hech qachon pullik boʻlmaydi — ular bizga hech narsaga tushmaydi. Pullik faqat shartnomangiz tahlili: uni dastur emas, odam oʻqiydi, va biz faqat shuning uchun pul soʻraymiz.</p>
+      <p class="a" data-ru="Бесплатно всё, что страница считает сама из ваших чисел: калькулятор полной цены, сравнение трёх школ, семь вопросов со списком в буфер, самопроверка состава договора по двенадцати пунктам, журнал занятий и лист для печати. Ни одна из этих вещей никогда не станет платной — они не стоят нам ничего. Платный только разбор вашего договора: его читает человек, а не программа, и это единственное, за что мы просим деньги.">Sahifa sizning raqamlaringizdan oʻzi hisoblaydigan hamma narsa bepul: toʻliq narx hisoblagichi, uchta avtomaktabni solishtirish, yettita savol va roʻyxatdan nusxa olish, shartnoma tarkibi boʻyicha oʻn ikkita band boʻyicha oʻzini-oʻzi tekshirish, darslar daftari va chop etish varaqasi. Bularning birortasi hech qachon pullik boʻlmaydi — ular bizga hech narsaga tushmaydi. Pullik faqat shartnomangiz tahlili: uni dastur emas, odam oʻqiydi, va biz faqat shuning uchun pul soʻraymiz.</p>
     </details>
 
     <details data-q="local">
       <summary data-ru="Записи журнала занятий и названия школ кто-то видит?">Darslar daftaridagi yozuvlar va avtomaktab nomlarini kimdir koʻradimi?</summary>
-      <p class="a" data-ru="Нет. Журнал занятий, названия школ и все суммы из сравнения лежат в памяти вашего браузера и на сервер не уходят. Мы записываем только то, что вы открывали инструмент, — одно слово, без ваших чисел. Лист для печати не делает вообще ни одного сетевого запроса: он собирается на вашем устройстве. Полный список того, что уходит со страницы, — в подвале.">Yoʻq. Darslar daftari, avtomaktab nomlari va solishtirishdagi barcha summalar brauzeringiz xotirasida turadi va serverga yuborilmaydi. Biz faqat asbobni ochganingizni yozamiz — bitta soʻz, raqamlaringizsiz. Chop etish varaqasi esa umuman birorta tarmoq soʻrovi qilmaydi: u qurilmangizda yigʻiladi. Sahifadan nima yuborilishining toʻliq roʻyxati — pastda.</p>
+      <p class="a" data-ru="Нет. Журнал занятий, названия школ, все суммы из сравнения и ваши отметки в самопроверке договора лежат в памяти вашего браузера и на сервер не уходят. Мы записываем только то, что вы открывали инструмент, — одно слово, без ваших чисел. Лист для печати не делает вообще ни одного сетевого запроса: он собирается на вашем устройстве. Полный список того, что уходит со страницы, — в подвале.">Yoʻq. Darslar daftari, avtomaktab nomlari, solishtirishdagi barcha summalar va shartnoma boʻyicha oʻzini-oʻzi tekshirishdagi belgilaringiz brauzeringiz xotirasida turadi va serverga yuborilmaydi. Biz faqat asbobni ochganingizni yozamiz — bitta soʻz, raqamlaringizsiz. Chop etish varaqasi esa umuman birorta tarmoq soʻrovi qilmaydi: u qurilmangizda yigʻiladi. Sahifadan nima yuborilishining toʻliq roʻyxati — pastda.</p>
     </details>
 
     <details data-q="price">
@@ -1158,7 +1352,7 @@ function applyLang() {
       try { localStorage.setItem(LK, lang); } catch (e) {}
       // Пересчитать надо всё, что печатает числа словами («сум» / «soʻm»),
       // иначе после переключения половина страницы остаётся на прежнем языке.
-      applyLang(); calc(); cmpCalc(); logRender();
+      applyLang(); calc(); cmpCalc(); logRender(); svRender();
     };
   });
   document.getElementById("f_note").placeholder = lang === "ru"
@@ -1893,6 +2087,136 @@ document.getElementById("logclear").onclick = function () {
   setTimeout(function () { b.dataset.armed = ""; b.textContent = old; }, 4000);
 };
 
+/* ── Самопроверка договора ─────────────────────────────────────────────────
+   Раздел «Из чего состоит договор автошколы». Ничего не отправляет: ни ev(),
+   ни fetch. Отметки лежат в localStorage и уезжают только на лист печати,
+   который собирается на устройстве. Если бы они уходили на сервер, у нас
+   появилась бы база «чего нет в договоре такой-то школы» — данные о третьих
+   лицах, которых никто не спрашивал (то же соображение, что у журнала занятий).
+
+   ТРИ СОСТОЯНИЯ, А НЕ ГАЛОЧКА. Пустое значение — «не смотрел», и оно стоит
+   по умолчанию. Галочка знала бы только «да» и «нет»: у человека, который
+   ещё не открывал договор, страница сразу написала бы «не хватает двенадцати
+   пунктов» — вывод в нашу пользу, не сделанный никем. Поэтому вердикт
+   не показывается, пока не отмечены ВСЕ пункты, и первый из двух возможных
+   вердиктов — «платить не за что».
+
+   ВЕРДИКТ, КОТОРЫЙ СНИМАЕТ ПЛАТНОЕ. Главный риск продукта записан заранее:
+   если у всех школ договор типовой, читать нечего. Этот раздел даёт человеку
+   проверить это на своём договоре без нас — и, если всё сошлось, страница
+   сама говорит не платить. Условие, которое нельзя провалить, ничего
+   не измеряет; это — можно. */
+var SV_KEY = "avtomaktab_svera";
+var svState = {};
+try { svState = JSON.parse(localStorage.getItem(SV_KEY) || "{}") || {}; } catch (e) { svState = {}; }
+
+var SV_BTN = [
+  ["yes",  "Есть в договоре", "Shartnomada bor"],
+  ["no",   "Нет",             "Yoʻq"],
+  ["skip", "Не смотрел",      "Qaramadim"]
+];
+
+function svItems() {
+  return [].slice.call(document.querySelectorAll("#sv .svi"));
+}
+
+// Кнопки рисуются один раз и живут дольше переключения языка: подписи у них
+// свои data-ru, а состояние — класс. applyLang() переписывает innerHTML узлов
+// с data-ru, то есть только подпись внутри кнопки; сама кнопка и её класс
+// остаются. Рисовать их заново на каждом переключении значило бы терять
+// обработчики ровно у того, кто переключил язык.
+function svBuild() {
+  svItems().forEach(function (li) {
+    var box = li.querySelector(".svb");
+    if (!box || box.children.length) return;
+    SV_BTN.forEach(function (p) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.dataset.v = p[0];
+      b.dataset.ru = p[1];
+      b.innerHTML = p[2];
+      b.className = p[0];
+      b.onclick = function () {
+        // Повторное нажатие по уже выбранному ответу снимает его: человек,
+        // ткнувший не туда, обязан иметь дорогу назад к «не смотрел», иначе
+        // третье состояние существует только на бумаге.
+        var k = li.dataset.k;
+        svState[k] = (svState[k] === p[0] || p[0] === "skip") ? "" : p[0];
+        try { localStorage.setItem(SV_KEY, JSON.stringify(svState)); } catch (e2) {}
+        svRender();
+        saveSheet();
+      };
+      box.appendChild(b);
+    });
+  });
+}
+
+function svRender() {
+  var yes = 0, no = 0, skip = 0, total = 0;
+  svItems().forEach(function (li) {
+    var v = svState[li.dataset.k] || "";
+    total++;
+    if (v === "yes") yes++; else if (v === "no") no++; else skip++;
+    li.className = "svi" + (v === "no" ? " miss" : v === "yes" ? " have" : "");
+    [].slice.call(li.querySelectorAll(".svb button")).forEach(function (b) {
+      var on = b.dataset.v === v || (b.dataset.v === "skip" && v === "");
+      b.className = b.dataset.v + (on ? " on" : "");
+      b.setAttribute("aria-pressed", on ? "true" : "false");
+    });
+  });
+
+  var box = document.getElementById("sv_out");
+  var cnt = document.getElementById("sv_count");
+  var vrd = document.getElementById("sv_verd");
+  if (!box) return;
+
+  cnt.innerHTML = lang === "ru"
+    ? "Есть в договоре: <i>" + yes + "</i> · нет: <i>" + no + "</i> · не смотрел: <i>" + skip + "</i> из <i>" + total + "</i>"
+    : "Shartnomada bor: <i>" + yes + "</i> · yoʻq: <i>" + no + "</i> · qaramadim: <i>" + skip + "</i> / <i>" + total + "</i>";
+
+  box.className = "svsum";
+  if (skip === total) {
+    vrd.innerHTML = lang === "ru"
+      ? "Пока не отмечено ничего, и никакого вывода отсюда не следует. Откройте договор и пройдите список сверху вниз — это десять минут."
+      : "Hozircha hech narsa belgilanmagan, bu yerdan hech qanday xulosa kelib chiqmaydi. Shartnomani oching va roʻyxatni yuqoridan pastga qarab oʻting — bu oʻn daqiqa.";
+  } else if (skip > 0) {
+    vrd.innerHTML = lang === "ru"
+      ? "Проверено " + (yes + no) + " из " + total + ". Вывода пока нет — ни в вашу пользу, ни против: осталось " + skip + ". Непроверенный пункт мы не считаем ни отсутствующим, ни имеющимся."
+      : "Tekshirildi: " + total + " tadan " + (yes + no) + " ta. Hozircha xulosa yoʻq — na foydangizga, na aksincha: " + skip + " ta qoldi. Tekshirilmagan bandni biz na yoʻq, na bor deb hisoblaymiz.";
+  } else if (no === 0) {
+    box.className = "svsum good";
+    vrd.innerHTML = lang === "ru"
+      ? "Все " + total + " пунктов в вашем договоре есть, и числа не ниже нормы. Тогда платный разбор вам не нужен — не платите за него. Мы пишем это здесь, а не в мелком шрифте: если ваш договор такой же, как у всех, и при этом полный, читать в нём нечего. Осталось сверить блоки ниже: чего в договоре быть не должно и что спрашивают не у бумаги, а у школы."
+      : "Barcha " + total + " ta band shartnomangizda bor va raqamlar meʼyordan past emas. Unda pullik tahlil sizga kerak emas — uning uchun toʻlamang. Buni mayda shriftda emas, shu yerda yozyapmiz: shartnomangiz hammanikidek va shu bilan birga toʻliq boʻlsa, unda oʻqiydigan narsa yoʻq. Quyidagi boʻlimlarni solishtirish qoldi: shartnomada nima boʻlmasligi kerak va nimani qogʻozdan emas, avtomaktabdan soʻrash kerak.";
+  } else {
+    box.className = "svsum gap";
+    vrd.innerHTML = lang === "ru"
+      ? "Не хватает " + no + " из " + total + ". Это и есть предмет разговора у стойки: они уйдут на лист А4 отдельным разделом, с пустыми строками под ответ администратора. Если после разговора ответы вас не устроят, разбор покажет, какими словами просить дописать недостающее."
+      : "Yetishmaydi: " + total + " tadan " + no + " ta. Stoyka oldidagi suhbatning mavzusi ham aynan shu: ular A4 varaqasiga alohida boʻlim boʻlib, administrator javobi uchun boʻsh qatorlar bilan tushadi. Suhbatdan keyin javoblar sizni qoniqtirmasa, tahlil yetishmayotganini qanday soʻzlar bilan qoʻshishni soʻrash kerakligini koʻrsatadi.";
+  }
+}
+
+/* Что уезжает на лист печати: только пункты, отмеченные «нет», и на обоих
+   языках сразу. ПОЧЕМУ ОБА ЯЗЫКА: лист печати умеет переключаться сам, и
+   узбекский заголовок, сохранённый по-русски, стал бы там дырой. Оригинал
+   берётся из dataset.uzt — его кладёт i18nScan() ДО первой подстановки,
+   поэтому он всегда узбекский, каким бы ни был текущий язык. */
+function svPack() {
+  var miss = [], yes = 0, total = 0;
+  svItems().forEach(function (li) {
+    total++;
+    var v = svState[li.dataset.k] || "";
+    if (v === "yes") yes++;
+    if (v !== "no") return;
+    var b = li.querySelector(".svt b");
+    if (!b) return;
+    var strip = function (s) { return String(s || "").replace(/<[^>]*>/g, "").trim(); };
+    miss.push({ ru: strip(b.dataset.ru), uz: strip(b.dataset.uzt || b.innerHTML) });
+  });
+  return { miss: miss, yes: yes, total: total };
+}
+
+svBuild();
 /* ── Лист для печати ───────────────────────────────────────────────────────
    Всё, что нужно листу, кладётся в localStorage при каждом изменении. Сам лист
    (varaqa.html) — отдельная страница без единого сетевого запроса: она читает
@@ -1916,6 +2240,10 @@ function saveSheet() {
     localStorage.setItem(SHEET_KEY, JSON.stringify({
       v: 1, lang: lang, at: Date.now(),
       calc: r,
+      // Что отмечено в разделе «Из чего состоит договор». На лист уходят
+      // только пункты, которых в договоре НЕТ: остальные заняли бы на А4
+      // место, ради которого лист и печатается.
+      svera: svPack(),
       cmp: cmpRead().map(function (c) {
         return { name: c.name, kurs: c.kurs, fuel: c.fuel, hours: c.hours, total: c.total };
       }),
@@ -1960,6 +2288,7 @@ calc();
 cmpRestore();
 cmpCalc();
 logRender();
+svRender();
 ev("open", { lang: lang, ref: (document.referrer || "").slice(0, 80) });
 
 /* Возврат «назад» обязан пересчитать смету заново.

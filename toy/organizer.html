@@ -289,7 +289,11 @@ function renderLangSeg(){
 }
 
 const API = (window.TOY_API || "https://<project>.functions.supabase.co/toy");
-const S = { ev:null, all:[], fams:[], tables:[], gifts:[], tab:"guests", inviteBase:"", inviteLink:"", venueHint:50, selTab:null, onlyPending:false, bulk:false, diff:null, autoseat:null };
+const S = { ev:null, all:[], fams:[], tables:[], gifts:[], tab:"guests", inviteBase:"", inviteLink:"", venueHint:50, selTab:null, onlyPending:false, bulk:false, diff:null, autoseat:null,
+  // Цена места по умолчанию приезжает с сервера (seat_price_default в event_get):
+  // от неё же считает денежную строку бот. Одно число на кабинет и на сводку —
+  // см. seatPrice() и seatPriceEnsure().
+  seatDefault:null, seatSaved:0 };
 
 const $ = s => document.querySelector(s);
 // Кавычки экранируем тоже — как в invite.html. Значения подставляются внутрь
@@ -525,6 +529,8 @@ async function open(id){
   const d = await call("event_get",{event_id:id});
   if(d.error) return say(L().errAccess);
   S.ev=d.event; localStorage.setItem("td_last_event", String(id)); S.fams=d.families; S.tables=d.tables; S.gifts=d.gifts; S.wishes=d.wishes||0; S.inviteBase=d.invite_base; S.inviteLink=d.invite_link||`${d.invite_base}?t={token}`; S.venueHint=d.venue_hint||50;
+  // Цена места по умолчанию — с сервера, оттуда же её берёт сводка бота (TD-37).
+  S.seatDefault = Number(d.seat_price_default) > 0 ? Number(d.seat_price_default) : null;
 
   // Итог авто-раскладки принадлежит конкретному тою: у другого и столы другие.
   S.bulk=false; S.onlyPending=false; S.autoseat=null;
@@ -552,10 +558,47 @@ function counts(){
 // Ташкент, 2026: место в тойхоне стоит от 200 до 800 тысяч, в залах при отелях
 // доходит до трёх миллионов. Медиана ближе к 250. Осторожно с цифрами из поиска:
 // первой по «toʻyxona narxlari» выходит статья 2019 года, где всё в 3–5 раз дешевле.
+// Число живёт на сервере (SEAT_PRICE_DEFAULT в index.ts) и приезжает в event_get:
+// от него же считает денежную строку бот. Здешняя копия — запас на случай,
+// когда статика новее функции; расходиться им нельзя, поэтому серверное всегда
+// главнее (см. seatPrice), а seatPriceEnsure кладёт его в саму строку тоя.
 const SEAT_PRICE_DEFAULT = 250000;
 function seatPrice(){
   const v = Number(S.ev.seat_price_uzs);
-  return Number.isFinite(v) && v > 0 ? v : SEAT_PRICE_DEFAULT;
+  if (Number.isFinite(v) && v > 0) return v;
+  const d = Number(S.seatDefault);
+  return Number.isFinite(d) && d > 0 ? d : SEAT_PRICE_DEFAULT;
+}
+/* ── TD-37. Цена по умолчанию доезжает до сводки ─────────────────────────────
+   Продукт продаётся одной строкой: «молчат 8 семей = 19 мест = 4 750 000 сум».
+   Её же бот присылает в чат сводкой — но только если в строке тоя есть цена
+   места. А цена туда попадала лишь от onchange, то есть только у того, кто
+   САМ тронул поле. Все остальные видели в кабинете сумму, а в чате — ни одной:
+   довод, отданный бесплатно нарочно, не доходил ни до кого.
+
+   Поэтому число, которое человек уже видит в поле и в итоге, кладём в базу
+   при первом же показе карточки. Мы не придумываем ему цену — мы записываем
+   ту, по которой ему на этом же экране посчитали 4 750 000: до этой правки
+   экран и база говорили разное.
+
+   Тихо и без перерисовки: на экране от этого ничего не меняется, а render()
+   внутри render() — это цикл. Замок seatSaved стоит на id тоя: у второго тоя
+   своя цена. Не вышло — снимаем замок, попробуем при следующем показе. */
+async function seatPriceEnsure(){
+  const ev = S.ev;
+  if(!ev || !S.fams.length) return;
+  if(Number(ev.seat_price_uzs) > 0) return;   // человек уже поставил свою
+  if(S.seatSaved === ev.id) return;           // запрос по этому тою уже ушёл
+  S.seatSaved = ev.id;
+  const v = seatPrice();
+  let r = null;
+  try { r = await call("event_save", { event:{ id:ev.id, seat_price_uzs: v } }); } catch(e){}
+  const saved = Number(r && r.event && r.event.seat_price_uzs);
+  if(Number.isFinite(saved) && saved > 0){
+    if(S.ev && S.ev.id === ev.id) S.ev.seat_price_uzs = saved;
+  } else {
+    if(S.seatSaved === ev.id) S.seatSaved = 0;
+  }
 }
 function money(){
   const c = counts(), p = seatPrice();
@@ -569,7 +612,10 @@ function money(){
     seats, total: seats * p,
     // Средняя цена одного молчащего ответа: столько снимется со счёта, если
     // семья скажет «не сможем». Это перевод кнопки «напомнить» в сумы.
-    perFam: c.pend.length ? Math.round(c.pendInv / c.pend.length) * p : 0,
+    // Округляем ОДИН раз, в конце. Раньше сначала округлялось число мест
+    // (19 на 8 семей = 2,375 -> 2), и рычаг выходил на десятую часть меньше:
+    // кабинет печатал 500 000 там, где сайт по тому же примеру печатает 590 000.
+    perFam: c.pend.length ? Math.round(c.pendInv * p / c.pend.length) : 0,
   };
 }
 const uzs = (n) => Math.round(n).toLocaleString("ru").replace(/\u00A0/g, " ");
@@ -993,10 +1039,33 @@ function tabGuests(){
   });
   $("#seatPrice") && ($("#seatPrice").onchange=async()=>{
     const v = Math.max(0, +$("#seatPrice").value || 0);
+    const was = S.ev.seat_price_uzs, wasLock = S.seatSaved;
     S.ev.seat_price_uzs = v || null;
-    await call("event_save", { event: { id:S.ev.id, seat_price_uzs: v || null } });
+    // Поле тронул человек — значит на этом тое мы больше ничего не подставляем
+    // сами (TD-37). Иначе стёртая цена тут же вернулась бы нашей.
+    S.seatSaved = S.ev.id;
+    // Подпись под полем обещает «сумма пересчитается сразу». Пересчитываем ДО
+    // сети: раньше render() стоял после await, и на медленной связи суммы
+    // висели на прежней цене, а при обрыве промис отваливался молча — они
+    // не пересчитывались вовсе, зато при первой же следующей перерисовке
+    // (смена языка, вкладки, добавленная семья) прыгали на новую цену,
+    // которой в базе нет. Экран и база снова говорили разное — то самое,
+    // ради чего TD-37 и делалась.
     haptic("light"); render();
+    let r = null;
+    try { r = await call("event_save", { event: { id:S.ev.id, seat_price_uzs: v || null } }); } catch(e){}
+    if(!r || r.error){
+      // Не сохранилось — возвращаем экран к тому, что лежит в базе, и говорим
+      // об этом. Молча оставить на экране несохранённую цену нельзя: сводка
+      // в чате считает по базе, и человек увидел бы два разных числа.
+      S.ev.seat_price_uzs = was; S.seatSaved = wasLock;
+      render(); say(L().mSeatErr);
+    }
   });
+  // TD-37. Условие — сама карточка в разметке, а не намерение её показать:
+  // пока она на экране, число из неё обязано быть и в строке тоя, иначе
+  // сводка в чате придёт без единой суммы.
+  if($("#moneyCard")) seatPriceEnsure();
   $("#sendAll") && ($("#sendAll").onclick=()=>startQueue(S.onlyPending ? "remind" : "first"));
   $("#sendMoved") && ($("#sendMoved").onclick=()=>startQueue("moved"));
   $("#sendThanks") && ($("#sendThanks").onclick=()=>startQueue("thanks"));

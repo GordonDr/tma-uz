@@ -208,6 +208,27 @@ input:focus,select:focus,textarea:focus{outline:none;border-color:var(--brand);
   border-radius:999px;padding:7px 12px;font:500 13px var(--body);cursor:pointer}
 .quick button:hover{border-style:solid;border-color:var(--brand);color:var(--brand)}
 
+/* ── срок скидки ─────────────────────────────────────────────────────────────
+   Три поля в ряд только там, где ряд помещается. На 375px они идут столбцом:
+   поле даты в узкой колонке обрезает собственный календарный значок, и человек
+   видит поле, которое не открывается. */
+.chgrid{display:grid;gap:10px;grid-template-columns:1fr;margin:0 0 12px}
+@media(min-width:620px){.chgrid{grid-template-columns:1fr 1fr 1fr;align-items:end}}
+.chsum{font-variant-numeric:tabular-nums}
+.chgrid label .opt{text-transform:none;letter-spacing:0;font-weight:500}
+/* Общий label{} в этом файле — надпись над полем: 10,5px, uppercase, разрядка.
+   Для подписи галочки это не годится: три длинные оговорки, набранные капителью
+   с разрядкой, занимают на 375px пол-экрана и не читаются вовсе. Сбрасываем
+   ровно то, что задаёт label{}, а не всё подряд. */
+.chchk{text-transform:none;letter-spacing:0;font-weight:400;font-size:13.5px;margin:0 0 10px}
+.chmoney{border:1px solid var(--ok);background:var(--ok-bg);color:var(--ok);
+  border-radius:12px;padding:12px 14px;margin:14px 0 0;font-size:14px}
+.chmoney b{display:block;font-family:var(--disp);font-weight:700;font-size:22px;
+  letter-spacing:-.02em;margin-bottom:2px;font-variant-numeric:tabular-nums}
+/* Оба окна закрыты — то же место, но другая новость. Зелёная плашка с полной
+   суммой читалась бы как «вот сколько вы экономите». */
+.chmoney.gone{border-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+
 /* ── результат ───────────────────────────────────────────────────────────── */
 .score{text-align:center;padding:6px 0 2px}
 .score .num{font-family:var(--disp);font-weight:700;font-size:64px;line-height:1;
@@ -494,13 +515,25 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
     <li data-t="tag1"><b>12 balldan ORTIQ</b> — sud guvohnomadan mahrum qiladi: 6 oydan 3 yilgacha</li>
     <li data-t="tag2"><b>8 ball</b> — SMS-ogohlantirish keladi</li>
     <li data-t="tag3"><b>−2 ball</b> — ball beriladigan qoidabuzarliksiz oʻtgan har 6 oy uchun</li>
+    <!-- Четвёртая строка первого экрана — единственная, обращённая не к тому,
+         кто копит баллы, а к тому, кому просто пришло постановление. Это самый
+         массовый сегмент продукта, и до 28.08.2026 на всей странице не было
+         ни одной строки под его повод: он приходит не за «останусь без прав»,
+         а за деньгами — за днём, после которого половина штрафа превращается
+         в целый. Ссылка ведёт в блок, где он считает свой день; оговорку
+         «бывает не всегда» несёт сама строка, потому что скидки не бывает
+         вовсе в трёх случаях (ст. 332-1 ч. 2 КоАО). -->
+    <li data-t="tag4"><b>15 kun</b> — qaror topshirilgan kundan jarimaning yarmi, lekin har doim emas:
+      <a href="#chegirma">oʻz kuningizni hisoblang</a></li>
   </ul>
 </header>
 
 <noscript>
   <div class="callout" style="margin-top:16px">
-    Xarita brauzerda hisoblanadi — JavaScript oʻchirilgan boʻlsa ishlamaydi.
-    Quyidagi ball jadvali va muddatlar baribir oʻqiladi.
+    Xarita ham, «Qaror keldi» bloki ham brauzerda hisoblanadi — JavaScript
+    oʻchirilgan boʻlsa ikkalasi ham ishlamaydi. Quyidagi ball jadvali
+    va «Muddatlar» boʻlimi baribir oʻqiladi: 15 va 30 kun, 10 kun va 60 kun
+    hamda ular qaysi kundan sanalishi oʻsha yerda matn bilan yozilgan.
   </div>
 </noscript>
 
@@ -528,6 +561,56 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
         <div class="empty" data-t="empty">Birinchi qoidabuzarlikni kiriting — hisob shu yerda paydo boʻladi.</div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ────────────────────────────────────────────────────────────────────────────
+     ЧЕГИРМА. Второй повод прийти сюда, и он массовее первого.
+
+     Сегмент 1 (таксист) приходит с вопросом «сколько мне осталось до лишения».
+     Сегмент 3 — частник, которому пришло постановление, — приходит с другим:
+     «до какого дня платить половину». До 28.08.2026 под этот повод на странице
+     не было ни одной строки: срок скидки был описан в справочнике «Муддатлар»
+     шестым разделом сверху и посчитан только внутри платной карточки
+     постановления, до которой человек с одним штрафом не доходит никогда.
+
+     Почему это отдано бесплатно (Р-20 «деньги показываем бесплатно, артефакт
+     продаём»). Пока на экране «скидка 15 дней», это справка. «Ваше окно
+     закрывается 12.09, половина от вашей суммы — 618 000 сум» — это причина
+     заплатить сегодня. И ровно здесь живёт единственная вещь, которой человек
+     не найдёт нигде: скидки не бывает ВОВСЕ в трёх случаях (ст. 332-1 ч. 2),
+     и один из них — повтор того же состава за год — бьёт именно по нашей
+     аудитории, у которой нарушений за год несколько.
+
+     Что осталось платным и почему это не пересказ одного и того же: файл
+     календаря и лист A4 (артефакты, которые человек уносит), черновик текста
+     и разбор ИМЕННО его постановления — суд его вынес или орган, потому что
+     от этого меняются и норма о сроке, и адрес подачи. Тексты тарифа и подписи
+     под бесплатным .ics приведены в соответствие в той же правке: продавать
+     то, что рядом отдано даром, — обещание, которое проверяется механикой.
+
+     Одна модель, а не вторая: основания «скидки нет» считает тот же
+     noDiscReason(), что и платная карточка, и тексты оговорок — те же ключи
+     ndT / ndart / ndrep / ndappeal. Разъехаться двум копиям одного правила —
+     вопрос одной правки, и увидит это не разработчик, а человек.
+     ──────────────────────────────────────────────────────────────────────── -->
+<section id="chegirma">
+  <div class="panel">
+    <h2 data-t="chT">Qaror keldi: yarmini toʻlash oynasi qaysi kuni yopiladi</h2>
+    <p class="hint" data-t="chH">Bu yerda ball kerak emas va roʻyxat kerak emas. Qaroringizdan
+      ikkita sanani va summani koʻchiring — oyna qaysi kuni yopilishini va shu kungacha
+      qancha toʻlashingizni koʻrasiz. Hisob brauzeringizda boʻladi va hech qayerga
+      ketmaydi; kiritganingiz shu brauzerda saqlanadi — keyingi safar qaytadan
+      yozmaysiz, kerak boʻlmasa maydonlarni tozalab qoʻying.</p>
+
+    <div id="chBox"></div>
+    <div id="chOut" aria-live="polite"></div>
+
+    <p class="hint" style="margin:14px 0 0" data-t="chSrc">15 va 30 kun hamda «topshirilgan kundan»
+      degan sanash nuqtasi — MJtK 332<sup>1</sup>-moddasining birinchi qismi. 60 kun — 332-moddaning
+      ikkinchi qismi, u qaror <b>chiqarilgan</b> kundan sanaladi: shuning uchun ikkita sana soʻraymiz,
+      ular bir kun emas. Kunlarni telefon taqvimi qanday sanasa, biz ham shunday sanaymiz:
+      topshirilgan kun + 15. Toʻliq matnlar va havolalar — pastdagi «Muddatlar» boʻlimida.</p>
   </div>
 </section>
 
@@ -990,7 +1073,11 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
 <section id="paket">
   <div class="offer">
     <h2 data-t="offT">Tariflar: nima kiradi va qancha turadi</h2>
-    <p data-t="offH" style="color:var(--ink2)">8 ball va undan yuqori boʻlganlar uchun. Biz sizning nomingizdan
+    <!-- Подзаголовок был адресован только тем, у кого 8 баллов и больше. Массовый
+         сегмент продукта — человек с одним постановлением и любым числом баллов,
+         и эта строка выписывала ему отказ на входе в предложение. -->
+    <p data-t="offH" style="color:var(--ink2)">Sizda 8 balldan koʻp boʻlsa ham, qoʻlingizda bitta
+      qaror boʻlib muddatlar ketayotgan boʻlsa ham — shu yerga. Biz sizning nomingizdan
       hech qayerga murojaat qilmaymiz va sudda vakillik qilmaymiz: muddatlar bilan ballarni
       hisoblaymiz va matn qoralamasini beramiz, topshirishni oʻzingiz qilasiz.</p>
     <div class="price" id="priceBig">99 000 soʻm
@@ -1034,6 +1121,11 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
           <li data-t="t0b">Har bir kelgusi hisobdan chiqarish sanasi va nolga tushish kuni</li>
           <li data-t="t0c">Qizil roʻyxat: aynan sizning hisobingizda qaysi qoidabuzarlik chegarani yopadi</li>
           <li data-t="t0d">Ball jadvali, qoidalar va muddatlar — manbalari bilan</li>
+          <!-- Строка добавлена 28.08.2026 вместе с блоком «Qaror keldi».
+               Без неё бесплатная колонка молчала о том, что стало бесплатным,
+               а платная начиналась со слова «муддатлар» — две колонки подряд
+               читались как «даты продают». -->
+          <li data-t="t0e">Qaroringiz boʻyicha muddatlar — 50% va 70% oynalari, shikoyatning oxirgi kuni va toʻlov kuni: «Qaror keldi» blokida</li>
         </ul>
       </div>
       <div class="tier">
@@ -1041,7 +1133,12 @@ footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);
         <div class="p"><span id="p1big">49 000 soʻm</span><small data-t="t1S">bir marta, bitta qaror uchun</small></div>
         <ul>
           <li data-t="t1a">Bitta qaror boʻyicha murojaat qoralamasi — 1054-xizmat maydoniga tayyor matn; qarorni sud chiqargan boʻlsa — apellyatsiya shikoyati, oʻz muddati va manzili bilan</li>
-          <li data-t="t1b">Shu qaror boʻyicha muddatlar hisobi: shikoyatning oxirgi kuni, chegirma oynasi</li>
+          <!-- Раньше здесь стояло «расчёт сроков по нему: последний день жалобы,
+               окна скидки». С 28.08.2026 эти даты человек получает бесплатно
+               в блоке «Постановление пришло», и продавать их значило бы продавать
+               то, что лежит даром на два экрана выше. Платным осталось то, чего
+               в бесплатном блоке нет и быть не может без статьи и части. -->
+          <li data-t="t1b">Qaroringizni kim chiqargan — sud yoki organ, va bundan nima kelib chiqadi: shikoyat muddati qaysi modda boʻyicha sanaladi va qayerga topshiriladi. Sanalarning oʻzini yuqorida bepul olasiz — bu yerda ularni qayerga va qaysi modda bilan olib borish kerakligi</li>
           <li data-t="t1c">Nimani ilova qilish kerakligi roʻyxati</li>
         </ul>
       </div>
@@ -1352,11 +1449,15 @@ var RU = {
   tag1:"<b>БОЛЬШЕ 12 баллов</b> — суд лишает прав: от 6 месяцев до 3 лет",
   tag2:"<b>8 баллов</b> — приходит SMS-предупреждение",
   tag3:"<b>−2 балла</b> — за 6 месяцев без нарушений из балльного списка",
+  tag4:"<b>15 дней</b> — со дня вручения половина штрафа, и бывает так не всегда: <a href=\"#chegirma\">посчитайте свой день</a>",
   mapT:"Карта баллов",
   mapH:"Дата нарушения — та, что указана в постановлении. Балл подставляется сам, но число из вашего постановления всегда главнее: если оно другое — поправьте вручную.",
   addB:"+ Добавить нарушение",
   mapNote:"Введённый список хранится только в этом браузере. Мы его не видим и никуда не отправляем — пока вы сами не приложите его к заявке.",
   empty:"Введите первое нарушение — расчёт появится здесь.",
+  chT:"Постановление пришло: в какой день закрывается окно половины",
+  chH:"Здесь не нужны ни баллы, ни список. Перепишите из постановления две даты и сумму — увидите, в какой день окно закрывается и сколько до этого дня платить. Считается в браузере и никуда не уходит; введённое остаётся в этом же браузере — в следующий раз не набирать заново, а если телефон общий, очистите поля.",
+  chSrc:"Пятнадцать и тридцать дней и сама точка отсчёта «со дня вручения» — часть первая ст. 332<sup>1</sup> КоАО. Шестьдесят суток — часть вторая ст. 332, и они идут со дня <b>вынесения</b>: поэтому дат спрашиваем две, это не один день. Дни считаем так же, как календарь в телефоне: день вручения + 15. Полные тексты и ссылки — ниже, в разделе «Сроки».",
   ruleT:"Как карта считает",
   ruleH:"Четыре правила, все из одного документа — постановление Кабинета Министров № 296 от 06.05.2025, в силе с 01.06.2025; действует в редакции ПКМ № 676 от 25.10.2025, изменения вступили в силу 01.04.2026.",
   r1:"<b>Период оценки — 12 месяцев с даты первого нарушения.</b> Баллы складываются внутри этого периода.",
@@ -1432,10 +1533,11 @@ var RU = {
   t0b:"Дата каждого будущего списания и день обнуления",
   t0c:"Красный список: какое нарушение закрывает вопрос именно при вашем счёте",
   t0d:"Таблица баллов, правила и сроки — со ссылками на источники",
+  t0e:"Сроки по вашему постановлению — окна 50% и 70%, последний день жалобы и день уплаты: блок «Постановление пришло»",
   t1T:"Одно постановление",
   t1S:"разово, за одно постановление",
   t1a:"Черновик обращения по одному постановлению — готовый текст для поля услуги 1054; а если постановление вынес суд — апелляционная жалоба, со своим сроком и своим адресом подачи",
-  t1b:"Расчёт сроков по нему: последний день жалобы, окна скидки",
+  t1b:"Кто вынес ваше постановление — суд или орган, и что из этого следует: по какой норме считается срок жалобы и куда её подавать. Сами даты вы бесплатно получаете выше; здесь — адрес и норма, с которыми их несут",
   t1c:"Список того, что нужно приложить",
   t2T:"Комплект защиты",
   t2S:"разово, по всем внесённым постановлениям",
@@ -1445,7 +1547,7 @@ var RU = {
   t2d:"Красный список на листе: что именно будет вам дорого стоить ближайшие 12 месяцев",
   tWhy:"<b>Почему именно сейчас.</b> Отдельный порядок для лишённых прав, поручённый пунктом 4 постановления № 676, <b>принят</b>: постановление № 125 от 30.03.2026 внесло в постановление № 408 пункт 37 — медосмотр, затем обучение в учебной организации по <b>полному курсу, теоретическому и практическому</b>, и только затем экзамены, причём всё это <b>после</b> окончания срока взыскания. Практический курс вождения на рынке стоит 5–8 млн сум, в среднем 7 млн (<a href=\"https://osonprava.uz/uz/blog/b-toifa-prava-narxi-2026\" target=\"_blank\" rel=\"noopener\">osonprava.uz, 22.03.2026</a>; цена там приведена для получения прав категории B) — и это только практика, а по пункту 37 нужна ещё и теория, которую обычным кандидатам с 01.04.2026 разрешено осваивать самостоятельно, а лишённым — нет. По статье 34-1 КоАО срок лишения не менее шести месяцев, по статье 28 КоАО суд вправе назначить до трёх лет, и обучение начинается только после него. Комплект — примерно полтора процента от этой суммы. И вторая цифра: штраф за проезд на красный — 3 БРВ, то есть <b>1 236 000 сум при БРВ 412 000</b> (с 1 августа 2025 года, указ УП-91) и <b>1 320 000 сум при БРВ 440 000</b> (с 1 сентября 2026 года, указ УП-115); какая из двух ваша — решает статья 25 КоАО, часть вторая: «Размер штрафа определяется исходя из базовой расчётной величины, установленной на момент совершения административного правонарушения». Статья — 128<sup>4</sup> часть 2 КоАО (<a href=\"https://lex.uz/ru/docs/97661\" target=\"_blank\" rel=\"noopener\">lex.uz</a>). При уплате в первые 15 дней со дня вручения постановления — вдвое меньше (статья 332<sup>1</sup> КоАО), но в трёх случаях скидки нет вовсе — смотрите раздел «Сроки» выше. Там, где скидка есть, пропустить это окно дороже комплекта в шесть раз.",
   offT:"Тарифы: что входит и сколько стоит",
-  offH:"Для тех, у кого 8 баллов и больше. Мы не обращаемся никуда от вашего имени и не представляем вас в суде: считаем сроки и баллы и даём черновик текста, подаёте вы сами.",
+  offH:"И если у вас больше 8 баллов, и если на руках одно постановление и идут сроки — вам сюда. Мы не обращаемся никуда от вашего имени и не представляем вас в суде: считаем сроки и баллы и даём черновик текста, подаёте вы сами.",
   offSub:"Цена — та, что написана выше, и она не изменится. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи.",
   inT:"Что входит",
   in1:"Полный текст обращения — отдельно по каждому внесённому постановлению, готовый для поля услуги 1054; по судебным постановлениям — текст апелляционной жалобы",
@@ -1604,7 +1706,8 @@ var T = {
         "Заполните — и шестимесячные списания пойдут от неё: пункт 9 считает со дня начисления балла. Оставите пустым — считаем от даты нарушения, и дата выйдет раньше настоящей."],
   spd5:["MJtK 128-3-moddasining beshinchi qismi: qayd etilgan tezlikdan 5 km/soat ayiriladi (asbob va spidometrning yigʻma xatosi). 63 km/soat 58 dek hisoblanadi — yaʼni oldingi bosqich va kamroq ball.",
         "Часть пятая ст. 128-3 КоАО: из зафиксированной скорости вычитают 5 км/ч — общая погрешность прибора и спидометра. 63 км/ч считаются как 58, то есть предыдущая полоса и меньший балл."],
-  qRep:["Bu bir yil ichida xuddi shunday qoidabuzarlikning takrori","Это повтор того же нарушения в течение года"],
+  qRep:["Bu oʻsha qoidabuzarlikning takrori — birinchisi boʻyicha jazo qoʻllanilgandan keyin bir yil ichida (birinchi qoidabuzarlik sanasidan emas)",
+    "Это то же самое нарушение повторно — в течение года после того, как по первому применили взыскание (а не года со дня первого нарушения)"],
   qApp:["Bu qaror ustidan shikoyat berilgan (yoki protest bildirilgan)","По этому постановлению подана жалоба (или принесён протест)"],
   // Единственный способ узнать про лишение по 12 баллам: такое постановление
   // выносит суд (ст. 34-1 ч.4 КоАО), а статья в нём стоит от последнего
@@ -1652,10 +1755,79 @@ var T = {
   // выбрасывал такие строки молча, и человек с постановлением двухмесячной
   // давности получал раздел «Даты» вообще без своих сроков.
   icPast:["muddat oʻtgan","срок прошёл"],
-  icsFree:["Bu yerda faqat ball xaritasidan kelib chiqadigan sanalar. Qaror boʻyicha muddatlar — shikoyatning oxirgi kuni va chegirma oynalari — tarifga kiradi.",
-           "Здесь только даты, которые следуют из карты баллов. Сроки по постановлению — последний день жалобы и окна скидки — входят в тариф."],
+  // Подпись под бесплатным .ics. Прежняя формулировка — «сроки по постановлению
+  // входят в тариф» — стала неправдой в тот день, когда блок «Срок скидки»
+  // отдал расчёт даром: продавать то, что рядом лежит бесплатно, — обещание,
+  // которое проверяется механикой за один экран прокрутки. Платным остаётся
+  // сам файл, а не арифметика (Р-20).
+  icsFree:["Bu yerda faqat ball xaritasidan kelib chiqadigan sanalar. Qaroringiz boʻyicha muddatlarni yuqorida, «Qaror keldi» blokida bepul koʻrasiz; taqvim fayliga ular tarif boʻyicha tushadi.",
+           "Здесь только даты из карты баллов. Сроки по вашему постановлению вы видите бесплатно выше, в блоке «Постановление пришло»; в файл календаря они попадают по тарифу."],
   icsAllPast:["Barcha sanalar oʻtib ketgan — taqvim fayliga qoʻshadigan narsa yoʻq.",
               "Все даты уже прошли — в файл календаря добавить нечего."],
+  // ── Блок «Постановление пришло»: срок скидки ─────────────────────────────
+  // Тексты того единственного места страницы, которое обращено к человеку
+  // с одним постановлением и любым числом баллов. Оговорки здесь не пишутся
+  // заново: основания «скидки нет» печатаются ключами ndT/ndart/ndrep/ndappeal,
+  // теми же, что в платной карточке. Две модели одного правила расходятся
+  // молча, и первым это увидит человек, а не разработчик.
+  chLGot:["Qaror topshirilgan kun","День вручения постановления"],
+  chLPost:["Qaror chiqarilgan kun","День вынесения постановления"],
+  chLSum:["Jarima summasi, soʻm","Сумма штрафа, сум"],
+  chOpt:["majburiy emas","не обязательно"],
+  // Число в подсказке — ровный образец записи, а не чья-то санкция. Раньше
+  // здесь стояло 1 236 000 — настоящий штраф за красный свет при БРВ 412 000,
+  // — и tools/bhm.pl был прав, что поймал его: 1 сентября 2026 такое число
+  // в подсказке начало бы врать, а поставить рядом с ним пару и дату
+  // в placeholder негде. Взято некратное сотой доле БРВ.
+  chPh:["masalan 1 200 000","например 1 200 000"],
+  // Отметка про перечень статей. Пояснения даём только к тем номерам, у которых
+  // диспозиция выписана в NORMY.md; ст. 132 там не разобрана, поэтому она стоит
+  // голым номером — придумывать ей название нельзя.
+  chArtL:["Qarorda MJtKning 131, 132, 136, 140-moddalaridan biri yoki 211-moddasining uchinchi qismi turibdi (131 — mastlik, 136 — koʻrikdan boʻyin tovlash, 140 — boshqarishga yoʻl qoʻyish yoki rulni berish, 211 — yongʻin xavfsizligi)",
+          "В постановлении стоит одна из статей 131, 132, 136, 140 КоАО или часть третья статьи 211 (131 — опьянение, 136 — уклонение от освидетельствования, 140 — допуск к управлению или передача руля, 211 — пожарная безопасность)"],
+  chEmpty:["Qaror topshirilgan kunni kiriting — sanalar shu yerda chiqadi. Bu sana qarorning oʻzida turibdi.",
+           "Введите день вручения постановления — даты появятся здесь. Этот день стоит в самом постановлении."],
+  chD50:["50% oynasi yopiladi","Закрывается окно 50%"],
+  chD30:["70% oynasi yopiladi","Закрывается окно 70%"],
+  chAp:["Shikoyat berish muddati tugaydi","Истекает срок подать жалобу"],
+  chPay:["Jarimani toʻlash muddati tugaydi","Истекает срок уплаты штрафа"],
+  chLeft:["{n} kun qoldi","осталось дней: {n}"],
+  chToday:["bugun oxirgi kun","сегодня последний день"],
+  chGone:["muddat oʻtgan","срок прошёл"],
+  chFut:["Sana kelajakda: qaror ertangi kun bilan na topshiriladi, na chiqariladi. Qarordagi kunni tekshiring — hisob shu sanadan yuradi.",
+    "Дата в будущем: постановление нельзя ни вручить, ни вынести завтрашним днём. Проверьте день в постановлении — от него идёт весь отсчёт."],
+  chV50:["15 kun","15 дней"],
+  chV30:["30 kun","30 дней"],
+  chVap:["10 kun","10 дней"],
+  chVpay:["60 kun","60 суток"],
+  // Деньги. Половина считается от той суммы, которую человек переписал
+  // из своего постановления, а не из таблицы БРВ: у нас нет его состава,
+  // и подставлять чужое число вместо его собственного значило бы назвать
+  // сумму, которой в его деле нет.
+  chMoney:["Oyna yopilmagunicha shuncha toʻlaysiz — {full} soʻm oʻrniga. Farqi — {diff} soʻm.",
+           "Столько вы платите, пока окно не закрылось, — вместо {full} сум. Разница — {diff} сум."],
+  chMoney30:["Ikkinchi oynada (30 kun ichida) — {p70} soʻm.","Во втором окне (в течение 30 дней) — {p70} сум."],
+  chMoney70:["50% oynasi yopilgan. Qolgani — 30 kunlik oyna: shuncha toʻlaysiz, {full} soʻm oʻrniga. Farqi — {diff} soʻm.",
+             "Окно 50% закрылось. Остался тридцатидневный порог: столько вы платите вместо {full} сум. Разница — {diff} сум."],
+  chMoneyGone:["Ikkala oyna ham yopilgan — toʻliq summa toʻlanadi. Oʻz vaqtida {half} soʻm boʻlardi: farqi {diff} soʻm.",
+               "Оба окна закрыты — платится полная сумма. Вовремя это было бы {half} сум: разница — {diff} сум."],
+  chMoneyH:["Summani qarordan koʻchiring — yarmini oʻzingizning raqamingizdan hisoblaymiz, jadvaldagi oʻrtacha raqamdan emas.",
+            "Перепишите сумму из постановления — половину считаем от вашего числа, а не от среднего из таблицы."],
+  // Оговорка о суде обязательна рядом с десятью днями: ст. 316 в первом же
+  // предложении говорит «за исключением постановления суда».
+  chFor:["Oʻn kun — MJtKning 316-moddasi, va u oʻzi «sud qarori bundan mustasno» deydi. Sud qarori uchun 324<sup>3</sup>-modda amal qiladi: oʻn sutka, siz uchun nusxa topshirilgan kundan, va shikoyat 1054-xizmat orqali emas, qarorni chiqargan sudning oʻziga topshiriladi (324<sup>1</sup>-moddaning beshinchi qismi). Ikkisidan qaysi biri sizniki — buni qarordagi modda va qism hal qiladi.",
+         "Десять дней — это ст. 316 КоАО, и она сама говорит «за исключением постановления суда». Для постановления суда действует ст. 324<sup>3</sup>: десять суток, для вас — со дня вручения копии, и подаётся такая жалоба не через услугу 1054, а в тот суд, который её вынес (ст. 324<sup>1</sup> ч. 5). Какой из двух порядков ваш — решают статья и часть из вашего постановления."],
+  chPayNote:["61-kuni pul masalasi tugamaydi: MJtKning 333-moddasi qoldiqni ish haqidan ushlab qolishga yuboradi, 291-moddasining uchinchi qismi esa qaror chiqarilgan kundan oltmish kun oʻtgach transport vositasini ushlab turishga ruxsat beradi (elektron toʻlov tizimlari, mobil ilovalar yoki bank kassalari orqali toʻlangan hollar bundan mustasno).",
+             "На 61-й день дело не кончается деньгами: ст. 333 КоАО отправляет остаток на удержание из зарплаты, а часть третья ст. 291 разрешает задержать само транспортное средство по истечении шестидесяти дней со дня вынесения постановления (кроме случаев уплаты через электронные платёжные системы, мобильные приложения или кассы банков)."],
+  chLate:["Oyna yopilgan. MJtKning 316-moddasi: oʻtkazib yuborilgan shikoyat muddati uzrli sabab tasdiqlansa tiklanishi mumkin — chegirma oynasi esa tiklanmaydi, uni qonun tiklashni nazarda tutmagan.",
+          "Окно закрыто. Статья 316 КоАО позволяет восстановить пропущенный срок обжалования при подтверждённой уважительной причине — окно скидки не восстанавливается: восстановления для него норма не предусматривает."],
+  chWhy:["Sanalarni koʻrdingiz. Toʻplam boshqa narsani beradi: shu sanalar telefoningiz taqvimiga .ics fayl boʻlib tushadi, bardachokka A4 varaq chiqadi, va qaroringiz boʻyicha murojaat matni yigʻiladi — qarorni sud chiqarganmi yoki organmi, buni ham aynan siznikida hal qilamiz.",
+         "Даты вы увидели. Комплект даёт другое: эти же даты уходят в календарь телефона файлом .ics, в бардачок печатается лист A4, и по вашему постановлению собирается текст обращения — вместе с ответом, суд его вынес или орган."],
+  // Отдельный текст для пустого блока: сказать «даты вы увидели» тому, кто
+  // ещё ничего не вводил, значит соврать в первой же строке предложения.
+  chWhy0:["Sanani kiriting — kunlar shu yerda va bepul chiqadi. Toʻplam boshqa narsa uchun: oʻsha sanalar telefon taqvimiga .ics fayl boʻlib tushadi, bardachokka A4 varaq chiqadi, va qaroringiz boʻyicha murojaat matni yigʻiladi.",
+          "Введите дату — дни появятся здесь, и это бесплатно. Комплект нужен для другого: эти же даты уходят в календарь телефона файлом .ics, в бардачок печатается лист A4, и по вашему постановлению собирается текст обращения."],
+  chB:["Toʻplamda nima borligini koʻrish","Посмотреть, что входит в комплект"],
   // ── Истёкший срок обжалования ────────────────────────────────────────────
   // Самое дорогое место продукта: человек платит за расчёт срока и может
   // получить мёртвую дату, названную действующим сроком. Статья 316 КоАО
@@ -1726,10 +1898,15 @@ var T = {
   // человеку показывали только большую цифру, а на его ответе стоит порог теста.
   lockB:["Yuqorida sizning oʻz matningizning boshi. Shu qaror boʻyicha toʻliq murojaat matni «Bitta qaror» tarifiga kiradi — {p1} soʻm, bir marta. «Himoya toʻplami» ({p} soʻm) unga har bir qaror boʻyicha alohida matn va muddatlarni, .ics taqvim faylini va A4 himoya varaqasini qoʻshadi. Hozircha toʻlov yoʻq: ariza qoldirasiz, biz esa bogʻlanib, toʻlov usulini va hujjatlarni qachon berishimizni kelishamiz. Narx — tariflarda yozilgani, u oʻzgarmaydi.",
           "Выше — начало вашего собственного текста. Полный текст обращения по этому постановлению входит в тариф «Одно постановление» — {p1} сум, разово. «Комплект защиты» ({p} сум) добавляет к нему отдельный текст и отдельные сроки по каждому постановлению, файл календаря .ics и лист защиты A4. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи. Цена — та, что названа в тарифах, и она не изменится."],
-  lockC:["Taqvim fayli .ics va A4 himoya varaqasi «Himoya toʻplami» tarifiga kiradi — {p} soʻm, bir marta. Bitta qaror boʻyicha toʻliq murojaat matni va muddatlari «Bitta qaror» tarifida ham bor — {p1} soʻm. Hozircha toʻlov yoʻq: ariza qoldirasiz, biz esa bogʻlanib, toʻlov usulini va hujjatlarni qachon berishimizni kelishamiz. Narx — tariflarda yozilgani, u oʻzgarmaydi.",
-         "Файл календаря .ics и лист защиты A4 входят в «Комплект защиты» — {p} сум, разово. Полный текст обращения и сроки по одному постановлению есть и в тарифе «Одно постановление» — {p1} сум. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи. Цена — та, что названа в тарифах, и она не изменится."],
-  lockD:["Qaroringiz boʻyicha muddatlar — shikoyatning oxirgi kuni va chegirma oynalari — «Bitta qaror» tarifiga kiradi ({p1} soʻm). Sanalarni telefonga soladigan .ics faylning oʻzi esa «Himoya toʻplami» da ({p} soʻm). Yuqoridagi xarita sanalari bepulligicha qoladi. Hozircha toʻlov yoʻq: ariza qoldirasiz, biz esa bogʻlanib, toʻlov usulini va hujjatlarni qachon berishimizni kelishamiz. Narx — tariflarda yozilgani, u oʻzgarmaydi.",
-         "Сроки по вашему постановлению — последний день жалобы и окна скидки — входят в тариф «Одно постановление» ({p1} сум). Сам файл календаря .ics, который кладёт даты в телефон, — в «Комплект защиты» ({p} сум). Даты по карте баллов выше остаются бесплатными. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи. Цена — та, что названа в тарифах, и она не изменится."],
+  lockC:["Taqvim fayli .ics va A4 himoya varaqasi «Himoya toʻplami» tarifiga kiradi — {p} soʻm, bir marta. Bitta qaror boʻyicha toʻliq murojaat matni «Bitta qaror» tarifida ham bor — {p1} soʻm. Hozircha toʻlov yoʻq: ariza qoldirasiz, biz esa bogʻlanib, toʻlov usulini va hujjatlarni qachon berishimizni kelishamiz. Narx — tariflarda yozilgani, u oʻzgarmaydi.",
+         "Файл календаря .ics и лист защиты A4 входят в «Комплект защиты» — {p} сум, разово. Полный текст обращения по одному постановлению есть и в тарифе «Одно постановление» — {p1} сум. Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи. Цена — та, что названа в тарифах, и она не изменится."],
+  // Текст замка переписан 28.08.2026 вместе с появлением бесплатного блока
+  // «Постановление пришло». Прежний обещал за 49 000 то, что теперь лежит
+  // даром двумя экранами выше: «последний день жалобы и окна скидки». Замок,
+  // который просит денег за уже отданное, — не замок, а повод не поверить
+  // и остальному.
+  lockD:["Qaroringiz boʻyicha sanalarni yuqorida, «Qaror keldi» blokida bepul koʻrgansiz. Tarifga boshqa narsa kiradi: oʻsha sanalarni telefonga soladigan .ics faylning oʻzi — «Himoya toʻplami» ({p} soʻm); qarorni sud chiqarganmi yoki organmi degan javob esa — undan muddat moddasi ham, manzil ham oʻzgaradi — murojaat matni bilan birga «Bitta qaror» tarifida ({p1} soʻm). Hozircha toʻlov yoʻq: ariza qoldirasiz, biz esa bogʻlanib, toʻlov usulini va hujjatlarni qachon berishimizni kelishamiz. Narx — tariflarda yozilgani, u oʻzgarmaydi.",
+         "Даты по вашему постановлению вы уже видели бесплатно — в блоке «Постановление пришло» выше. В тариф входит другое: сам файл календаря .ics, который кладёт эти даты в телефон, — «Комплект защиты» ({p} сум); а ответ, суд вынес постановление или орган — от него меняются и норма о сроке, и адрес подачи, — вместе с текстом обращения в тарифе «Одно постановление» ({p1} сум). Оплаты пока нет: вы оставляете заявку, а в переписке мы договариваемся о способе оплаты и о сроке выдачи. Цена — та, что названа в тарифах, и она не изменится."],
   lockB2:["Tariflarni koʻrish","Перейти к тарифам"],
   // ── Дыры в черновике. Незаполненное поле остаётся видимой скобкой ────────
   brOrg:["qarorni chiqargan organ","орган, вынесший постановление"],
@@ -1871,8 +2048,8 @@ var T = {
 };
 var FAQ = [
   { id:"free", q:["Shikoyat bepul boʻlsa, nima uchun pul toʻlashim kerak?","Если жалоба бесплатная, за что платить?"],
-    a:["Topshirish haqiqatan bepul va biz undan pul olmaymiz — 1054-xizmat my.gov.uz da bepul. Pul boshqa narsaga toʻlanadi: ballar va muddatlar hisobi, hamda murojaat matnining qoralamasi — qaysi holatlarni bayon qilish va ularni qanday hujjat bilan tasdiqlash mumkinligi koʻrsatilgan holda. Sud qarori ustidan shikoyat 1054-xizmat orqali emas, qarorni chiqargan sudning oʻziga topshiriladi (MJtKning 324-1-moddasi, beshinchi qismi) — u ham bepul: 315-moddaning toʻrtinchi qismiga koʻra shikoyat bergan shaxs davlat bojidan ozod. Shikoyatning istiqbolini biz baholamaymiz va bunga huquqimiz yoʻq: qarorni davlat organi yoki sud koʻrib chiqadi.",
-        "Подача действительно бесплатна, и мы за неё денег не берём — услуга 1054 на my.gov.uz бесплатная. Платят за другое: за расчёт баллов и сроков и за черновик текста обращения — с указанием, какие обстоятельства имеет смысл изложить и каким документом их подтверждают. Жалоба на постановление суда подаётся не через услугу 1054, а в сам суд, вынесший постановление (часть пятая статьи 324-1 КоАО), — и тоже бесплатно: по части четвёртой статьи 315 обжаловавший освобождается от госпошлины. Перспективу жалобы мы не оцениваем и не вправе: постановление рассматривает госорган или суд."] },
+    a:["Topshirish haqiqatan bepul va biz undan pul olmaymiz — 1054-xizmat my.gov.uz da bepul. Ballarni ham, muddatlarni ham sahifa bepul hisoblaydi: xarita ham, «Qaror keldi» bloki ham pul soʻramaydi. Pul faqat siz olib ketadigan hujjatlarga toʻlanadi: murojaat matnining qoralamasi — qaysi holatlarni bayon qilish va ularni qanday hujjat bilan tasdiqlash mumkinligi koʻrsatilgan holda, — sanalarni telefonga soladigan .ics fayl va A4 himoya varaqasi. Sud qarori ustidan shikoyat 1054-xizmat orqali emas, qarorni chiqargan sudning oʻziga topshiriladi (MJtKning 324-1-moddasi, beshinchi qismi) — u ham bepul: 315-moddaning toʻrtinchi qismiga koʻra shikoyat bergan shaxs davlat bojidan ozod. Shikoyatning istiqbolini biz baholamaymiz va bunga huquqimiz yoʻq: qarorni davlat organi yoki sud koʻrib chiqadi.",
+        "Подача действительно бесплатна, и мы за неё денег не берём — услуга 1054 на my.gov.uz бесплатная. И баллы, и сроки страница считает бесплатно: карта и блок «Постановление пришло» денег не просят. Платят только за документы, которые вы уносите с собой: черновик текста обращения — с указанием, какие обстоятельства имеет смысл изложить и каким документом их подтверждают, — файл календаря .ics и лист защиты A4. Жалоба на постановление суда подаётся не через услугу 1054, а в сам суд, вынесший постановление (часть пятая статьи 324-1 КоАО), — и тоже бесплатно: по части четвёртой статьи 315 обжаловавший освобождается от госпошлины. Перспективу жалобы мы не оцениваем и не вправе: постановление рассматривает госорган или суд."] },
   { id:"guar", q:["Qarorni bekor qilishga kafolat berasizmi?","Гарантируете, что постановление отменят?"],
     a:["Yoʻq. Qarorni davlat organi yoki sud bekor qiladi, biz emas. Biz hisoblaymiz, tushuntiramiz va hujjat qoralamasini tayyorlaymiz. Natijaga kafolat bergan har qanday odam sizni aldayapti.",
         "Нет. Постановление отменяет госорган или суд, а не мы. Мы считаем, объясняем и готовим черновик документа. Любой, кто гарантирует вам результат, вводит вас в заблуждение."] },
@@ -1952,7 +2129,7 @@ function applyLang(){
     b.onclick = function(){
       lang = b.dataset.l;
       try{ localStorage.setItem("bq_lang", lang); }catch(e){}
-      applyLang(); paintTable(); paintFaq(); paintQuick(); paintRows(); paintForm(); paintPosts(); render();
+      applyLang(); paintTable(); paintFaq(); paintQuick(); paintRows(); paintForm(); paintPosts(); paintCheg(); render();
       buildObrazec();               // образец пересобирается на языке экрана
       // Уже собранный текст остаётся на прежнем языке, и переключатель молча
       // оставлял бы человека с русским обращением на узбекской странице.
@@ -2396,6 +2573,240 @@ function render(){
     clearTimeout(calcTimer);
     calcTimer = setTimeout(function(){ ev("calc", { n:list.length, total:total }); }, 1200);
   }
+}
+
+/* ── 6б. Срок скидки: блок для того, кому просто пришло постановление ────────
+   Второй вход в продукт. Карта баллов отвечает на вопрос «сколько мне осталось
+   до лишения» — вопрос таксиста. Этот блок отвечает на другой, и людей с ним
+   больше: «до какого дня платить половину». Ему не нужен ни счёт, ни список
+   нарушений, поэтому блок работает при пустой карте и при нулевом счёте.
+
+   Три вещи, за которые здесь отвечает код, а не текст:
+
+   1. ОСНОВАНИЯ «СКИДКИ НЕТ» СЧИТАЕТ noDiscReason() — та же функция, что
+      в платной карточке, и тексты те же ключи ndT/ndart/ndrep/ndappeal.
+      Своя копия правила в бесплатном блоке разошлась бы с платным молча,
+      и человек увидел бы два разных ответа по одному делу.
+   2. ДНИ СЧИТАЮТСЯ ТЕМ ЖЕ addD(), что и planDates(): got+15, got+30, got+10,
+      post+60. Второй арифметики здесь нет — экран и лист A4 обязаны говорить
+      одно число.
+   3. ДЕНЬГИ СЧИТАЮТСЯ ОТ ЕГО СУММЫ. Подставить среднюю цифру из таблицы БРВ
+      было бы легко и неверно: у нас нет его состава, а он смотрит в своё
+      постановление. Поле пустое — денег не показываем вовсе.
+
+   Почему это бесплатно: Р-20. Платным остаётся артефакт — файл календаря,
+   лист A4 и черновик по конкретному постановлению вместе с ответом, суд его
+   вынес или орган. Подписи тарифа приведены в соответствие в той же правке. */
+var CHEG = { got:"", post:"", sum:"", art:false, rep:false, app:false };
+function loadCheg(){
+  try{
+    var raw = localStorage.getItem("bq_cheg");
+    if(!raw) return;
+    var o = JSON.parse(raw);
+    if(!o || typeof o !== "object") return;
+    CHEG.got  = String(o.got  || "").slice(0, 10);
+    CHEG.post = String(o.post || "").slice(0, 10);
+    CHEG.sum  = String(o.sum  || "").slice(0, 15);
+    CHEG.art  = !!o.art; CHEG.rep = !!o.rep; CHEG.app = !!o.app;
+  }catch(e){}
+}
+// Хранится то же, что и карта: даты, сумма и три отметки. Ни номера
+// постановления, ни ФИО, ни адреса здесь не спрашивают — тем и отличается
+// этот блок от карточки постановления, которая не пишется в localStorage
+// намеренно.
+function saveCheg(){ try{ localStorage.setItem("bq_cheg", JSON.stringify(CHEG)); }catch(e){} }
+
+// Постановление в том виде, в каком его понимает noDiscReason(). Отметка
+// «статья из перечня» разворачивается в номер 131: любой из перечня даёт
+// один и тот же ответ, а спрашивать номер целиком значит просить человека
+// разбираться в частях там, где от части ничего не зависит.
+function chegPost(){ return { art:CHEG.art ? "131" : "", rep:CHEG.rep, appeal:CHEG.app }; }
+
+/* Мост из блока «Постановление пришло» в раздел «Данные постановления».
+   Без него человек, посчитавший наверху свои даты, вводил те же две даты
+   второй раз, а нажав «Файл календаря» до второго ввода — получал «Дат нет»
+   при четырёх датах, которые видел на том же экране. Обещание блока («эти же
+   даты уходят в календарь телефона файлом .ics») проверяется именно этим
+   переходом, а не намерением.
+
+   Четыре ограничения, и каждое нужно.
+   1. Только пока постановление в разделе НЕ ОПОЗНАНО: пусты номер, орган
+      и статья. Как только человек написал там хоть что-то, раздел его.
+   2. Только пока даты в разделе — те самые, что положили мы. Если они уже
+      другие, их правил человек, и переписывать за ним нельзя.
+   3. Только когда постановление одно: у второго свои даты.
+   4. Ни при какой отметке «статья из перечня». Номер статьи из галочки
+      не выводится — она покрывает пять составов сразу, — а поле art решает
+      не только скидку, но и вопрос «суд или орган» (COURT_ART). Положить
+      туда «131» значит объявить судебным дело, которое по ч. 3 ст. 136
+      и ч. 1 ст. 140 ведёт ОВД. Поэтому здесь не кладётся ничего, и человек
+      с такой отметкой вводит даты сам — ровно как до 28.08.2026.
+   Отметки rep и appeal переносятся: они умеют только СНЯТЬ обещание скидки,
+   то есть делают платную выдачу осторожнее, но никогда смелее. */
+var SEEDED = null;
+function seedPost(){
+  if(POSTS.length !== 1 || CHEG.art) return false;
+  var p = POSTS[0];
+  if(p.num || p.org || p.art) return false;
+  if(SEEDED ? (p.got !== SEEDED.got || p.post !== SEEDED.post) : (p.got || p.post)) return false;
+  if(p.got === CHEG.got && p.post === CHEG.post && p.rep === CHEG.rep && p.appeal === CHEG.app) return false;
+  p.got = CHEG.got; p.post = CHEG.post; p.rep = CHEG.rep; p.appeal = CHEG.app;
+  SEEDED = { got:p.got, post:p.post };
+  return true;
+}
+function chegSum(){
+  var d = String(CHEG.sum || "").replace(/[^\d]/g, "");
+  if(!d) return null;
+  var n = parseInt(d.slice(0, 12), 10);
+  return isFinite(n) && n > 0 ? n : null;
+}
+
+function paintCheg(){
+  var box = document.getElementById("chBox");
+  if(!box) return;
+  var maxAttr = new Date().toISOString().slice(0, 10);
+  var opt = ' <span class="opt">(' + t("chOpt") + ")</span>";
+  var chk = function(id, key, txt){
+    return '<label class="chk chchk"><input type="checkbox" id="' + id + '"' +
+      (CHEG[key] ? " checked" : "") + "><span>" + txt + "</span></label>";
+  };
+  box.innerHTML =
+    '<div class="chgrid">' +
+      '<div><label for="chGot">' + t("chLGot") + "</label>" +
+        '<input type="date" id="chGot" max="' + maxAttr + '" value="' + eattr(CHEG.got) + '"></div>' +
+      '<div><label for="chPost">' + t("chLPost") + opt + "</label>" +
+        '<input type="date" id="chPost" max="' + maxAttr + '" value="' + eattr(CHEG.post) + '"></div>' +
+      '<div><label for="chSum">' + t("chLSum") + opt + "</label>" +
+        '<input type="text" id="chSum" class="chsum" inputmode="numeric" autocomplete="off" placeholder="' +
+        eattr(t("chPh")) + '" value="' + eattr(CHEG.sum) + '"></div>' +
+    "</div>" +
+    chk("chArt", "art", t("chArtL")) +
+    chk("chRep", "rep", t("qRep")) +
+    chk("chApp", "app", t("qApp"));
+
+  ["got", "post", "sum"].forEach(function(key){
+    var el = document.getElementById("ch" + key.charAt(0).toUpperCase() + key.slice(1));
+    if(!el) return;
+    el.oninput = el.onchange = function(){
+      CHEG[key] = String(el.value || "").slice(0, 15);
+      saveCheg(); renderCheg();
+      if(seedPost()) paintPosts();
+    };
+  });
+  [["chArt","art"], ["chRep","rep"], ["chApp","app"]].forEach(function(pair){
+    var el = document.getElementById(pair[0]);
+    if(!el) return;
+    el.onchange = function(){
+      CHEG[pair[1]] = el.checked; saveCheg(); renderCheg();
+      if(seedPost()) paintPosts();
+    };
+  });
+  renderCheg();
+}
+
+/* Строка срока. Хвост «осталось N дней» считается от сегодняшнего дня и меняет
+   вид у прошедшей даты: молча показать вчерашнюю дату сроком значит назвать
+   мёртвый срок действующим — самая дорогая ошибка этого продукта. */
+function chegRow(cls, d, txt, val){
+  var now = today(), dd = Math.round((d - now) / 86400000);
+  var tail = dd < 0 ? t("chGone") : (dd === 0 ? t("chToday") : t("chLeft", { n:dd }));
+  return { d:d, html:'<li class="' + cls + (dd < 0 ? " past" : "") + '">' +
+    '<span class="d">' + dstr(d) + "</span>" +
+    '<span class="t">' + txt + " — " + tail + "</span>" +
+    '<span class="v">' + val + "</span></li>" };
+}
+
+function renderCheg(){
+  var box = document.getElementById("chOut");
+  if(!box) return;
+  var got = d2u(CHEG.got), post = d2u(CHEG.post), now = today(), ahead = false;
+  // Ни вручить, ни вынести постановление завтрашним днём нельзя. Такая дата —
+  // всегда опечатка, и посчитанные от неё сроки были бы четырьмя неверными
+  // датами, поданными с той же уверенностью, что и верные. Карта баллов такие
+  // строки выбрасывает и говорит об этом (ключ future) — здесь то же правило.
+  if(got  && got  > now){ got  = null; ahead = true; }
+  if(post && post > now){ post = null; ahead = true; }
+  var nd  = noDiscReason(chegPost());
+  var so  = lang === "uz" ? " soʻm" : " сум";
+  var html = "";
+
+  // Свой текст, а не ключ future от карты баллов: там речь про строки списка,
+  // а здесь человек не вводил ни одной строки — он ввёл одну дату.
+  if(ahead) html += '<p class="hint" style="margin:0 0 12px">' + t("chFut") + "</p>";
+  if(!got && !post){
+    html += '<div class="empty">' + t("chEmpty") + "</div>";
+  } else {
+    var rows2 = [];
+    if(got){
+      // Окна скидки кладём только там, где скидка существует. Три основания —
+      // в noDiscReason(): ст. 131, 132, 136, 140 и ч. 3 ст. 211; обжалование
+      // или протест; повтор того же состава в течение года (ст. 332-1 ч. 2).
+      if(!nd){
+        rows2.push(chegRow("minus", addD(got, 15), t("chD50"), t("chV50")));
+        rows2.push(chegRow("minus", addD(got, 30), t("chD30"), t("chV30")));
+      }
+      rows2.push(chegRow("plus", addD(got, 10), t("chAp"), t("chVap")));
+    }
+    // После подачи жалобы срок уплаты считается не от вынесения, а от дня
+    // уведомления об отказе (ст. 332 ч. 2), и до него исполнение приостановлено
+    // (ст. 318). Этой даты мы знать не можем — значит вместо ложной строки
+    // ставим объяснение, тем же ключом, что и платная выдача.
+    if(post && !CHEG.app) rows2.push(chegRow("plus", addD(post, 60), t("chPay"), t("chVpay")));
+    rows2.sort(function(a, b){ return a.d - b.d; });
+    if(rows2.length) html += '<ul class="tl">' + rows2.map(function(x){ return x.html; }).join("") + "</ul>";
+
+    var s = chegSum();
+    if(got && !nd && s){
+      // Три состояния, а не одно. Первая версия печатала «столько вы платите,
+      // пока окно не закрылось» и по постановлению трёхмесячной давности —
+      // то есть называла половину суммой к уплате там, где оба окна давно
+      // закрыты. Найдено проходом по странице, а не чтением кода.
+      var half = Math.round(s / 2), p70 = Math.round(s * 0.7);
+      var big, body, gone = false;
+      if(addD(got, 15) >= now){
+        big = half; body = t("chMoney", { full:fmt(s), diff:fmt(s - half) }) +
+          "<br>" + t("chMoney30", { p70:fmt(p70) });
+      } else if(addD(got, 30) >= now){
+        big = p70; body = t("chMoney70", { full:fmt(s), diff:fmt(s - p70) });
+      } else {
+        big = s;  body = t("chMoneyGone", { half:fmt(half), diff:fmt(s - half) });
+        gone = true;
+      }
+      html += '<div class="chmoney' + (gone ? " gone" : "") + '"><b>' +
+        fmt(big) + so + "</b>" + body + "</div>";
+    } else if(got && !nd){
+      html += '<p class="hint" style="margin:12px 0 0">' + t("chMoneyH") + "</p>";
+    }
+    if(nd) html += '<div class="callout" style="margin:14px 0 0"><b>' + t("ndT") + ".</b> " +
+      t("nd" + nd) + "</div>";
+    if(got && !nd && addD(got, 30) < now)
+      html += '<div class="callout" style="margin:14px 0 0">' + t("chLate") + "</div>";
+    if(got) html += '<div class="callout" style="margin:14px 0 0">' + t("chFor") + "</div>";
+    if(post && !CHEG.app)
+      html += '<div class="callout" style="margin:14px 0 0">' + t("chPayNote") + "</div>";
+    if(CHEG.app) html += '<div class="callout" style="margin:14px 0 0"><b>' + t("ndPayT") + ".</b> " +
+      t("ndPay") + "</div>";
+  }
+
+  // Кнопка стоит здесь всегда — и при пустых полях, и при нулевом счёте карты.
+  // Прежде единственный путь к предложению вёл через результат карты, то есть
+  // через ввод всех нарушений с датами: человек с одним постановлением до цены
+  // не доходил вовсе.
+  html += '<div class="callout" style="margin-top:16px">' + t(got || post ? "chWhy" : "chWhy0") +
+    '<br><button class="btn pri wide" type="button" id="chGo" style="margin-top:12px">' +
+    t("chB") + "</button></div>";
+
+  box.innerHTML = html;
+  var b = document.getElementById("chGo");
+  if(b) b.onclick = function(){
+    // Метки о самом деле сюда не кладём. Блок обещает «считается в браузере
+    // и никуда не уходит», а раздел «Что уходит со страницы» — «только
+    // обезличенная отметка о том, что на странице делали, и больше ничего».
+    // Отметка «статья 131/132/136/140» — это факт дела, а не действие
+    // на странице, и уйти отсюда она не может, пока эти обещания стоят.
+    ev("cta", { from:"chegirma", filled:got ? 1 : 0 });
+    document.getElementById("paket").scrollIntoView({ behavior:"smooth", block:"start" });
+  };
 }
 
 /* ── 7. Таблица, FAQ, форма ─────────────────────────────────────────────── */
@@ -3120,12 +3531,11 @@ function planDates(){
     if(LAST.outWarn && (!LAST.outZero || +LAST.outWarn !== +LAST.outZero))
       out.push({ d:LAST.outWarn, s:t("icWarn", { n:WARN }) });
   }
-  // Сроки по постановлению — платный пункт тарифа («Расчёт сроков по нему:
-  // последний день жалобы, окна скидки»). Раньше здесь безусловно стоял
-  // docPosts(), и бесплатная выдача печатала весь этот список, а замок
-  // показывался под ним: второй из трёх пунктов тарифа за 49 000 отдавался
-  // целиком. Даты самой карты баллов остаются бесплатными — их человек и так
-  // видит на экране расчёта.
+  // Сроки по постановлению человек с 28.08.2026 видит бесплатно — наверху,
+  // в блоке «Постановление пришло». Платный здесь не расчёт, а ФАЙЛ: .ics,
+  // который кладёт эти даты в календарь телефона, и лист A4. Поэтому на
+  // бесплатном тарифе список постановлений сюда не идёт — не потому, что
+  // даты спрятаны, а потому, что здесь собирается артефакт.
   var use = TIER === "free" ? [] : docPosts(), many = use.length > 1;
   use.forEach(function(p, i){
     var tag = many ? " · " + postTag(p, i) : "";
@@ -3459,7 +3869,20 @@ function showDraft(){
 function showIcs(){
   $("#verr").hidden = true;
   var list = planDates();
-  if(!list.length){ vErr(t("errNoDates")); return; }
+  // «Дат нет» — правда только тогда, когда их и правда нет. На бесплатном
+  // тарифе planDates() не берёт постановления вовсе, и человек, заполнивший
+  // блок «Постановление пришло», видел четыре свои даты на экране и надпись
+  // «дат нет» под кнопкой. Здесь ему место замка: он нажал именно за файлом,
+  // и текст замка (lockD) говорит ровно это — даты бесплатны, платен файл.
+  if(!list.length){
+    var haveDates = TIER === "free" && POSTS.some(function(p){ return d2u(p.got) || d2u(p.post); });
+    if(haveDates){
+      $("#vout").innerHTML = lateHtml() + lockBox("ics");
+      wireLock("ics");
+      return;
+    }
+    vErr(t("errNoDates")); return;
+  }
   // Прошедший срок помечен прямо в строке. Молча выбросить его нельзя:
   // именно так по постановлению двухмесячной давности исчезали все четыре
   // даты, и человек видел список, где про его постановление нет ничего.
@@ -3470,9 +3893,10 @@ function showIcs(){
         '</span><span>' + esc(x.s) + (x.past ? " — " + t("icPast") : "") + "</span></li>";
     }).join("") + "</ul>";
   if(TIER !== "paid"){
-    // Даты самой карты человек и так видит на экране расчёта — прятать их было
-    // бы мелочно. Сроки по постановлению на бесплатном тарифе сюда вообще
-    // не попадают (planDates), потому что это платный пункт тарифа.
+    // Даты самой карты человек и так видит на экране расчёта, а сроки по своему
+    // постановлению — в блоке «Постановление пришло», тоже бесплатно. Здесь
+    // за тариф идёт файл, а не числа, и текст замка (ключ lockD) говорит ровно
+    // это: даты вы уже видели, в тариф входит .ics и лист A4.
     $("#vout").innerHTML = html + lockBox("ics");
     wireLock("ics");
     return;
@@ -3766,8 +4190,13 @@ document.querySelectorAll('a[href="#paket"]').forEach(function(a){
 });
 
 load();
+loadCheg();
 POSTS.push(newPost());
-applyLang(); paintTable(); paintFaq(); paintQuick(); paintRows(); paintForm(); paintPosts(); render();
+// Даты из блока «Постановление пришло» переживают перезагрузку, а POSTS — нет:
+// без этой строки человек возвращался на страницу со своими датами наверху
+// и пустым разделом «Данные постановления» внизу.
+seedPost();
+applyLang(); paintTable(); paintFaq(); paintQuick(); paintRows(); paintForm(); paintPosts(); paintCheg(); render();
 // Образец — после первого расчёта: он подменяет карту на вымышленную
 // и возвращает её обратно, значит настоящий расчёт должен быть уже сделан.
 buildObrazec();

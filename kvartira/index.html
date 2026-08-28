@@ -24,6 +24,13 @@
 <link rel="stylesheet" href="fonts/fonts.css">
 <script src="config.js"></script>
 <script src="checklist-data.js"></script>
+<!-- Формулировки для акта и мост «отметка → строка в акт» (KQ-38). Оба файла
+     лежат в app/, а не в content/, ровно по одной причине: они нужны человеку
+     в пустой квартире без сети, за минуты до подписи акта приёма-передачи.
+     defects.js собирается из content/defects.js скриптом tools/defekty-app.pl;
+     он же и проверяет, что копия не разошлась с оригиналом. -->
+<script src="defects.js"></script>
+<script src="act-lines.js"></script>
 <style>
 :root{
   --paper:#FBFBF9; --card:#FFFFFF; --ink:#1C2429; --ink2:#4A555D; --muted:#7C878F;
@@ -169,6 +176,98 @@ body.offline .offbar{display:block}
 .seller p:last-child{margin-bottom:0}
 .seller b{color:var(--ink)}
 .seller a{color:var(--amber-ink)}
+
+/* ── Предварительный лист замечаний (KQ-38) ──────────────────────────────────
+   Главный товар — акт со ссылками на нормы — приходит через сутки, а решение
+   человек принимает за минуты до подписи. Здесь живёт то, что можно отдать
+   ему прямо сейчас и без сети: строки для акта, собранные из его же отметок.
+   Оформлен как документ, а не как ещё одна карточка интерфейса: его будут
+   показывать с экрана представителю застройщика. */
+.prelim{display:none;background:var(--card);border:1px solid var(--line);border-radius:16px;
+  padding:16px;margin:12px 0;box-shadow:var(--shadow)}
+.prelim.show{display:block}
+.prelim h3{font-size:16.5px;font-weight:600;margin-bottom:4px}
+.prelim .psub{color:var(--muted);font-size:12.5px;margin-bottom:11px}
+.pnote{border:1px solid var(--bad);background:var(--bad-bg);color:var(--ink);border-radius:12px;
+  padding:11px 13px;font-size:12.5px;line-height:1.5;margin-bottom:12px}
+.pnote b{color:var(--bad)}
+.pcnt{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.pline{border-top:1px solid var(--line2);padding:11px 0}
+.pline:first-of-type{border-top:0}
+.pzone{font:600 11.5px Manrope,sans-serif;letter-spacing:.03em;text-transform:uppercase;color:var(--amber-ink)}
+.ptxt{font-size:14.5px;line-height:1.45;margin-top:3px}
+.ptxt i{font-style:normal;font-family:"IBM Plex Mono",monospace;color:var(--muted);margin-right:6px}
+.pnorm{font-size:12px;line-height:1.45;color:var(--ink2);background:var(--line2);
+  border-radius:9px;padding:8px 10px;margin-top:7px}
+.pnorm b{color:var(--ink);font-weight:600}
+.pfull{display:block;margin-top:5px;color:var(--muted);font-size:11.5px;line-height:1.45}
+.preq{font-size:12.5px;color:var(--ink2);margin-top:6px}
+.pown{color:var(--muted);font-size:12.5px;margin-top:6px;font-style:italic}
+.plaw{border-top:1px solid var(--line);margin-top:14px;padding-top:12px}
+.plaw h4{font:600 13.5px Rubik,sans-serif;margin:0 0 7px;color:var(--ink)}
+.plaw ol{margin:0;padding-left:17px;font-size:12.5px;line-height:1.5;color:var(--ink2)}
+.plaw li{margin-bottom:6px}
+.plaw b{color:var(--ink)}
+.pacts{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap}
+.pacts button{flex:1 1 46%;border:1px solid var(--line);background:var(--card);color:var(--ink);
+  font:600 13.5px Rubik,sans-serif;padding:12px 10px;border-radius:12px;cursor:pointer}
+.pacts button.main{background:var(--amber-ink);border-color:var(--amber-ink);color:#fff}
+.pafter{font-size:11.5px;color:var(--muted);line-height:1.45;margin-top:9px}
+.pfailmsg{margin-top:10px;font-size:12.5px;line-height:1.45;color:var(--bad);font-weight:600}
+.pfall{width:100%;margin-top:9px;min-height:150px;border:1px solid var(--line);border-radius:10px;
+  padding:9px;font:12px/1.45 "IBM Plex Mono",monospace;background:var(--paper);color:var(--ink)}
+/* Кнопка в липкой шапке: лист нужен в ту же секунду, а не после прокрутки
+   через десять зон чек-листа. */
+.found .go{margin-top:10px;width:100%;border:0;border-radius:11px;padding:11px;
+  background:#fff;color:var(--bad);font:700 13.5px Rubik,sans-serif;cursor:pointer}
+
+/* ── Ветка «я уже подписал акт» ───────────────────────────────────────────────
+   Весь остальной продукт обслуживает момент ДО подписи. Человек, у которого
+   дефект вылез после, не находил здесь ни строки про себя — а по ГК ст. 646
+   ч. 4 у него десять дней со дня обнаружения, и они идут прямо сейчас. */
+.after{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--amber);
+  border-radius:0 16px 16px 0;padding:15px 16px;margin:12px 0 0;font-size:13.5px;
+  color:var(--ink2);line-height:1.55}
+.after h3{font-size:14.5px;color:var(--ink);margin-bottom:7px}
+.after p{margin:0 0 9px}
+.after b{color:var(--ink)}
+.after ol{margin:0;padding-left:17px}
+.after li{margin-bottom:6px}
+
+/* ── Лист на бумагу ──────────────────────────────────────────────────────────
+   Отдельный узел, а не печать страницы целиком: на A4 должно уйти то, что
+   человек кладёт на стол перед представителем застройщика, — замечания,
+   нормы и правила подписания, — а не переключатель языка, кнопка заказа
+   и блок «кто это делает». */
+#sheet{display:none}
+@media print{
+  body{background:#fff;color:#000;background-image:none;padding:0}
+  /* !important нужен обоим правилам: без него у второго специфичность и так
+     выше (id против класса), а с ним побеждает #sheet — иначе на бумагу
+     ушёл бы пустой лист. Проверяется только печатью, то есть глазами. */
+  .wrap > *{display:none !important}
+  .cta,.sheet-ov{display:none !important}
+  #sheet{display:block !important;font-size:11pt;line-height:1.45;color:#000}
+  #sheet h2{font-size:15pt;margin:0 0 2mm}
+  #sheet .sub{font-size:9.5pt;color:#444;margin:0 0 4mm}
+  /* display:block здесь обязателен: экранное правило .warn — это flex,
+     и на бумаге первый <b> превращался в отдельную узкую колонку,
+     а «Это не акт осмотра и не заменяет его» читалось лесенкой в семь строк.
+     Ровно та фраза, которую нельзя проглядеть. Видно только печатью. */
+  #sheet .warn{display:block;border:1px solid #000;padding:3mm;font-size:9.5pt;margin:0 0 5mm}
+  #sheet td:nth-child(2){width:22mm}
+  #sheet h3{font-size:12pt;margin:6mm 0 2mm}
+  #sheet table{width:100%;border-collapse:collapse;font-size:9.5pt}
+  #sheet th,#sheet td{border:1px solid #999;padding:1.5mm 2mm;vertical-align:top;text-align:left}
+  #sheet th{background:#eee;font-size:9pt}
+  #sheet td.n{width:8mm;text-align:center}
+  #sheet tr{page-break-inside:avoid}
+  #sheet ol{padding-left:5mm;font-size:9.5pt}
+  #sheet li{margin-bottom:1.5mm}
+  #sheet .foot{margin-top:7mm;font-size:8.5pt;color:#333;border-top:1px solid #999;padding-top:2mm}
+  @page{margin:12mm}
+}
 </style>
 </head>
 <style>
@@ -223,14 +322,22 @@ body.offline .offbar{display:block}
   <div class="found" id="found"></div>
   <div id="list"></div>
 
+  <div class="prelim" id="prelim"></div>
+
   <div class="done" id="doneBox">
     <h3 id="t-doneT">🎉 Осмотр завершён</h3>
     <p id="t-doneP">Нашли дефекты? Оформим акт осмотра и претензию застройщику — вам останется только подать.</p>
   </div>
 
+  <div class="after" id="t-after"></div>
+
   <div class="seller" id="t-seller"></div>
 
   <div class="foot" id="t-foot"></div>
+
+  <!-- Печатный лист. Внутри .wrap намеренно: правило @media print гасит
+       .wrap > * и поднимает обратно только этот узел. -->
+  <div id="sheet"></div>
 </div>
 
 <div class="cta"><div class="inner">
@@ -328,12 +435,57 @@ const TXT={
    foundT:n=>`Отмечено замечаний: ${n}`,
    foundP:"Эти пункты попадут в акт осмотра — переносить их вручную не придётся. Сфотографируйте каждое: общий план и крупно.",
    foundMore:n=>`… и ещё ${n} ${plural(n,"замечание","замечания","замечаний")}`,
+   foundArea:d=>`Метраж: не хватает ${d} м² против договора`,
    buyBad:n=>`Оформить ${n} ${plural(n,"замечание","замечания","замечаний")} в акт`,
    /* Цена стояла только в состоянии «дефектов ещё нет»: как только человек
       отмечал первое замечание — то есть ровно тогда, когда он ближе всего
       к покупке, — и кнопка, и подпись под ней переставали называть 99 000 сум.
       Геттер, а не строка: PRICE_RU присваивается ниже по файлу. */
-   get noteBad(){ return `Акт осмотра + претензия — ${PRICE_RU} · 24 часа` }},
+   get noteBad(){ return `Акт осмотра + претензия — ${PRICE_RU} · 24 часа` },
+   /* Предварительный лист замечаний (KQ-38). Разница с платной частью названа
+      здесь же, в словаре, а не в комментарии к коду: обещание, которое живёт
+      только в голове разработчика, человек не читает. */
+   prBtn:"📄 Собрать лист замечаний",
+   prT:"Что вписать в акт прямо сейчас",
+   prSub:"Собрано на этом телефоне из ваших отметок. Без интернета и без ожидания.",
+   prWarn:"<b>Это не акт осмотра и не заменяет его.</b> Это заготовка, чтобы вам было что вписать в акт приёма-передачи от руки или показать с экрана. Строки подобраны по вашим отметкам, а не по фотографиям: вычеркните то, чего у вас нет. Замечание, которого у вас нет, вредит в акте так же, как пропущенное.",
+   prCount:n=>`Строк подобрано: ${n}`,
+   /* Счётчик обязан сходиться с тем, что человек видит глазами. Пункты без
+      готовой формулировки в нумерацию не идут — и если о них не сказать,
+      строк на экране окажется больше, чем в счётчике. */
+   prCountOwn:n=>` · и ещё ${n} ${plural(n,"пункт","пункта","пунктов")} без готовой формулировки`,
+   prNorm:"Норма",
+   prNormFull:"Текст нормы",
+   prReq:"Требование",
+   prNoNum:"числового допуска в действующих узбекских нормах для этого случая нет — ссылка общая",
+   prOwn:"Готовой формулировки в каталоге нет — впишите своими словами.",
+   prLawT:"Что сказать и что подписать",
+   prLaw:[
+     "<b>Замечания должны попасть в сам документ.</b> По части второй статьи 646 Гражданского кодекса сослаться на недостатки, замеченные при приёмке, можно только если они оговорены в акте — либо если в акте оговорена возможность потребовать их устранения позже.",
+     "Подпись без замечаний закрывает <b>явные</b> недостатки — те, что видны при обычном осмотре (часть третья той же статьи).",
+     "Формула, которую вписывают в акт: <b>«Квартиру принимаю с замечаниями согласно приложению № 1 к настоящему акту»</b> — или «принимаю после устранения замечаний по приложению № 1», если принимать сейчас вы не готовы.",
+     "Впишите <b>дату</b>. Недостатки устраняются в течение двадцати дней со дня требования (статья 19 Закона «О защите прав потребителей»); без даты в документе отсчёт не начинается.",
+     "Если представитель застройщика отказался подписывать — отказ фиксируется отдельной отметкой, и документ доказательственного значения не теряет.",
+     "Недостаток, которого при обычном осмотре не видно, можно предъявить и после подписи — но известить застройщика надо <b>в десятидневный срок со дня, когда вы его обнаружили</b> (часть четвёртая статьи 646).",
+   ],
+   prCopy:"Скопировать текст",
+   prCopied:"✓ Скопировано",
+   prCopyFail:"Скопировать не вышло — текст ниже, выделите его и скопируйте вручную",
+   prPrint:"Печать / PDF",
+   prLangNote:"Формулировки для акта даны по-русски — в этом виде их принимают в канцелярии любого застройщика.",
+   prPrintNote:"Печать открывает сам телефон. Если она не открылась — скопируйте текст соседней кнопкой или покажите лист прямо с экрана.",
+   prAfter:"Сейчас — лист, чтобы было что вписать в акт. Завтра — проверенный человеком акт осмотра со ссылками на нормы, фотоприложение и претензия застройщику: это платная часть, 24 часа с момента, когда вы прислали фото.",
+   shT:"Предварительный лист замечаний",
+   shSub:d=>`Собран ${d} в приложении Kvartira Qabul, на телефоне покупателя, из отметок в чек-листе приёмки.`,
+   shDefT:"Замечания",
+   shCol:["№","Место","Что вписать в акт","Норма","Требование"],
+   shFoot:"Kvartira Qabul · предварительный лист замечаний. Не является актом осмотра, заключением экспертизы и юридической услугой: строки подобраны программой по отметкам покупателя, без осмотра помещения и без проверки фотографий. Проверенный человеком акт осмотра и претензия застройщику готовятся отдельно.",
+   afT:"Вы уже подписали акт, а недостаток вылез потом?",
+   af:"<p><b>Тогда у вас десять дней со дня, когда вы его обнаружили.</b> По части четвёртой статьи 646 Гражданского кодекса заказчик, нашедший после приёмки скрытый недостаток — в том числе умышленно скрытый, — обязан известить об этом застройщика в десятидневный срок. Двухлетний срок по статье 19 Закона «О защите прав потребителей» этого не отменяет: два года — на обнаружение, десять дней — на извещение после него.</p>"+
+     "<ol><li>Известите письменно: на бумаге под входящий номер или заказным письмом с уведомлением. Устного «всё исправим» для отсчёта не существует.</li>"+
+     "<li>В извещении назовите, что обнаружено, когда обнаружено, требование устранить и срок — двадцать дней со дня требования (статья 19 того же Закона).</li>"+
+     "<li>Сфотографируйте недостаток и сохраните переписку: скрытый характер недостатка доказывать придётся вам.</li></ol>"+
+     "<p>Чек-лист выше пригодится и вам: отметьте найденное — и лист замечаний даст готовую формулировку для извещения. Числовой допуск в узбекских нормах есть не для всякого дефекта: где он есть, лист назовёт пункт и цифру, где нет — так и скажет.</p>"},
  uz:{title:"Kvartirani qabul qilish",sub:"Koʻrik davomida bandlarni belgilang",bag:"Oʻzingiz bilan oling",
    warn:"<b>Kamchiliklar hujjatga yozilmaguncha qabul dalolatnomasini imzolamang.</b> Har bir nuqson — joyiga stiker va ikkita surat: umumiy va yaqin plan.",
    get buy(){ return `Dalolatnoma + pretenziya — ${PRICE_UZ}` },note:"Nuqson suratlari → 24 soatda tayyor hujjatlar",
@@ -363,8 +515,47 @@ const TXT={
    foundT:n=>`Belgilangan kamchiliklar: ${n}`,
    foundP:"Bu bandlar koʻrik dalolatnomasiga kiradi — qoʻlda koʻchirish shart emas. Har birini suratga oling: umumiy va yaqin plan.",
    foundMore:n=>`… va yana ${n} ta kamchilik`,
+   foundArea:d=>`Maydon: shartnomaga nisbatan ${d} m² yetishmayapti`,
    buyBad:n=>`${n} ta kamchilikni dalolatnomaga kiritish`,
-   get noteBad(){ return `Koʻrik dalolatnomasi + pretenziya — ${PRICE_UZ} · 24 soat` }}
+   get noteBad(){ return `Koʻrik dalolatnomasi + pretenziya — ${PRICE_UZ} · 24 soat` },
+   prBtn:"📄 Kamchiliklar roʻyxatini yigʻish",
+   prT:"Hozir dalolatnomaga nima yozish kerak",
+   prSub:"Shu telefonda, sizning belgilaringizdan yigʻildi. Internetsiz va kutishsiz.",
+   prWarn:"<b>Bu koʻrik dalolatnomasi emas va uning oʻrnini bosmaydi.</b> Bu — qabul dalolatnomasiga qoʻlda yozish yoki ekrandan koʻrsatish uchun tayyorlanma. Satrlar suratlar boʻyicha emas, sizning belgilaringiz boʻyicha tanlangan: oʻzingizda yoʻq narsani oʻchirib tashlang. Oʻzingizda yoʻq kamchilik dalolatnomada tushib qolgani kabi zarar keltiradi.",
+   prCount:n=>`Tanlangan satrlar: ${n}`,
+   prCountOwn:n=>` · va yana ${n} ta band tayyor iborasiz`,
+   prNorm:"Meʼyor",
+   prNormFull:"Meʼyor matni",
+   prReq:"Talab",
+   prNoNum:"bu holat uchun amaldagi oʻzbek meʼyorlarida raqamli ruxsat qiymati yoʻq — havola umumiy",
+   prOwn:"Katalogda tayyor ibora yoʻq — oʻz soʻzingiz bilan yozing.",
+   prLawT:"Nima deyish va nimani imzolash kerak",
+   prLaw:[
+     "<b>Kamchiliklar hujjatning oʻziga tushishi shart.</b> Fuqarolik kodeksining 646-moddasi ikkinchi qismiga koʻra qabul qilishda koʻrilgan kamchiliklarga faqat ular dalolatnomada qayd etilgan boʻlsa — yoki dalolatnomada ularni keyinroq bartaraf etishni talab qilish imkoniyati koʻrsatilgan boʻlsa — havola qilish mumkin.",
+     "Eʼtirozsiz imzo <b>ochiq</b> kamchiliklarni yopadi — odatdagi koʻrikda koʻrinadiganlarini (oʻsha moddaning uchinchi qismi).",
+     "Dalolatnomaga yoziladigan ibora: <b>«Kvartirani ushbu dalolatnomaga 1-ilovadagi eʼtirozlar bilan qabul qilaman»</b> — yoki hozir qabul qilishga tayyor boʻlmasangiz, «1-ilovadagi eʼtirozlar bartaraf etilgandan keyin qabul qilaman».",
+     "<b>Sanani</b> yozing. Kamchiliklar talab qoʻyilgan kundan boshlab yigirma kun ichida bartaraf etiladi («Isteʼmolchilar huquqlarini himoya qilish toʻgʻrisida»gi Qonunning 19-moddasi); hujjatda sana boʻlmasa, muddat boshlanmaydi.",
+     "Quruvchi vakili imzolashdan bosh tortsa — bosh tortish alohida qayd bilan rasmiylashtiriladi va hujjat isbot kuchini yoʻqotmaydi.",
+     "Odatdagi koʻrikda koʻrinmaydigan kamchilikni imzodan keyin ham qoʻyish mumkin — lekin quruvchini <b>uni aniqlagan kundan boshlab oʻn kunlik muddatda</b> xabardor qilish shart (646-moddaning toʻrtinchi qismi).",
+   ],
+   prCopy:"Matnni nusxalash",
+   prCopied:"✓ Nusxalandi",
+   prCopyFail:"Nusxalanmadi — matn quyida, uni belgilab qoʻlda nusxalang",
+   prPrint:"Chop etish / PDF",
+   prLangNote:"Dalolatnomaga yoziladigan iboralar rus tilida berilgan — ularni har qanday quruvchining kantselyariyasida shu koʻrinishda qabul qilishadi.",
+   prPrintNote:"Chop etishni telefonning oʻzi ochadi. Ochilmasa — yondagi tugma bilan matnni nusxalang yoki roʻyxatni toʻgʻridan-toʻgʻri ekrandan koʻrsating.",
+   prAfter:"Hozir — dalolatnomaga yozish uchun roʻyxat. Ertaga — meʼyorlarga havolali, odam tekshirgan koʻrik dalolatnomasi, surat ilovasi va quruvchiga pretenziya: bu pullik qism, siz suratlarni yuborgan paytdan 24 soat.",
+   shT:"Dastlabki kamchiliklar roʻyxati",
+   shSub:d=>`${d} kuni Kvartira Qabul ilovasida, xaridorning telefonida, qabul cheklistidagi belgilardan yigʻildi.`,
+   shDefT:"Kamchiliklar",
+   shCol:["№","Joy","Dalolatnomaga nima yoziladi","Meʼyor","Talab"],
+   shFoot:"Kvartira Qabul · dastlabki kamchiliklar roʻyxati. Bu koʻrik dalolatnomasi, ekspertiza xulosasi va yuridik xizmat emas: satrlarni dastur xaridorning belgilari boʻyicha, xonani koʻrmasdan va suratlarni tekshirmasdan tanlagan. Odam tekshirgan koʻrik dalolatnomasi va quruvchiga pretenziya alohida tayyorlanadi.",
+   afT:"Dalolatnomani allaqachon imzolagansiz, kamchilik esa keyin chiqdimi?",
+   af:"<p><b>Unda sizda uni aniqlagan kundan boshlab oʻn kun bor.</b> Fuqarolik kodeksining 646-moddasi toʻrtinchi qismiga koʻra qabul qilgandan keyin yashirin kamchilikni — shu jumladan ataylab yashirilganini ham — topgan buyurtmachi quruvchini oʻn kunlik muddatda xabardor qilishi shart. «Isteʼmolchilar huquqlarini himoya qilish toʻgʻrisida»gi Qonunning 19-moddasidagi ikki yillik muddat buni bekor qilmaydi: ikki yil — aniqlash uchun, oʻn kun — aniqlagandan keyin xabardor qilish uchun.</p>"+
+     "<ol><li>Yozma xabardor qiling: kiruvchi raqam bilan qogʻozda yoki xabarnomali buyurtma xat orqali. Ogʻzaki «hammasini tuzatamiz» muddatni boshlamaydi.</li>"+
+     "<li>Xabarnomada nima aniqlanganini, qachon aniqlanganini, bartaraf etish talabini va muddatni yozing — oʻsha Qonunning 19-moddasi boʻyicha talab qoʻyilgan kundan yigirma kun.</li>"+
+     "<li>Kamchilikni suratga oling va yozishmalarni saqlang: kamchilikning yashirinligini isbotlash sizning zimmangizda.</li></ol>"+
+     "<p>Yuqoridagi cheklist sizga ham asqotadi: topganingizni belgilang — roʻyxat xabarnoma uchun tayyor iborani beradi. Har bir nuqson uchun oʻzbek meʼyorlarida raqamli ruxsat qiymati yoʻq: bor joyda roʻyxat band va raqamni koʻrsatadi, yoʻq joyda shuni ochiq aytadi.</p>"}
 };
 // Русские окончания для счётчика: «1 замечание / 2 замечания / 5 замечаний».
 function plural(n,one,few,many){
@@ -451,6 +642,12 @@ function renderStatic(){
   document.getElementById("t-doneT").textContent=t.doneT;
   document.getElementById("t-doneP").textContent=t.doneP;
   document.getElementById("t-seller").innerHTML=t.seller;
+  /* Ветка «я уже подписал акт». Единственный вход, не зависящий от сезона
+     передачи ключей, — и до сегодня такой человек не находил на странице
+     ни строки про себя, хотя десятидневный срок по ГК ст. 646 ч. 4 у него
+     уже идёт. Обещаний здесь нет: только срок, порядок извещения и указание
+     на то, что лист замечаний работает и для него. */
+  document.getElementById("t-after").innerHTML="<h3>"+t.afT+"</h3>"+t.af;
   /* Ссылка на оферту стояла в разметке, а этот же узел переписывался из словаря —
      то есть исчезала при первой же отрисовке, и из чек-листа оферту было
      не открыть. Источник правды один: словарь. */
@@ -532,7 +729,11 @@ function wireArea(row, si){
       store.set(AREA_LS, JSON.stringify(a));
       clearTimeout(areaTimer);
       // Перерисовываем с задержкой: иначе поле теряет фокус на каждой цифре.
-      areaTimer = setTimeout(()=>{ openSec = si; renderList(); syncDefects(); }, 900);
+      // update() здесь обязателен: недостача метража — это отдельное замечание
+      // предварительного листа, с цифрами из этих самых полей. Без него человек
+      // считал разницу в деньгах, а в листе замечаний она появлялась только
+      // после следующей отметки галочкой — то есть чаще всего никогда.
+      areaTimer = setTimeout(()=>{ openSec = si; renderList(); update(); syncDefects(); }, 900);
     };
   });
 }
@@ -609,14 +810,52 @@ function syncDefects(){   // дебаунс: человек отмечает п�
   clearTimeout(syncTimer);
   syncTimer=setTimeout(()=>track("defect_marked",{n:bad.size, defects:badList(), done_items:[...done], area:areaCalc()}), 1200);
 }
+/* Отмеченное человеком — это не только галочки «здесь дефект». Недостачу
+   метража он отмечает цифрами: вводит две площади и видит разницу в сумах.
+   В лист замечаний она попадала и раньше (prelimRows), а в липкий блок — нет:
+   тот смотрел на bad.size. Человек, который ТОЛЬКО померил, не видел ни
+   счётчика, ни кнопки «собрать лист» — и добирался бы до листа прокруткой
+   через все 48 пунктов, в минуты перед подписью акта. Источник у обоих мест
+   теперь один: разъехаться им больше нечем. */
+function markedList(){
+  const out = badList(), ar = areaCalc();
+  if(ar && ar.diff > 0.01 && !bad.has(AREA_ID))
+    out.push({ id: AREA_ID, sec: areaZone(), t: TXT[lang].foundArea(dec(ar.diff)) });
+  return out;
+}
 function renderFound(){
-  const box=document.getElementById("found"), t=TXT[lang], n=bad.size;
+  const box=document.getElementById("found"), t=TXT[lang];
+  const list=markedList(), n=list.length;
   box.classList.toggle("show", n>0);
   if(!n) return;
-  const list=badList();
+  /* Показываем три строки, а не шесть. Блок липкий: с шестью пунктами он
+     занимал 416 px из 812 — половину экрана телефона, — и под ним теперь
+     лежит то, ради чего человек сюда пришёл, лист замечаний. Полный перечень
+     никуда не делся, он ниже целиком и с нормами; здесь достаточно счётчика
+     и дороги к нему. Измерено на 375 px. */
   box.innerHTML=`<b>⚠ ${t.foundT(n)}</b><p>${t.foundP}</p>
-    <div class="list">${list.slice(0,6).map(x=>`<div>${x.t}</div>`).join("")}
-    ${list.length>6?`<div>${t.foundMore(list.length-6)}</div>`:""}</div>`;
+    <div class="list">${list.slice(0,3).map(x=>`<div>${x.t}</div>`).join("")}
+    ${list.length>3?`<div>${t.foundMore(list.length-3)}</div>`:""}</div>
+    <button class="go" id="pgo">${t.prBtn}</button>`;
+  // Кнопка стоит здесь, а не только под чек-листом: блок липкий, а лист
+  // нужен человеку в ту секунду, когда представитель уже протягивает акт,
+  // — а не после прокрутки через десять зон.
+  // Прокрутка с поправкой на высоту самого блока: он липкий и на 375 px
+  // занимает половину экрана, поэтому scrollIntoView прятал под ним начало
+  // листа — заголовок, предупреждение «это не акт» и счётчик строк.
+  box.querySelector("#pgo").onclick=()=>{ haptic("medium");
+    const p=document.getElementById("prelim");
+    const y=Math.max(0, p.getBoundingClientRect().top+window.scrollY-box.getBoundingClientRect().height-10);
+    const was=window.scrollY;
+    window.scrollTo({top:y,behavior:"smooth"});
+    /* Плавную прокрутку понимают не все. Объектную форму scrollTo старые
+       Android-WebView игнорируют целиком — и тогда кнопка не делает НИЧЕГО:
+       человек жмёт её в минуты перед подписью акта и решает, что продукт
+       сломан. Наблюдалось живьём и в фоновой вкладке Chrome, где анимация
+       прокрутки задушена. Поэтому через полсекунды спрашиваем саму страницу,
+       сдвинулась ли она, и если нет — прыгаем без анимации. Проверяется
+       прокрутка, а не намерение прокрутить. */
+    setTimeout(()=>{ if(Math.abs(window.scrollY-was)<2) window.scrollTo(0,y); }, 500); };
 }
 function update(){
   const d=done.size, pct=Math.round(100*d/total);
@@ -625,9 +864,10 @@ function update(){
   const doneBox=document.getElementById("doneBox");
   doneBox.classList.toggle("show", d===total);
   renderFound();
+  renderPrelim();
   // Пока дефектов нет — продаём документ вообще. Как только отмечен хотя бы один,
   // кнопка говорит про его замечания, а не про абстрактный акт.
-  const t=TXT[lang], n=bad.size;
+  const t=TXT[lang], n=markedList().length;
   document.getElementById("t-buy").textContent = n ? t.buyBad(n) : t.buy;
   document.getElementById("t-note").textContent = n ? t.noteBad : t.note;
   trackProgress(d);
@@ -674,6 +914,196 @@ document.getElementById("buy").onclick=()=>{
   tg?.openTelegramLink ? tg.openTelegramLink(url) : window.open(url);
   setTimeout(()=>tg?.close?.(), 150);
 };
+/* ── Предварительный лист замечаний (KQ-38) ──────────────────────────────────
+
+   ДЫРА, КОТОРУЮ ЭТО ЗАКРЫВАЕТ. Момент покупки — минуты между «отметил семь
+   замечаний» и «представитель протягивает акт приёма-передачи». Раньше нельзя:
+   человек ещё не знает, есть ли у него дефекты. Позже нельзя: подпись без
+   замечаний закрывает явные недостатки (ГК РУз ст. 646 ч. 2 и ч. 3). Окно —
+   часы, а оплаченный акт обещан через сутки. Чек-лист при этом просил
+   «не подписывайте, пока замечания не вписаны», а вписать было нечего.
+
+   ЧТО СОБИРАЕТСЯ. Из отметок, которые уже лежат на телефоне, — перечень
+   формулировок для акта: сухой текст, номер пункта нормы и цифра допуска
+   у каждой. Всё на устройстве, без единого запроса к серверу: в пустой
+   квартире сдающегося дома сети обычно нет, и именно там лист нужен.
+
+   ЧЕГО ОН НЕ ДЕЛАЕТ. Не заменяет проверенный акт: строки подобраны по отметкам,
+   а не по фотографиям, помещение никто не осматривал. Сказать это должны мы
+   сами и первой строкой — поэтому предупреждение стоит выше списка и на экране,
+   и на бумаге, и в скопированном тексте, а не спрятано в подвал.
+
+   ПОЧЕМУ СТРОК БОЛЬШЕ, ЧЕМ ОТМЕТОК. Один пункт чек-листа закрывает несколько
+   разных дефектов: «нет трещин, высолов, мокрых пятен» — три замечания с тремя
+   нормами, и по одной отметке нельзя узнать, что именно человек увидел.
+   Печатаем всех кандидатов и просим вычеркнуть лишнее: замечание, которого
+   у человека нет, в акте вредит так же, как пропущенное. */
+
+const DEF_BY_ID = {};
+DEFECTS.forEach(d => { DEF_BY_ID[d.id] = d; });
+
+const esc = s => String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+const bare = s => String(s).replace(/<[^>]+>/g,"");
+function dateStr(){
+  const d = new Date(), p = n => String(n).padStart(2,"0");
+  return `${p(d.getDate())}.${p(d.getMonth()+1)}.${d.getFullYear()}`;
+}
+/* Замечание по метражу — единственное, у которого есть собственные числа.
+   Они считаются на телефоне из двух площадей и подставляются в текст здесь:
+   в каталоге лежит формулировка без цифр, потому что цифры у каждого свои.
+   Текст русский в обеих локалях — как и весь остальной каталог: документ
+   готовится на русском, и об этом прямо сказано строкой prLangNote. */
+function areaLine(a){
+  return `фактическая площадь помещения не соответствует площади, указанной в договоре: `
+       + `по договору ${dec(a.dog)} м², замерено ${dec(a.fact)} м², разница ${dec(a.diff)} м²`;
+}
+function areaZone(){
+  let z = "";
+  CHECKLIST.forEach(s => s.items.forEach(i => { if(i.id === AREA_ID) z = (lang==="ru"?s.ru:s.uz); }));
+  return z;
+}
+
+/* Строки листа. Порядок — порядок чек-листа: человек шёл по квартире так же,
+   и в акте ему проще искать своё место. */
+function prelimRows(){
+  const rows = [], seen = new Set(), ar = areaCalc();
+  const line = d => ({
+    zone: "", t: (d.id === AREA_DEFECT && ar && ar.diff > 0.01) ? areaLine(ar) : d.t,
+    norm: d.norm, ref: NORM_REF.has(d.norm) ? NORM_REF.get(d.norm) : "", req: d.req,
+  });
+  CHECKLIST.forEach(sec => {
+    const zone = lang === "ru" ? sec.ru : sec.uz;
+    sec.items.forEach(it => {
+      if(!bad.has(it.id)) return;
+      const ids = ITEM_DEFECTS[it.id] || [];
+      // Пункт без формулировок — это не молчание. Пункты «до осмотра» и «финал»
+      // описывают порядок действий, а не состояние квартиры, и человек всё равно
+      // может отметить их как дефект. Тогда лист называет отмеченное его же
+      // словами и честно говорит, что готовой строки для акта нет.
+      const found = ids.map(id => DEF_BY_ID[id]).filter(Boolean);
+      if(!found.length){ rows.push({ zone, own: (lang==="ru"?it.ru:it.uz) }); return; }
+      found.forEach(d => {
+        if(seen.has(d.id)) return;
+        seen.add(d.id);
+        const r = line(d); r.zone = zone; rows.push(r);
+      });
+    });
+  });
+  // Недостача метража попадает в лист, даже если пункт не отмечен галочкой:
+  // человек посчитал разницу в деньгах — это и есть отметка, только цифрами.
+  if(ar && ar.diff > 0.01 && !seen.has(AREA_DEFECT) && DEF_BY_ID[AREA_DEFECT]){
+    const r = line(DEF_BY_ID[AREA_DEFECT]); r.zone = areaZone(); rows.push(r);
+  }
+  return rows;
+}
+
+function renderPrelim(){
+  const box = document.getElementById("prelim"), t = TXT[lang], rows = prelimRows();
+  box.classList.toggle("show", rows.length > 0);
+  buildSheet(rows);
+  if(!rows.length){ box.innerHTML = ""; return; }
+  let n = 0;
+  const own = rows.filter(r => r.own).length;
+  const body = rows.map(r => {
+    if(r.own) return `<div class="pline"><div class="pzone">${esc(r.zone)}</div>`
+      + `<div class="ptxt">${esc(r.own)}</div><div class="pown">${t.prOwn}</div></div>`;
+    n++;
+    return `<div class="pline"><div class="pzone">${esc(r.zone)}</div>`
+      + `<div class="ptxt"><i>${n}.</i>${esc(r.t)}</div>`
+      + `<div class="pnorm">${t.prNorm}: <b>${esc(r.ref || t.prNoNum)}</b>`
+      + `<span class="pfull">${esc(r.norm)}</span></div>`
+      + `<div class="preq">${t.prReq}: ${esc(r.req)}</div></div>`;
+  }).join("");
+  box.innerHTML = `<h3>${t.prT}</h3><div class="psub">${t.prSub}</div>`
+    + `<div class="pnote">${t.prWarn}</div>`
+    + `<div class="pcnt">${t.prCount(n)}${own ? t.prCountOwn(own) : ""}</div>${body}`
+    + `<div class="plaw"><h4>${t.prLawT}</h4><ol>${t.prLaw.map(x=>`<li>${x}</li>`).join("")}</ol></div>`
+    + `<div class="pacts"><button class="main" id="pcopy">${t.prCopy}</button>`
+    + `<button id="pprint">${t.prPrint}</button></div>`
+    + `<div class="pafter">${t.prLangNote}<br>${t.prPrintNote}<br>${t.prAfter}</div>`;
+  box.querySelector("#pcopy").onclick = () => copyPrelim(box.querySelector("#pcopy"), rows);
+  box.querySelector("#pprint").onclick = () => { haptic("medium"); window.print(); };
+}
+
+/* Тот же лист простым текстом: его вставляют в заметку, отправляют себе
+   в сохранённые или показывают с экрана. Предупреждение и правовая часть
+   идут и сюда — вырезанное из копии обещание перестаёт быть обещанием. */
+function prelimText(rows){
+  const t = TXT[lang], L = [];
+  L.push(t.shT.toUpperCase(), t.shSub(dateStr()), "", bare(t.prWarn), "");
+  let n = 0;
+  rows.forEach(r => {
+    if(r.own){ L.push(`— ${r.zone}: ${r.own} (${bare(t.prOwn)})`); return; }
+    n++;
+    L.push(`${n}. ${r.zone} — ${r.t}`);
+    L.push(`   ${t.prNorm}: ${r.ref || t.prNoNum}`);
+    // Полный текст нормы идёт и в копию. На экране он стоит под короткой
+    // ссылкой серым, и вырезать его из копии значило бы отдать человеку
+    // номер без содержания — то есть ровно то, чем нельзя ответить
+    // на «да у всех так».
+    L.push(`   ${t.prNormFull}: ${r.norm}`);
+    L.push(`   ${t.prReq}: ${r.req}`);
+  });
+  L.push("", t.prLawT.toUpperCase());
+  t.prLaw.forEach((x, i) => L.push(`${i+1}. ${bare(x)}`));
+  L.push("", bare(t.shFoot));
+  return L.join("\n");
+}
+
+/* Копирование. Внутри Telegram и на старых браузерах navigator.clipboard
+   бывает недоступен, а execCommand — запрещён: молчаливая неудача здесь
+   означала бы, что человек ушёл к столу застройщика с пустым буфером.
+   Поэтому последний запасной вариант — показать текст полем, которое
+   уже выделено: скопировать его человек сумеет сам. */
+function copyPrelim(btn, rows){
+  const t = TXT[lang], txt = prelimText(rows);
+  const ok = () => { haptic("medium"); btn.textContent = t.prCopied;
+    setTimeout(() => { btn.textContent = t.prCopy; }, 2200); };
+  const fallback = () => {
+    const box = document.getElementById("prelim");
+    let ta = box.querySelector(".pfall");
+    if(!ta){ ta = document.createElement("textarea"); ta.className = "pfall"; ta.readOnly = true;
+      box.appendChild(ta); }
+    ta.value = txt; ta.focus(); ta.setSelectionRange(0, txt.length);
+    let copied = false;
+    try { copied = document.execCommand("copy"); } catch(e){}
+    if(copied){ ok(); return; }
+    // Сообщение отдельной строкой, а не подписью на кнопке: длинная фраза
+    // на кнопке ломала её и второй ряд кнопок вместе с ней. Проверено на 375 px.
+    let m = box.querySelector(".pfailmsg");
+    if(!m){ m = document.createElement("div"); m.className = "pfailmsg"; box.insertBefore(m, ta); }
+    m.textContent = t.prCopyFail;
+  };
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(ok).catch(fallback);
+  } else { fallback(); }
+}
+
+/* Лист на бумагу. Отдельный узел: на A4 уходит то, что кладут на стол перед
+   представителем застройщика, — замечания, нормы и правила подписания, —
+   а не переключатель языка, кнопка заказа и блок «кто это делает».
+   Полный текст нормы печатается под короткой ссылкой: короткую человек
+   вписывает ручкой, полная — это ответ на «да у всех так». */
+function buildSheet(rows){
+  const s = document.getElementById("sheet"), t = TXT[lang];
+  if(!rows.length){ s.innerHTML = ""; return; }
+  let n = 0;
+  const tr = rows.map(r => {
+    if(r.own) return `<tr><td class="n">—</td><td>${esc(r.zone)}</td><td>${esc(r.own)}</td>`
+      + `<td>${esc(bare(t.prOwn))}</td><td></td></tr>`;
+    n++;
+    return `<tr><td class="n">${n}</td><td>${esc(r.zone)}</td><td>${esc(r.t)}</td>`
+      + `<td>${esc(r.ref || t.prNoNum)}<br><span style="font-size:8pt;color:#444">${esc(r.norm)}</span></td>`
+      + `<td>${esc(r.req)}</td></tr>`;
+  }).join("");
+  s.innerHTML = `<h2>${t.shT}</h2><div class="sub">${t.shSub(dateStr())}</div>`
+    + `<div class="warn">${t.prWarn}</div><h3>${t.shDefT}</h3>`
+    + `<table><thead><tr>${t.shCol.map(c=>`<th>${esc(c)}</th>`).join("")}</tr></thead>`
+    + `<tbody>${tr}</tbody></table>`
+    + `<h3>${t.prLawT}</h3><ol>${t.prLaw.map(x=>`<li>${x}</li>`).join("")}</ol>`
+    + `<div class="foot">${t.shFoot}</div>`;
+}
+
 /* ── Первый экран согласия ──────────────────────────────────────────────────
    Показывается один раз. До него мы собирали события, не сказав человеку ни слова,
    а оферту из чек-листа вообще нельзя было открыть. Событие consent_given —
